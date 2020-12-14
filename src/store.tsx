@@ -2,7 +2,7 @@ import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 
 import playerReducer from './features/player/playerSlice'
-import roomReducer, { setRoomName } from './features/room/roomSlice'
+import roomReducer, { setStatus, newMessage } from './features/room/roomSlice'
 import hubConnection, { start } from './hub/hubConnection'
 
 start().then(() => {
@@ -11,7 +11,8 @@ start().then(() => {
         hubConnection.invoke("sendConnectionId", hubConnection.connectionId);
     }
     hubConnection.on('setClientMessage', (msg) => {
-        store.dispatch(setRoomName(msg));
+        store.dispatch(newMessage(msg));
+        store.dispatch(setStatus('LOADED'))
     })
 });
 
@@ -23,7 +24,7 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
     }
     // Receive stuff
     hubConnection.on('setClientMessage', (msg) => {
-        store.dispatch(setRoomName(msg));
+        store.dispatch(newMessage(msg));
     })
     return next(action);
 };

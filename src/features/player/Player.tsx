@@ -1,7 +1,6 @@
-import React from 'react'
+import React, {FunctionComponent} from 'react'
 
-export const Player = (): JSX.Element => {
-
+export const Player: FunctionComponent = () => {
 
   return (
     <div>

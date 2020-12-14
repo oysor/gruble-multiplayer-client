@@ -1,19 +1,25 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
+import { LoadingMode } from '../../constants/status'
 
 
-export const Game = (): JSX.Element => {
+export const Game: FunctionComponent = () => {
 
-    const { name } = useSelector((state: RootState) => state.room)
+    const { message } = useSelector((state: RootState) => state.room)
+    const { status } = useSelector((state: RootState) => state.room)
 
-    return (
-        <div>
-            <div>
-                {name}
-            </div>
-        </div>
-    )
+    const mode = (): string => {
+        switch (status) {
+            case LoadingMode.Loading:
+                return status
+
+            case LoadingMode.Loaded:
+                return message
+            }
+        }
+
+    return <div className="center-screen"> {mode()} </div>
 }
 
 export default Game;
