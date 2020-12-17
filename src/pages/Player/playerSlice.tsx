@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {ConnectionMode} from '../../constants/status'
+import { ConnectionMode } from '../../common/constants/status'
 
 export interface playerState {
   name: string;
   status : ConnectionMode
-  // connectionId: string;
-  // role: 
+  score: number
   message: string;
 }
 
 const initialState: playerState = {
   name: '',
   status: ConnectionMode.Connecting,
+  score: 0,
   message: ''
 }
 

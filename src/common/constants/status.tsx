@@ -1,10 +1,12 @@
 
 export enum LoadingMode {
   Loading = 'LOADING',
-  Loaded = 'LOADED'
+  Loaded = 'LOADED',
+  Idle = 'IDLE'
 }
 
 export enum ConnectionMode {
   Connecting = 'CONNECTING',
-  Connected = 'CONNECTED'
+  Connected = 'CONNECTED',
+  Failed = 'FAILED'
 }

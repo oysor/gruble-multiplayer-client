@@ -1,53 +1,30 @@
-import React, {FunctionComponent } from "react";
-import Room from './features/room/Room'
+import React, { FunctionComponent } from "react";
 import "./App.css"
+import { LandingPage } from './pages/LandingPage'
+
+import { Room } from './pages/Room'
+import { Player } from './pages/Player'
+ import { BrowserRouter, Route, Switch } from 'react-router-dom';
+
 
 const App: FunctionComponent = () => {
 
   return (
     <div className="App">
-        <Room/>
+        <BrowserRouter>
+          <LandingPage/>
+          <Switch>
+            <Route path="/room">
+              <Room />
+            </Route>
+            <Route path="/player">
+              <Player />
+            </Route>
+          </Switch>
+        </BrowserRouter>
     </div>
   );
 }
 
 export default App;
 
-
-// enum UserPageMode {
-//   CONNECTING = "CONNECTING",
-//   CONNECTED = "CONNECTED"
-// }
-
-// interface ConnectingPageProps {
-//   mode: UserPageMode.CONNECTING;
-// }
-
-// interface ConnectedPageProps {
-//   mode: UserPageMode.CONNECTED;
-//   name: string;
-//   email: string;
-//   birthday: string;
-// }
-
-// type Props = ConnectingPageProps | ConnectedPageProps;
-
-
-
-
-// class App extends Component<Props> {
-//   render() {
-//     switch (this.props.mode) {
-//       case ConnectingPageProps.LOADING:
-//         // We won't have any other props
-//         return <div>Loading...</div>;
-//       case ConnectedPageProps.LOADED:
-//         // In this mode, we can display user information
-//         return (
-//           <div>
-
-//           </div>
-//         );
-//     }
-//   }
-// }
