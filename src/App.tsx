@@ -4,7 +4,7 @@ import { LandingPage } from './pages/LandingPage'
 
 import { Room } from './pages/Room'
 import { Player } from './pages/Player'
- import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 const App: FunctionComponent = () => {
@@ -15,7 +15,7 @@ const App: FunctionComponent = () => {
           <LandingPage/>
           <Switch>
             <Route path="/room">
-              <Room />
+                <Room />
             </Route>
             <Route path="/player">
               <Player />

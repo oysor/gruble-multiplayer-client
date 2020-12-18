@@ -23,15 +23,12 @@ export const Room: FunctionComponent = () => {
         }
     }
 
-
     return  (
             <div className="room-page"> 
                 <h2>GameRoom</h2>
                 {connection()}
             </div>
             );
-
-
 }
 
 export default Room;

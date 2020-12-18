@@ -3,7 +3,8 @@ import { ConnectionMode } from '../../common/constants/status'
 
 
 export interface RoomState {
-  lobbayName: string;
+  lobbyName: string;
+  roomId: string;
   timeLimit: number,
   boardCategories: Array<string>;
   BoardCapitalLetters: Array<string>;
@@ -14,7 +15,8 @@ export interface RoomState {
 }
 
 const initialState: RoomState = {
-  lobbayName: '',
+  lobbyName: '',
+  roomId: '',
   timeLimit: 0,
   boardCategories: [],
   BoardCapitalLetters: [],
@@ -30,7 +32,7 @@ const roomSlice = createSlice({
   reducers: {
     // Create methods here to update the store. 
     setRoomName: (state, action) => {
-      state.lobbayName = action.payload
+      state.lobbyName = action.payload
     },
     newMessage: (state, action) => {
       console.log("NEW MESSSAGE")
@@ -42,13 +44,29 @@ const roomSlice = createSlice({
     setConnectionID: (state, action) => {
       console.log("CONNECTION ID CALLED")
       state.connectionID = action.payload
+    },
+    roomCreated: (state, action) => {
+      state.roomId = action.payload
+      console.log("Reducer: createNewRoom: ", action.payload)
     }
   
   },
 })
 
+
+// communication to server
+export enum toServer {
+  createNewRoom = 'createNewRoom',
+}
+
+// communication from server
+export enum fromServer {
+  RoomCreated = "RoomCreated"
+}
+
 // import the actions where you want to dispatch them.
 export const {
+  roomCreated,
   setRoomName,
   setStatus,
   newMessage,

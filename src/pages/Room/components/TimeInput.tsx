@@ -1,4 +1,5 @@
 import React, {FunctionComponent, useState } from 'react'
+import CategoryInput from './CategoryInput'
 
 
 type TimeInputProps  = {
@@ -9,11 +10,12 @@ export const TimeInput: FunctionComponent <TimeInputProps>= ( props ) => {
 
     // Default value: 10 minutes
     const [time, setTime] = useState(10);
-    const [hidden, setHidden] = useState(true);
+    // Next component
+    const [next, setNext] = useState(true);
     const {name} = props;
 
-    return hidden ? 
-        <div className="room-name"> 
+    return next ? 
+        <div className="room-time"> 
             <form>
                 <input 
                     type="number" 
@@ -23,11 +25,11 @@ export const TimeInput: FunctionComponent <TimeInputProps>= ( props ) => {
                         (ev: React.ChangeEvent<HTMLInputElement>,): void => setTime( parseInt(ev.target.value))
                     }
                 />
-                <input type="submit" value="Submit"  onClick={() => setHidden(false)} />
+                <input type="submit" value="Submit"  onClick={() => setNext(false)} />
             </form> 
         </div>
         : 
-        <div>Next component with props: {name} {time}</div>;
+        <CategoryInput name={name} time={time}/>;
 }
 
 export default TimeInput;

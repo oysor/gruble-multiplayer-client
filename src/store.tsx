@@ -1,7 +1,7 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import playerReducer from './pages/Player/playerSlice'
-import roomReducer, {setStatus} from './pages/Room/roomSlice'
+import roomReducer, {toServer, fromServer,setStatus, roomCreated} from './pages/Room/roomSlice'
 import { ConnectionMode } from './common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -17,6 +17,21 @@ export async function start(): Promise<void> {
     await hubConnection.start();
     console.log("***** SignalR Connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
+
+
+    /**  
+     *  ---------- Listeners ---------
+    */
+
+    hubConnection.on(fromServer.RoomCreated, (msg) => {
+      store.dispatch(roomCreated(msg))
+    })
+
+
+    /**  
+     *  -------------------------------
+    */
+
   } catch (err) {
     console.log(err);
     console.log("***** Connection FAILED ******");
@@ -31,66 +46,14 @@ hubConnection.onclose(start);
 start();
 
 export const homeMadeMiddleware: Middleware = store => next => async action => {
-    // Receive stuff
-    // hubConnection.on('setClientMessage', (msg) => {
-    //     store.dispatch(newMessage(msg));
-    //     if(store.getState().player.status === LoadingMode.Loading ){
-    //         store.dispatch(setConnectionID(hubConnection.connectionId))
-    //     }
-    // })
 
-    /*
-
-            Lobbyroom
-    */
-    console.log(store.getState())
-
-    // hubConnection.on('onPlayerStats', (msg) => {
-    //     // store.dispatch(newMessage(msg));
-    // })
-
-    // hubConnection.on('onCreateGame', (msg) => {
-    //     // store.dispatch(newMessage(msg));
-    // })
-
-
-    /* 
-    
-            Lobbyrom and Player
-
-    */
-
-    // hubConnection.on('onStartGame', (msg) => {
-    // // store.dispatch(newMessage(msg));
-    // })
-
-    // hubConnection.on('onPLayerJoined', (msg) => {
-    //     // store.dispatch(newMessage(msg));
-    // })
-
-    // hubConnection.on('onPlayerLeft', (msg) => {
-    //     // store.dispatch(newMessage(msg));
-    // })
-
-    // hubConnection.on('onTimerCount', (msg) => {
-    //     // store.dispatch(newMessage(msg));
-    // })
-
-    // hubConnection.on('onTimeEnd', (msg) => {
-    //     // store.dispatch(newMessage(msg));
-    // })
-
+    console.log("...Middleware...")
 
     // Send stuff
-    if (action.type === 'CREATE_GAME') {
-        hubConnection.invoke('CreateGame', hubConnection.connectionId)
-    
+    if (action.type === toServer.createNewRoom) {
+        hubConnection.invoke('createNewRoom')
+        console.log("CREATE NEW ROOM")
     }
-    // if (action.type === 'SEND_CONNECTION_ID') {
-    //     hubConnection.invoke('SendConnectionId', hubConnection.connectionId)
-    // }
-
-
 
     return next(action);
 };
@@ -109,5 +72,6 @@ const store = configureStore({
 console.log(store.getState())
 
 export type RootState = ReturnType<typeof store.getState>;
+
 export default store;
 
