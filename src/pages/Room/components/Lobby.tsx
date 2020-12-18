@@ -1,25 +1,30 @@
-import React, {FunctionComponent, useState } from 'react'
+import React, {FunctionComponent} from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../../store';
 
 
 type LobbyProps  = {
     name: string
     time: number
+    roomId: string
 }
 
 export const Lobby: FunctionComponent <LobbyProps>= ( props ) => {
 
-    const {name, time} = props;
-    // Next component
-    const [next, setNext] = useState(true);
+    const {name, time, roomId} = props;
 
-    return next ? 
+    const { groupMessages } = useSelector((state: RootState) => state.room)
+
+    return (    
         <div className="room-lobby"> 
-           <h3>{name}</h3>
-           {time}
-            
+            <div>Room:{name}</div>
+            <div>Time:{time}</div>
+            <div>Id:{roomId}</div>
+            <div>Message:{groupMessages}</div>
+            {/* {groupMessages.map(message => message)} */}
         </div>
-        : 
-        <div>Next component with props: </div>;
+    );
+
 }
 
 export default Lobby;

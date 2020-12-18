@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { ConnectionMode } from '../../common/constants/status'
-
+import { NameInput } from './components/NameInput';
 
 export const Player: FunctionComponent = () => {
 
@@ -14,16 +14,25 @@ export const Player: FunctionComponent = () => {
             return status
 
         case ConnectionMode.Connected:
-            return <h2>PlayerRoom</h2>
+            return <NameInput/>
         }
     }
 
-
     return  (
             <div className="player-page"> 
+                <h2>PlayerRoom</h2>
                 {connection()}
             </div>
             );
 }
 
 export default Player;
+
+
+// <input 
+// type="submit" 
+// value="Submit"  
+// onClick={
+//     () => {dispatch({type: playerToServer.SendMessage, payload: "kko"})}
+// } 
+// />

@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useState } from 'react'
-import CategoryInput from './CategoryInput'
+import CategoryInput from './CreateRoom'
 
 
 type TimeInputProps  = {

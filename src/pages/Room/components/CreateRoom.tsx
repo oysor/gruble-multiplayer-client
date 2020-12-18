@@ -2,13 +2,14 @@ import React, {FunctionComponent, useState} from 'react'
 import Lobby from './Lobby';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../store'
+import { roomToServer } from '../roomSlice'
 
-type CategoryInputProps  = {
+type CreateRoomProps  = {
     name: string
     time: number
 }
 
-export const CategoryInput: FunctionComponent <CategoryInputProps>= ( props ) => {
+export const CreateRoom: FunctionComponent <CreateRoomProps>= ( props ) => {
 
     const {name, time} = props;
     // Next component
@@ -19,24 +20,37 @@ export const CategoryInput: FunctionComponent <CategoryInputProps>= ( props ) =>
 
     const dispatch = useDispatch()
 
-    const categories = [
-        "land",
-        "yrke",
-        "film",
-        "mord",
-        "dyr"
-    ]
+    // TODO: input for categories
+    // const categories = [
+    //     "land",
+    //     "yrke",
+    //     "film",
+    //     "mord",
+    //     "dyr"
+    // ]
 
     return next ? 
         <div className="room-create"> 
             <h3>{name}</h3>
             {time}
             <div className="Categories"></div>
-            <div><button onClick={() => dispatch({type:'createNewRoom'})}>Create Game</button></div>
-            <div>roomId:{roomId}</div>
+            
+            <div>
+                <button onClick={() => {dispatch({type: roomToServer.CreateNewRoom})}}>
+                    Generate Id
+                </button>
+            </div>
+            <div>
+                roomId:{roomId}
+            </div>            
+            <div>
+                <button onClick={() => {setNext(false)}}>
+                    Create Game
+                </button>
+            </div>
         </div>
         : 
-        <div>Next component</div>;
+        <Lobby name={name} time={time} roomId={roomId} />;
 }
 
 
@@ -63,4 +77,4 @@ export const CategoryInput: FunctionComponent <CategoryInputProps>= ( props ) =>
 // }
 
 
-export default CategoryInput;
+export default CreateRoom;

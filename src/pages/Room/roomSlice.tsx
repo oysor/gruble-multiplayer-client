@@ -11,7 +11,7 @@ export interface RoomState {
   playerCount: number,
   status: ConnectionMode,
   connectionID: string,
-  groupMessages: Array<string>;
+  groupMessages: string;
 }
 
 const initialState: RoomState = {
@@ -23,7 +23,7 @@ const initialState: RoomState = {
   playerCount: 0,
   status: ConnectionMode.Connecting,
   connectionID: '',
-  groupMessages: []
+  groupMessages: ''
 }
 
 const roomSlice = createSlice({
@@ -34,10 +34,10 @@ const roomSlice = createSlice({
     setRoomName: (state, action) => {
       state.lobbyName = action.payload
     },
-    newMessage: (state, action) => {
-      console.log("NEW MESSSAGE")
-      state.groupMessages = [...state.groupMessages, action.payload]
-    },
+    // newMessage: (state, action) => {
+    //   console.log("NEW MESSSAGE")
+    //   state.groupMessages = [...state.groupMessages, action.payload]
+    // },
     setStatus: (state, action) => {
       state.status = action.payload
     },
@@ -48,20 +48,27 @@ const roomSlice = createSlice({
     roomCreated: (state, action) => {
       state.roomId = action.payload
       console.log("Reducer: createNewRoom: ", action.payload)
+    },
+    receiveMessageRoom: (state, action) => {
+      state.groupMessages = String(action.payload)
+      console.log("Reducer: receiveMessage: ", action.payload)
     }
-  
   },
 })
 
 
 // communication to server
-export enum toServer {
-  createNewRoom = 'createNewRoom',
+export enum roomToServer {
+  CreateNewRoom = 'CreateNewRoom',
+  JoinRoom = 'JoinRoom',
 }
 
 // communication from server
 export enum fromServer {
-  RoomCreated = "RoomCreated"
+  RoomCreated = "RoomCreated",
+  PlayerJoinedRoom = 'PlayerJoinedRoom',
+  ReceiveMessage = "ReceiveMessage"
+
 }
 
 // import the actions where you want to dispatch them.
@@ -69,8 +76,9 @@ export const {
   roomCreated,
   setRoomName,
   setStatus,
-  newMessage,
-  setConnectionID
+  // newMessage,
+  setConnectionID,
+  receiveMessageRoom
 } = roomSlice.actions
 
 export default roomSlice.reducer

@@ -15,7 +15,7 @@ export const NameInput: FunctionComponent = () => {
                 <input 
                     type="text" 
                     name="name" 
-                    placeholder="name" 
+                    placeholder="room name" 
                     onChange={
                         (ev: React.ChangeEvent<HTMLInputElement>,): void => setName(ev.target.value)
                     }
