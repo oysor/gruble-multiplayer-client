@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store'
 import { ConnectionMode } from '../../common/constants/status'
-import { NameInput } from './components'
+import { RoomName } from './pages/RoomName'
 
 export const Room: FunctionComponent = () => {
 
@@ -19,7 +19,7 @@ export const Room: FunctionComponent = () => {
             return status
 
         case ConnectionMode.Connected:
-            return <NameInput/>
+            return <RoomName/>
         }
     }
 
@@ -30,5 +30,3 @@ export const Room: FunctionComponent = () => {
             </div>
             );
 }
-
-export default Room;

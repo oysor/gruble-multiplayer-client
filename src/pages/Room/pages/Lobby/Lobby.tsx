@@ -1,6 +1,6 @@
 import React, {FunctionComponent} from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../../../store';
+import { RootState } from '../../../../store';
 
 
 type LobbyProps  = {
@@ -26,5 +26,3 @@ export const Lobby: FunctionComponent <LobbyProps>= ( props ) => {
     );
 
 }
-
-export default Lobby;

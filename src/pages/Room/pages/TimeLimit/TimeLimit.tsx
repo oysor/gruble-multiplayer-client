@@ -1,12 +1,12 @@
 import React, {FunctionComponent, useState } from 'react'
-import CategoryInput from './CreateRoom'
+import { CreateRoom } from '../CreateRoom'
 
 
-type TimeInputProps  = {
+type TimeLimitProps  = {
     name: string
 }
 
-export const TimeInput: FunctionComponent <TimeInputProps>= ( props ) => {
+export const TimeLimit: FunctionComponent <TimeLimitProps>= ( props ) => {
 
     // Default value: 10 minutes
     const [time, setTime] = useState(10);
@@ -29,7 +29,5 @@ export const TimeInput: FunctionComponent <TimeInputProps>= ( props ) => {
             </form> 
         </div>
         : 
-        <CategoryInput name={name} time={time}/>;
+        <CreateRoom name={name} time={time}/>;
 }
-
-export default TimeInput;

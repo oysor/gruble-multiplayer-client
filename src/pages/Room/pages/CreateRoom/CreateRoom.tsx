@@ -1,8 +1,9 @@
 import React, {FunctionComponent, useState} from 'react'
-import Lobby from './Lobby';
+// import Lobby from '../Lobby';
+import { Lobby } from '../Lobby'
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../../store'
-import { roomToServer } from '../roomSlice'
+import { RootState } from '../../../../store'
+import { roomToServer } from '../../roomSlice'
 
 type CreateRoomProps  = {
     name: string
@@ -75,6 +76,3 @@ export const CreateRoom: FunctionComponent <CreateRoomProps>= ( props ) => {
 //     );
 
 // }
-
-
-export default CreateRoom;

@@ -1,8 +1,8 @@
 import React, {FunctionComponent, useState } from 'react'
-import TimeInput from './TimeInput'
+import { TimeLimit } from '../TimeLimit'
 
 
-export const NameInput: FunctionComponent = () => {
+export const RoomName: FunctionComponent = () => {
     
     // Set room name
     const [name, setName] = useState('');
@@ -24,7 +24,5 @@ export const NameInput: FunctionComponent = () => {
             </form> 
         </div>
         : 
-        <TimeInput name={name}/>;
+        <TimeLimit name={name}/>;
 }
-
-export default NameInput;
