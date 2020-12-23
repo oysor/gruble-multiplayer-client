@@ -1,3 +1,9 @@
+
+html { box-sizing: border-box; } 
+
+* {box-sizing:border-box !important;}
+
+
 html, body, #root {
     height: 100%;
 }
@@ -22,3 +28,20 @@ html, body, #root {
     height: 100%;
 }
 
+input {
+    display: inline-block;
+    border: none;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    background: #c4c4c4;
+    padding: 1rem 2rem;
+    margin: 0;
+    color: black;
+    border: 1px solid black;
+}
+
+
+input[type = submit]:hover {
+    background: #f4f2f1;
+}
