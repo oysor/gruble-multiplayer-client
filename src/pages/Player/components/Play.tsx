@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../../store'
-import { playerToServer } from '../playerSlice';
+import { RootState } from '../playerStore'
+import { toServer } from '../playerSlice';
 
 
 export const Play: FunctionComponent = () => {
@@ -10,9 +10,7 @@ export const Play: FunctionComponent = () => {
     // Set name
     const [msg, setMessage] = useState('');
 
-    const { name } = useSelector((state: RootState) => state.player)
-    const { message } = useSelector((state: RootState) => state.player)
-    const { roomId } = useSelector((state: RootState) => state.player)
+    const { name, roomId } = useSelector((state: RootState) => state.player)
     const dispatch = useDispatch()
 
 
@@ -31,7 +29,7 @@ export const Play: FunctionComponent = () => {
             <div>
                 <button onClick={
                         () => {dispatch({
-                                type: playerToServer.SendMessage, 
+                                type: toServer.SendMessage, 
                                 payload: {user:name, msg:msg, roomId:roomId}
                                 
                             })
@@ -47,9 +45,9 @@ export const Play: FunctionComponent = () => {
                 Room Id: {roomId}
             </div>
 
-            <div>
-                Message: {message}
-            </div>
+            {/* <div>
+                Message: {messages}
+            </div> */}
         </div>
 
     )

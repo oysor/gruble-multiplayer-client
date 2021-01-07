@@ -21,11 +21,14 @@ const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
+    newMessage: (state, action) => {
+      state.message = action.payload
+    },
+    setStatus: (state, action) => {
+      state.status = action.payload
+    },
     setPlayerName: (state, action) => {
       state.name = action.payload
-    },
-    receiveMessagePlayer: (state, action) => {
-      state.message = action.payload
     },
     setRoomId: (state, action) => {
       state.roomId = action.payload
@@ -34,15 +37,22 @@ const playerSlice = createSlice({
 })
 
 // communication to server
-export enum playerToServer {
+export enum toServer {
   SendMessage = 'SendMessage',
   JoinRoom = 'JoinRoom'
 }
 
+export enum fromServer {
+  receiveMessage = 'ReceiveMessage',
+  onPlayerJoined = "onPlayerJoined"
+}
+
+
 export const {
   setPlayerName,
-  receiveMessagePlayer,
-  setRoomId
+  setRoomId,
+  setStatus,
+  newMessage
 } = playerSlice.actions
 
 export default playerSlice.reducer

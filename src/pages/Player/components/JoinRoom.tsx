@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { playerToServer } from '../playerSlice';
+import { toServer } from '../playerSlice';
 import Play from './Play'
+import { useSelector } from 'react-redux'
+import { RootState } from '../playerStore';
 
 export const JoinRoom: FunctionComponent = () => {
 
@@ -10,6 +12,9 @@ export const JoinRoom: FunctionComponent = () => {
     const [roomName, setRoomName] = useState('');
 
     const dispatch = useDispatch()
+
+    const { name } = useSelector((state: RootState) => state.player)
+
 
     // Next component
     const [next, setNext] = useState(true);
@@ -31,8 +36,8 @@ export const JoinRoom: FunctionComponent = () => {
                         () => {
                             setNext(false)
                             dispatch({
-                                type: playerToServer.JoinRoom, 
-                                payload: roomName
+                                type: toServer.JoinRoom, 
+                                payload: {roomName: roomName, playerName: name}
                             })
                         }}
                 >

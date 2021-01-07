@@ -1,9 +1,13 @@
 import React, {FunctionComponent, useState} from 'react'
 // import Lobby from '../Lobby';
 import { Lobby } from '../Lobby'
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../../../../store'
+import { useDispatch } from 'react-redux'
+// import { RootState } from '../../roomStore'
 import { roomToServer } from '../../roomSlice'
+
+
+
+
 
 type CreateRoomProps  = {
     name: string
@@ -17,7 +21,7 @@ export const CreateRoom: FunctionComponent <CreateRoomProps>= ( props ) => {
     const [next, setNext] = useState(true);
     
     // const [tasks, setTasks] = useState([])
-    const { roomId } = useSelector((state: RootState) => state.room)
+    // const { roomId } = useSelector((state: RootState) => state.room)
 
     const dispatch = useDispatch()
 
@@ -36,22 +40,25 @@ export const CreateRoom: FunctionComponent <CreateRoomProps>= ( props ) => {
             {time}
             <div className="Categories"></div>
             
-            <div>
+            {/* <div>
                 <button onClick={() => {dispatch({type: roomToServer.CreateNewRoom})}}>
                     Generate Id
                 </button>
-            </div>
-            <div>
+            </div> */}
+            {/* <div>
                 roomId:{roomId}
-            </div>            
+            </div>             */}
             <div>
-                <button onClick={() => {setNext(false)}}>
+                <button onClick={() => {
+                    dispatch({ type: roomToServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time } }) 
+                    setNext(false)
+                    }}>
                     Create Game
                 </button>
             </div>
         </div>
         : 
-        <Lobby name={name} time={time} roomId={roomId} />;
+        <Lobby />;
 }
 
 

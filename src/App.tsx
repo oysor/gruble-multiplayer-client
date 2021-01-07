@@ -15,7 +15,7 @@ const App: FunctionComponent = () => {
           <LandingPage/>
           <Switch>
             <Route path="/room">
-                <Room />
+              <Room />
             </Route>
             <Route path="/player">
               <Player />
