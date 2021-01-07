@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux'
-import { setPlayerName } from '../playerSlice';
+import { setPlayerName } from '../playerReducer';
 import JoinRoom from './JoinRoom'
 
 export const NameInput: FunctionComponent = () => {

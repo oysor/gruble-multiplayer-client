@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../playerStore'
-import { toServer } from '../playerSlice';
+import { toServer } from '../playerReducer';
 
 
 export const Play: FunctionComponent = () => {

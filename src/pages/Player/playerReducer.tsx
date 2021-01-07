@@ -47,7 +47,6 @@ export enum fromServer {
   onPlayerJoined = "onPlayerJoined"
 }
 
-
 export const {
   setPlayerName,
   setRoomId,

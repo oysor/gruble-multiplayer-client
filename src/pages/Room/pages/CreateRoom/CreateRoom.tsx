@@ -3,7 +3,7 @@ import React, {FunctionComponent, useState} from 'react'
 import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
 // import { RootState } from '../../roomStore'
-import { roomToServer } from '../../roomSlice'
+import { roomToServer } from '../../roomReducer'
 
 
 

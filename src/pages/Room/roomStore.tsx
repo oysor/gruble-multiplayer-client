@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import roomReducer, {roomToServer, fromServer, setStatus, roomCreated, newMessage} from './roomSlice'
+import roomReducer, {roomToServer, fromServer, setStatus, roomCreated, newMessage} from './roomReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
