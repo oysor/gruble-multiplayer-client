@@ -30,22 +30,10 @@ export async function startPlayerConnection(): Promise<void> {
         store.dispatch(newMessage(msg))
       })
       
-    // hubConnection.on(fromServer.onPlayerJoined, (msg) => {
-    //   console.log("PLAYER JOINED ROOM", msg)
-    //   store.dispatch(newMessage(msg))
-    // })
-
     hubConnection.on(fromServer.receiveMessage, (msg) => {
       console.log("RECEIVE MESSAGE")
       store.dispatch(newMessage(msg))
     })
-
-    // hubConnection.on(fromServer.PlayerJoinedRoom, (msg) => {
-    //   console.log("PLAYER JOINED ROOM")
-    //   store.dispatch(newMessage(msg))
-    // })
-
-
 
   } catch (err) {
     console.log(err);
@@ -55,8 +43,11 @@ export async function startPlayerConnection(): Promise<void> {
   }
 }
 
-hubConnection.onclose(startPlayerConnection);
+// hubConnection.onclose(startPlayerConnection);
 
+export async function stopPlayerConnection(): Promise<void> {
+    hubConnection.stop()
+}  
 // Starts the signalR connection
 // start();
 

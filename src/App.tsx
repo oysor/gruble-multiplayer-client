@@ -8,7 +8,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
 const App: FunctionComponent = () => {
-
   return (
     <div className="App">
         <BrowserRouter>

@@ -1,43 +1,35 @@
-import React, { FunctionComponent } from 'react';
-// import { useSelector } from 'react-redux'
-// import { RootState } from '../../store'
-// import { ConnectionMode } from '../../common/constants/status'
+import React, { FunctionComponent, useEffect } from 'react';
 import { NameInput } from './components/NameInput';
-
+import { useHistory } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './playerStore'
+import { startPlayerConnection, stopPlayerConnection } from '../Player/playerStore'
 
 export const Player: FunctionComponent = () => {
 
-    // const { status } = useSelector((state: RootState) => state.room)
+    // Start connection
+    useEffect(() => {
+        startPlayerConnection()
+    })
 
-    // const connection = () => {
-    //     switch (status) {
-    //     case ConnectionMode.Connecting:
-    //         return status
+    const history = useHistory();
+    // End connection when going back (browser back button)
+    useEffect(() => {
+        return history.listen(location => {
+            if (history.action === 'POP' && location.pathname === '/') {
+                stopPlayerConnection()
+            }
+        })
+    })
 
-    //     case ConnectionMode.Connected:
-    //         return <NameInput/>
-    //     }
-    // }
-
-    // return  (
-    //         <div className="player-page"> 
-    //             <h2>PlayerRoom</h2>
-    //             {connection()}
-    //         </div>
-    //     );
-
-    return  (
-            <Provider store={store}>
-                <div className="player-page"> 
-                    <h2>PlayerRoom</h2>
-                    <NameInput/>
-                </div>
-            </Provider>
-            );
+    return (
+        <Provider store={store}>
+            <div className="player-page">
+                <h2>PlayerRoom</h2>
+                <NameInput />
+            </div>
+        </Provider>
+    );
 }
 
 export default Player;
-
-

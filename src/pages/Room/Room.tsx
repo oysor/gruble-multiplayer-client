@@ -1,48 +1,33 @@
-import React, { FunctionComponent } from 'react'
-// import { useSelector } from 'react-redux'
-// import { RootState } from '../../store'
-// import { ConnectionMode } from '../../common/constants/status'
+import React, { FunctionComponent, useEffect } from 'react'
 import { RoomName } from './pages/RoomName'
-
-// import { Provider } from 'react-redux'
 import { Provider } from 'react-redux'
 import store from './roomStore'
-
-
+import { startRoomConnection, stopRoomConnection } from '../Room/roomStore'
+import { useHistory } from 'react-router-dom'
 
 export const Room: FunctionComponent = () => {
 
-    // How to get state values
-    // const { status } = useSelector((state: RootState) => state.room)
+    // Start connection
+    useEffect(() => {
+        startRoomConnection()
+    })
 
-    // const connection = () => {
-    //     switch (status) {
+    // End connection when going back (browser back button)
+    const history = useHistory();
+    useEffect(() => {
+        return history.listen(location => {
+            if (history.action === 'POP' && location.pathname === '/') {
+                stopRoomConnection()
+            }
+        })
+    })
 
-    //     case ConnectionMode.Failed:
-    //         return status
-
-    //     case ConnectionMode.Connecting:
-    //         return status
-
-    //     case ConnectionMode.Connected:
-    //         return <RoomName/>
-    //     }
-    // }
-    // return  (
-    //         <div className="room-page"> 
-    //             <h2>GameRoom</h2>
-    //             {connection()}
-    //         </div>
-    //         );
-    return  (
-        
+    return (
         <Provider store={store}>
-            <div className="room-page"> 
+            <div className="room-page">
                 <h2>GameRoom</h2>
-                <RoomName/>
+                <RoomName />
             </div>
         </Provider>
-
-        );
-
+    );
 }

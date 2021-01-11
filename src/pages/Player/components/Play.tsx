@@ -10,7 +10,7 @@ export const Play: FunctionComponent = () => {
     // Set name
     const [msg, setMessage] = useState('');
 
-    const { name, roomId } = useSelector((state: RootState) => state.player)
+    const { name, message, roomId } = useSelector((state: RootState) => state.player)
     const dispatch = useDispatch()
 
 
@@ -35,19 +35,15 @@ export const Play: FunctionComponent = () => {
                             })
                         }}
                 >
-                    Send message
+                Send message
                 </button>
             </div>
             <div>
                 Player name: {name}
             </div>
-            <div> 
-                Room Id: {roomId}
+            <div>
+                Message: {message}
             </div>
-
-            {/* <div>
-                Message: {messages}
-            </div> */}
         </div>
 
     )

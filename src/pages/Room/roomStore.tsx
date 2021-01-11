@@ -63,7 +63,11 @@ export async function startRoomConnection(): Promise<void> {
   }
 }
 
-hubConnection.onclose(startRoomConnection);
+// hubConnection.onclose(startRoomConnection);
+
+export async function stopRoomConnection(): Promise<void> {
+  hubConnection.stop()
+}  
 
 // Starts the signalR connection
 // start();
