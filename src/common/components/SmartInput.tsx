@@ -2,10 +2,10 @@ import React, { FunctionComponent } from 'react';
 
 interface SmartInputProps {
     onChange: (stringValue: string) => void;
-    placeholder?: string,
+    placeholder?: string
 }
 
-export const SmartInput: FunctionComponent<SmartInputProps> = ({ onChange, placeholder = "..." }) => {
+export const SmartInput: FunctionComponent<SmartInputProps> = ({ onChange, placeholder = "..."}) => {
     return (
         <div className="smart-input">
             <input

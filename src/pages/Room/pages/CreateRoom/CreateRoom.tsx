@@ -1,85 +1,35 @@
-import React, {FunctionComponent, useState} from 'react'
-// import Lobby from '../Lobby';
+import React, { FunctionComponent, useState } from 'react'
 import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
-// import { RootState } from '../../roomStore'
 import { roomToServer } from '../../roomReducer'
 
-
-
-
-
-type CreateRoomProps  = {
+type CreateRoomProps = {
     name: string
     time: number
 }
 
-export const CreateRoom: FunctionComponent <CreateRoomProps>= ( props ) => {
+export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
 
-    const {name, time} = props;
+    const { name, time } = props;
     // Next component
-    const [next, setNext] = useState(true);
-    
-    // const [tasks, setTasks] = useState([])
-    // const { roomId } = useSelector((state: RootState) => state.room)
+    const [nextPage, setNext] = useState(true);
 
     const dispatch = useDispatch()
 
-    // TODO: input for categories
-    // const categories = [
-    //     "land",
-    //     "yrke",
-    //     "film",
-    //     "mord",
-    //     "dyr"
-    // ]
-
-    return next ? 
-        <div className="room-create"> 
-            <h3>{name}</h3>
-            {time}
-            <div className="Categories"></div>
-            
-            {/* <div>
-                <button onClick={() => {dispatch({type: roomToServer.CreateNewRoom})}}>
-                    Generate Id
-                </button>
-            </div> */}
-            {/* <div>
-                roomId:{roomId}
-            </div>             */}
+    return nextPage ?
+        <div className="room-create">
+            Name: {name}
+            <br />
+            Time: {time}
             <div>
                 <button onClick={() => {
-                    dispatch({ type: roomToServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time } }) 
+                    dispatch({ type: roomToServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time } })
                     setNext(false)
-                    }}>
+                }}>
                     Create Game
                 </button>
             </div>
         </div>
-        : 
+        :
         <Lobby />;
 }
-
-
-
-
-// const Category = (id:number) => {
-
-//     // Set room name
-//     const [name, setName] = useState('');
-
-//     return( 
-//     <form>
-//         <input 
-//             type="text" 
-//             name="category" 
-//             placeholder="category" 
-//             onChange={
-//                 (ev: React.ChangeEvent<HTMLInputElement>,): void => setName(ev.target.value)
-//             }
-//         />
-//     </form> 
-//     );
-
-// }

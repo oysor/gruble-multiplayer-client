@@ -1,25 +1,18 @@
 import React, {FunctionComponent, useState } from 'react'
 import { TimeLimit } from '../TimeLimit'
-
+import { SmartInput } from '../../../../common/components/SmartInput'
 
 export const RoomName: FunctionComponent = () => {
     
     // Set room name
     const [name, setName] = useState('');
     // Next component
-    const [next, setNext] = useState(true);
+    const [nextPage, setNext] = useState(true);
 
-    return next ? 
+    return nextPage ? 
         <div className="room-name"> 
             <form>
-                <input 
-                    type="text" 
-                    name="name" 
-                    placeholder="room name" 
-                    onChange={
-                        (ev: React.ChangeEvent<HTMLInputElement>,): void => setName(ev.target.value)
-                    }
-                />
+                <SmartInput onChange={setName} placeholder={"room name..."} />
                 <input type="submit" value="Submit"  onClick={() => setNext(false)} />
             </form> 
         </div>

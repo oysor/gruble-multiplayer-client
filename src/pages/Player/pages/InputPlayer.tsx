@@ -11,9 +11,9 @@ export const InputPlayer: FunctionComponent = () => {
     const dispatch = useDispatch()
 
     // Next component
-    const [next, setNext] = useState(true);
+    const [nextPage, setNext] = useState(true);
 
-    return next ? 
+    return nextPage ? 
         <div className="join-room">
             <form>
                 <SmartInput onChange={ setName } placeholder={"player name.."} />
