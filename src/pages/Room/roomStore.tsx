@@ -82,6 +82,7 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
 
     if (action.type === roomToServer.CreateRoom) {
       hubConnection.invoke(roomToServer.CreateRoom, action.payload)
+      console.log(action.payload)
       console.log("CREATE NEW ROOM")
     }
 

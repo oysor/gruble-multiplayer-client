@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
 import { roomToServer } from '../../roomReducer'
+import { SmartButton } from '../../../../common/components/SmartButton'
 
 type CreateRoomProps = {
     name: string
@@ -21,14 +22,14 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
             Name: {name}
             <br />
             Time: {time}
-            <div>
-                <button onClick={() => {
+            <SmartButton
+                onClick={() => {
                     dispatch({ type: roomToServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time } })
                     setNext(false)
-                }}>
-                    Create Game
-                </button>
-            </div>
+                }}
+            >
+                Create Game
+            </SmartButton>
         </div>
         :
         <Lobby />;

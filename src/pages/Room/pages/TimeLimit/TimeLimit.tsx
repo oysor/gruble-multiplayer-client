@@ -1,6 +1,7 @@
 import React, {FunctionComponent, useState } from 'react'
 import { CreateRoom } from '../CreateRoom'
 import { SmartNumericInput } from '../../../../common/components/SmartNumericInput'
+import { SubmitInput } from '../../../../common/components/SubmitInput'
 
 type TimeLimitProps  = {
     name: string
@@ -18,7 +19,7 @@ export const TimeLimit: FunctionComponent <TimeLimitProps>= ( props ) => {
         <div className="room-time"> 
             <form>
                 <SmartNumericInput onChange={setTime} value={time} />
-                <input type="submit" value="Submit"  onClick={() => {setNext(false)}} />
+                <SubmitInput value="Submit" onClick={() => setNext(false)}/>
             </form> 
         </div>
         : 

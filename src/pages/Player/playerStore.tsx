@@ -64,11 +64,12 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
       console.log("JOIN ROOM")
     }
 
-    // if (action.type === toServer.SendMessage) {
-    //   console.log(action.payload.user, action.payload.msg, action.payload.roomId)
+    // TODO
+    if (action.type === toServer.SendMessage) {
+      console.log(action.payload.user, action.payload.msg, action.payload.roomId)
     //   hubConnection.invoke(toServer.SendMessage, action.payload.user, action.payload.msg, action.payload.roomId)
-    //   console.log("SEND MESSAGE")
-    // }
+      console.log("SEND MESSAGE -- not sending")
+    }
 
 
     console.log(store.getState);

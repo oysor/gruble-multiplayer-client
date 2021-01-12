@@ -1,40 +1,36 @@
-import React, { FunctionComponent } from 'react';
-import { useSelector } from 'react-redux'
+import React, { FunctionComponent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../playerStore'
-// import { toServer } from '../playerReducer';
+import { toServer } from '../playerReducer';
+
+import { SmartInput } from '../../../common/components/SmartInput'
+import { SmartButton } from '../../../common/components/SmartButton'
 
 export const Play: FunctionComponent = () => {
 
     // Set name
-    // const [msg, setMessage] = useState('');
+    const [msg, setMessage] = useState('');
 
     const { name, message, roomId } = useSelector((state: RootState) => state.player)
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     return (
         <div className="play">
-            {/* <form>
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="message..."
-                    onChange={
-                        (ev: React.ChangeEvent<HTMLInputElement>,): void => setMessage(ev.target.value)
-                    }
-                />
-                <input
-                    type="button"
-                    value="Send"
+            <form>
+                <SmartInput onChange={setMessage} placeholder={"message"} />
+                <SmartButton
                     onClick={
-                        () => {
+                        (): void  => {
                             dispatch({
                                 type: toServer.SendMessage,
                                 payload: { user: name, msg: msg, roomId: roomId }
 
                             })
                         }}
-                />
-            </form> */}
+                >
+                    Send
+                </SmartButton>
+            </form>
             <div>
                 Player name: {name}
             </div>

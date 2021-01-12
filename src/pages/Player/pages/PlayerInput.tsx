@@ -2,9 +2,10 @@ import React, { FunctionComponent, useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { setPlayerName, setRoomId, toServer } from '../playerReducer';
 import { SmartInput } from '../../../common/components/SmartInput'
+import { SubmitInput } from '../../../common/components/SubmitInput'
 import { Play } from './Play';
 
-export const InputPlayer: FunctionComponent = () => {
+export const PlayerInput: FunctionComponent = () => {
 
     const [name, setName] = useState('');
     const [roomId, setId] = useState('');
@@ -18,23 +19,21 @@ export const InputPlayer: FunctionComponent = () => {
             <form>
                 <SmartInput onChange={ setName } placeholder={"player name.."} />
                 <SmartInput onChange={ setId } placeholder={"RoomId.."} />
-                <input
-                    type="submit"
-                    value="Submit"
-                    onClick={
-                        () => {
-                            setNext(false)
-                            dispatch(setPlayerName(name))
-                            dispatch({type: setRoomId, payload: roomId})
-                            dispatch({
-                                type: toServer.JoinRoom, 
-                                payload: {roomName: roomId, playerName: name}
-                            })
-                        }}
+                <SubmitInput 
+                    onClick={() => {
+                        dispatch(setPlayerName(name))
+                        dispatch({type: setRoomId, payload: roomId})
+                        dispatch({
+                            type: toServer.JoinRoom, 
+                            payload: {roomName: roomId, playerName: name}
+                        })
+                        setNext(false)
+                    }}
+                    value={"Submit"}
                 />
             </form>
         </div>
-        :  <Play/>    
+        :  <Play/>
 }
 
-export default InputPlayer;
+export default PlayerInput;
