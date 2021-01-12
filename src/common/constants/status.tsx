@@ -8,5 +8,6 @@ export enum LoadingMode {
 export enum ConnectionMode {
   Connecting = 'CONNECTING',
   Connected = 'CONNECTED',
+  Disconnected = 'DISCONNECTED',
   Failed = 'FAILED'
 }

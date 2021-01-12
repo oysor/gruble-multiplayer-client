@@ -47,6 +47,7 @@ export async function startPlayerConnection(): Promise<void> {
 
 export async function stopPlayerConnection(): Promise<void> {
     hubConnection.stop()
+    setStatus(ConnectionMode.Disconnected)
 }  
 // Starts the signalR connection
 // start();
@@ -63,11 +64,11 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
       console.log("JOIN ROOM")
     }
 
-    if (action.type === toServer.SendMessage) {
-      console.log(action.payload.user, action.payload.msg, action.payload.roomId)
-      hubConnection.invoke(toServer.SendMessage, action.payload.user, action.payload.msg, action.payload.roomId)
-      console.log("SEND MESSAGE")
-    }
+    // if (action.type === toServer.SendMessage) {
+    //   console.log(action.payload.user, action.payload.msg, action.payload.roomId)
+    //   hubConnection.invoke(toServer.SendMessage, action.payload.user, action.payload.msg, action.payload.roomId)
+    //   console.log("SEND MESSAGE")
+    // }
 
 
     console.log(store.getState);

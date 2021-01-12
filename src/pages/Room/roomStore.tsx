@@ -67,6 +67,7 @@ export async function startRoomConnection(): Promise<void> {
 
 export async function stopRoomConnection(): Promise<void> {
   hubConnection.stop()
+  setStatus(ConnectionMode.Disconnected)
 }  
 
 // Starts the signalR connection
