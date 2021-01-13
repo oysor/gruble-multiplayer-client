@@ -41,7 +41,6 @@ export const Play: FunctionComponent = () => {
                 Message: {message}
             </div>
         </div>
-
     )
 }
 

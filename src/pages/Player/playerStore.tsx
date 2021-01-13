@@ -45,10 +45,21 @@ export async function startPlayerConnection(): Promise<void> {
 
 // hubConnection.onclose(startPlayerConnection);
 
+hubConnection.onreconnecting(error => {
+    console.log( "Connection lost due to error "+{error}+". Reconnecting")
+    store.dispatch(setStatus(ConnectionMode.Reconnecting))
+});
+
+hubConnection.onreconnected(error => {
+  console.log( "Reconnected! "+ error)
+  store.dispatch(setStatus(ConnectionMode.Connected))
+});
+
 export async function stopPlayerConnection(): Promise<void> {
     hubConnection.stop()
-    setStatus(ConnectionMode.Disconnected)
-}  
+    store.dispatch(setStatus(ConnectionMode.Disconnected))
+}
+
 // Starts the signalR connection
 // start();
 

@@ -9,7 +9,7 @@ export const SubmitInput: FunctionComponent<SubmitInputProps> = ({ onClick, valu
     return (
         <div className="submit-input">
             <input
-                type="submit"
+                type="button"
                 value={value}
                 onClick={
                     onClick

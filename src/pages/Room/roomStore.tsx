@@ -65,9 +65,19 @@ export async function startRoomConnection(): Promise<void> {
 
 // hubConnection.onclose(startRoomConnection);
 
+hubConnection.onreconnecting(error => {
+    console.log( "Connection lost due to error "+{error}+". Reconnecting")
+    store.dispatch(setStatus(ConnectionMode.Reconnecting))
+});
+
+hubConnection.onreconnected(error => {
+  console.log( "Reconnected! "+ error)
+  store.dispatch(setStatus(ConnectionMode.Connected))
+});
+
 export async function stopRoomConnection(): Promise<void> {
-  hubConnection.stop()
-  setStatus(ConnectionMode.Disconnected)
+    hubConnection.stop()
+    store.dispatch(setStatus(ConnectionMode.Disconnected))
 }  
 
 // Starts the signalR connection

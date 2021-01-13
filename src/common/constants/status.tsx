@@ -9,5 +9,6 @@ export enum ConnectionMode {
   Connecting = 'CONNECTING',
   Connected = 'CONNECTED',
   Disconnected = 'DISCONNECTED',
+  Reconnecting = 'RECONNECTING',
   Failed = 'FAILED'
 }
