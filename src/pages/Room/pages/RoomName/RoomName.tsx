@@ -1,10 +1,8 @@
 import React, {FunctionComponent, useState } from 'react'
-import { TimeLimit } from '../TimeLimit'
-import { SmartInput } from '../../../../common/components/SmartInput'
-import { SubmitInput } from '../../../../common/components/SubmitInput';
-import { ConnectionMode } from '../../../../common/constants/status';
-import { ConnectionStatus } from '../../../../common/components/ConnectionStatus'
 import { useSelector } from 'react-redux';
+import { TimeLimit } from '../TimeLimit'
+import { SmartInput, SubmitInput, ConnectionStatus } from '../../../../common/components/'
+import { ConnectionMode } from '../../../../common/constants/status';
 import { RootState } from '../../roomStore';
 
 export const RoomName: FunctionComponent = () => {

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
 import { roomToServer } from '../../roomReducer'
-import { SmartButton } from '../../../../common/components/SmartButton'
+import { SmartButton } from '../../../../common/components/'
 
 type CreateRoomProps = {
     name: string

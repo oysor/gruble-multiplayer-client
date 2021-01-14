@@ -1,10 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../playerStore'
-import { toServer } from '../playerReducer';
-
-import { SmartInput } from '../../../common/components/SmartInput'
-import { SmartButton } from '../../../common/components/SmartButton'
+import { toServer } from '../playerReducer'
+import { SmartInput, SmartButton } from '../../../common/components/'
 
 export const Play: FunctionComponent = () => {
 

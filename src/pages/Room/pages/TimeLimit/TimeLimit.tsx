@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useState } from 'react'
 import { CreateRoom } from '../CreateRoom'
-import { SmartNumericInput } from '../../../../common/components/SmartNumericInput'
-import { SubmitInput } from '../../../../common/components/SubmitInput'
+import { SmartNumericInput, SubmitInput } from '../../../../common/components/'
 
 type TimeLimitProps  = {
     name: string

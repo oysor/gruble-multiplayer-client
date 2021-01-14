@@ -1,12 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setPlayerName, setRoomId, toServer } from '../playerReducer';
-import { SmartInput } from '../../../common/components/SmartInput'
-import { SubmitInput } from '../../../common/components/SubmitInput'
+import { SmartInput, SubmitInput, ConnectionStatus } from '../../../common/components/'
+import { ConnectionMode } from '../../../common/constants/status';
 import { Play } from './Play';
 import { RootState } from '../playerStore';
-import { ConnectionMode } from '../../../common/constants/status';
-import { ConnectionStatus } from '../../../common/components/ConnectionStatus'
 
 export const PlayerInput: FunctionComponent = () => {
 
