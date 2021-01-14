@@ -1,10 +1,8 @@
 import React, { FunctionComponent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setPlayerName, setRoomId, toServer } from '../playerReducer';
-import { SmartInput, SubmitButton, ConnectionStatus } from '../../../common/components/'
-import { ConnectionMode } from '../../../common/constants/status';
+import { SmartInput, SubmitButton } from '../../../common/components/'
 import { Play } from './Play';
-import { RootState } from '../playerStore';
 
 export const PlayerInput: FunctionComponent = () => {
 
@@ -12,11 +10,8 @@ export const PlayerInput: FunctionComponent = () => {
     const [roomId, setId] = useState('');
     const dispatch = useDispatch()
 
-
     // Next component
     const [nextPage, setNext] = useState(true);
-
-    const { status } = useSelector((state: RootState) => state.player)
 
     return nextPage ? 
         <div className="join-room">
@@ -24,8 +19,8 @@ export const PlayerInput: FunctionComponent = () => {
                 <SmartInput onChange={ setName } placeholder={"player name.."} />
                 <SmartInput onChange={ setId } placeholder={"RoomId.."} />
                 <SubmitButton 
-                    onClick={() => {
-                        if(status === ConnectionMode.Connected){
+                    onClick={
+                        () => {
                             dispatch(setPlayerName(name))
                             dispatch({type: setRoomId, payload: roomId})
                             dispatch({
@@ -34,11 +29,10 @@ export const PlayerInput: FunctionComponent = () => {
                             })
                             setNext(false)
                         }
-                    }}
+                    }
                     value={"Submit"}
                 />
             </form>
-            <ConnectionStatus status={status}/>
         </div>
         :  <Play/>
 }

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { PlayerInput } from './pages/PlayerInput';
+import { PlayerLayout } from './PlayerLayout';
 import { useHistory } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './playerStore'
@@ -25,8 +25,7 @@ export const Player: FunctionComponent = () => {
     return (
         <Provider store={store}>
             <div className="player-page">
-                <h2>PlayerRoom</h2>
-                <PlayerInput />
+                <PlayerLayout />
             </div>
         </Provider>
     );

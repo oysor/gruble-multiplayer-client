@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { RoomName } from './pages/RoomName'
+import { RoomLayout } from './RoomLayout'
 import { Provider } from 'react-redux'
 import store from './roomStore'
 import { startRoomConnection, stopRoomConnection } from '../Room/roomStore'
@@ -25,8 +25,7 @@ export const Room: FunctionComponent = () => {
     return (
         <Provider store={store}>
             <div className="room-page">
-                <h2>GameRoom</h2>
-                <RoomName />
+                <RoomLayout/>
             </div>
         </Provider>
     );

@@ -1,33 +1,21 @@
-import React, {FunctionComponent, useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { FunctionComponent, useState } from 'react'
 import { TimeLimit } from '../TimeLimit'
-import { SmartInput, SubmitButton, ConnectionStatus } from '../../../../common/components/'
-import { ConnectionMode } from '../../../../common/constants/status';
-import { RootState } from '../../roomStore';
+import { SmartInput, SubmitButton } from '../../../../common/components/'
 
 export const RoomName: FunctionComponent = () => {
-    
+
     // Set room name
     const [name, setName] = useState('');
     // Next component
     const [nextPage, setNext] = useState(true);
 
-    const { status } = useSelector((state: RootState) => state.room)
-
-    return nextPage ? 
-        <div className="room-name"> 
+    return nextPage ?
+        <div className="room-name">
             <form>
                 <SmartInput onChange={setName} placeholder={"room name..."} />
-                <SubmitButton value="Submit" 
-                    onClick={
-                        () => {
-                            status === ConnectionMode.Connected ? setNext(false) : null
-                        }
-                    }
-                />
+                <SubmitButton value="Submit" onClick={() => setNext(false)} />
             </form>
-            <ConnectionStatus status={status} />
         </div>
-        : 
-        <TimeLimit name={name}/>;
+        :
+        <TimeLimit name={name} />;
 }
