@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { TimeLimit } from '../TimeLimit'
-import { SmartInput, SubmitInput, ConnectionStatus } from '../../../../common/components/'
+import { SmartInput, SubmitButton, ConnectionStatus } from '../../../../common/components/'
 import { ConnectionMode } from '../../../../common/constants/status';
 import { RootState } from '../../roomStore';
 
@@ -18,7 +18,7 @@ export const RoomName: FunctionComponent = () => {
         <div className="room-name"> 
             <form>
                 <SmartInput onChange={setName} placeholder={"room name..."} />
-                <SubmitInput value="Submit" 
+                <SubmitButton value="Submit" 
                     onClick={
                         () => {
                             status === ConnectionMode.Connected ? setNext(false) : null

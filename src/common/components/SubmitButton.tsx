@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 
-interface SubmitInputProps {
+interface SubmitButtonProps {
     onClick: () => void;
     value?: string
 }
 
-export const SubmitInput: FunctionComponent<SubmitInputProps> = ({ onClick, value="Submit" }) => {
+export const SubmitButton: FunctionComponent<SubmitButtonProps> = ({ onClick, value="Submit" }) => {
     return (
         <div className="submit-input">
             <input
@@ -19,4 +19,4 @@ export const SubmitInput: FunctionComponent<SubmitInputProps> = ({ onClick, valu
     )
 }
 
-export default SubmitInput;
+export default SubmitButton;

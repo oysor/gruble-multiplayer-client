@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { setPlayerName, setRoomId, toServer } from '../playerReducer';
-import { SmartInput, SubmitInput, ConnectionStatus } from '../../../common/components/'
+import { SmartInput, SubmitButton, ConnectionStatus } from '../../../common/components/'
 import { ConnectionMode } from '../../../common/constants/status';
 import { Play } from './Play';
 import { RootState } from '../playerStore';
@@ -23,7 +23,7 @@ export const PlayerInput: FunctionComponent = () => {
             <form>
                 <SmartInput onChange={ setName } placeholder={"player name.."} />
                 <SmartInput onChange={ setId } placeholder={"RoomId.."} />
-                <SubmitInput 
+                <SubmitButton 
                     onClick={() => {
                         if(status === ConnectionMode.Connected){
                             dispatch(setPlayerName(name))
