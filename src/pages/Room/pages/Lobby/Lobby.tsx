@@ -4,8 +4,8 @@ import { RootState } from '../../roomStore';
 
 export const Lobby: FunctionComponent = ( ) => {
 
-    const { timeLimit, maxUsers,roomId, lobbyName } = useSelector((state: RootState) => state.room)
-    const { messages } = useSelector((state: RootState) => state.room)
+    const { timeLimit, maxUsers,roomId, lobbyName } = useSelector((state: RootState) => state.room);
+    const { messages } = useSelector((state: RootState) => state.room);
 
     return (    
         <div className="room-lobby"> 

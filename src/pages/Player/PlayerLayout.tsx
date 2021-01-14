@@ -6,7 +6,7 @@ import { ConnectionStatus } from '../../common/components/'
 
 export const PlayerLayout: FunctionComponent = () => {
 
-    const { status } = useSelector((state: RootState) => state.player)
+    const { status } = useSelector((state: RootState) => state.player);
 
     return (
         <div className="player-layout">

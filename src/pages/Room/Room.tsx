@@ -10,7 +10,7 @@ export const Room: FunctionComponent = () => {
     // Start connection
     useEffect(() => {
         startRoomConnection()
-    })
+    });
 
     // End connection when going back (browser back button)
     const history = useHistory();
@@ -20,7 +20,7 @@ export const Room: FunctionComponent = () => {
                 stopRoomConnection()
             }
         })
-    })
+    });
 
     return (
         <Provider store={store}>

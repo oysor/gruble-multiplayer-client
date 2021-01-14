@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../playerStore'
-import { toServer } from '../playerReducer'
-import { SmartInput, SmartButton } from '../../../common/components/'
+import { RootState } from '../../playerStore'
+import { toServer } from '../../playerReducer'
+import { SmartInput, SmartButton } from '../../../../common/components/'
 
 export const Play: FunctionComponent = () => {
 
     // Set name
     const [msg, setMessage] = useState('');
 
-    const { name, message, roomId } = useSelector((state: RootState) => state.player)
-    const dispatch = useDispatch()
+    const { name, message, roomId } = useSelector((state: RootState) => state.player);
+    const dispatch = useDispatch();
 
     return (
         <div className="play">
@@ -18,7 +18,7 @@ export const Play: FunctionComponent = () => {
                 <SmartInput onChange={setMessage} placeholder={"message"} />
                 <SmartButton
                     onClick={
-                        (): void  => {
+                        () => {
                             dispatch({
                                 type: toServer.SendMessage,
                                 payload: { user: name, msg: msg, roomId: roomId }
@@ -39,7 +39,5 @@ export const Play: FunctionComponent = () => {
                 Message: {message}
             </div>
         </div>
-    )
+    );
 }
-
-export default Play;

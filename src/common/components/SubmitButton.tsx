@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 
 interface SubmitButtonProps {
     onClick: () => void;
-    value?: string
+    value?: string;
 }
 
 export const SubmitButton: FunctionComponent<SubmitButtonProps> = ({ onClick, value="Submit" }) => {
@@ -16,7 +16,5 @@ export const SubmitButton: FunctionComponent<SubmitButtonProps> = ({ onClick, va
                 }
             />
         </div>
-    )
+    );
 }
-
-export default SubmitButton;

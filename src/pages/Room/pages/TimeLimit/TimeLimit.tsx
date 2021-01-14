@@ -3,7 +3,7 @@ import { CreateRoom } from '../CreateRoom'
 import { SmartNumericInput, SubmitButton } from '../../../../common/components/'
 
 type TimeLimitProps  = {
-    name: string
+    name: string;
 }
 
 export const TimeLimit: FunctionComponent <TimeLimitProps>= ( props ) => {

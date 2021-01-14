@@ -6,7 +6,7 @@ import { ConnectionStatus } from '../../common/components/'
 
 export const RoomLayout: FunctionComponent = () => {
 
-    const { status } = useSelector((state: RootState) => state.room)
+    const { status } = useSelector((state: RootState) => state.room);
 
     return (
         <div className="room-layout">

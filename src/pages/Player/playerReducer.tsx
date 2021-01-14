@@ -3,10 +3,10 @@ import { ConnectionMode } from '../../common/constants/status'
 
 export interface playerState {
   name: string;
-  status : ConnectionMode
-  score: number
+  status: ConnectionMode;
+  score: number;
   message: string;
-  roomId: string
+  roomId: string;
 }
 
 const initialState: playerState = {
@@ -36,12 +36,12 @@ const playerSlice = createSlice({
   },
 })
 
-// communication to server
+// send to server
 export enum toServer {
   SendMessage = 'SendMessage',
   JoinRoom = 'JoinRoom'
 }
-
+// receive from server
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
   onPlayerJoined = "onPlayerJoined"

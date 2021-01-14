@@ -25,10 +25,10 @@ export async function startPlayerConnection(): Promise<void> {
         console.log(msg)
       })
 
-      hubConnection.on(fromServer.onPlayerJoined, (msg) => {
+    hubConnection.on(fromServer.onPlayerJoined, (msg) => {
         console.log("PLAYER JOINED ROOM")
         store.dispatch(newMessage(msg))
-      })
+    })
       
     hubConnection.on(fromServer.receiveMessage, (msg) => {
       console.log("RECEIVE MESSAGE")

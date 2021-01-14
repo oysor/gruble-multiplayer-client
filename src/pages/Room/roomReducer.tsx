@@ -5,13 +5,13 @@ import { ConnectionMode } from '../../common/constants/status'
 export interface RoomState {
   lobbyName: string;
   roomId: string;
-  timeLimit: number,
-  maxUsers: number,
+  timeLimit: number;
+  maxUsers: number;
   boardCategories: Array<string>;
   BoardCapitalLetters: Array<string>;
-  playerCount: number,
-  status: ConnectionMode,
-  connectionID: string,
+  playerCount: number;
+  status: ConnectionMode;
+  connectionID: string;
   messages: string;
 }
 
@@ -64,13 +64,13 @@ const roomSlice = createSlice({
 })
 
 
-// communication to server
+// send to server
 export enum roomToServer {
   CreateRoom = 'CreateRoom',
   JoinRoom = 'JoinRoom',
 }
 
-// communication from server
+// receive from server
 export enum fromServer {
   onCreateRoom = "onCreateGame",
   onPlayerJoined = "onPlayerJoined",

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 interface SmartButtonProps {
-    onClick: () => void
+    onClick: () => void;
 }
 
 export const SmartButton: FunctionComponent<SmartButtonProps> = ({ onClick, children }) => {
@@ -11,7 +11,5 @@ export const SmartButton: FunctionComponent<SmartButtonProps> = ({ onClick, chil
                 {children}
             </button>
         </div>
-    )
+    );
 }
-
-export default SmartButton;

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 
 interface SmartNumericInputProps {
     onChange: (value: number) => void;
-    value?: number
+    value?: number;
 }
 
 export const SmartNumericInput: FunctionComponent<SmartNumericInputProps> = ({ onChange, value = 10}) => {
@@ -17,7 +17,5 @@ export const SmartNumericInput: FunctionComponent<SmartNumericInputProps> = ({ o
                 }
             />
         </div>
-    )
+    );
 }
-
-export default SmartNumericInput;

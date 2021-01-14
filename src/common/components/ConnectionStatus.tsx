@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { ConnectionMode } from '../constants/status';
 
 interface ConnectionStatusProps {
-    status: ConnectionMode
+    status: ConnectionMode;
 }
 
 export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({ status }) => {
@@ -22,13 +22,11 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({ sta
             default:
                 return 'Unknown connection status'
         }
-    } 
+    };
 
     return (
         <div className="connection-status" > 
             <h2>{connectionStatus()}</h2>
         </div>
-    )
+    );
 }
-
-export default ConnectionStatus;

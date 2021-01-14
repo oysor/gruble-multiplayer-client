@@ -5,8 +5,8 @@ import { roomToServer } from '../../roomReducer'
 import { SmartButton } from '../../../../common/components/'
 
 type CreateRoomProps = {
-    name: string
-    time: number
+    name: string;
+    time: number;
 }
 
 export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
@@ -15,7 +15,7 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
     // Next component
     const [nextPage, setNext] = useState(true);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     return nextPage ?
         <div className="room-create">

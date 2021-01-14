@@ -10,7 +10,7 @@ export const Player: FunctionComponent = () => {
     // Start connection
     useEffect(() => {
         startPlayerConnection()
-    })
+    });
 
     const history = useHistory();
     // End connection when going back (browser back button)
@@ -20,7 +20,7 @@ export const Player: FunctionComponent = () => {
                 stopPlayerConnection()
             }
         })
-    })
+    });
 
     return (
         <Provider store={store}>
