@@ -1,4 +1,15 @@
 
+/*
+    Set color variables
+*/
+
+$input-color: #c4c4c4;
+$input-color-hover: #f4f2f1;
+
+
+/* ----------------------------- */
+
+
 html { box-sizing: border-box; } 
 
 * {box-sizing:border-box !important;}
@@ -34,7 +45,7 @@ input {
     font-size: 1rem;
     text-align: center;
     text-decoration: none;
-    background: #c4c4c4;
+    background: $input-color;
     padding: 1rem 2rem;
     margin: 0;
     color: black;
@@ -42,6 +53,6 @@ input {
 }
 
 
-input[type = submit]:hover {
-    background: #f4f2f1;
+input[type = button]:hover {
+    background: $input-color-hover;
 }

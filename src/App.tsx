@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from "react";
-import "./App.css"
-import { LandingPage } from './pages/LandingPage'
-
-import { Room } from './pages/Room'
-import { Player } from './pages/Player'
+import "./App.scss";
+import { LandingPage } from './pages/LandingPage';
+import { Room } from './pages/Room';
+import { Player } from './pages/Player';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 
