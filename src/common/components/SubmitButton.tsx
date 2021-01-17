@@ -7,14 +7,13 @@ interface SubmitButtonProps {
 
 export const SubmitButton: FunctionComponent<SubmitButtonProps> = ({ onClick, value="Submit" }) => {
     return (
-        <div className="submit-input">
             <input
+                className="submit-input"
                 type="button"
                 value={value}
                 onClick={
                     onClick
                 }
             />
-        </div>
     );
 }

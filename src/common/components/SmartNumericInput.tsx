@@ -7,8 +7,8 @@ interface SmartNumericInputProps {
 
 export const SmartNumericInput: FunctionComponent<SmartNumericInputProps> = ({ onChange, value = 10}) => {
     return (
-        <div className="smart-numeric-input">
             <input 
+                className="smart-numeric-input"
                 type="number" 
                 value={value}
                 step="any"
@@ -16,6 +16,5 @@ export const SmartNumericInput: FunctionComponent<SmartNumericInputProps> = ({ o
                     (ev: React.ChangeEvent<HTMLInputElement>,): void => onChange(parseInt(ev.target.value))
                 }
             />
-        </div>
     );
 }

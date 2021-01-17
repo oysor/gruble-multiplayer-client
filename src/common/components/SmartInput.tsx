@@ -5,16 +5,15 @@ interface SmartInputProps {
     placeholder?: string;
 }
 
-export const SmartInput: FunctionComponent<SmartInputProps> = ({ onChange, placeholder = "..."}) => {
+export const SmartInput: FunctionComponent<SmartInputProps> = ({ onChange, placeholder = "..." }) => {
     return (
-        <div className="smart-input">
-            <input
-                type="text"
-                placeholder={placeholder}
-                onChange={
-                    (ev: React.ChangeEvent<HTMLInputElement>,) => onChange(ev.target.value)
-                }
-            />
-        </div>
+        <input
+            className="smart-input"
+            type="text"
+            placeholder={placeholder}
+            onChange={
+                (ev: React.ChangeEvent<HTMLInputElement>,) => onChange(ev.target.value)
+            }
+        />
     );
 }

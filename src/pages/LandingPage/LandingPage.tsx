@@ -7,15 +7,11 @@ export const LandingPage: FunctionComponent = () => {
 
   return String(location.pathname) !== '/' ? null : (
     <div className="landing-page">
-      <Link to="/room">
-        <button>
-          Game room
-        </button >
+      <Link to="/room" className="router-link">
+          Game room 
       </Link>
-      <Link to="/player">
-        <button>
+      <Link to="/player" className="router-link">
           Player room
-        </button>
       </Link>
     </div>
   );

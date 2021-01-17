@@ -2,7 +2,8 @@ import React, { FunctionComponent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../playerStore'
 import { toServer } from '../../playerReducer'
-import { SmartInput, SmartButton } from '../../../../common/components/'
+import { SmartInput, SubmitButton } from '../../../../common/components/'
+import { ShowPlayerInput } from './components/ShowPlayerInput'
 
 export const Play: FunctionComponent = () => {
 
@@ -16,7 +17,7 @@ export const Play: FunctionComponent = () => {
         <div className="play">
             <form>
                 <SmartInput onChange={setMessage} placeholder={"message"} />
-                <SmartButton
+                <SubmitButton
                     onClick={
                         () => {
                             dispatch({
@@ -25,16 +26,10 @@ export const Play: FunctionComponent = () => {
 
                             })
                         }}
-                >
-                    Send
-                </SmartButton>
+                    value={"Send"}
+                />
             </form>
-            <div>
-                Player name: {name}
-            </div>
-            <div>
-                Room id: {roomId}
-            </div>
+            <ShowPlayerInput name={name} roomId={roomId} />
             <div>
                 Message: {message}
             </div>

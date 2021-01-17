@@ -15,7 +15,7 @@ export const PlayerInput: FunctionComponent = () => {
 
     return nextPage ?
         <div className="join-room">
-            <form>
+            <form className="input-join-room" >
                 <SmartInput onChange={setName} placeholder={"player name.."} />
                 <SmartInput onChange={setId} placeholder={"RoomId.."} />
                 <SubmitButton
@@ -30,7 +30,7 @@ export const PlayerInput: FunctionComponent = () => {
                             setNext(false)
                         }
                     }
-                    value={"Submit"}
+                    value={"Join room"}
                 />
             </form>
         </div>
