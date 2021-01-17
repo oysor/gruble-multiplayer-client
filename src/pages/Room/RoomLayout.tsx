@@ -2,8 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux';
 import { RoomName } from './pages/RoomName'
 import { RootState } from './roomStore';
-import { ConnectionStatus } from '../../common/components/'
-import { Timer } from'../../common/components/Timer'
+import { ConnectionStatus, Timer } from '../../common/components/'
 
 export const RoomLayout: FunctionComponent = (): JSX.Element => {
 

@@ -13,7 +13,6 @@ export interface RoomState {
   status: ConnectionMode;
   connectionID: string;
   messages: string;
-
   elapsedTime: number;
 }
 
@@ -28,7 +27,6 @@ const initialState: RoomState = {
   status: ConnectionMode.Connecting,
   connectionID: '',
   messages: '',
-
   elapsedTime: 0
 }
 
