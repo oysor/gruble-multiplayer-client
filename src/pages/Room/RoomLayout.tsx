@@ -7,8 +7,7 @@ import { Timer } from'../../common/components/Timer'
 
 export const RoomLayout: FunctionComponent = (): JSX.Element => {
 
-    const { status } = useSelector((state: RootState) => state.room);
-    const { elapsedTime } = useSelector((state: RootState) => state.room);
+    const { status, elapsedTime } = useSelector((state: RootState) => state.room);
 
     return (
         <div className="room-layout">
