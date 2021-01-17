@@ -13,6 +13,8 @@ export interface RoomState {
   status: ConnectionMode;
   connectionID: string;
   messages: string;
+
+  elapsedTime: number;
 }
 
 const initialState: RoomState = {
@@ -25,7 +27,9 @@ const initialState: RoomState = {
   playerCount: 0,
   status: ConnectionMode.Connecting,
   connectionID: '',
-  messages: ''
+  messages: '',
+
+  elapsedTime: 0
 }
 
 const roomSlice = createSlice({
@@ -53,13 +57,16 @@ const roomSlice = createSlice({
       state.timeLimit = action.payload.timeLimit
       state.maxUsers = action.payload.maxUsers
       console.log("Reducer: timeLimit: ", action.payload.timeLimit)
-      
+
       console.log("Reducer: createNewRoom: ", action.payload)
     },
     // receiveMessageRoom: (state, action) => {
     //   state.messages = String(action.payload)
     //   console.log("Reducer: receiveMessage: ", action.payload)
     // }
+    setTimeElapsed: (state, action) => {
+      state.elapsedTime = action.payload
+    }
   },
 })
 
@@ -76,7 +83,7 @@ export enum fromServer {
   onPlayerJoined = "onPlayerJoined",
   PlayerJoinedRoom = 'PlayerJoinedRoom',
   ReceiveMessage = "ReceiveMessage"
-  
+
 }
 
 // import the actions where you want to dispatch them.
@@ -86,6 +93,7 @@ export const {
   setStatus,
   newMessage,
   setConnectionID,
+  setTimeElapsed
   // receiveMessageRoom
 } = roomSlice.actions
 

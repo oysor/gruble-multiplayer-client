@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import roomReducer, {roomToServer, fromServer, setStatus, roomCreated, newMessage} from './roomReducer'
+import roomReducer, { roomToServer, fromServer, setStatus, roomCreated, newMessage, setTimeElapsed } from './roomReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -12,9 +12,9 @@ const hubConnection = new signalR.HubConnectionBuilder()
   .build();
 
 type User = {
-    name:string,
-    connectionId: string,
-    role: number
+  name: string,
+  connectionId: string,
+  role: number
 }
 
 type CreateGameProps = {
@@ -22,8 +22,8 @@ type CreateGameProps = {
   lobbyName: string,
   timeLimit: number,
   maxUsers: number,
-  users: [ User ] 
-} 
+  users: [User]
+}
 
 /**
  *   START CONNECTION METHOD - add singnalR 'on' here
@@ -33,10 +33,6 @@ export async function startRoomConnection(): Promise<void> {
     await hubConnection.start();
     console.log("***** ROOM connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
-
-    hubConnection.on("onTimerCount", (msg) => {
-      console.log(msg)
-    })
 
     hubConnection.on(fromServer.onCreateRoom, (msg: CreateGameProps) => {
       console.log("onCreateGame", msg)
@@ -51,8 +47,14 @@ export async function startRoomConnection(): Promise<void> {
     hubConnection.on(fromServer.ReceiveMessage, (msg, msg2) => {
       console.log("RECEIVE MESSAGE")
       console.log(msg, msg2)
-      const combinedMessage = (msg + " says " + msg2) 
+      const combinedMessage = (msg + " says " + msg2)
       store.dispatch(newMessage(combinedMessage))
+    })
+
+    hubConnection.on("onTimerCount", (timeElapsed) => {
+      console.log("TIMER ELAPSED")
+      console.log(timeElapsed)
+      store.dispatch(setTimeElapsed(timeElapsed))
     })
 
   } catch (err) {
@@ -66,19 +68,19 @@ export async function startRoomConnection(): Promise<void> {
 // hubConnection.onclose(startRoomConnection);
 
 hubConnection.onreconnecting(error => {
-    console.log( "Connection lost due to error "+{error}+". Reconnecting")
-    store.dispatch(setStatus(ConnectionMode.Reconnecting))
+  console.log("Connection lost due to error " + { error } + ". Reconnecting")
+  store.dispatch(setStatus(ConnectionMode.Reconnecting))
 });
 
 hubConnection.onreconnected(error => {
-  console.log( "Reconnected! "+ error)
+  console.log("Reconnected! " + error)
   store.dispatch(setStatus(ConnectionMode.Connected))
 });
 
 export async function stopRoomConnection(): Promise<void> {
-    hubConnection.stop()
-    store.dispatch(setStatus(ConnectionMode.Disconnected))
-}  
+  hubConnection.stop()
+  store.dispatch(setStatus(ConnectionMode.Disconnected))
+}
 
 // Starts the signalR connection
 // start();
@@ -88,28 +90,28 @@ export async function stopRoomConnection(): Promise<void> {
  */
 export const homeMadeMiddleware: Middleware = store => next => async action => {
 
-    console.log("...Middleware...")
+  console.log("...Middleware...")
 
-    if (action.type === roomToServer.CreateRoom) {
-      hubConnection.invoke(roomToServer.CreateRoom, action.payload)
-      console.log(action.payload)
-      console.log("CREATE NEW ROOM")
-    }
+  if (action.type === roomToServer.CreateRoom) {
+    hubConnection.invoke(roomToServer.CreateRoom, action.payload)
+    console.log(action.payload)
+    console.log("CREATE NEW ROOM")
+  }
 
-    console.log(store.getState);
+  console.log(store.getState);
 
-    return next(action);
+  return next(action);
 };
 
 /**
  *   STORE
  */
 const store = configureStore({
-    reducer: {
-        room: roomReducer,
-    },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(homeMadeMiddleware).concat(logger),
-    devTools: process.env.NODE_ENV !== 'production',
+  reducer: {
+    room: roomReducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(homeMadeMiddleware).concat(logger),
+  devTools: process.env.NODE_ENV !== 'production',
 })
 
 
