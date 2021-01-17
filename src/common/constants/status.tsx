@@ -5,6 +5,9 @@ export enum LoadingMode {
   Idle = 'IDLE'
 }
 
+/**
+ * Enum containing all possible connection status types.
+ */
 export enum ConnectionMode {
   Connecting = 'CONNECTING',
   Connected = 'CONNECTED',

@@ -10,23 +10,21 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({ sta
     const connectionStatus = () => {
         switch (status) {
             case ConnectionMode.Connecting:
-                return 'Connecting...'
+                return <span style={{color: "grey"}}>Connecting...</span>
             case ConnectionMode.Disconnected:
-                return 'Disconnected'
+                return <span style={{color: "black"}}>Disconnected</span>
             case ConnectionMode.Reconnecting:
-                return 'Reconnecting'
+                return <span style={{color: "grey"}}>Reconnecting...</span>
             case ConnectionMode.Connected:
-                return 'Connected'
+                return <span style={{color: "green"}}>Connected</span>
             case ConnectionMode.Failed:
-                return 'Connection Failed'
-            default:
-                return 'Unknown connection status'
+                return <span style={{color: "red"}}>Connection Failed</span>
         }
     };
 
     return (
         <div className="connection-status" > 
-            <h2>{connectionStatus()}</h2>
+            {connectionStatus()}
         </div>
     );
 }
