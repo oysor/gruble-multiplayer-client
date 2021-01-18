@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ConnectionMode } from '../../common/constants/status'
-
+import {  CommonStates, initialCommonState } from '../../common/components/CommonStates'
 
 export interface RoomState {
   lobbyName: string;
@@ -9,11 +8,12 @@ export interface RoomState {
   maxUsers: number;
   boardCategories: Array<string>;
   BoardCapitalLetters: Array<string>;
-  playerCount: number;
-  status: ConnectionMode;
+  //playerCount: number;
+  //status: ConnectionMode;
   connectionID: string;
   messages: string;
-  elapsedTime: number;
+  //elapsedTime: number;
+  commonstates: CommonStates;
 }
 
 const initialState: RoomState = {
@@ -23,11 +23,9 @@ const initialState: RoomState = {
   maxUsers: 0,
   boardCategories: [],
   BoardCapitalLetters: [],
-  playerCount: 0,
-  status: ConnectionMode.Connecting,
   connectionID: '',
   messages: '',
-  elapsedTime: 0
+  commonstates: initialCommonState
 }
 
 const roomSlice = createSlice({
@@ -43,7 +41,7 @@ const roomSlice = createSlice({
       state.messages = action.payload
     },
     setStatus: (state, action) => {
-      state.status = action.payload
+      state.commonstates.status = action.payload
     },
     setConnectionID: (state, action) => {
       console.log("CONNECTION ID CALLED")
@@ -63,7 +61,7 @@ const roomSlice = createSlice({
     //   console.log("Reducer: receiveMessage: ", action.payload)
     // }
     setTimeElapsed: (state, action) => {
-      state.elapsedTime = action.payload
+      state.commonstates.elapsedTime = action.payload
     }
   },
 })
