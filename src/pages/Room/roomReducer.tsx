@@ -59,7 +59,8 @@ export enum toServer {
 export enum fromServer {
   onCreateRoom = "onCreateGame",
   onPlayerJoined = "onPlayerJoined",
-  ReceiveMessage = "ReceiveMessage"
+  ReceiveMessage = "ReceiveMessage",
+  onTimerElapsed = "onTimerCount"
 }
 
 // import the actions where you want to dispatch them.

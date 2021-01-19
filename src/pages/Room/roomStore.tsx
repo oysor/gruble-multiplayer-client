@@ -47,7 +47,7 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(newMessage(combinedMessage))
     })
 
-    hubConnection.on("onTimerCount", (timeElapsed) => {
+    hubConnection.on(fromServer.onTimerCount, (timeElapsed) => {
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 
