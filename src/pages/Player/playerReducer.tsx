@@ -3,36 +3,36 @@ import { ConnectionMode } from '../../common/constants/status'
 
 export interface playerState {
   name: string;
-  status: ConnectionMode;
-  score: number;
-  message: string;
   roomId: string;
+  status: ConnectionMode;
+  message: string;
 }
 
 const initialState: playerState = {
   name: '',
+  roomId: '',
   status: ConnectionMode.Connecting,
-  score: 0,
   message: '',
-  roomId: ''
 }
 
 const playerSlice = createSlice({
   name: 'player',
   initialState,
+  // Create methods here to update the store. 
   reducers: {
-    newMessage: (state, action) => {
-      state.message = action.payload
-    },
     setStatus: (state, action) => {
       state.status = action.payload
     },
     setPlayerName: (state, action) => {
       state.name = action.payload
     },
+    // Room which the player has joined.
     setRoomId: (state, action) => {
       state.roomId = action.payload
-    }
+    },
+    newMessage: (state, action) => {
+      state.message = action.payload
+    },
   },
 })
 
@@ -48,9 +48,9 @@ export enum fromServer {
 }
 
 export const {
+  setStatus,
   setPlayerName,
   setRoomId,
-  setStatus,
   newMessage
 } = playerSlice.actions
 

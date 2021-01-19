@@ -35,25 +35,19 @@ export async function startRoomConnection(): Promise<void> {
     store.dispatch(setStatus(ConnectionMode.Connected))
 
     hubConnection.on(fromServer.onCreateRoom, (msg: CreateGameProps) => {
-      console.log("onCreateGame", msg)
       store.dispatch(roomCreated(msg))
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (msg) => {
-      console.log("PLAYER JOINED ROOM")
       store.dispatch(newMessage(msg))
     })
 
     hubConnection.on(fromServer.ReceiveMessage, (msg, msg2) => {
-      console.log("RECEIVE MESSAGE")
-      console.log(msg, msg2)
       const combinedMessage = (msg + " says " + msg2)
       store.dispatch(newMessage(combinedMessage))
     })
 
     hubConnection.on("onTimerCount", (timeElapsed) => {
-      console.log("TIMER ELAPSED")
-      console.log(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 
@@ -82,9 +76,6 @@ export async function stopRoomConnection(): Promise<void> {
   store.dispatch(setStatus(ConnectionMode.Disconnected))
 }
 
-// Starts the signalR connection
-// start();
-
 /**
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
@@ -94,8 +85,6 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
 
   if (action.type === toServer.CreateRoom) {
     hubConnection.invoke(toServer.CreateRoom, action.payload)
-    console.log(action.payload)
-    console.log("CREATE NEW ROOM")
   }
 
   console.log(store.getState);

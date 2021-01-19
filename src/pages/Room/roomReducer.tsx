@@ -26,8 +26,8 @@ const initialState: RoomState = {
 const roomSlice = createSlice({
   name: 'room',
   initialState,
+  // Create methods here to update the store. 
   reducers: {
-    // Create methods here to update the store. 
     setStatus: (state, action) => {
       state.status = action.payload
     },
