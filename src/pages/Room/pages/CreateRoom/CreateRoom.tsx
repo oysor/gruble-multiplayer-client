@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
-import { roomToServer } from '../../roomReducer'
+import { toServer } from '../../roomReducer'
 import { Button } from '../../../../common/components/'
 
 import { ShowRoomInput } from './components/ShowRoomInput'
@@ -24,7 +24,7 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
             <ShowRoomInput name={name} time={time}/>
             <Button
                 onClick={() => {
-                    dispatch({ type: roomToServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time } })
+                    dispatch({ type: toServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time } })
                     setNext(false)
                 }}
             >

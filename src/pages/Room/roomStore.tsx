@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import roomReducer, { roomToServer, fromServer, setStatus, roomCreated, newMessage, setTimeElapsed } from './roomReducer'
+import roomReducer, { toServer, fromServer, setStatus, roomCreated, newMessage, setTimeElapsed } from './roomReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -92,8 +92,8 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
 
   console.log("...Middleware...")
 
-  if (action.type === roomToServer.CreateRoom) {
-    hubConnection.invoke(roomToServer.CreateRoom, action.payload)
+  if (action.type === toServer.CreateRoom) {
+    hubConnection.invoke(toServer.CreateRoom, action.payload)
     console.log(action.payload)
     console.log("CREATE NEW ROOM")
   }
