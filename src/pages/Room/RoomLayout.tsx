@@ -6,14 +6,14 @@ import { ConnectionStatus, Timer } from '../../common/components/'
 
 export const RoomLayout: FunctionComponent = ()  => {
 
-    const { commonstates } = useSelector((state: RootState) => state.room);
+    const { sharedStates } = useSelector((state: RootState) => state.room);
 
     return (
         <div className="room-layout">
             <h1>GameRoom</h1>
             <RoomName />
-            <ConnectionStatus status={commonstates.status} />
-            <Timer elapsedTime={commonstates.elapsedTime} ></Timer>
+            <ConnectionStatus status={sharedStates.status} />
+            <Timer elapsedTime={sharedStates.elapsedTime} ></Timer>
         </div>
     );
 }
