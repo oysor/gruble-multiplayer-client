@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ConnectionMode } from '../../common/constants/status'
+import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface playerState {
   name: string;
-  status: ConnectionMode;
   score: number;
   message: string;
   roomId: string;
+  commonStates: CommonStates;
 }
 
 const initialState: playerState = {
   name: '',
-  status: ConnectionMode.Connecting,
   score: 0,
   message: '',
-  roomId: ''
+  roomId: '',
+  commonStates: initialCommonStates
 }
 
 const playerSlice = createSlice({
@@ -25,7 +25,7 @@ const playerSlice = createSlice({
       state.message = action.payload
     },
     setStatus: (state, action) => {
-      state.status = action.payload
+      state.commonStates.status = action.payload
     },
     setPlayerName: (state, action) => {
       state.name = action.payload

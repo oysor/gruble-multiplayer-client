@@ -6,13 +6,13 @@ import { ConnectionStatus } from '../../common/components/'
 
 export const PlayerLayout: FunctionComponent = () => {
 
-    const { status } = useSelector((state: RootState) => state.player);
+    const { commonStates } = useSelector((state: RootState) => state.player);
 
     return (
         <div className="player-layout">
             <h1>PlayerRoom</h1>
             <PlayerInput />
-            <ConnectionStatus status={status} />
+            <ConnectionStatus status={ commonStates.status } />
         </div>
     );
 }
