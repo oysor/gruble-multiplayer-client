@@ -20,6 +20,10 @@ const config: webpack.Configuration = {
           },
         },
       },
+      { 
+        test: /\.scss$/, 
+        use: ["style-loader", "css-loader", "sass-loader"], 
+      },
     ],
   },
   resolve: {
@@ -28,11 +32,13 @@ const config: webpack.Configuration = {
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "bundle.js",
+    publicPath: '/'
   },
   devServer: {
     contentBase: path.join(__dirname, "build"),
     compress: true,
     port: 4000,
+    historyApiFallback: true,
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({

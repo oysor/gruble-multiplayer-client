@@ -1,0 +1,64 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { CommonStates, initialCommonStates } from '../../common/constants/'
+
+export interface playerState {
+  name: string;
+  message: string;
+  roomId: string;
+  commonStates: CommonStates;
+}
+
+const initialState: playerState = {
+  name: '',
+  message: '',
+  roomId: '',
+  commonStates: initialCommonStates
+}
+
+const playerSlice = createSlice({
+  name: 'player',
+  initialState,
+  // Create methods here to update the store. 
+  reducers: {
+    setStatus: (state, action) => {
+      state.commonStates.status = action.payload
+    },
+    setPlayerName: (state, action) => {
+      state.name = action.payload
+    },
+    // Room which the player has joined.
+    setRoomId: (state, action) => {
+      state.roomId = action.payload
+    },
+    setTimeElapsed: (state, action) => {
+      state.commonStates.elapsedTime = action.payload
+    },
+    newMessage: (state, action) => {
+      state.message = action.payload
+    },
+  },
+})
+
+// send to server
+export enum toServer {
+  SendMessage = 'SendMessage',
+  JoinRoom = 'JoinRoom'
+}
+// receive from server
+export enum fromServer {
+  receiveMessage = 'ReceiveMessage',
+  onPlayerJoined = "onPlayerJoined",
+  onTimerElapsed = "onTimerCount"
+}
+
+export const {
+  setStatus,
+  setPlayerName,
+  setRoomId,
+  setTimeElapsed,
+  newMessage
+} = playerSlice.actions
+
+export default playerSlice.reducer
+
+

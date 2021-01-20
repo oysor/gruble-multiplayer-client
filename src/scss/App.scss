@@ -1,0 +1,130 @@
+/*
+    Set color variables
+*/
+
+$input-color: #c4c4c4;
+$input-color-hover: #f4f2f1;
+
+
+$btnColor: #fff;
+
+
+/* ----------------------------- */
+
+
+
+* {box-sizing:border-box !important;}
+
+
+html, body, #root {
+    height: 100%;
+}
+
+.App {
+    height: 100%;
+}
+
+.landing-page{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.room-page, .player-page  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.smart-input,
+.smart-numeric-input,
+.submit-input {
+    display: inline-block;
+    border: none;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    background: $input-color;
+    padding: 1rem 2rem;
+    margin: 0;
+    color: black;
+    border: 1px solid black;
+}
+
+.smart-numeric-input,
+.smart-numeric-input,
+.submit-input[type = button]:hover {
+    background: $input-color-hover;
+}
+
+
+a.router-link {
+    text-decoration: none;
+}
+
+button.button,
+a.router-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    // border: none;
+    border: 1px solid black;
+    font-family: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+
+    background-color: $btnColor;
+    color: black;
+    border-radius: 16px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
+
+    padding: 0.25em 0.75em;
+    min-width: 10ch;
+    min-height: 44px;
+
+    text-align: center;
+    line-height: 1.1;
+
+    &:hover,
+    &:active {
+        background-color: scale-color($btnColor, $lightness: -20%);
+      }
+
+    transition: 220ms all ease-in-out;
+
+    &:focus {
+        outline-style: solid;
+        outline-color: transparent;
+        box-shadow: 0 0 0 4px scale-color($btnColor, $lightness: -40%);
+      }
+
+    @media screen and (-ms-high-contrast: active) {
+        border: 2px solid currentcolor;
+      }
+} 
+
+.room-create {
+    display: inline-flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+form.input-join-room {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.show-room-input,
+.show-player-input{
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.connection-status {
+    padding: 1rem 0rem 1rem 0rem;
+}
