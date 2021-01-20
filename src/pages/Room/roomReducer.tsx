@@ -1,26 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ConnectionMode } from '../../common/constants/status'
+import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface RoomState {
   lobbyName: string;
   roomId: string;
-  status: ConnectionMode;
   maxUsers: number;
-  playerCount: number;
-  timeLimit: number;
-  elapsedTime: number;
   messages: string;
+  timeLimit: number;
+  commonStates: CommonStates;
 }
 
 const initialState: RoomState = {
   lobbyName: '',
   roomId: '',
-  status: ConnectionMode.Connecting,
   maxUsers: 0,
-  playerCount: 0,
-  timeLimit: 0,
-  elapsedTime: 0,
   messages: '',
+  timeLimit: 0,
+  commonStates: initialCommonStates
 }
 
 const roomSlice = createSlice({
@@ -29,7 +25,7 @@ const roomSlice = createSlice({
   // Create methods here to update the store. 
   reducers: {
     setStatus: (state, action) => {
-      state.status = action.payload
+      state.commonStates.status = action.payload
     },
     setRoomName: (state, action) => {
       state.lobbyName = action.payload
@@ -41,14 +37,13 @@ const roomSlice = createSlice({
       state.maxUsers = action.payload.maxUsers
     },
     setTimeElapsed: (state, action) => {
-      state.elapsedTime = action.payload
+      state.commonStates.elapsedTime = action.payload
     },
     newMessage: (state, action) => {
       state.messages = action.payload
     },
   },
 })
-
 
 // send to server
 export enum toServer {

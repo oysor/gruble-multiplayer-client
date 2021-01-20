@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { ConnectionMode } from '../../common/constants/status'
+import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface playerState {
   name: string;
-  roomId: string;
-  status: ConnectionMode;
   message: string;
+  roomId: string;
+  commonStates: CommonStates;
 }
 
 const initialState: playerState = {
   name: '',
-  roomId: '',
-  status: ConnectionMode.Connecting,
   message: '',
+  roomId: '',
+  commonStates: initialCommonStates
 }
 
 const playerSlice = createSlice({
@@ -21,7 +21,7 @@ const playerSlice = createSlice({
   // Create methods here to update the store. 
   reducers: {
     setStatus: (state, action) => {
-      state.status = action.payload
+      state.commonStates.status = action.payload
     },
     setPlayerName: (state, action) => {
       state.name = action.payload
