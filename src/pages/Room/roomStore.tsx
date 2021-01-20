@@ -11,19 +11,6 @@ const hubConnection = new signalR.HubConnectionBuilder()
   .configureLogging(signalR.LogLevel.Information)
   .build();
 
-type User = {
-  name: string,
-  connectionId: string,
-  role: number
-}
-
-type CreateGameProps = {
-  roomId: string,
-  lobbyName: string,
-  timeLimit: number,
-  maxUsers: number,
-  users: [User]
-}
 
 /**
  *   START CONNECTION METHOD - add singnalR 'on' here
@@ -34,7 +21,7 @@ export async function startRoomConnection(): Promise<void> {
     console.log("***** ROOM connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
 
-    hubConnection.on(fromServer.onCreateRoom, (msg: CreateGameProps) => {
+    hubConnection.on(fromServer.onCreateRoom, (msg) => {
       store.dispatch(roomCreated(msg))
     })
 
@@ -42,9 +29,8 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(newMessage(msg))
     })
 
-    hubConnection.on(fromServer.ReceiveMessage, (msg, msg2) => {
-      const combinedMessage = (msg + " says " + msg2)
-      store.dispatch(newMessage(combinedMessage))
+    hubConnection.on(fromServer.ReceiveMessage, (msg) => {
+      store.dispatch(newMessage(msg))
     })
 
     hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {

@@ -44,7 +44,8 @@ export enum toServer {
 // receive from server
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
-  onPlayerJoined = "onPlayerJoined"
+  onPlayerJoined = "onPlayerJoined",
+  onTimerElapsed = "onTimerCount"
 }
 
 export const {

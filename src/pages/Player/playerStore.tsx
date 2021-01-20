@@ -21,7 +21,7 @@ export async function startPlayerConnection(): Promise<void> {
     console.log("***** PLAYER connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
 
-    hubConnection.on("onTimerCount", (msg) => {
+    hubConnection.on(fromServer.onTimerElapsed, (msg) => {
       console.log(msg)
     })
 
@@ -71,8 +71,6 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
 
   // TODO
   if (action.type === toServer.SendMessage) {
-    //   console.log(action.payload.user, action.payload.msg, action.payload.roomId)
-    //   hubConnection.invoke(toServer.SendMessage, action.payload.user, action.payload.msg, action.payload.roomId)
     console.log("SEND MESSAGE -- not sending")
   }
 
