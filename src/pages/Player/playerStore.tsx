@@ -22,16 +22,14 @@ export async function startPlayerConnection(): Promise<void> {
     store.dispatch(setStatus(ConnectionMode.Connected))
 
     hubConnection.on("onTimerCount", (msg) => {
-        console.log(msg)
-      })
+      console.log(msg)
+    })
 
     hubConnection.on(fromServer.onPlayerJoined, (msg) => {
-        console.log("PLAYER JOINED ROOM")
-        store.dispatch(newMessage(msg))
+      store.dispatch(newMessage(msg))
     })
-      
+
     hubConnection.on(fromServer.receiveMessage, (msg) => {
-      console.log("RECEIVE MESSAGE")
       store.dispatch(newMessage(msg))
     })
 
@@ -46,57 +44,52 @@ export async function startPlayerConnection(): Promise<void> {
 // hubConnection.onclose(startPlayerConnection);
 
 hubConnection.onreconnecting(error => {
-    console.log( "Connection lost due to error "+{error}+". Reconnecting")
-    store.dispatch(setStatus(ConnectionMode.Reconnecting))
+  console.log("Connection lost due to error " + { error } + ". Reconnecting")
+  store.dispatch(setStatus(ConnectionMode.Reconnecting))
 });
 
 hubConnection.onreconnected(error => {
-  console.log( "Reconnected! "+ error)
+  console.log("Reconnected! " + error)
   store.dispatch(setStatus(ConnectionMode.Connected))
 });
 
 export async function stopPlayerConnection(): Promise<void> {
-    hubConnection.stop()
-    store.dispatch(setStatus(ConnectionMode.Disconnected))
+  hubConnection.stop()
+  store.dispatch(setStatus(ConnectionMode.Disconnected))
 }
-
-// Starts the signalR connection
-// start();
 
 /**
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
 export const homeMadeMiddleware: Middleware = store => next => async action => {
 
-    console.log("...Middleware...")
+  console.log("...Middleware...")
 
-    if (action.type === toServer.JoinRoom) {
-      hubConnection.invoke(toServer.JoinRoom, action.payload.roomName, action.payload.playerName)
-      console.log("JOIN ROOM")
-    }
+  if (action.type === toServer.JoinRoom) {
+    hubConnection.invoke(toServer.JoinRoom, action.payload.roomName, action.payload.playerName)
+  }
 
-    // TODO
-    if (action.type === toServer.SendMessage) {
-      console.log(action.payload.user, action.payload.msg, action.payload.roomId)
+  // TODO
+  if (action.type === toServer.SendMessage) {
+    //   console.log(action.payload.user, action.payload.msg, action.payload.roomId)
     //   hubConnection.invoke(toServer.SendMessage, action.payload.user, action.payload.msg, action.payload.roomId)
-      console.log("SEND MESSAGE -- not sending")
-    }
+    console.log("SEND MESSAGE -- not sending")
+  }
 
+  console.log(store.getState);
 
-    console.log(store.getState);
-
-    return next(action);
+  return next(action);
 };
 
 /**
  *   STORE
  */
 const store = configureStore({
-    reducer: {
-        player: playerReducer,
-    },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(homeMadeMiddleware).concat(logger),
-    devTools: process.env.NODE_ENV !== 'production',
+  reducer: {
+    player: playerReducer,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(homeMadeMiddleware).concat(logger),
+  devTools: process.env.NODE_ENV !== 'production',
 })
 
 

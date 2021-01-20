@@ -3,7 +3,6 @@ import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface playerState {
   name: string;
-  score: number;
   message: string;
   roomId: string;
   commonStates: CommonStates;
@@ -11,7 +10,6 @@ export interface playerState {
 
 const initialState: playerState = {
   name: '',
-  score: 0,
   message: '',
   roomId: '',
   commonStates: initialCommonStates
@@ -20,19 +18,21 @@ const initialState: playerState = {
 const playerSlice = createSlice({
   name: 'player',
   initialState,
+  // Create methods here to update the store. 
   reducers: {
-    newMessage: (state, action) => {
-      state.message = action.payload
-    },
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
     setPlayerName: (state, action) => {
       state.name = action.payload
     },
+    // Room which the player has joined.
     setRoomId: (state, action) => {
       state.roomId = action.payload
-    }
+    },
+    newMessage: (state, action) => {
+      state.message = action.payload
+    },
   },
 })
 
@@ -48,9 +48,9 @@ export enum fromServer {
 }
 
 export const {
+  setStatus,
   setPlayerName,
   setRoomId,
-  setStatus,
   newMessage
 } = playerSlice.actions
 

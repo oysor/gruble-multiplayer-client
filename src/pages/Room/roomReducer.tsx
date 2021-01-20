@@ -4,90 +4,67 @@ import { CommonStates, initialCommonStates } from '../../common/constants/'
 export interface RoomState {
   lobbyName: string;
   roomId: string;
-  timeLimit: number;
   maxUsers: number;
-  boardCategories: Array<string>;
-  BoardCapitalLetters: Array<string>;
-  connectionID: string;
   messages: string;
+  timeLimit: number;
   commonStates: CommonStates;
 }
 
 const initialState: RoomState = {
   lobbyName: '',
   roomId: '',
-  timeLimit: 0,
   maxUsers: 0,
-  boardCategories: [],
-  BoardCapitalLetters: [],
-  connectionID: '',
   messages: '',
+  timeLimit: 0,
   commonStates: initialCommonStates
 }
 
 const roomSlice = createSlice({
   name: 'room',
   initialState,
+  // Create methods here to update the store. 
   reducers: {
-    // Create methods here to update the store. 
-    setRoomName: (state, action) => {
-      state.lobbyName = action.payload
-    },
-    newMessage: (state, action) => {
-      console.log("NEW MESSSAGE")
-      state.messages = action.payload
-    },
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
-    setConnectionID: (state, action) => {
-      console.log("CONNECTION ID CALLED")
-      state.connectionID = action.payload
+    setRoomName: (state, action) => {
+      state.lobbyName = action.payload
     },
     roomCreated: (state, action) => {
       state.roomId = action.payload.roomName
       state.lobbyName = action.payload.lobbyName
       state.timeLimit = action.payload.timeLimit
       state.maxUsers = action.payload.maxUsers
-      console.log("Reducer: timeLimit: ", action.payload.timeLimit)
-
-      console.log("Reducer: createNewRoom: ", action.payload)
     },
-    // receiveMessageRoom: (state, action) => {
-    //   state.messages = String(action.payload)
-    //   console.log("Reducer: receiveMessage: ", action.payload)
-    // }
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
-    }
+    },
+    newMessage: (state, action) => {
+      state.messages = action.payload
+    },
   },
 })
 
-
 // send to server
-export enum roomToServer {
+export enum toServer {
   CreateRoom = 'CreateRoom',
-  JoinRoom = 'JoinRoom',
 }
 
 // receive from server
 export enum fromServer {
   onCreateRoom = "onCreateGame",
   onPlayerJoined = "onPlayerJoined",
-  PlayerJoinedRoom = 'PlayerJoinedRoom',
-  ReceiveMessage = "ReceiveMessage"
-
+  ReceiveMessage = "ReceiveMessage",
+  onTimerElapsed = "onTimerCount"
 }
 
 // import the actions where you want to dispatch them.
 export const {
-  roomCreated,
-  setRoomName,
   setStatus,
+  setRoomName,
+  roomCreated,
+  setTimeElapsed,
   newMessage,
-  setConnectionID,
-  setTimeElapsed
-  // receiveMessageRoom
 } = roomSlice.actions
 
 export default roomSlice.reducer
