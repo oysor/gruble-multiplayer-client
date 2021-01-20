@@ -30,6 +30,9 @@ const playerSlice = createSlice({
     setRoomId: (state, action) => {
       state.roomId = action.payload
     },
+    setTimeElapsed: (state, action) => {
+      state.commonStates.elapsedTime = action.payload
+    },
     newMessage: (state, action) => {
       state.message = action.payload
     },
@@ -52,6 +55,7 @@ export const {
   setStatus,
   setPlayerName,
   setRoomId,
+  setTimeElapsed,
   newMessage
 } = playerSlice.actions
 

@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import playerReducer, { toServer, fromServer, setStatus, newMessage } from './playerReducer'
+import playerReducer, { toServer, fromServer, setStatus, newMessage, setTimeElapsed } from './playerReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -21,16 +21,16 @@ export async function startPlayerConnection(): Promise<void> {
     console.log("***** PLAYER connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
 
-    hubConnection.on(fromServer.onTimerElapsed, (msg) => {
-      console.log(msg)
-    })
-
     hubConnection.on(fromServer.onPlayerJoined, (msg) => {
       store.dispatch(newMessage(msg))
     })
 
     hubConnection.on(fromServer.receiveMessage, (msg) => {
       store.dispatch(newMessage(msg))
+    })
+
+    hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {
+      store.dispatch(setTimeElapsed(timeElapsed))
     })
 
   } catch (err) {

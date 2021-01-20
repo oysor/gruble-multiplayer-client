@@ -4,7 +4,7 @@ interface TimeProps {
     elapsedTime: number;
 }
 
-export const Timer: FunctionComponent<TimeProps> = ({elapsedTime}) => {
+export const Timer: FunctionComponent<TimeProps> = ({ elapsedTime }) => {
 
     return (
         <div className="timer" >

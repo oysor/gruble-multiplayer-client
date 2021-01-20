@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux';
 import { PlayerInput } from './pages/PlayerInput'
 import { RootState } from './playerStore';
-import { ConnectionStatus } from '../../common/components/'
+import { ConnectionStatus, Timer } from '../../common/components/'
 
 export const PlayerLayout: FunctionComponent = () => {
 
@@ -13,6 +13,7 @@ export const PlayerLayout: FunctionComponent = () => {
             <h1>PlayerRoom</h1>
             <PlayerInput />
             <ConnectionStatus status={ commonStates.status } />
+            <Timer elapsedTime={ commonStates.elapsedTime } ></Timer>
         </div>
     );
 }
