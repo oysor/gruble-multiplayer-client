@@ -66,7 +66,7 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
   console.log("...Middleware...")
 
   if (action.type === toServer.JoinRoom) {
-    hubConnection.invoke(toServer.JoinRoom, action.payload.roomName, action.payload.playerName)
+    hubConnection.invoke(toServer.JoinRoom, action.payload.roomId, action.payload.playerName)
   }
 
   // TODO

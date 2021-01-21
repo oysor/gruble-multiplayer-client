@@ -25,7 +25,7 @@ export const PlayerInput: FunctionComponent = () => {
                             dispatch({ type: setRoomId, payload: roomId })
                             dispatch({
                                 type: toServer.JoinRoom,
-                                payload: { roomName: roomId, playerName: name }
+                                payload: { roomId: roomId, playerName: name }
                             })
                             setNext(false)
                         }

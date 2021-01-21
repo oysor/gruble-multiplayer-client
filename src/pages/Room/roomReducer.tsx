@@ -31,7 +31,7 @@ const roomSlice = createSlice({
       state.lobbyName = action.payload
     },
     roomCreated: (state, action) => {
-      state.roomId = action.payload.roomName
+      state.roomId = action.payload.roomId
       state.lobbyName = action.payload.lobbyName
       state.timeLimit = action.payload.timeLimit
       state.maxPlayers = action.payload.maxPlayers
