@@ -128,3 +128,15 @@ form.input-join-room {
 .connection-status {
     padding: 1rem 0rem 1rem 0rem;
 }
+
+.message-box {
+
+    ul {
+        list-style: none;
+        padding: 0;
+        
+        li {
+            padding: 0.5em 0rem 0.5rem 0rem;
+        }
+    }
+}

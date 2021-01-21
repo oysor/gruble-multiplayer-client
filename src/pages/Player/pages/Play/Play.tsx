@@ -10,7 +10,7 @@ export const Play: FunctionComponent = () => {
     // Set name
     const [msg, setMessage] = useState('');
 
-    const { name, message, roomId } = useSelector((state: RootState) => state.player);
+    const { name, roomId } = useSelector((state: RootState) => state.player);
     const dispatch = useDispatch();
 
     return (
@@ -30,9 +30,6 @@ export const Play: FunctionComponent = () => {
                 />
             </form>
             <ShowPlayerInput name={name} roomId={roomId} />
-            <div>
-                Message: {message}
-            </div>
         </div>
     );
 }

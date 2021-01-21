@@ -5,7 +5,7 @@ export interface RoomState {
   lobbyName: string;
   roomId: string;
   maxUsers: number;
-  messages: string;
+  messages: Array <string>;
   timeLimit: number;
   commonStates: CommonStates;
 }
@@ -14,7 +14,7 @@ const initialState: RoomState = {
   lobbyName: '',
   roomId: '',
   maxUsers: 0,
-  messages: '',
+  messages: [],
   timeLimit: 0,
   commonStates: initialCommonStates
 }
@@ -40,7 +40,7 @@ const roomSlice = createSlice({
       state.commonStates.elapsedTime = action.payload
     },
     newMessage: (state, action) => {
-      state.messages = action.payload
+      state.messages = [...state.messages, action.payload]
     },
   },
 })

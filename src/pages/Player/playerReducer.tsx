@@ -3,14 +3,14 @@ import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface playerState {
   name: string;
-  message: string;
+  messages: Array <string>;
   roomId: string;
   commonStates: CommonStates;
 }
 
 const initialState: playerState = {
   name: '',
-  message: '',
+  messages: [],
   roomId: '',
   commonStates: initialCommonStates
 }
@@ -34,7 +34,7 @@ const playerSlice = createSlice({
       state.commonStates.elapsedTime = action.payload
     },
     newMessage: (state, action) => {
-      state.message = action.payload
+      state.messages = [...state.messages, action.payload]
     },
   },
 })
