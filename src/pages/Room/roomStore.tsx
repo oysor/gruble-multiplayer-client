@@ -73,6 +73,10 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
     hubConnection.invoke(toServer.CreateRoom, action.payload)
   }
 
+  if (action.type === toServer.StartGame) {
+    hubConnection.invoke(toServer.StartGame, action.payload)
+  }
+
   console.log(store.getState);
 
   return next(action);

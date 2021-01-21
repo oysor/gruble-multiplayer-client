@@ -48,6 +48,7 @@ const roomSlice = createSlice({
 // send to server
 export enum toServer {
   CreateRoom = 'CreateRoom',
+  StartGame = 'StartGame',
 }
 
 // receive from server
@@ -55,7 +56,7 @@ export enum fromServer {
   onCreateRoom = "onCreateGame",
   onPlayerJoined = "onPlayerJoined",
   ReceiveMessage = "ReceiveMessage",
-  onTimerElapsed = "onTimerCount"
+  onTimerElapsed = "onTimerCount",
 }
 
 // import the actions where you want to dispatch them.
