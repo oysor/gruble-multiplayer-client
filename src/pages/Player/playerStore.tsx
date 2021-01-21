@@ -69,9 +69,8 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
     hubConnection.invoke(toServer.JoinRoom, action.payload.roomId, action.payload.playerName)
   }
 
-  // TODO
   if (action.type === toServer.SendMessage) {
-    console.log("SEND MESSAGE -- not sending")
+    hubConnection.invoke(toServer.SendMessage, action.payload.roomId, action.payload.message)
   }
 
   console.log(store.getState);

@@ -22,8 +22,7 @@ export const Play: FunctionComponent = () => {
                         () => {
                             dispatch({
                                 type: toServer.SendMessage,
-                                payload: { user: name, msg: msg, roomId: roomId }
-
+                                payload: { roomId: roomId, message: msg }
                             })
                         }}
                     value={"Send"}
