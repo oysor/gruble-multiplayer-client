@@ -17,6 +17,9 @@ export const Player: FunctionComponent = () => {
     useEffect(() => {
         return history.listen(location => {
             if (history.action === 'POP' && location.pathname === '/') {
+                // reset store
+                store.dispatch({type:"player/reset", payload:"reset"})
+                // stop singnalR
                 stopPlayerConnection()
             }
         })

@@ -17,6 +17,9 @@ export const Room: FunctionComponent = () => {
     useEffect(() => {
         return history.listen(location => {
             if (history.action === 'POP' && location.pathname === '/') {
+                // reset store
+                store.dispatch({ type: "room/reset", payload: "reset" })
+                // stop singnalR
                 stopRoomConnection()
             }
         })
@@ -25,7 +28,7 @@ export const Room: FunctionComponent = () => {
     return (
         <Provider store={store}>
             <div className="room-page">
-                <RoomLayout/>
+                <RoomLayout />
             </div>
         </Provider>
     );

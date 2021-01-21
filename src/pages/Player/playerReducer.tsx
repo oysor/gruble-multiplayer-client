@@ -3,7 +3,7 @@ import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface playerState {
   name: string;
-  messages: Array <string>;
+  messages: Array<string>;
   roomId: string;
   commonStates: CommonStates;
 }
@@ -36,6 +36,7 @@ const playerSlice = createSlice({
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
+    reset: () => initialState
   },
 })
 
