@@ -56,7 +56,6 @@ export enum toServer {
 // receive from server
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
-  onPlayerJoined = "onPlayerJoined",
   onTimerElapsed = "onTimerCount",
   onJoinRoom = "onJoinRoom"
 }

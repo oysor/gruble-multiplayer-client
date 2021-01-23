@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { CommonStates, initialCommonStates } from '../../common/constants/'
 
+type Player = { playerName: string, color: string, score: string }
+
 export interface RoomState {
   lobbyName: string;
   roomId: string;
@@ -11,7 +13,8 @@ export interface RoomState {
   gameBoard: {
     categories: string[],
     letters: string[]
-  }
+  };
+  playerList: Player [];
 }
 
 const initialState: RoomState = {
@@ -21,7 +24,8 @@ const initialState: RoomState = {
   messages: [],
   timeLimit: 0,
   commonStates: initialCommonStates,
-  gameBoard: { categories: [""], letters: [''] }
+  gameBoard: { categories: [""], letters: [''] },
+  playerList: [ { playerName: '', color: '', score: '' } ]
 }
 
 const roomSlice = createSlice({
@@ -48,6 +52,9 @@ const roomSlice = createSlice({
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
+    addPlayer: (state, action) => {
+      state.playerList = [ ...action.payload, action.payload]
+    },
     reset: () => initialState
   },
 })
@@ -73,6 +80,7 @@ export const {
   roomCreated,
   setTimeElapsed,
   newMessage,
+  addPlayer
 } = roomSlice.actions
 
 export default roomSlice.reducer

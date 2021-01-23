@@ -21,10 +21,6 @@ export async function startPlayerConnection(): Promise<void> {
     console.log("***** PLAYER connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
 
-    hubConnection.on(fromServer.onPlayerJoined, (msg) => {
-      store.dispatch(newMessage(msg))
-    })
-
     hubConnection.on(fromServer.receiveMessage, (msg) => {
       store.dispatch(newMessage(msg))
     })
