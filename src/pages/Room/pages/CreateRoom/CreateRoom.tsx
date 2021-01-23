@@ -29,7 +29,16 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
             <ShowRoomInput name={name} time={time} categories={categoryList}/>
             <Button
                 onClick={() => {
-                    dispatch({ type: toServer.CreateRoom, payload: { LobbyName: name, TimeLimit: time, Categories: categoryList } })
+                    dispatch({ 
+                        type: toServer.CreateRoom, 
+                        payload: { 
+                            LobbyName: name, 
+                            TimeLimit: time, 
+                            BoardSettings: {
+                                categories: categoryList, 
+                            }, 
+                        }
+                    })
                     setNext(false)
                 }}
             >

@@ -6,13 +6,18 @@ export interface playerState {
   messages: Array<string>;
   roomId: string;
   commonStates: CommonStates;
+  gameBoard: {
+    categories: string[],
+    letters: string[]
+  }
 }
 
 const initialState: playerState = {
   name: '',
   messages: [],
   roomId: '',
-  commonStates: initialCommonStates
+  commonStates: initialCommonStates,
+  gameBoard: { categories: [""], letters: [''] }
 }
 
 const playerSlice = createSlice({
@@ -36,6 +41,9 @@ const playerSlice = createSlice({
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
+    setBoard: (state, action) => {
+      state.gameBoard = action.payload
+    },
     reset: () => initialState
   },
 })
@@ -49,7 +57,8 @@ export enum toServer {
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
   onPlayerJoined = "onPlayerJoined",
-  onTimerElapsed = "onTimerCount"
+  onTimerElapsed = "onTimerCount",
+  onJoinRoom = "onJoinRoom"
 }
 
 export const {
@@ -57,7 +66,8 @@ export const {
   setPlayerName,
   setRoomId,
   setTimeElapsed,
-  newMessage
+  newMessage,
+  setBoard
 } = playerSlice.actions
 
 export default playerSlice.reducer

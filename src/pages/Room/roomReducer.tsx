@@ -8,6 +8,10 @@ export interface RoomState {
   messages: Array<string>;
   timeLimit: number;
   commonStates: CommonStates;
+  gameBoard: {
+    categories: string[],
+    letters: string[]
+  }
 }
 
 const initialState: RoomState = {
@@ -16,7 +20,8 @@ const initialState: RoomState = {
   maxPlayers: 0,
   messages: [],
   timeLimit: 0,
-  commonStates: initialCommonStates
+  commonStates: initialCommonStates,
+  gameBoard: { categories: [""], letters: [''] }
 }
 
 const roomSlice = createSlice({
@@ -35,6 +40,7 @@ const roomSlice = createSlice({
       state.lobbyName = action.payload.lobbyName
       state.timeLimit = action.payload.timeLimit
       state.maxPlayers = action.payload.maxPlayers
+      state.gameBoard = action.payload.gameBoard
     },
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload

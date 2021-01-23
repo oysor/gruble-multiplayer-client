@@ -6,7 +6,7 @@ import { toServer } from '../../roomReducer';
 
 export const Lobby: FunctionComponent = ( ) => {
 
-    const { timeLimit, maxPlayers, roomId, lobbyName } = useSelector((state: RootState) => state.room);
+    const { timeLimit, maxPlayers, roomId, lobbyName, gameBoard } = useSelector((state: RootState) => state.room);
     const dispatch = useDispatch();
     
     return (    
@@ -15,6 +15,7 @@ export const Lobby: FunctionComponent = ( ) => {
             <div>TimeLimit: {timeLimit}</div>
             <div>roomId: {roomId}</div>
             <div>maxPlayers: {maxPlayers}</div>
+            <div>GameBoard: {JSON.stringify(gameBoard)}</div>
             <Button
                 onClick={()=>{
                     dispatch({ type:toServer.StartGame, payload: roomId })
