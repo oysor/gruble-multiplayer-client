@@ -3,6 +3,9 @@ import { CommonStates, initialCommonStates } from '../../common/constants/'
 
 type Player = { playerName: string, color: string, score: string }
 
+// Board to submit to server
+type Board =  [ string [ ] ]
+
 export interface RoomState {
   lobbyName: string;
   roomId: string;
@@ -12,8 +15,9 @@ export interface RoomState {
   commonStates: CommonStates;
   gameBoard: {
     categories: string[],
-    letters: string[]
+    letters: string[],
   };
+  playerBoard: Board; 
   playerList: Player [];
 }
 
@@ -25,6 +29,7 @@ const initialState: RoomState = {
   timeLimit: 0,
   commonStates: initialCommonStates,
   gameBoard: { categories: [""], letters: [''] },
+  playerBoard: [['']],  
   playerList: [ { playerName: '', color: '', score: '' } ]
 }
 
