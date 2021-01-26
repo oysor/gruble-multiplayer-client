@@ -4,7 +4,7 @@ import { setPlayerName, setRoomId, toServer } from '../../playerReducer';
 import { SmartInput, SubmitButton } from '../../../../common/components/'
 import { Play } from '../Play';
 
-export const PlayerInput: FunctionComponent = () => {
+export const JoinGame: FunctionComponent = () => {
 
     const [name, setName] = useState('');
     const [roomId, setId] = useState('');
@@ -22,7 +22,7 @@ export const PlayerInput: FunctionComponent = () => {
                     onClick={
                         () => {
                             dispatch(setPlayerName(name))
-                            dispatch({ type: setRoomId, payload: roomId })
+                            dispatch(setRoomId(roomId))
                             dispatch({
                                 type: toServer.JoinRoom,
                                 payload: { roomId: roomId, playerName: name }

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import store from './roomStore'
 import { startRoomConnection, stopRoomConnection } from '../Room/roomStore'
 import { useHistory } from 'react-router-dom'
+import { resetState } from './roomReducer'
 
 export const Room: FunctionComponent = () => {
 
@@ -18,7 +19,7 @@ export const Room: FunctionComponent = () => {
         return history.listen(location => {
             if (history.action === 'POP' && location.pathname === '/') {
                 // reset store
-                store.dispatch({ type: "room/reset", payload: "reset" })
+                store.dispatch(resetState())
                 // stop singnalR
                 stopRoomConnection()
             }

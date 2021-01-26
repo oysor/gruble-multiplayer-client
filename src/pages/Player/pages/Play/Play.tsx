@@ -1,34 +1,17 @@
-import React, { FunctionComponent, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import React, { FunctionComponent } from 'react';
+import { useSelector } from 'react-redux'
 import { RootState } from '../../playerStore'
-import { toServer } from '../../playerReducer'
-import { SmartInput, SubmitButton } from '../../../../common/components/'
-import { ShowPlayerInput } from './components/ShowPlayerInput'
+import { InputBoard } from './components/InputBoard';
+import { SendMessage } from '../../common/SendMessage';
 
 export const Play: FunctionComponent = () => {
 
-    // Set name
-    const [msg, setMessage] = useState('');
-
-    const { name, roomId, gameBoard } = useSelector((state: RootState) => state.player);
-    const dispatch = useDispatch();
+    const { roomId, boardSettings, playerBoard } = useSelector((state: RootState) => state.player);
 
     return (
         <div className="play">
-            <form>
-                <SmartInput onChange={setMessage} placeholder={"message"} />
-                <SubmitButton
-                    onClick={
-                        () => {
-                            dispatch({
-                                type: toServer.SendMessage,
-                                payload: { roomId: roomId, message: msg }
-                            })
-                        }}
-                    value={"Send"}
-                />
-            </form>
-            <ShowPlayerInput name={name} roomId={roomId} board={gameBoard}/>
+            <SendMessage roomId={roomId}/>
+            <InputBoard board={playerBoard} boardSettings={boardSettings} />
         </div>
     );
 }

@@ -13,7 +13,7 @@ export interface RoomState {
   messages: Array<string>;
   timeLimit: number;
   commonStates: CommonStates;
-  gameBoard: {
+  boardSettings: {
     categories: string[],
     letters: string[],
   };
@@ -28,7 +28,7 @@ const initialState: RoomState = {
   messages: [],
   timeLimit: 0,
   commonStates: initialCommonStates,
-  gameBoard: { categories: [""], letters: [''] },
+  boardSettings: { categories: [""], letters: [''] },
   playerBoard: [['']],  
   playerList: [ { playerName: '', color: '', score: '' } ]
 }
@@ -49,7 +49,7 @@ const roomSlice = createSlice({
       state.lobbyName = action.payload.lobbyName
       state.timeLimit = action.payload.timeLimit
       state.maxPlayers = action.payload.maxPlayers
-      state.gameBoard = action.payload.gameBoard
+      state.boardSettings = action.payload.boardSettings
     },
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
@@ -60,14 +60,14 @@ const roomSlice = createSlice({
     addPlayer: (state, action) => {
       state.playerList = [ ...action.payload, action.payload]
     },
-    reset: () => initialState
+    resetState: () => initialState
   },
 })
 
 // send to server
 export enum toServer {
-  CreateRoom = 'CreateRoom',
-  StartGame = 'StartGame',
+    CreateRoom = 'CreateRoom',
+    StartGame = 'StartGame',
 }
 
 // receive from server
@@ -85,7 +85,8 @@ export const {
   roomCreated,
   setTimeElapsed,
   newMessage,
-  addPlayer
+  addPlayer,
+  resetState,
 } = roomSlice.actions
 
 export default roomSlice.reducer

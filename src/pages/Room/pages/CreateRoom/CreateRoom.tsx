@@ -3,8 +3,6 @@ import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
 import { toServer } from '../../roomReducer'
 import { Button } from '../../../../common/components/'
-
-import { ShowRoomInput } from './components/ShowRoomInput'
 import { InputCategories } from './components/InputCategories'
 
 type CreateRoomProps = {
@@ -26,7 +24,6 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
     return nextPage ?
         <div className="room-create">
             <InputCategories inputList={categoryList} setInputList={setCategoryList} />
-            <ShowRoomInput name={name} time={time} categories={categoryList}/>
             <Button
                 onClick={() => {
                     dispatch({ 

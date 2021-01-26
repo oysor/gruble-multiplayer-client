@@ -6,10 +6,11 @@ export interface playerState {
   messages: Array<string>;
   roomId: string;
   commonStates: CommonStates;
-  gameBoard: {
+  boardSettings: {
     categories: string[],
     letters: string[]
   }
+  playerBoard: string[][]
 }
 
 const initialState: playerState = {
@@ -17,7 +18,8 @@ const initialState: playerState = {
   messages: [],
   roomId: '',
   commonStates: initialCommonStates,
-  gameBoard: { categories: [""], letters: [''] }
+  boardSettings: { categories: [""], letters: [''] },
+  playerBoard: [['']]
 }
 
 const playerSlice = createSlice({
@@ -42,9 +44,20 @@ const playerSlice = createSlice({
       state.messages = [...state.messages, action.payload]
     },
     setBoard: (state, action) => {
-      state.gameBoard = action.payload
+      // console.log("REDUCER",action.payload)
+
+      state.boardSettings = action.payload.boardSettings
+      const x = action.payload.boardSettings.letters.length
+      const y = action.payload.boardSettings.categories.length
+
+      const arr = [...Array(x)].map(() => [...Array(y)].map(() => ''))
+
+      state.playerBoard  = arr;
     },
-    reset: () => initialState
+    updateBoard: (state, action) => {
+      state.playerBoard = action.payload
+    },
+    resetState: () => initialState
   },
 })
 
@@ -66,7 +79,9 @@ export const {
   setRoomId,
   setTimeElapsed,
   newMessage,
-  setBoard
+  setBoard,
+  updateBoard,
+  resetState
 } = playerSlice.actions
 
 export default playerSlice.reducer

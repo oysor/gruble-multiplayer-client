@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './playerStore'
 import { startPlayerConnection, stopPlayerConnection } from '../Player/playerStore'
+import { resetState } from './playerReducer';
 
 export const Player: FunctionComponent = () => {
 
@@ -18,7 +19,7 @@ export const Player: FunctionComponent = () => {
         return history.listen(location => {
             if (history.action === 'POP' && location.pathname === '/') {
                 // reset store
-                store.dispatch({type:"player/reset", payload:"reset"})
+                store.dispatch(resetState)
                 // stop singnalR
                 stopPlayerConnection()
             }
