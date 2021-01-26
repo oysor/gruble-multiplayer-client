@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import roomReducer, { toServer, fromServer, setStatus, roomCreated, newMessage, setTimeElapsed, addPlayer } from './roomReducer'
+import roomReducer, { toServer, fromServer, setStatus, roomCreated, newMessage, setTimeElapsed, removePlayer, addPlayer } from './roomReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -26,6 +26,10 @@ export async function startRoomConnection(): Promise<void> {
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
       store.dispatch(addPlayer(player))
+    })
+
+    hubConnection.on(fromServer.onPlayerLeft, (player) => {
+      store.dispatch(removePlayer(player))
     })
 
     hubConnection.on(fromServer.ReceiveMessage, (msg) => {

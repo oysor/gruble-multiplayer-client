@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { CommonStates, initialCommonStates } from '../../common/constants/'
 
-type Player = { playerName: string, color: string, score: string }
+type Player = { playerName: string, playerId:number ,color: string, score: string }
 
 // Board to submit to server
 type Board =  [ string [ ] ]
@@ -30,7 +30,7 @@ const initialState: RoomState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [""], letters: [''] },
   playerBoard: [['']],  
-  playerList: [ { playerName: '', color: '', score: '' } ]
+  playerList: []
 }
 
 const roomSlice = createSlice({
@@ -57,6 +57,13 @@ const roomSlice = createSlice({
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
+    removePlayer: (state, action) => {
+      const newList = [...state.playerList];
+      newList.filter((player) => {
+        return (player.playerId === action.payload.playerId)
+      })
+      state.playerList = newList;
+    },
     addPlayer: (state, action) => {
       state.playerList = [ ...state.playerList, action.payload]
     },
@@ -76,6 +83,7 @@ export enum fromServer {
   onPlayerJoined = "onPlayerJoined",
   ReceiveMessage = "ReceiveMessage",
   onTimerElapsed = "onTimerCount",
+  onPlayerLeft = "onPlayerLeft"
 }
 
 // import the actions where you want to dispatch them.
@@ -85,6 +93,7 @@ export const {
   roomCreated,
   setTimeElapsed,
   newMessage,
+  removePlayer,
   addPlayer,
   resetState,
 } = roomSlice.actions
