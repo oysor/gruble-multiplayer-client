@@ -11,7 +11,6 @@ const hubConnection = new signalR.HubConnectionBuilder()
   .configureLogging(signalR.LogLevel.Information)
   .build();
 
-
 /**
  *   START CONNECTION METHOD - add singnalR 'on' here
  */
