@@ -58,7 +58,7 @@ const roomSlice = createSlice({
       state.messages = [...state.messages, action.payload]
     },
     addPlayer: (state, action) => {
-      state.playerList = [ ...action.payload, action.payload]
+      state.playerList = [ ...state.playerList, action.payload]
     },
     resetState: () => initialState
   },
