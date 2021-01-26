@@ -59,10 +59,9 @@ const roomSlice = createSlice({
     },
     removePlayer: (state, action) => {
       const newList = [...state.playerList];
-      newList.filter((player) => {
-        return (player.playerId === action.payload.playerId)
+      state.playerList = newList.filter((player) => {
+        return (player.playerId !== action.payload)
       })
-      state.playerList = newList;
     },
     addPlayer: (state, action) => {
       state.playerList = [ ...state.playerList, action.payload]
