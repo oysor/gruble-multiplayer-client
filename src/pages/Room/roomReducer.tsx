@@ -30,7 +30,7 @@ const initialState: RoomState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [""], letters: [''] },
   playerBoard: [['']],  
-  playerList: []
+  playerList: [],
 }
 
 const roomSlice = createSlice({
@@ -74,7 +74,7 @@ const roomSlice = createSlice({
 export enum toServer {
     CreateRoom = 'CreateRoom',
     StartGame = 'StartGame',
-}
+  }
 
 // receive from server
 export enum fromServer {
@@ -98,5 +98,3 @@ export const {
 } = roomSlice.actions
 
 export default roomSlice.reducer
-
-

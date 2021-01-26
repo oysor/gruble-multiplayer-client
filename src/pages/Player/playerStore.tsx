@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import playerReducer, { toServer, fromServer, setStatus, newMessage, setTimeElapsed, setBoard } from './playerReducer'
+import playerReducer, { toServer, fromServer, setStatus, newMessage, setTimeElapsed, setBoard, sendBoard } from './playerReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -31,6 +31,10 @@ export async function startPlayerConnection(): Promise<void> {
 
     hubConnection.on(fromServer.onJoinRoom, (board) => {
       store.dispatch(setBoard(board))
+    })
+
+    hubConnection.on(fromServer.onTimerFinished, () => {
+      store.dispatch(sendBoard)
     })
 
   } catch (err) {
@@ -71,6 +75,10 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
 
   if (action.type === toServer.SendMessage) {
     hubConnection.invoke(toServer.SendMessage, action.payload.roomId, action.payload.message)
+  }
+
+  if(action.type === toServer.CollectBoard){
+    hubConnection.invoke(toServer.CollectBoard, action.payload)
   }
 
   console.log(store.getState);

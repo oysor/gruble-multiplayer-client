@@ -1,13 +1,20 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './playerStore';
 import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
 import { JoinGame } from './pages/JoinGame';
 import { ShowPlayerInput } from './common';
+import { toServer } from './playerReducer';
 
 export const PlayerLayout: FunctionComponent = () => {
 
-    const { commonStates, messages } = useSelector((state: RootState) => state.player);
+    const { commonStates, messages, playerBoard, sendBoard } = useSelector((state: RootState) => state.player);
+
+    const dispatch = useDispatch()
+
+    if(sendBoard === true){
+        dispatch({type: toServer.CollectBoard, payload: playerBoard})
+    }
 
     return (
         <div className="player-layout">

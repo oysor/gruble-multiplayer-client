@@ -10,7 +10,8 @@ export interface playerState {
     categories: string[],
     letters: string[]
   }
-  playerBoard: string[][]
+  playerBoard: string[][];
+  sendBoard: boolean;
 }
 
 const initialState: playerState = {
@@ -19,7 +20,8 @@ const initialState: playerState = {
   roomId: '',
   commonStates: initialCommonStates,
   boardSettings: { categories: [""], letters: [''] },
-  playerBoard: [['']]
+  playerBoard: [['']],
+  sendBoard: false,
 }
 
 const playerSlice = createSlice({
@@ -57,6 +59,12 @@ const playerSlice = createSlice({
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
     },
+    sendBoard: (state ) => {
+      state.sendBoard = true
+    },
+    CollectBoard: (state) => {
+      state.sendBoard = false
+    },
     resetState: () => initialState
   },
 })
@@ -64,13 +72,15 @@ const playerSlice = createSlice({
 // send to server
 export enum toServer {
   SendMessage = 'SendMessage',
-  JoinRoom = 'JoinRoom'
+  JoinRoom = 'JoinRoom',
+  CollectBoard = 'CollectBoard'
 }
 // receive from server
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
   onTimerElapsed = "onTimerCount",
-  onJoinRoom = "onJoinRoom"
+  onJoinRoom = "onJoinRoom",
+  onTimerFinished = "onTimerFinished",
 }
 
 export const {
@@ -81,7 +91,8 @@ export const {
   newMessage,
   setBoard,
   updateBoard,
-  resetState
+  resetState,
+  sendBoard,
 } = playerSlice.actions
 
 export default playerSlice.reducer
