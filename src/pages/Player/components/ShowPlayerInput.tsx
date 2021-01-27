@@ -14,7 +14,7 @@ export const ShowPlayerInput: FunctionComponent = () => {
             <br />
             {JSON.stringify(boardSettings)} 
             <br />
-            {JSON.stringify(playerBoard)} 
+            {JSON.stringify(playerBoard)}
         </div>
     );
 }

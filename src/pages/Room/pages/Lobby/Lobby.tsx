@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../../../common/components';
 import { RootState } from '../../roomStore';
 import { toServer } from '../../roomReducer';
-import { ShowRoomInput } from '../../common';
+import { ShowRoomInput } from '../../components';
 
 export const Lobby: FunctionComponent = ( ) => {
 

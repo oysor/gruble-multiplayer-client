@@ -11,7 +11,7 @@ export interface playerState {
     letters: string[]
   }
   playerBoard: string[][];
-  sendBoard: boolean;
+  gameFinished: boolean;
 }
 
 const initialState: playerState = {
@@ -21,7 +21,7 @@ const initialState: playerState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [""], letters: [''] },
   playerBoard: [['']],
-  sendBoard: false,
+  gameFinished: false,
 }
 
 const playerSlice = createSlice({
@@ -59,11 +59,12 @@ const playerSlice = createSlice({
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
     },
-    sendBoard: (state ) => {
-      state.sendBoard = true
+    timesUp: ( state ) => {
+      state.gameFinished = true
     },
-    CollectBoard: (state) => {
-      state.sendBoard = false
+    sendBoard: ( state ) => {
+      // Board is already sent to server in middleware.
+      state.gameFinished = false
     },
     resetState: () => initialState
   },
@@ -73,14 +74,14 @@ const playerSlice = createSlice({
 export enum toServer {
   SendMessage = 'SendMessage',
   JoinRoom = 'JoinRoom',
-  CollectBoard = 'CollectBoard'
+  SendBoard = 'CollectBoard'
 }
 // receive from server
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
   onTimerElapsed = "onTimerCount",
   onJoinRoom = "onJoinRoom",
-  onTimerFinished = "onTimerFinished",
+  onTimesUp = "onTimerFinished",
 }
 
 export const {
@@ -92,9 +93,8 @@ export const {
   setBoard,
   updateBoard,
   resetState,
+  timesUp,
   sendBoard,
 } = playerSlice.actions
 
 export default playerSlice.reducer
-
-

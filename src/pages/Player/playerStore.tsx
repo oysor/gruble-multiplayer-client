@@ -1,6 +1,6 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import playerReducer, { toServer, fromServer, setStatus, newMessage, setTimeElapsed, setBoard, sendBoard } from './playerReducer'
+import playerReducer, { toServer, fromServer, setStatus, newMessage, setTimeElapsed, setBoard, timesUp, sendBoard } from './playerReducer'
 import { ConnectionMode } from '../../common/constants/status'
 import * as signalR from "@microsoft/signalr";
 
@@ -33,8 +33,8 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(setBoard(board))
     })
 
-    hubConnection.on(fromServer.onTimerFinished, () => {
-      store.dispatch(sendBoard)
+    hubConnection.on(fromServer.onTimesUp, () => {
+      store.dispatch(timesUp())
     })
 
   } catch (err) {
@@ -77,8 +77,9 @@ export const homeMadeMiddleware: Middleware = store => next => async action => {
     hubConnection.invoke(toServer.SendMessage, action.payload.roomId, action.payload.message)
   }
 
-  if(action.type === toServer.CollectBoard){
-    hubConnection.invoke(toServer.CollectBoard, action.payload)
+  // this method needs to reach the reducer
+  if(action.type === sendBoard.type){
+    hubConnection.invoke(toServer.SendBoard, action.payload.roomId, action.payload.board)
   }
 
   console.log(store.getState);
@@ -101,4 +102,3 @@ const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 
 export default store;
-

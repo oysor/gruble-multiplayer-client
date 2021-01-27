@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RoomName } from './pages/RoomName'
 import { RootState } from './roomStore';
 import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
-import { PlayerList } from './common/PlayerList'
+import { PlayerList } from './components/PlayerList'
 
 export const RoomLayout: FunctionComponent = () => {
 
