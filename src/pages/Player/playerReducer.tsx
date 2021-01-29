@@ -43,9 +43,8 @@ const playerSlice = createSlice({
       state.messages = [...state.messages, action.payload]
     },
     setBoard: (state, action) => {
-      // console.log("REDUCER",action.payload)
-
-      state.boardSettings = action.payload.boardSettings
+      state.boardSettings = action.payload.boardSettings;
+      state.roomId = action.payload.roomId;
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 

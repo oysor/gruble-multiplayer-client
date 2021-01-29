@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Lobby } from '../Lobby'
 import { useDispatch } from 'react-redux'
 import { toServer } from '../../roomReducer'
-import { Button } from '../../../../common/components/'
+import { Button, MissingInput } from '../../../../common/components/'
 import { InputCategories } from './components/InputCategories'
 
 type CreateRoomProps = {
@@ -21,26 +21,36 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
 
     const dispatch = useDispatch();
 
+
+    const validInput = (categoryList[0].length > 0);
+    const [reminder, setReminder] = useState(false);
+
+
+    const dispatchOnClick = () => {
+        dispatch({ 
+            type: toServer.CreateRoom, 
+            payload: { 
+                LobbyName: name, 
+                TimeLimit: time, 
+                BoardSettings: {
+                    categories: categoryList, 
+                }, 
+            }
+        })
+        setNext(false)
+    }
+
     return nextPage ?
         <div className="room-create">
             <InputCategories inputList={categoryList} setInputList={setCategoryList} />
             <Button
                 onClick={() => {
-                    dispatch({ 
-                        type: toServer.CreateRoom, 
-                        payload: { 
-                            LobbyName: name, 
-                            TimeLimit: time, 
-                            BoardSettings: {
-                                categories: categoryList, 
-                            }, 
-                        }
-                    })
-                    setNext(false)
+                    validInput ? dispatchOnClick() : setReminder(!reminder)
                 }}
             >
                 Create Room
             </Button>
+            {reminder ? <MissingInput categoryList={categoryList}/> : null}
         </div>
         :
         <Lobby />;

@@ -12,9 +12,9 @@ export const ShowPlayerInput: FunctionComponent = () => {
             <br />
             Room Id: {roomId}
             <br />
-            {JSON.stringify(boardSettings)} 
+            boardSettings: {JSON.stringify(boardSettings)} 
             <br />
-            {JSON.stringify(playerBoard)}
+            playerBoard: {JSON.stringify(playerBoard)}
         </div>
     );
 }

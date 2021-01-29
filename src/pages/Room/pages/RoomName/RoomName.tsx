@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react'
 import { TimeLimit } from '../TimeLimit'
-import { SmartInput, SubmitButton } from '../../../../common/components/'
+import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
 
 export const RoomName: FunctionComponent = () => {
 
@@ -9,12 +9,18 @@ export const RoomName: FunctionComponent = () => {
     // Next component
     const [nextPage, setNext] = useState(true);
 
+    const validInput = (name.length !== 0);
+    const [reminder, setReminder] = useState(false);
+
     return nextPage ?
         <div className="room-name">
             <form>
                 <SmartInput onChange={setName} placeholder={"room name..."} />
-                <SubmitButton value="Submit" onClick={() => setNext(false)} />
+                <SubmitButton value="Submit" onClick={() => {
+                    validInput ? setNext(false) : setReminder(!reminder);
+                    }} />
             </form>
+            {reminder ? <MissingInput name={name}/> : null}
         </div>
         :
         <TimeLimit name={name} />;

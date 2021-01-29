@@ -12,6 +12,8 @@ export const SendMessage: FunctionComponent <SendMessageProps> = ( {roomId} ) =>
     const [msg, setMessage] = useState('');
     const dispatch = useDispatch();
 
+    const validInput = (msg.length !== 0);
+    
     return (
         <div className="send-message">
             <form>
@@ -19,10 +21,12 @@ export const SendMessage: FunctionComponent <SendMessageProps> = ( {roomId} ) =>
                 <SubmitButton
                     onClick={
                         () => {
-                            dispatch({
-                                type: toServer.SendMessage,
-                                payload: { roomId: roomId, message: msg }
-                            })
+                            if(validInput){
+                                dispatch({
+                                    type: toServer.SendMessage,
+                                    payload: { roomId: roomId, message: msg }
+                                })
+                            }
                         }}
                     value={"Send"}
                 />
