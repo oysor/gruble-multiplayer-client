@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { ConnectionMode } from '../constants/status';
+import { ConnectionMode } from '../constants/';
 
 interface ConnectionStatusProps {
     status: ConnectionMode;

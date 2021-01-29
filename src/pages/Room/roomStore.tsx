@@ -1,8 +1,9 @@
 import { configureStore, Middleware } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
-import roomReducer, { toServer, fromServer, setStatus, roomCreated, newMessage, setTimeElapsed, removePlayer, addPlayer } from './roomReducer'
-import { ConnectionMode } from '../../common/constants/status'
+import roomReducer, { toServer, fromServer, setStatus, setRoom, newMessage, setTimeElapsed, removePlayer, addPlayer } from './roomReducer'
+import { ConnectionMode } from '../../common/constants'
 import * as signalR from "@microsoft/signalr";
+import { checkOnPlayer, checkOnReceiveMessage, checkOnRoom, checkOnTimerElapsed } from '../../common/typeGuards';
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -20,24 +21,29 @@ export async function startRoomConnection(): Promise<void> {
     console.log("***** ROOM connected *****");
     store.dispatch(setStatus(ConnectionMode.Connected))
 
-    hubConnection.on(fromServer.onCreateRoom, (msg) => {
-      store.dispatch(roomCreated(msg))
+    hubConnection.on(fromServer.onCreateRoom, (gameRoom) => {
+      checkOnRoom(gameRoom)
+      store.dispatch(setRoom(gameRoom))
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
+      checkOnPlayer(player)
       store.dispatch(addPlayer(player))
     })
 
     hubConnection.on(fromServer.onPlayerLeft, (player) => {
+      checkOnPlayer(player)
       store.dispatch(removePlayer(player))
     })
 
     hubConnection.on(fromServer.ReceiveMessage, (msg) => {
-      store.dispatch(newMessage(msg))
+      checkOnReceiveMessage(msg);
+      store.dispatch(newMessage(msg));
     })
 
     hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {
-      store.dispatch(setTimeElapsed(timeElapsed))
+      checkOnTimerElapsed(timeElapsed)  
+      store.dispatch(setTimeElapsed(timeElapsed));
     })
 
   } catch (err) {

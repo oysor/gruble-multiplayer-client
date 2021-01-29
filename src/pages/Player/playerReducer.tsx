@@ -1,16 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { CommonStates, initialCommonStates } from '../../common/constants/'
+import { Board, boardSettings, CommonStates, initialCommonStates } from '../../common/constants/'
 
 export interface playerState {
   name: string;
   messages: Array<string>;
   roomId: string;
   commonStates: CommonStates;
-  boardSettings: {
-    categories: string[],
-    letters: string[]
-  }
-  playerBoard: string[][];
+  boardSettings: boardSettings;
+  playerBoard: Board;
   gameFinished: boolean;
 }
 
@@ -19,7 +16,7 @@ const initialState: playerState = {
   messages: [],
   roomId: '',
   commonStates: initialCommonStates,
-  boardSettings: { categories: [""], letters: [''] },
+  boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],
   gameFinished: false,
 }

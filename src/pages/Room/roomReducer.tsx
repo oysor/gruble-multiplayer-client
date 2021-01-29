@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { CommonStates, initialCommonStates } from '../../common/constants/'
-
-type Player = { playerName: string, playerId:number ,color: string, score: string }
-
-// Board to submit to server
-type Board =  [ string [ ] ]
+import { Board, boardSettings, CommonStates, initialCommonStates, Player } from '../../common/constants/'
 
 export interface RoomState {
   lobbyName: string;
@@ -13,10 +8,7 @@ export interface RoomState {
   messages: Array<string>;
   timeLimit: number;
   commonStates: CommonStates;
-  boardSettings: {
-    categories: string[],
-    letters: string[],
-  };
+  boardSettings: boardSettings;
   playerBoard: Board; 
   playerList: Player [];
 }
@@ -28,7 +20,7 @@ const initialState: RoomState = {
   messages: [],
   timeLimit: 0,
   commonStates: initialCommonStates,
-  boardSettings: { categories: [""], letters: [''] },
+  boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],  
   playerList: [],
 }
@@ -44,7 +36,7 @@ const roomSlice = createSlice({
     setRoomName: (state, action) => {
       state.lobbyName = action.payload
     },
-    roomCreated: (state, action) => {
+    setRoom: (state, action) => {
       state.roomId = action.payload.roomId
       state.lobbyName = action.payload.lobbyName
       state.timeLimit = action.payload.timeLimit
@@ -89,7 +81,7 @@ export enum fromServer {
 export const {
   setStatus,
   setRoomName,
-  roomCreated,
+  setRoom,
   setTimeElapsed,
   newMessage,
   removePlayer,
