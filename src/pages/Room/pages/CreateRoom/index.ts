@@ -1,1 +1,1 @@
-export { CreateRoom } from './CreateRoom';
+export { CreateRoom } from './CreateRoom'

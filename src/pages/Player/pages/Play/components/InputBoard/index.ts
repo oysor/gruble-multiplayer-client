@@ -1,1 +1,1 @@
-export { InputBoard } from './InputBoard' 
+export { InputBoard } from './InputBoard'

@@ -1,14 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Board, boardSettings, CommonStates, initialCommonStates } from '../../common/constants/'
+import {
+  Board,
+  boardSettings,
+  CommonStates,
+  initialCommonStates,
+} from '../../common/constants/'
 
 export interface playerState {
-  name: string;
-  messages: Array<string>;
-  roomId: string;
-  commonStates: CommonStates;
-  boardSettings: boardSettings;
-  playerBoard: Board;
-  gameFinished: boolean;
+  name: string
+  messages: Array<string>
+  roomId: string
+  commonStates: CommonStates
+  boardSettings: boardSettings
+  playerBoard: Board
+  gameFinished: boolean
 }
 
 const initialState: playerState = {
@@ -24,7 +29,7 @@ const initialState: playerState = {
 const playerSlice = createSlice({
   name: 'player',
   initialState,
-  // Create methods here to update the store. 
+  // Create methods here to update the store.
   reducers: {
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
@@ -43,26 +48,26 @@ const playerSlice = createSlice({
       state.messages = [...state.messages, action.payload]
     },
     setBoard: (state, action) => {
-      state.boardSettings = action.payload.boardSettings;
-      state.roomId = action.payload.roomId;
+      state.boardSettings = action.payload.boardSettings
+      state.roomId = action.payload.roomId
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 
       const arr = [...Array(x)].map(() => [...Array(y)].map(() => ''))
 
-      state.playerBoard  = arr;
+      state.playerBoard = arr
     },
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
     },
-    timesUp: ( state ) => {
+    timesUp: (state) => {
       state.gameFinished = true
     },
-    sendBoard: ( state ) => {
+    sendBoard: (state) => {
       // Board is already sent to server in middleware.
       state.gameFinished = false
     },
-    resetState: () => initialState
+    resetState: () => initialState,
   },
 })
 
@@ -70,14 +75,14 @@ const playerSlice = createSlice({
 export enum toServer {
   SendMessage = 'SendMessage',
   JoinRoom = 'JoinRoom',
-  SendBoard = 'CollectBoard'
+  SendBoard = 'CollectBoard',
 }
 // receive from server
 export enum fromServer {
   receiveMessage = 'ReceiveMessage',
-  onTimerElapsed = "onTimerCount",
-  onJoinRoom = "onJoinRoom",
-  onTimesUp = "onTimerFinished",
+  onTimerElapsed = 'onTimerCount',
+  onJoinRoom = 'onJoinRoom',
+  onTimesUp = 'onTimerFinished',
 }
 
 export const {

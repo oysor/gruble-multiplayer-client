@@ -3,25 +3,28 @@ import { TimeLimit } from '../TimeLimit'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
 
 export const RoomName: FunctionComponent = () => {
+  // Set room name
+  const [name, setName] = useState('')
+  // Next component
+  const [nextPage, setNext] = useState(true)
 
-    // Set room name
-    const [name, setName] = useState('');
-    // Next component
-    const [nextPage, setNext] = useState(true);
+  const validInput = name.length !== 0
+  const [reminder, setReminder] = useState(false)
 
-    const validInput = (name.length !== 0);
-    const [reminder, setReminder] = useState(false);
-
-    return nextPage ?
-        <div className="room-name">
-            <form>
-                <SmartInput onChange={setName} placeholder={"room name..."} />
-                <SubmitButton value="Submit" onClick={() => {
-                    validInput ? setNext(false) : setReminder(!reminder);
-                    }} />
-            </form>
-            {reminder ? <MissingInput name={name}/> : null}
-        </div>
-        :
-        <TimeLimit name={name} />;
+  return nextPage ? (
+    <div className="room-name">
+      <form>
+        <SmartInput onChange={setName} placeholder={'room name...'} />
+        <SubmitButton
+          value="Submit"
+          onClick={() => {
+            validInput ? setNext(false) : setReminder(!reminder)
+          }}
+        />
+      </form>
+      {reminder ? <MissingInput name={name} /> : null}
+    </div>
+  ) : (
+    <TimeLimit name={name} />
+  )
 }

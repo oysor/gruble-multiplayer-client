@@ -1,7 +1,7 @@
 export { ConnectionStatus } from './ConnectionStatus'
 export { Button } from './Button'
 export { SmartInput } from './SmartInput'
-export { SmartNumericInput} from './SmartNumericInput'
+export { SmartNumericInput } from './SmartNumericInput'
 export { SubmitButton } from './SubmitButton'
 export { Timer } from './Timer'
 export { MessageBox } from './MessageBox'

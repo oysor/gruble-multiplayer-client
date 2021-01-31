@@ -1,1 +1,1 @@
-export  *  from './checkIncoming'
+export * from './checkIncoming'

@@ -1,16 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Board, boardSettings, CommonStates, initialCommonStates, Player } from '../../common/constants/'
+import {
+  Board,
+  boardSettings,
+  CommonStates,
+  initialCommonStates,
+  Player,
+} from '../../common/constants/'
 
 export interface RoomState {
-  lobbyName: string;
-  roomId: string;
-  maxPlayers: number;
-  messages: Array<string>;
-  timeLimit: number;
-  commonStates: CommonStates;
-  boardSettings: boardSettings;
-  playerBoard: Board; 
-  playerList: Player [];
+  lobbyName: string
+  roomId: string
+  maxPlayers: number
+  messages: Array<string>
+  timeLimit: number
+  commonStates: CommonStates
+  boardSettings: boardSettings
+  playerBoard: Board
+  playerList: Player[]
 }
 
 const initialState: RoomState = {
@@ -21,14 +27,14 @@ const initialState: RoomState = {
   timeLimit: 0,
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
-  playerBoard: [['']],  
+  playerBoard: [['']],
   playerList: [],
 }
 
 const roomSlice = createSlice({
   name: 'room',
   initialState,
-  // Create methods here to update the store. 
+  // Create methods here to update the store.
   reducers: {
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
@@ -50,31 +56,31 @@ const roomSlice = createSlice({
       state.messages = [...state.messages, action.payload]
     },
     removePlayer: (state, action) => {
-      const newList = [...state.playerList];
+      const newList = [...state.playerList]
       state.playerList = newList.filter((player) => {
-        return (player.playerId !== action.payload)
+        return player.playerId !== action.payload
       })
     },
     addPlayer: (state, action) => {
-      state.playerList = [ ...state.playerList, action.payload]
+      state.playerList = [...state.playerList, action.payload]
     },
-    resetState: () => initialState
+    resetState: () => initialState,
   },
 })
 
 // send to server
 export enum toServer {
-    CreateRoom = 'CreateRoom',
-    StartGame = 'StartGame',
-  }
+  CreateRoom = 'CreateRoom',
+  StartGame = 'StartGame',
+}
 
 // receive from server
 export enum fromServer {
-  onCreateRoom = "onCreateGame",
-  onPlayerJoined = "onPlayerJoined",
-  ReceiveMessage = "ReceiveMessage",
-  onTimerElapsed = "onTimerCount",
-  onPlayerLeft = "onPlayerLeft"
+  onCreateRoom = 'onCreateGame',
+  onPlayerJoined = 'onPlayerJoined',
+  ReceiveMessage = 'ReceiveMessage',
+  onTimerElapsed = 'onTimerCount',
+  onPlayerLeft = 'onPlayerLeft',
 }
 
 // import the actions where you want to dispatch them.

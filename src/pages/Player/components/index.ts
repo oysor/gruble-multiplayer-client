@@ -1,1 +1,1 @@
-export { ShowPlayerInput } from './ShowPlayerInput';
+export { ShowPlayerInput } from './ShowPlayerInput'

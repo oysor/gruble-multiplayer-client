@@ -1,1 +1,1 @@
-export { JoinGame } from './JoinGame';
+export { JoinGame } from './JoinGame'

@@ -1,1 +1,1 @@
-export { TimeLimit } from "./TimeLimit";
+export { TimeLimit } from './TimeLimit'
