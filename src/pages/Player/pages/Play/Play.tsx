@@ -5,12 +5,12 @@ import { InputBoard } from './components/InputBoard'
 import { SendMessage } from '../../components/SendMessage'
 
 export const Play: FunctionComponent = () => {
-  const { roomId, boardSettings, playerBoard, gameFinished } = useSelector(
+  const { roomId, boardSettings, playerBoard, timesUp } = useSelector(
     (state: RootState) => state.player
   )
   const dispatch = useDispatch()
 
-  if (gameFinished === true) {
+  if (timesUp === true) {
     dispatch({
       type: 'player/sendBoard',
       payload: { roomId: roomId, board: playerBoard },

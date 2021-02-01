@@ -13,7 +13,7 @@ export interface playerState {
   commonStates: CommonStates
   boardSettings: boardSettings
   playerBoard: Board
-  gameFinished: boolean
+  timesUp: boolean
 }
 
 const initialState: playerState = {
@@ -23,7 +23,7 @@ const initialState: playerState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],
-  gameFinished: false,
+  timesUp: false,
 }
 
 const playerSlice = createSlice({
@@ -61,11 +61,12 @@ const playerSlice = createSlice({
       state.playerBoard = action.payload
     },
     timesUp: (state) => {
-      state.gameFinished = true
+      state.commonStates.elapsedTime = 0
+      state.timesUp = true
     },
     sendBoard: (state) => {
       // Board is already sent to server in middleware.
-      state.gameFinished = false
+      state.timesUp = false
     },
     resetState: () => initialState,
   },

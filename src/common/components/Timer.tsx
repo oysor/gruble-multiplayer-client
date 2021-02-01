@@ -5,9 +5,9 @@ interface TimeProps {
 }
 
 export const Timer: FunctionComponent<TimeProps> = ({ elapsedTime }) => {
-  return (
+  return elapsedTime !== -99 ? (
     <div className="timer">
       <h2>Time left: {elapsedTime} </h2>
     </div>
-  )
+  ) : null
 }

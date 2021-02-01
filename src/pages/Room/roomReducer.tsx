@@ -52,6 +52,9 @@ const roomSlice = createSlice({
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
+    timesUp: (state) => {
+      state.commonStates.elapsedTime = 0
+    },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
@@ -81,6 +84,7 @@ export enum fromServer {
   ReceiveMessage = 'ReceiveMessage',
   onTimerElapsed = 'onTimerCount',
   onPlayerLeft = 'onPlayerLeft',
+  onTimesUp = 'onTimerFinished',
 }
 
 // import the actions where you want to dispatch them.
@@ -93,6 +97,7 @@ export const {
   removePlayer,
   addPlayer,
   resetState,
+  timesUp,
 } = roomSlice.actions
 
 export default roomSlice.reducer

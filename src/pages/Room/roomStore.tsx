@@ -9,6 +9,7 @@ import roomReducer, {
   setTimeElapsed,
   removePlayer,
   addPlayer,
+  timesUp,
 } from './roomReducer'
 import { ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -58,6 +59,9 @@ export async function startRoomConnection(): Promise<void> {
     hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {
       checkOnTimerElapsed(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
+    })
+    hubConnection.on(fromServer.onTimesUp, () => {
+      store.dispatch(timesUp())
     })
   } catch (err) {
     console.log(err)
