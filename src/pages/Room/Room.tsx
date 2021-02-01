@@ -4,29 +4,32 @@ import { Provider } from 'react-redux'
 import store from './roomStore'
 import { startRoomConnection, stopRoomConnection } from '../Room/roomStore'
 import { useHistory } from 'react-router-dom'
+import { resetState } from './roomReducer'
 
 export const Room: FunctionComponent = () => {
+  // Start connection
+  useEffect(() => {
+    startRoomConnection()
+  })
 
-    // Start connection
-    useEffect(() => {
-        startRoomConnection()
-    });
+  // End connection when going back (browser back button)
+  const history = useHistory()
+  useEffect(() => {
+    return history.listen((location) => {
+      if (history.action === 'POP' && location.pathname === '/') {
+        // reset store
+        store.dispatch(resetState())
+        // stop singnalR
+        stopRoomConnection()
+      }
+    })
+  })
 
-    // End connection when going back (browser back button)
-    const history = useHistory();
-    useEffect(() => {
-        return history.listen(location => {
-            if (history.action === 'POP' && location.pathname === '/') {
-                stopRoomConnection()
-            }
-        })
-    });
-
-    return (
-        <Provider store={store}>
-            <div className="room-page">
-                <RoomLayout/>
-            </div>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <div className="room-page">
+        <RoomLayout />
+      </div>
+    </Provider>
+  )
 }

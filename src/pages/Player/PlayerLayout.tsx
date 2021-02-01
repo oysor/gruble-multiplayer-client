@@ -1,19 +1,21 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux';
-import { PlayerInput } from './pages/PlayerInput'
-import { RootState } from './playerStore';
-import { ConnectionStatus, Timer } from '../../common/components/'
+import { useSelector } from 'react-redux'
+import { RootState } from './playerStore'
+import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
+import { JoinGame } from './pages/1.JoinGame'
+import { ShowPlayerInput } from './components'
 
 export const PlayerLayout: FunctionComponent = () => {
+  const { commonStates, messages } = useSelector((state: RootState) => state.player)
 
-    const { commonStates } = useSelector((state: RootState) => state.player);
-
-    return (
-        <div className="player-layout">
-            <h1>PlayerRoom</h1>
-            <PlayerInput />
-            <ConnectionStatus status={ commonStates.status } />
-            <Timer elapsedTime={ commonStates.elapsedTime } ></Timer>
-        </div>
-    );
+  return (
+    <div className="player-layout">
+      <h1>PlayerRoom</h1>
+      <JoinGame />
+      <ShowPlayerInput />
+      <MessageBox messages={messages} />
+      <ConnectionStatus status={commonStates.status} />
+      <Timer elapsedTime={commonStates.elapsedTime}></Timer>
+    </div>
+  )
 }

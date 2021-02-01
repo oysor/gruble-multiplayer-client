@@ -1,0 +1,1 @@
+export { InputBoard } from './InputBoard'
