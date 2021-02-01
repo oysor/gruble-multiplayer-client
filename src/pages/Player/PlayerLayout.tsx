@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from './playerStore'
 import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
-import { JoinGame } from './pages/JoinGame'
+import { JoinGame } from './pages/1.JoinGame'
 import { ShowPlayerInput } from './components'
 
 export const PlayerLayout: FunctionComponent = () => {

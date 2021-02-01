@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { CreateRoom } from '../CreateRoom'
+import { CreateRoom } from '../3.CreateRoom'
 import {
   MissingInput,
   SmartNumericInput,

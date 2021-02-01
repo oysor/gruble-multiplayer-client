@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { TimeLimit } from '../TimeLimit'
+import { TimeLimit } from '../2.TimeLimit'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
 
 export const RoomName: FunctionComponent = () => {

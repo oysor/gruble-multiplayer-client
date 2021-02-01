@@ -7,7 +7,7 @@ import {
 } from '../../common/constants/'
 
 export interface playerState {
-  name: string
+  playerName: string
   messages: Array<string>
   roomId: string
   commonStates: CommonStates
@@ -17,7 +17,7 @@ export interface playerState {
 }
 
 const initialState: playerState = {
-  name: '',
+  playerName: '',
   messages: [],
   roomId: '',
   commonStates: initialCommonStates,
@@ -35,7 +35,7 @@ const playerSlice = createSlice({
       state.commonStates.status = action.payload
     },
     setPlayerName: (state, action) => {
-      state.name = action.payload
+      state.playerName = action.payload
     },
     // Room which the player has joined.
     setRoomId: (state, action) => {

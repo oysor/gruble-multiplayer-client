@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Lobby } from '../Lobby'
+import { StartGame } from '../4.StartGame'
 import { useDispatch } from 'react-redux'
 import { toServer } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components/'
@@ -50,6 +50,6 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
       {reminder ? <MissingInput categoryList={categoryList} /> : null}
     </div>
   ) : (
-    <Lobby />
+    <StartGame />
   )
 }

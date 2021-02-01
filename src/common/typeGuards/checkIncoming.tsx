@@ -44,7 +44,7 @@ export function checkOnRoom(object: gameRoom): object is gameRoom {
     throw new Error(`---> Expected roomId to be string, got '${roomId}'. <---`)
   }
   if (!isString(lobbyName)) {
-    throw new Error(`---> Expected lobbyName to be string, got '${lobbyName}'. <---`)
+    throw new Error(`---> Expected lobbyname to be string, got '${lobbyName}'. <---`)
   }
   if (!isNumber(timeLimit)) {
     throw new Error(`---> Expected timeLimit to be number, got '${timeLimit}'. <---`)

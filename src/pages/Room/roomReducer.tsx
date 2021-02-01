@@ -8,9 +8,8 @@ import {
 } from '../../common/constants/'
 
 export interface RoomState {
-  lobbyName: string
+  roomName: string
   roomId: string
-  maxPlayers: number
   messages: Array<string>
   timeLimit: number
   commonStates: CommonStates
@@ -20,9 +19,8 @@ export interface RoomState {
 }
 
 const initialState: RoomState = {
-  lobbyName: '',
+  roomName: '',
   roomId: '',
-  maxPlayers: 0,
   messages: [],
   timeLimit: 0,
   commonStates: initialCommonStates,
@@ -40,13 +38,12 @@ const roomSlice = createSlice({
       state.commonStates.status = action.payload
     },
     setRoomName: (state, action) => {
-      state.lobbyName = action.payload
+      state.roomName = action.payload
     },
     setRoom: (state, action) => {
       state.roomId = action.payload.roomId
-      state.lobbyName = action.payload.lobbyName
+      state.roomName = action.payload.lobbyName
       state.timeLimit = action.payload.timeLimit
-      state.maxPlayers = action.payload.maxPlayers
       state.boardSettings = action.payload.boardSettings
     },
     setTimeElapsed: (state, action) => {

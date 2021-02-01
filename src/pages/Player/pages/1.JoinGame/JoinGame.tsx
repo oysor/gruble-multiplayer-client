@@ -2,14 +2,14 @@ import React, { FunctionComponent, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setPlayerName, setRoomId, toServer } from '../../playerReducer'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
-import { Play } from '../Play'
+import { Play } from '../2.Play'
 
 export const JoinGame: FunctionComponent = () => {
-  const [name, setName] = useState('')
+  const [playerName, setplayerName] = useState('')
   const [roomId, setId] = useState('')
   // remind about missing input
   const [remind, setRemind] = useState(false)
-  const validInput = name.length > 0 && roomId.length > 0
+  const validInput = playerName.length > 0 && roomId.length > 0
 
   const dispatch = useDispatch()
 
@@ -17,11 +17,11 @@ export const JoinGame: FunctionComponent = () => {
   const [nextPage, setNext] = useState(true)
 
   const dispatchOnClick = () => {
-    dispatch(setPlayerName(name))
+    dispatch(setPlayerName(playerName))
     dispatch(setRoomId(roomId))
     dispatch({
       type: toServer.JoinRoom,
-      payload: { roomId: roomId, playerName: name },
+      payload: { roomId: roomId, playerName: playerName },
     })
     setNext(false)
   }
@@ -29,7 +29,7 @@ export const JoinGame: FunctionComponent = () => {
   return nextPage ? (
     <div className="join-room">
       <form className="input-join-room">
-        <SmartInput onChange={setName} placeholder={'player name..'} />
+        <SmartInput onChange={setplayerName} placeholder={'player name..'} />
         <SmartInput onChange={setId} placeholder={'RoomId..'} />
         <SubmitButton
           onClick={() => {
@@ -38,7 +38,7 @@ export const JoinGame: FunctionComponent = () => {
           value={'Join room'}
         />
       </form>
-      {remind ? <MissingInput name={name} roomId={roomId} /> : null}
+      {remind ? <MissingInput name={playerName} roomId={roomId} /> : null}
     </div>
   ) : (
     <Play />

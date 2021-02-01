@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import { RoomName } from './pages/RoomName'
+import { RoomName } from './pages/1.RoomName'
 import { RootState } from './roomStore'
 import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
 import { PlayerList } from './components/PlayerList'

@@ -5,7 +5,7 @@ import { RootState } from '../../roomStore'
 import { toServer } from '../../roomReducer'
 import { ShowRoomInput } from '../../components'
 
-export const Lobby: FunctionComponent = () => {
+export const StartGame: FunctionComponent = () => {
   const { roomId, playerList } = useSelector((state: RootState) => state.room)
   const dispatch = useDispatch()
 
@@ -13,7 +13,7 @@ export const Lobby: FunctionComponent = () => {
   const [reminder, setReminder] = useState(false)
 
   return (
-    <div className="room-lobby">
+    <div className="room-start-game">
       <ShowRoomInput />
       <Button
         onClick={() => {
