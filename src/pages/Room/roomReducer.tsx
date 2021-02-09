@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   Board,
-  boardSettings,
+  BoardSettings,
   CommonStates,
   initialCommonStates,
   Player,
+  WordFrequencies,
 } from '../../common/constants/'
+import { calculateWordFrequencies } from './computation/calculation'
 
 export interface RoomState {
   roomName: string
@@ -13,9 +15,10 @@ export interface RoomState {
   messages: Array<string>
   timeLimit: number
   commonStates: CommonStates
-  boardSettings: boardSettings
-  playerBoard: Board
+  boardSettings: BoardSettings
+  board: Board
   playerList: Player[]
+  wordFrequencies: WordFrequencies
 }
 
 const initialState: RoomState = {
@@ -25,8 +28,9 @@ const initialState: RoomState = {
   timeLimit: 0,
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
-  playerBoard: [['']],
+  board: [['']],
   playerList: [],
+  wordFrequencies: {},
 }
 
 const roomSlice = createSlice({
@@ -42,7 +46,7 @@ const roomSlice = createSlice({
     },
     setRoom: (state, action) => {
       state.roomId = action.payload.roomId
-      state.roomName = action.payload.lobbyName
+      state.roomName = action.payload.roomName
       state.timeLimit = action.payload.timeLimit
       state.boardSettings = action.payload.boardSettings
     },
@@ -52,13 +56,18 @@ const roomSlice = createSlice({
     timesUp: (state) => {
       state.commonStates.elapsedTime = 0
     },
+    receiveBoards: (state, action) => {
+      const playerList = action.payload
+      state.wordFrequencies = calculateWordFrequencies(playerList, state.boardSettings)
+      state.playerList = playerList
+    },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
     removePlayer: (state, action) => {
       const newList = [...state.playerList]
       state.playerList = newList.filter((player) => {
-        return player.playerId !== action.payload
+        return player.id !== action.payload
       })
     },
     addPlayer: (state, action) => {
@@ -82,6 +91,7 @@ export enum fromServer {
   onTimerElapsed = 'onTimerCount',
   onPlayerLeft = 'onPlayerLeft',
   onTimesUp = 'onTimerFinished',
+  ReceiveBoards = 'ReceiveBoards',
 }
 
 // import the actions where you want to dispatch them.
@@ -95,6 +105,7 @@ export const {
   addPlayer,
   resetState,
   timesUp,
+  receiveBoards,
 } = roomSlice.actions
 
 export default roomSlice.reducer

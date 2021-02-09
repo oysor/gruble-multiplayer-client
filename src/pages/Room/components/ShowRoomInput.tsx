@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../roomStore'
+import { RoomState } from '../roomStore'
 
 export const ShowRoomInput: FunctionComponent = () => {
   const { roomId, roomName, timeLimit, boardSettings, playerList } = useSelector(
-    (state: RootState) => state.room
+    (state: RoomState) => state.room
   )
 
   return (
@@ -16,7 +16,12 @@ export const ShowRoomInput: FunctionComponent = () => {
       </div>
       <div>TimeLimit: {timeLimit}</div>
       <div>GameBoard: {JSON.stringify(boardSettings)}</div>
-      <div>Players: {JSON.stringify(playerList)}</div>
+      <div>
+        Players:
+        {playerList.map((p, k) => {
+          return <div key={k}>{JSON.stringify(p)}</div>
+        })}
+      </div>
     </div>
   )
 }

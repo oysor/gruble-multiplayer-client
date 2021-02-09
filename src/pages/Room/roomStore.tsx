@@ -10,14 +10,16 @@ import roomReducer, {
   removePlayer,
   addPlayer,
   timesUp,
+  receiveBoards,
 } from './roomReducer'
 import { ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
 import {
-  checkOnPlayer,
+  checkOnNewPlayer,
   checkOnReceiveMessage,
   checkOnRoom,
   checkOnTimerElapsed,
+  checkPlayerList,
 } from '../../common/typeGuards'
 
 // Builds the SignalR connection, mapping it to /chathub
@@ -42,12 +44,12 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
-      checkOnPlayer(player)
+      checkOnNewPlayer(player)
       store.dispatch(addPlayer(player))
     })
 
     hubConnection.on(fromServer.onPlayerLeft, (player) => {
-      checkOnPlayer(player)
+      checkOnNewPlayer(player)
       store.dispatch(removePlayer(player))
     })
 
@@ -60,8 +62,14 @@ export async function startRoomConnection(): Promise<void> {
       checkOnTimerElapsed(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
+
     hubConnection.on(fromServer.onTimesUp, () => {
       store.dispatch(timesUp())
+    })
+
+    hubConnection.on(fromServer.ReceiveBoards, (playerList) => {
+      checkPlayerList(playerList)
+      store.dispatch(receiveBoards(playerList))
     })
   } catch (err) {
     console.log(err)
@@ -119,6 +127,6 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 })
 
-export type RootState = ReturnType<typeof store.getState>
+export type RoomState = ReturnType<typeof store.getState>
 
 export default store

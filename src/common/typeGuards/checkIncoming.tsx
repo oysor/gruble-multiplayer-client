@@ -1,4 +1,4 @@
-import { boardSettings, gameRoom, Player } from '../constants'
+import { BoardSettings, GameRoom, Player } from '../constants'
 
 /**
  *  For checking the incomings from server.
@@ -17,14 +17,24 @@ export function isStringArray(array: unknown): array is string[] {
 }
 
 export function is2DStringArray(array: unknown): array is string[][] {
-  return array instanceof Array && typeof array[0][0] === 'string'
+  return (
+    array instanceof Array && array[0] instanceof Array && typeof array[0][0] === 'string'
+  )
+}
+
+export function is2DArray(array: unknown): array is unknown[][] {
+  return array instanceof Array && array[0] instanceof Array
+}
+
+export function isArray(array: unknown): array is unknown[] {
+  return array instanceof Array
 }
 
 export function isUndefined(x: unknown): x is undefined {
   return typeof x === 'undefined'
 }
 
-export function isBoardSettings(object: boardSettings): object is boardSettings {
+export function isBoardSettings(object: BoardSettings): object is BoardSettings {
   const { letters, categories } = object
 
   if (!isStringArray(letters)) {
@@ -37,14 +47,14 @@ export function isBoardSettings(object: boardSettings): object is boardSettings 
   return isStringArray(letters) && isStringArray(categories)
 }
 
-export function checkOnRoom(object: gameRoom): object is gameRoom {
-  const { roomId, lobbyName, timeLimit, boardSettings } = object
+export function checkOnRoom(object: GameRoom): object is GameRoom {
+  const { roomId, roomName, timeLimit, boardSettings } = object
 
   if (!isString(roomId)) {
     throw new Error(`---> Expected roomId to be string, got '${roomId}'. <---`)
   }
-  if (!isString(lobbyName)) {
-    throw new Error(`---> Expected lobbyname to be string, got '${lobbyName}'. <---`)
+  if (!isString(roomName)) {
+    throw new Error(`---> Expected roomName to be string, got '${roomName}'. <---`)
   }
   if (!isNumber(timeLimit)) {
     throw new Error(`---> Expected timeLimit to be number, got '${timeLimit}'. <---`)
@@ -69,20 +79,47 @@ export function checkOnTimerElapsed(timeElapsed: unknown): timeElapsed is number
   return true
 }
 
-export function checkOnPlayer(object: Player): object is Player {
-  const { playerName, playerId, color, score } = object
+export function checkOnNewPlayer(object: Player): object is Player {
+  const { id, userId, name, color } = object
 
-  if (!isString(playerName)) {
-    throw new Error(`---> Expected playerName to be string, got '${playerName}'. <---`)
+  if (!isNumber(id)) {
+    throw new Error(`---> Expected player id to be number, got '${id}'. <---`)
   }
-  if (!isNumber(playerId)) {
-    throw new Error(`---> Expected playerId to be number, got '${playerId}'. <---`)
+  if (!isString(userId)) {
+    throw new Error(`---> Expected userId to be string, got '${userId}'. <---`)
+  }
+  if (!isString(name)) {
+    throw new Error(`---> Expected player name to be string, got '${name}'. <---`)
   }
   if (!isString(color)) {
     throw new Error(`---> Expected color to be string, got '${color}'. <---`)
   }
-  if (!isNumber(score)) {
-    throw new Error(`---> Expected score to be number, got '${score}'. <---`)
+  return true
+}
+
+export function checkOnPlayerResult(object: Player): object is Player {
+  const { id, userId, name, color, board } = object
+
+  if (!isNumber(id)) {
+    throw new Error(`---> Expected player id to be number, got '${id}'. <---`)
+  }
+  if (!isString(userId)) {
+    throw new Error(`---> Expected userId to be string, got '${userId}'. <---`)
+  }
+  if (!isString(name)) {
+    throw new Error(`---> Expected player name to be string, got '${name}'. <---`)
+  }
+  if (!isString(color)) {
+    throw new Error(`---> Expected color to be string, got '${color}'. <---`)
+  }
+  if (!is2DStringArray(board)) {
+    throw new Error(
+      `---> Expected player board to be at least Array, got '${board}'. <---`
+    )
   }
   return true
+}
+
+export function checkPlayerList(playerList: Player[]): playerList is Player[] {
+  return isArray(playerList) && checkOnPlayerResult(playerList[0])
 }

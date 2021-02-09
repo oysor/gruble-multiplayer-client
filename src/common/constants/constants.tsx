@@ -2,25 +2,31 @@
  * Types
  */
 export type Player = {
-  playerName: string
-  playerId: number
+  name: string
+  id: number
+  userId: number
   color: string
   score: number
+  board: Board
 }
 
 export type Board = string[][]
 
-export type gameRoom = {
+export type GameRoom = {
   roomId: string
-  lobbyName: string
+  roomName: string
   timeLimit: number
-  boardSettings: boardSettings
+  boardSettings: BoardSettings
 }
 
-export type boardSettings = {
+export type BoardSettings = {
   letters: string[]
   categories: string[]
 }
+
+export type WordInfo = { frequency: number }
+
+export type WordFrequencies = { [word: string]: WordInfo }
 
 export type CommonStates = {
   playerCount: number
