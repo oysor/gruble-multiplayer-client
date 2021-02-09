@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, MissingInput } from '../../../../common/components'
-import { RootState } from '../../roomStore'
+import { RoomState } from '../../roomStore'
 import { toServer } from '../../roomReducer'
 import { ShowRoomInput } from '../../components'
 
 export const StartGame: FunctionComponent = () => {
-  const { roomId, playerList } = useSelector((state: RootState) => state.room)
+  const { roomId, playerList } = useSelector((state: RoomState) => state.room)
   const dispatch = useDispatch()
 
   const startGame = playerList.length > 0

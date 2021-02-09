@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../roomStore'
+import { RoomState } from '../roomStore'
 
 export const PlayerList: FunctionComponent = () => {
-  const { playerList } = useSelector((state: RootState) => state.room)
+  const { playerList } = useSelector((state: RoomState) => state.room)
 
   return (
     <div>
-      {playerList.map(function (d, idx) {
+      {playerList.map(function (player, idx) {
         return (
           <div key={idx}>
-            {idx}: <span style={{ color: d.color }}>{d.playerName}</span>{' '}
+            {idx}: <span style={{ color: player.color }}>{player.name}</span>{' '}
           </div>
         )
       })}

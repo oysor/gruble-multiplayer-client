@@ -3,7 +3,7 @@ import { StartGame } from '../4.StartGame'
 import { useDispatch } from 'react-redux'
 import { toServer } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components/'
-import { InputCategories } from './components/InputCategories'
+import { InputCategories } from './InputCategories'
 
 type CreateRoomProps = {
   name: string
@@ -27,10 +27,10 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
     dispatch({
       type: toServer.CreateRoom,
       payload: {
-        LobbyName: name,
+        RoomName: name,
         TimeLimit: time,
         BoardSettings: {
-          categories: categoryList,
+          Categories: categoryList,
         },
       },
     })

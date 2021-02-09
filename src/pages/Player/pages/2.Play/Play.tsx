@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../playerStore'
-import { InputBoard } from './components/InputBoard'
+import { PlayerState } from '../../playerStore'
+import { InputBoard } from './InputBoard'
 import { SendMessage } from '../../components/SendMessage'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp } = useSelector(
-    (state: RootState) => state.player
+    (state: PlayerState) => state.player
   )
   const dispatch = useDispatch()
 

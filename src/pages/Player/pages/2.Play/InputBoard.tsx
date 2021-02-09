@@ -12,6 +12,7 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
 }) => {
   const { categories, letters } = boardSettings
 
+  // Displays the first row with categories
   const headerRow = (
     <div className="board-row">
       <div className="board-square"></div>

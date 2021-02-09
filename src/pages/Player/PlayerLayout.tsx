@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from './playerStore'
+import { PlayerState } from './playerStore'
 import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
 import { JoinGame } from './pages/1.JoinGame'
 import { ShowPlayerInput } from './components'
 
 export const PlayerLayout: FunctionComponent = () => {
-  const { commonStates, messages } = useSelector((state: RootState) => state.player)
+  const { commonStates, messages } = useSelector((state: PlayerState) => state.player)
 
   return (
     <div className="player-layout">

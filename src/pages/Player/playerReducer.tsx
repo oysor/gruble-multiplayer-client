@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   Board,
-  boardSettings,
+  BoardSettings,
   CommonStates,
   initialCommonStates,
 } from '../../common/constants/'
@@ -11,7 +11,7 @@ export interface playerState {
   messages: Array<string>
   roomId: string
   commonStates: CommonStates
-  boardSettings: boardSettings
+  boardSettings: BoardSettings
   playerBoard: Board
   timesUp: boolean
 }

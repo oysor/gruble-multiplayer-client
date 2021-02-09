@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../playerStore'
+import { PlayerState } from '../playerStore'
 
 export const ShowPlayerInput: FunctionComponent = () => {
   const { playerName, roomId, boardSettings, playerBoard } = useSelector(
-    (state: RootState) => state.player
+    (state: PlayerState) => state.player
   )
 
   return (
