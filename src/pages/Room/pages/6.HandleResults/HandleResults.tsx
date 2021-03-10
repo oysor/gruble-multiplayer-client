@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button } from '../../../../common/components'
 import { RoomState } from '../../roomStore'
+import { ShowResults } from '../7.ShowResults'
 import { HandleAnswers } from './HandleAnswers'
 
 export const HandleResults: FunctionComponent = () => {
@@ -18,7 +19,10 @@ export const HandleResults: FunctionComponent = () => {
     nextCategory(categoryNr < categories.length - 1 ? categoryNr + 1 : 0)
   }
 
-  return (
+  // Next component
+  const [nextPage, setNext] = useState(true)
+
+  return nextPage ? (
     <div className="handle-results">
       <div className="show-letter">
         <h2>{letters[letterNr]}</h2>
@@ -32,12 +36,19 @@ export const HandleResults: FunctionComponent = () => {
           square={{ letter: letterNr, category: categoryNr }}
         />
       </div>
-      <div className="lbutton">
+      <div className="show-buttons">
         <Button onClick={showNextLetter}>Next letter</Button>
-      </div>
-      <div className="cbutton">
         <Button onClick={showNextCategory}>Next category</Button>
+        <Button
+          onClick={() => {
+            setNext(false)
+          }}
+        >
+          Show results!
+        </Button>
       </div>
     </div>
+  ) : (
+    <ShowResults />
   )
 }

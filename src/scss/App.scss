@@ -202,7 +202,7 @@ form.input-join-room {
     display: grid;
     grid-template-areas: "letter category" 
                          "answers answers"
-                         "lbutton cbutton";
+                         "buttons buttons";
 
     .show-letter{
         grid-area: letter;
@@ -216,10 +216,14 @@ form.input-join-room {
         grid-area: answers;
     }
 
-    .lbutton{
-        grid-area: lbutton;
+    .show-buttons{
+        grid-area: buttons;
     }
-    .cbutton{
-        grid-area: cbutton;
-    }
+
+    // .lbutton{
+    //     grid-area: lbutton;
+    // }
+    // .cbutton{
+    //     grid-area: cbutton;
+    // }
 }
