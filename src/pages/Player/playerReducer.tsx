@@ -53,9 +53,7 @@ const playerSlice = createSlice({
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 
-      const arr = [...Array(x)].map(() => [...Array(y)].map(() => ''))
-
-      state.playerBoard = arr
+      state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
     },
     updateBoard: (state, action) => {
       state.playerBoard = action.payload

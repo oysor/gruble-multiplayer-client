@@ -7,7 +7,8 @@ import {
   Player,
   WordFrequencies,
 } from '../../common/constants/'
-import { calculateWordFrequencies } from './computation/calculation'
+import { calculateWordFrequencies, updatePlayerScores } from './computation/calculation'
+// import { test_boardSettings, test_playerList } from './testData'
 
 export interface RoomState {
   roomName: string
@@ -58,8 +59,20 @@ const roomSlice = createSlice({
     },
     receiveBoards: (state, action) => {
       const playerList = action.payload
-      state.wordFrequencies = calculateWordFrequencies(playerList, state.boardSettings)
-      state.playerList = playerList
+      const wordFrequencies = calculateWordFrequencies(playerList, state.boardSettings)
+      state.wordFrequencies = wordFrequencies
+      state.playerList = updatePlayerScores(
+        playerList,
+        state.boardSettings,
+        wordFrequencies
+      )
+
+      // const playerList = test_playerList
+      // const boardSettings = test_boardSettings
+      // const wordFrequencies = calculateWordFrequencies(playerList, boardSettings)
+      // state.boardSettings = boardSettings
+      // state.wordFrequencies = wordFrequencies
+      // state.playerList = updatePlayerScores(playerList, boardSettings, wordFrequencies)
     },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
@@ -72,6 +85,16 @@ const roomSlice = createSlice({
     },
     addPlayer: (state, action) => {
       state.playerList = [...state.playerList, action.payload]
+    },
+    updatePlayerScoreBoard: (state, action) => {
+      const { letter, category } = action.payload.square
+
+      state.playerList = state.playerList.map((player) => {
+        if (player.name === action.payload.player.name) {
+          player.scoreBoard[letter][category] = action.payload.scoreCard
+        }
+        return player
+      })
     },
     resetState: () => initialState,
   },
@@ -106,6 +129,7 @@ export const {
   resetState,
   timesUp,
   receiveBoards,
+  updatePlayerScoreBoard,
 } = roomSlice.actions
 
 export default roomSlice.reducer

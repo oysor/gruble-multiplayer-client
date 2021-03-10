@@ -8,9 +8,17 @@ export type Player = {
   color: string
   score: number
   board: Board
+  scoreBoard: ScoreBoard
 }
 
 export type Board = string[][]
+
+export type ScoreCard = {
+  flag: Flag
+  word: string
+}
+
+export type ScoreBoard = ScoreCard[][]
 
 export type GameRoom = {
   roomId: string
@@ -41,6 +49,14 @@ export enum LoadingMode {
   Loading = 'LOADING',
   Loaded = 'LOADED',
   Idle = 'IDLE',
+}
+
+export enum Flag {
+  Unknown = 'UNKNOWN',
+  Missing = 'MISSING',
+  Wrong = 'WRONG',
+  Common = 'COMMON',
+  Unique = 'UNIQUE',
 }
 
 /**

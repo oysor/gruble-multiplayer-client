@@ -11,8 +11,8 @@ type TimeLimitProps = {
 }
 
 export const TimeLimit: FunctionComponent<TimeLimitProps> = (props) => {
-  // Default value: 10 minutes
-  const [time, setTime] = useState(10)
+  // Default value: 2 seconds
+  const [time, setTime] = useState(1)
   // Next component
   const [nextPage, setNext] = useState(true)
   const { name } = props

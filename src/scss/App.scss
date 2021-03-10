@@ -37,7 +37,7 @@ html, body, #root {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100%;
+    // height: 100%;
 }
 
 .smart-input,
@@ -141,13 +141,12 @@ form.input-join-room {
 }
 
 .board{
-
-    height: 15rem;
-    width: 15rem;
+    height: 20rem;
+    width: 20rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 1rem;
+    // margin-top: 1rem;
 }
 
 .board-row{
@@ -170,4 +169,57 @@ form.input-join-room {
     text-align: center;
     border: none;
     // border-radius: 0;
+}
+
+
+
+.score-board{
+    display: flex;
+    flex-direction: column;
+    // height: 20rem;
+    width: 25rem;
+}
+
+.score-row{
+    display: flex;
+    // height: 100%;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.score-square{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.score-edit{
+    text-align: center;
+}
+
+
+.handle-results {
+    display: grid;
+    grid-template-areas: "letter category" 
+                         "answers answers"
+                         "lbutton cbutton";
+
+    .show-letter{
+        grid-area: letter;
+    }
+
+    .show-category{
+        grid-area: category;
+    }
+
+    .show-answers{
+        grid-area: answers;
+    }
+
+    .lbutton{
+        grid-area: lbutton;
+    }
+    .cbutton{
+        grid-area: cbutton;
+    }
 }

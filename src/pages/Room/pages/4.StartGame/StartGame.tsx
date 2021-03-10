@@ -4,6 +4,7 @@ import { Button, MissingInput } from '../../../../common/components'
 import { RoomState } from '../../roomStore'
 import { toServer } from '../../roomReducer'
 import { ShowRoomInput } from '../../components'
+import { HandleResults } from '../6.HandleResults'
 
 export const StartGame: FunctionComponent = () => {
   const { roomId, playerList } = useSelector((state: RoomState) => state.room)
@@ -12,19 +13,27 @@ export const StartGame: FunctionComponent = () => {
   const startGame = playerList.length > 0
   const [reminder, setReminder] = useState(false)
 
-  return (
+  // Next component
+  const [nextPage, setNext] = useState(true)
+
+  return nextPage ? (
     <div className="room-start-game">
       <ShowRoomInput />
       <Button
         onClick={() => {
-          startGame
-            ? dispatch({ type: toServer.StartGame, payload: roomId })
-            : setReminder(!reminder)
+          if (startGame) {
+            dispatch({ type: toServer.StartGame, payload: roomId })
+            setNext(false)
+          } else {
+            setReminder(!reminder)
+          }
         }}
       >
         Start Game
       </Button>
       {reminder ? <MissingInput playerList={playerList} /> : null}
     </div>
+  ) : (
+    <HandleResults />
   )
 }
