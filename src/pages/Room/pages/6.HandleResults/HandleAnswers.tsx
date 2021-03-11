@@ -4,6 +4,7 @@ import { PlayerRow } from './PlayerRow'
 import { WrongAnswerButton } from './WrongAnswerButton'
 import { Player } from '../../../../common/constants'
 import { flagColor } from '../../computation/calculation'
+// import { PlayerAnswerBoard } from './PlayerAnswerBoard'
 
 type HandleAnswersProps = {
   playerList: Player[]
@@ -22,17 +23,20 @@ export const HandleAnswers: FunctionComponent<HandleAnswersProps> = ({
   const handlePlayer = (player: Player) => {
     const playerInput = player.scoreBoard[letter][category]
     return (
-      <PlayerRow key={player.name}>
-        <h3>{player.name}</h3>
-        <div className={'score-square'} style={{ color: flagColor(playerInput.flag) }}>
-          {playerInput.word}
-        </div>
-        <ChangeFlag player={player} square={{ letter: letter, category: category }} />
-        <WrongAnswerButton
-          player={player}
-          square={{ letter: letter, category: category }}
-        />
-      </PlayerRow>
+      <div key={player.name}>
+        {/* <PlayerAnswerBoard player={player} square={square} /> */}
+        <PlayerRow>
+          <h3>{player.name}</h3>
+          <div className={'score-square'} style={{ color: flagColor(playerInput.flag) }}>
+            {playerInput.word}
+          </div>
+          <ChangeFlag player={player} square={{ letter: letter, category: category }} />
+          <WrongAnswerButton
+            player={player}
+            square={{ letter: letter, category: category }}
+          />
+        </PlayerRow>
+      </div>
     )
   }
 

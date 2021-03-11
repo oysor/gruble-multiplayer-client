@@ -5,7 +5,6 @@ import { RoomState } from '../../roomStore'
 
 export const ShowResults: FunctionComponent = () => {
   const { playerList, boardSettings } = useSelector((state: RoomState) => state.room)
-
   const { letters, categories } = boardSettings
 
   const getPlayerScore = (player: Player) => {

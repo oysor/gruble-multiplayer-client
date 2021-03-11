@@ -13,21 +13,21 @@ type TimeLimitProps = {
 export const TimeLimit: FunctionComponent<TimeLimitProps> = (props) => {
   // Default value: 2 seconds
   const [time, setTime] = useState(1)
-  // Next component
-  const [nextPage, setNext] = useState(true)
+  // Next page/component
+  const [nextPage, setNext] = useState(false)
   const { name } = props
-
-  const validInput = time > 0
+  // Missing input warning
   const [reminder, setReminder] = useState(false)
+  const validInput = time > 0
 
-  return nextPage ? (
+  return !nextPage ? (
     <div className="room-time">
       <form>
         <SmartNumericInput onChange={setTime} value={time} />
         <SubmitButton
           value="Submit"
           onClick={() => {
-            validInput ? setNext(false) : setReminder(!reminder)
+            validInput ? setNext(true) : setReminder(!reminder)
           }}
         />
       </form>

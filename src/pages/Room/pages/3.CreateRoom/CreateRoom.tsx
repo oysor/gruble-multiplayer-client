@@ -12,16 +12,14 @@ type CreateRoomProps = {
 
 export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
   const { name, time } = props
-  // Next component
-  const [nextPage, setNext] = useState(true)
-
+  const dispatch = useDispatch()
+  // Next page/component
+  const [nextPage, setNext] = useState(false)
   // input categories
   const [categoryList, setCategoryList] = useState([''])
-
-  const dispatch = useDispatch()
-
-  const validInput = categoryList[0].length > 0
+  // Missing input warning
   const [reminder, setReminder] = useState(false)
+  const validInput = categoryList[0].length > 0
 
   const dispatchOnClick = () => {
     dispatch({
@@ -34,10 +32,10 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
         },
       },
     })
-    setNext(false)
+    setNext(true)
   }
 
-  return nextPage ? (
+  return !nextPage ? (
     <div className="room-create">
       <InputCategories inputList={categoryList} setInputList={setCategoryList} />
       <Button

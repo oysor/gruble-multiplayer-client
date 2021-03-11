@@ -5,20 +5,20 @@ import { MissingInput, SmartInput, SubmitButton } from '../../../../common/compo
 export const RoomName: FunctionComponent = () => {
   // Set room name
   const [name, setName] = useState('')
-  // Next component
-  const [nextPage, setNext] = useState(true)
-
-  const validInput = name.length !== 0
+  // Next page/component
+  const [nextPage, setNext] = useState(false)
+  // Missing input warning
   const [reminder, setReminder] = useState(false)
+  const validInput = name.length !== 0
 
-  return nextPage ? (
+  return !nextPage ? (
     <div className="room-name">
       <form>
         <SmartInput onChange={setName} placeholder={'room name...'} />
         <SubmitButton
           value="Submit"
           onClick={() => {
-            validInput ? setNext(false) : setReminder(!reminder)
+            validInput ? setNext(true) : setReminder(!reminder)
           }}
         />
       </form>

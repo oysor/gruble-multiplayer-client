@@ -200,16 +200,14 @@ form.input-join-room {
 
 .handle-results {
     display: grid;
-    grid-template-areas: "letter category" 
+    grid-template-areas: "info info" 
                          "answers answers"
                          "buttons buttons";
 
-    .show-letter{
-        grid-area: letter;
-    }
-
-    .show-category{
-        grid-area: category;
+    .show-info{
+        grid-area: info;
+        display: flex;
+        justify-content: space-between;
     }
 
     .show-answers{
@@ -219,11 +217,14 @@ form.input-join-room {
     .show-buttons{
         grid-area: buttons;
     }
+}
 
-    // .lbutton{
-    //     grid-area: lbutton;
-    // }
-    // .cbutton{
-    //     grid-area: cbutton;
-    // }
+
+.display-list {
+    margin-top:2rem;
+    margin-bottom:2rem;
+
+    .highlight-list-item{
+        font-size: 2rem;
+    }
 }

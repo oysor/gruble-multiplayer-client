@@ -9,21 +9,20 @@ import { HandleResults } from '../6.HandleResults'
 export const StartGame: FunctionComponent = () => {
   const { roomId, playerList } = useSelector((state: RoomState) => state.room)
   const dispatch = useDispatch()
-
-  const startGame = playerList.length > 0
+  // Next page/component
+  const [nextPage, setNext] = useState(false)
+  // Missing input warning
   const [reminder, setReminder] = useState(false)
+  const startGame = playerList.length > 0
 
-  // Next component
-  const [nextPage, setNext] = useState(true)
-
-  return nextPage ? (
+  return !nextPage ? (
     <div className="room-start-game">
       <ShowRoomInput />
       <Button
         onClick={() => {
           if (startGame) {
             dispatch({ type: toServer.StartGame, payload: roomId })
-            setNext(false)
+            setNext(true)
           } else {
             setReminder(!reminder)
           }
