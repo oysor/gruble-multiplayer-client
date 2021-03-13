@@ -13,8 +13,8 @@ export const JoinGame: FunctionComponent = () => {
 
   const dispatch = useDispatch()
 
-  // Next component
-  const [nextPage, setNext] = useState(true)
+  // Next page/component
+  const [nextPage, setNext] = useState(false)
 
   const dispatchOnClick = () => {
     dispatch(setPlayerName(playerName))
@@ -23,10 +23,10 @@ export const JoinGame: FunctionComponent = () => {
       type: toServer.JoinRoom,
       payload: { roomId: roomId, playerName: playerName },
     })
-    setNext(false)
+    setNext(true)
   }
 
-  return nextPage ? (
+  return !nextPage ? (
     <div className="join-room">
       <form className="input-join-room">
         <SmartInput onChange={setplayerName} placeholder={'player name..'} />
