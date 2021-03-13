@@ -1,6 +1,13 @@
 /**
  * Types
  */
+
+export type CommonStates = {
+  playerCount: number
+  status: ConnectionMode
+  elapsedTime: number
+}
+
 export type Player = {
   name: string
   id: number
@@ -9,6 +16,16 @@ export type Player = {
   score: number
   board: Board
   scoreBoard: ScoreBoard
+}
+
+export type PlayerResults = {
+  score: number
+  correct: number
+  unique: number
+  common: number
+  wrong: number
+  missing: number
+  unknown: number
 }
 
 export type Board = string[][]
@@ -35,12 +52,6 @@ export type BoardSettings = {
 export type WordInfo = { frequency: number }
 
 export type WordFrequencies = { [word: string]: WordInfo }
-
-export type CommonStates = {
-  playerCount: number
-  status: ConnectionMode
-  elapsedTime: number
-}
 
 /**
  * Enums

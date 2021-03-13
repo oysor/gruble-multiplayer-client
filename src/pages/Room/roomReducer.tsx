@@ -20,6 +20,7 @@ export interface RoomState {
   board: Board
   playerList: Player[]
   wordFrequencies: WordFrequencies
+  receivedBoards: boolean
 }
 
 const initialState: RoomState = {
@@ -32,6 +33,7 @@ const initialState: RoomState = {
   board: [['']],
   playerList: [],
   wordFrequencies: {},
+  receivedBoards: false,
 }
 
 const roomSlice = createSlice({
@@ -73,6 +75,7 @@ const roomSlice = createSlice({
       state.boardSettings = boardSettings
       state.wordFrequencies = wordFrequencies
       state.playerList = updatePlayerScores(playerList, boardSettings, wordFrequencies)
+      state.receivedBoards = true
     },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]

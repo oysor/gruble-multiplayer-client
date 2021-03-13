@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
-import { Flag, Player } from '../../../../common/constants'
+import { Flag, Player, PlayerResults } from '../../../../common/constants'
 import { RoomState } from '../../roomStore'
 
 export const ShowResults: FunctionComponent = () => {
@@ -8,7 +8,7 @@ export const ShowResults: FunctionComponent = () => {
   const { letters, categories } = boardSettings
 
   const getPlayerScore = (player: Player) => {
-    const playerResult = {
+    const playerResult: PlayerResults = {
       score: 0,
       correct: 0,
       unique: 0,

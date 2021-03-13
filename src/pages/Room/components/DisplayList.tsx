@@ -7,9 +7,9 @@ type DisplayList = {
 
 export const DisplayList: FunctionComponent<DisplayList> = ({ list, hightlight }) => {
   const displayList = list.map((item, i) => {
-    const color = i === hightlight ? 'highlight-list-item' : ''
+    const color = i === hightlight ? ' highlight' : ''
     return (
-      <span className={color} key={i}>
+      <span className={'list-item' + color} key={i}>
         {item}
       </span>
     )

@@ -79,7 +79,7 @@ const fillScoreBoard = (
   board: Board,
   freqList: WordFrequencies,
   boardSettings: BoardSettings
-) => {
+): ScoreBoard => {
   const { categories, letters } = boardSettings
   const scoreBoard: ScoreBoard = emptyScoreBoard(letters, categories)
 
