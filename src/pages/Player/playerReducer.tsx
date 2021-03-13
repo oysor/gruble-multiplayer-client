@@ -14,6 +14,7 @@ export interface playerState {
   boardSettings: BoardSettings
   playerBoard: Board
   timesUp: boolean
+  currentPage: number
 }
 
 const initialState: playerState = {
@@ -24,6 +25,7 @@ const initialState: playerState = {
   boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],
   timesUp: false,
+  currentPage: 1,
 }
 
 const playerSlice = createSlice({
@@ -66,6 +68,9 @@ const playerSlice = createSlice({
       // Board is already sent to server in middleware.
       state.timesUp = false
     },
+    setNextPage: (state) => {
+      state.currentPage += 1
+    },
     resetState: () => initialState,
   },
 })
@@ -95,6 +100,7 @@ export const {
   resetState,
   timesUp,
   sendBoard,
+  setNextPage,
 } = playerSlice.actions
 
 export default playerSlice.reducer

@@ -1,20 +1,13 @@
 import React, { FunctionComponent, useState } from 'react'
-import { StartGame } from '../4.StartGame'
-import { useDispatch } from 'react-redux'
-import { toServer } from '../../roomReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNextPage, toServer } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components/'
 import { InputCategories } from './InputCategories'
+import { RoomState } from '../../roomStore'
 
-type CreateRoomProps = {
-  name: string
-  time: number
-}
-
-export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
-  const { name, time } = props
+export const CreateRoom: FunctionComponent = () => {
+  const { roomName, timeLimit } = useSelector((state: RoomState) => state.room)
   const dispatch = useDispatch()
-  // Next page/component
-  const [nextPage, setNext] = useState(false)
   // input categories
   const [categoryList, setCategoryList] = useState([''])
   // Missing input warning
@@ -25,17 +18,17 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
     dispatch({
       type: toServer.CreateRoom,
       payload: {
-        RoomName: name,
-        TimeLimit: time,
+        RoomName: roomName,
+        TimeLimit: timeLimit,
         BoardSettings: {
           Categories: categoryList,
         },
       },
     })
-    setNext(true)
+    dispatch(setNextPage())
   }
 
-  return !nextPage ? (
+  return (
     <div className="room-create">
       <InputCategories inputList={categoryList} setInputList={setCategoryList} />
       <Button
@@ -47,7 +40,5 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
       </Button>
       {reminder ? <MissingInput categoryList={categoryList} /> : null}
     </div>
-  ) : (
-    <StartGame />
   )
 }

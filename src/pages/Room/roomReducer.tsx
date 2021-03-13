@@ -21,6 +21,7 @@ export interface RoomState {
   playerList: Player[]
   wordFrequencies: WordFrequencies
   receivedBoards: boolean
+  currentPage: number
 }
 
 const initialState: RoomState = {
@@ -34,6 +35,7 @@ const initialState: RoomState = {
   playerList: [],
   wordFrequencies: {},
   receivedBoards: false,
+  currentPage: 1,
 }
 
 const roomSlice = createSlice({
@@ -46,6 +48,9 @@ const roomSlice = createSlice({
     },
     setRoomName: (state, action) => {
       state.roomName = action.payload
+    },
+    setTimeLimit: (state, action) => {
+      state.timeLimit = action.payload
     },
     setRoom: (state, action) => {
       state.roomId = action.payload.roomId
@@ -99,6 +104,9 @@ const roomSlice = createSlice({
         return player
       })
     },
+    setNextPage: (state) => {
+      state.currentPage += 1
+    },
     resetState: () => initialState,
   },
 })
@@ -124,6 +132,7 @@ export enum fromServer {
 export const {
   setStatus,
   setRoomName,
+  setTimeLimit,
   setRoom,
   setTimeElapsed,
   newMessage,
@@ -133,6 +142,7 @@ export const {
   timesUp,
   receiveBoards,
   updatePlayerScoreBoard,
+  setNextPage,
 } = roomSlice.actions
 
 export default roomSlice.reducer
