@@ -30,12 +30,12 @@ export const InputCategories: FunctionComponent<InputCategoriesProps> = ({
   }
 
   return (
-    <div className="categories">
+    <div className="input-categories">
       {inputList.map((x, i) => {
         return (
-          <div className="input-categories" key={i}>
+          <div className="input-category" key={i}>
             <input
-              className="smart-input"
+              className="write-category"
               value={x}
               placeholder={'category..'}
               onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
@@ -43,13 +43,13 @@ export const InputCategories: FunctionComponent<InputCategoriesProps> = ({
               }
             />
             {inputList.length !== 1 && (
-              <button onClick={() => handleRemoveClick(i)} className="submit-input">
-                Remove
+              <button onClick={() => handleRemoveClick(i)} className="remove-category">
+                -
               </button>
             )}
             {inputList.length - 1 === i && (
-              <button onClick={handleAddClick} className="submit-input">
-                Add
+              <button onClick={handleAddClick} className="add-category">
+                +
               </button>
             )}
           </div>

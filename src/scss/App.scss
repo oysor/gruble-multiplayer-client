@@ -40,6 +40,43 @@ html, body, #root {
     // height: 100%;
 }
 
+.input-categories{
+
+    border: 1px solid black;
+    border-radius: 16px;
+    background: $input-color;
+    padding: 0.5rem;
+
+   .add-category,
+   .remove-category,
+   .write-category
+   {
+        display: inline-block;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        background: $input-color;
+        padding: 1rem 2rem;
+        margin: 0;
+   }
+
+   .add-category {
+        width: 100%;
+        font-size: 1.5rem;
+    }
+
+    .remove-category {
+        font-size: 1.5rem;
+    }
+
+    .write-category{
+        font-size: 1rem;
+    }
+}
+
+
+
+
 .smart-input,
 .smart-numeric-input,
 .submit-input {
@@ -177,7 +214,7 @@ form.input-join-room {
     display: flex;
     flex-direction: column;
     // height: 20rem;
-    width: 25rem;
+    width: 30rem;
 }
 
 .score-row{
@@ -224,7 +261,10 @@ form.input-join-room {
     margin-top:2rem;
     margin-bottom:2rem;
 
-    .highlight-list-item{
+    .list-item{ 
+        padding: 0.1rem;
+    }
+    .highlight{
         font-size: 2rem;
     }
 }
