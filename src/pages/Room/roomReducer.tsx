@@ -8,7 +8,7 @@ import {
   WordFrequencies,
 } from '../../common/constants/'
 import { calculateWordFrequencies, updatePlayerScores } from './computation/calculation'
-import { test_boardSettings, test_playerList } from './testData'
+// import { test_boardSettings, test_playerList } from './testData'
 
 export interface RoomState {
   roomName: string
@@ -65,22 +65,23 @@ const roomSlice = createSlice({
       state.commonStates.elapsedTime = 0
     },
     receiveBoards: (state, action) => {
-      // const playerList = action.payload
-      // const wordFrequencies = calculateWordFrequencies(playerList, state.boardSettings)
-      // state.wordFrequencies = wordFrequencies
-      // state.playerList = updatePlayerScores(
-      //   playerList,
-      //   state.boardSettings,
-      //   wordFrequencies
-      // )
-
-      const playerList = test_playerList
-      const boardSettings = test_boardSettings
-      const wordFrequencies = calculateWordFrequencies(playerList, boardSettings)
-      state.boardSettings = boardSettings
+      const playerList = action.payload
+      const wordFrequencies = calculateWordFrequencies(playerList, state.boardSettings)
       state.wordFrequencies = wordFrequencies
-      state.playerList = updatePlayerScores(playerList, boardSettings, wordFrequencies)
+      state.playerList = updatePlayerScores(
+        playerList,
+        state.boardSettings,
+        wordFrequencies
+      )
       state.receivedBoards = true
+
+      // const playerList = test_playerList
+      // const boardSettings = test_boardSettings
+      // const wordFrequencies = calculateWordFrequencies(playerList, boardSettings)
+      // state.boardSettings = boardSettings
+      // state.wordFrequencies = wordFrequencies
+      // state.playerList = updatePlayerScores(playerList, boardSettings, wordFrequencies)
+      // state.receivedBoards = true
     },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
