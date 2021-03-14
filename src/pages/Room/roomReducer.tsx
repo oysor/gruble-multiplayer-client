@@ -104,6 +104,9 @@ const roomSlice = createSlice({
         return player
       })
     },
+    setPlayerResults: (state, action) => {
+      state.playerList = action.payload
+    },
     setNextPage: (state) => {
       state.currentPage += 1
     },
@@ -115,6 +118,7 @@ const roomSlice = createSlice({
 export enum toServer {
   CreateRoom = 'CreateRoom',
   StartGame = 'StartGame',
+  SendResults = 'SendResults',
 }
 
 // receive from server
@@ -143,6 +147,7 @@ export const {
   receiveBoards,
   updatePlayerScoreBoard,
   setNextPage,
+  setPlayerResults,
 } = roomSlice.actions
 
 export default roomSlice.reducer

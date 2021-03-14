@@ -1,18 +1,8 @@
-import { BoardSettings, ScoreBoard } from '../../common/constants'
+import { BoardSettings, Player } from '../../common/constants'
 
 export const test_boardSettings: BoardSettings = {
   categories: ['Mat', 'Lukt', 'Skog'],
   letters: ['A', 'B', 'D'],
-}
-
-type Player = {
-  name: string
-  board: string[][]
-  color: string
-  id: number
-  userId: number
-  score: number
-  scoreBoard: ScoreBoard
 }
 
 const player1: Player = {
@@ -27,6 +17,15 @@ const player1: Player = {
   userId: 0,
   score: 0,
   scoreBoard: [],
+  playerResult: {
+    score: 0,
+    correct: 0,
+    unique: 0,
+    common: 0,
+    wrong: 0,
+    missing: 0,
+    unknown: 0,
+  },
 }
 const player2: Player = {
   name: 'Bernt',
@@ -40,6 +39,15 @@ const player2: Player = {
   userId: 0,
   score: 0,
   scoreBoard: [],
+  playerResult: {
+    score: 0,
+    correct: 0,
+    unique: 0,
+    common: 0,
+    wrong: 0,
+    missing: 0,
+    unknown: 0,
+  },
 }
 const player3: Player = {
   name: 'Carl',
@@ -53,6 +61,15 @@ const player3: Player = {
   userId: 0,
   score: 0,
   scoreBoard: [],
+  playerResult: {
+    score: 0,
+    correct: 0,
+    unique: 0,
+    common: 0,
+    wrong: 0,
+    missing: 0,
+    unknown: 0,
+  },
 }
 
 export const test_playerList = [player1, player2, player3]

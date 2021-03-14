@@ -3,6 +3,7 @@ import {
   BoardSettings,
   Flag,
   Player,
+  PlayerResult,
   ScoreBoard,
   ScoreCard,
   WordFrequencies,
@@ -121,4 +122,80 @@ export const flagColor = (flag: Flag): string => {
     case Flag.Unique:
       return 'purple'
   }
+}
+/**
+ *  Set flag based on word frequency
+ */
+export const getFlag = (freq: number): Flag => {
+  if (freq === 1) {
+    return Flag.Unique
+  } else if (freq > 1) {
+    return Flag.Common
+  } else {
+    return Flag.Unknown
+  }
+}
+/**
+ * Calculates player score by checking the flag for each answer
+ */
+export const calculatePlayerScore = (
+  player: Player,
+  boardSettings: BoardSettings
+): PlayerResult => {
+  const { letters, categories } = boardSettings
+
+  const playerResult: PlayerResult = {
+    score: 0,
+    correct: 0,
+    unique: 0,
+    common: 0,
+    wrong: 0,
+    missing: 0,
+    unknown: 0,
+  }
+
+  const addScore = (flag: Flag) => {
+    switch (flag) {
+      case Flag.Missing:
+        playerResult.missing += 1
+        return
+      case Flag.Wrong:
+        playerResult.wrong += 1
+        return
+      case Flag.Common:
+        playerResult.common += 1
+        return
+      case Flag.Unique:
+        playerResult.unique += 1
+        return
+      default:
+        playerResult.unknown += 1
+        return
+    }
+  }
+
+  for (let l = 0; l < letters.length; l++) {
+    for (let c = 0; c < categories.length; c++) {
+      addScore(player.scoreBoard[l][c].flag)
+    }
+  }
+
+  playerResult.correct = playerResult.common + playerResult.unique
+  // Each unique answer is worth 2 points
+  playerResult.score = playerResult.common + playerResult.unique * 2
+
+  return playerResult
+}
+/**
+ *  Calculate results and update playerResults for each player
+ */
+export const updatePlayerListResults = (
+  playerList: Player[],
+  boardSettings: BoardSettings
+): Player[] => {
+  return [...playerList].map((player) => {
+    const updatedPlayer = { ...player }
+    updatedPlayer.playerResult = calculatePlayerScore(player, boardSettings)
+    return updatedPlayer
+  })
 }

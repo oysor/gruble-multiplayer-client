@@ -109,6 +109,12 @@ export const homeMadeMiddleware: Middleware = (store) => (next) => async (action
   if (action.type === toServer.StartGame) {
     hubConnection.invoke(toServer.StartGame, action.payload)
   }
+  /**
+   * Sends the updated playerList to the hub.
+   */
+  if (action.type === 'room/setPlayerResults') {
+    hubConnection.invoke(toServer.SendResults, action.payload)
+  }
 
   console.log(store.getState)
 

@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Flag, Player } from '../../../../common/constants'
+import { getFlag } from '../../computation/calculation'
 import { updatePlayerScoreBoard } from '../../roomReducer'
 import { RoomState } from '../../roomStore'
 
@@ -19,20 +20,10 @@ export const WrongAnswerButton: FunctionComponent<WrongAnswerButtonProps> = ({
   const scoreCard = { ...player.scoreBoard[letter][category] }
   const freq = wordFrequencies[scoreCard.word].frequency
 
-  const getNewFlag = () => {
-    if (freq === 1) {
-      return Flag.Unique
-    } else if (freq > 1) {
-      return Flag.Common
-    } else {
-      return Flag.Unknown
-    }
-  }
-
   return (
     <button
       onClick={() => {
-        scoreCard.flag = scoreCard.flag !== Flag.Wrong ? Flag.Wrong : getNewFlag()
+        scoreCard.flag = scoreCard.flag !== Flag.Wrong ? Flag.Wrong : getFlag(freq)
         dispatch(updatePlayerScoreBoard({ player, square, scoreCard }))
       }}
     >

@@ -16,9 +16,10 @@ export type Player = {
   score: number
   board: Board
   scoreBoard: ScoreBoard
+  playerResult: PlayerResult
 }
 
-export type PlayerResults = {
+export type PlayerResult = {
   score: number
   correct: number
   unique: number
@@ -88,4 +89,14 @@ export const initialCommonStates: CommonStates = {
   playerCount: 0,
   status: ConnectionMode.Connecting,
   elapsedTime: -99,
+}
+
+export const initPlayerResult: PlayerResult = {
+  score: 0,
+  correct: 0,
+  unique: 0,
+  common: 0,
+  wrong: 0,
+  missing: 0,
+  unknown: 0,
 }

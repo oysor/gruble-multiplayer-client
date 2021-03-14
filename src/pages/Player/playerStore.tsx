@@ -9,6 +9,7 @@ import playerReducer, {
   setBoard,
   timesUp,
   sendBoard,
+  receiveResults,
 } from './playerReducer'
 import { ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -51,6 +52,10 @@ export async function startPlayerConnection(): Promise<void> {
 
     hubConnection.on(fromServer.onTimesUp, () => {
       store.dispatch(timesUp())
+    })
+
+    hubConnection.on(fromServer.receiveResults, (results) => {
+      store.dispatch(receiveResults(results))
     })
   } catch (err) {
     console.log(err)
