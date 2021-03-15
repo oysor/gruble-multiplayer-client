@@ -15,7 +15,6 @@ const player1: Player = {
   color: '',
   id: 0,
   userId: 0,
-  score: 0,
   scoreBoard: [],
   playerResult: {
     score: 0,
@@ -37,7 +36,6 @@ const player2: Player = {
   color: '',
   id: 0,
   userId: 0,
-  score: 0,
   scoreBoard: [],
   playerResult: {
     score: 0,
@@ -59,7 +57,6 @@ const player3: Player = {
   color: '',
   id: 0,
   userId: 0,
-  score: 0,
   scoreBoard: [],
   playerResult: {
     score: 0,

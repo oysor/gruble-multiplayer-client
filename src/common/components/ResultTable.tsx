@@ -11,36 +11,32 @@ export const ResultTable: FunctionComponent<ResultTableProps> = ({ playerList })
   const getPlayerResult = (player: Player) => {
     const { score, correct, common, unique, wrong, missing } = player.playerResult
     return (
-      <div className="score-row" key={player.name}>
-        <div className="score-square">{player.name}</div>
-        <div className="score-square">{score}</div>
-        <div className="score-square">{correct}</div>
-        <div className="score-square"> {common}</div>
-        <div className="score-square">{unique}</div>
-        <div className="score-square">{wrong}</div>
-        <div className="score-square">{missing}</div>
+      <div className="result-row" key={player.name}>
+        <div className="result-square">{player.name}</div>
+        <div className="result-square">{score}</div>
+        <div className="result-square">{correct}</div>
+        <div className="result-square"> {common}</div>
+        <div className="result-square">{unique}</div>
+        <div className="result-square">{wrong}</div>
+        <div className="result-square">{missing}</div>
       </div>
     )
   }
 
-  const Results = () => {
-    return (
-      <div className="score-board">
-        <div className="score-row">
-          <div className="score-square">Player </div>
-          <div className="score-square">Score </div>
-          <div className="score-square">Correct </div>
-          <div className="score-square">Common </div>
-          <div className="score-square">Unique </div>
-          <div className="score-square">Wrong </div>
-          <div className="score-square">Missing </div>
-        </div>
-        {playerList.map((player) => {
-          return getPlayerResult(player)
-        })}
+  return (
+    <div className="result-board">
+      <div className="result-row">
+        <div className="result-square">Player </div>
+        <div className="result-square">Score </div>
+        <div className="result-square">Correct </div>
+        <div className="result-square">Common </div>
+        <div className="result-square">Unique </div>
+        <div className="result-square">Wrong </div>
+        <div className="result-square">Missing </div>
       </div>
-    )
-  }
-
-  return <div className="result-table">{Results()}</div>
+      {playerList.map((player) => {
+        return getPlayerResult(player)
+      })}
+    </div>
+  )
 }

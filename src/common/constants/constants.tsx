@@ -13,7 +13,6 @@ export type Player = {
   id: number
   userId: number
   color: string
-  score: number
   board: Board
   scoreBoard: ScoreBoard
   playerResult: PlayerResult
@@ -52,7 +51,7 @@ export type BoardSettings = {
 
 export type WordInfo = { frequency: number }
 
-export type WordFrequencies = { [word: string]: WordInfo }
+export type WordInfoDict = { [word: string]: WordInfo }
 
 /**
  * Enums

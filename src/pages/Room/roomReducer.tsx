@@ -1,14 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-  Board,
   BoardSettings,
   CommonStates,
   initialCommonStates,
   Player,
-  WordFrequencies,
+  WordInfoDict,
 } from '../../common/constants/'
-import { calculateWordFrequencies, updatePlayerScores } from './computation/calculation'
-// import { test_boardSettings, test_playerList } from './testData'
+import { test_boardSettings, test_playerList } from './testData'
+import { createWordInfoDict, updatePlayerScores } from './utilities'
 
 export interface RoomState {
   roomName: string
@@ -17,9 +16,8 @@ export interface RoomState {
   timeLimit: number
   commonStates: CommonStates
   boardSettings: BoardSettings
-  board: Board
   playerList: Player[]
-  wordFrequencies: WordFrequencies
+  wordDictionary: WordInfoDict
   receivedBoards: boolean
   currentPage: number
 }
@@ -31,9 +29,8 @@ const initialState: RoomState = {
   timeLimit: 0,
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
-  board: [['']],
   playerList: [],
-  wordFrequencies: {},
+  wordDictionary: {},
   receivedBoards: false,
   currentPage: 1,
 }
@@ -65,23 +62,23 @@ const roomSlice = createSlice({
       state.commonStates.elapsedTime = 0
     },
     receiveBoards: (state, action) => {
-      const playerList = action.payload
-      const wordFrequencies = calculateWordFrequencies(playerList, state.boardSettings)
-      state.wordFrequencies = wordFrequencies
-      state.playerList = updatePlayerScores(
-        playerList,
-        state.boardSettings,
-        wordFrequencies
-      )
-      state.receivedBoards = true
-
-      // const playerList = test_playerList
-      // const boardSettings = test_boardSettings
-      // const wordFrequencies = calculateWordFrequencies(playerList, boardSettings)
-      // state.boardSettings = boardSettings
-      // state.wordFrequencies = wordFrequencies
-      // state.playerList = updatePlayerScores(playerList, boardSettings, wordFrequencies)
+      // const playerList = action.payload
+      // const wordDictionary = createWordInfoDict(playerList, state.boardSettings)
+      // state.wordDictionary = wordDictionary
+      // state.playerList = updatePlayerScores(
+      //   playerList,
+      //   state.boardSettings,
+      //   wordDictionary
+      // )
       // state.receivedBoards = true
+
+      const playerList = test_playerList
+      const boardSettings = test_boardSettings
+      const wordDictionary = createWordInfoDict(playerList, boardSettings)
+      state.boardSettings = boardSettings
+      state.wordDictionary = wordDictionary
+      state.playerList = updatePlayerScores(playerList, boardSettings, wordDictionary)
+      state.receivedBoards = true
     },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]

@@ -1,28 +1,31 @@
 import React, { FunctionComponent } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Player } from '../../../../common/constants'
-import { flagColor, newScoreCard } from '../../computation/calculation'
-import { updatePlayerScoreBoard } from '../../roomReducer'
-import { RoomState } from '../../roomStore'
+import { Player } from '../../../common/constants'
+import { updatePlayerScoreBoard } from '../roomReducer'
+import { RoomState } from '../roomStore'
+import { flagColor, newScoreCard } from '../utilities'
 
-type EditAnswerProps = {
+type EditAnswerInputProps = {
   player: Player
   square: { letter: number; category: number }
 }
 /**
  * TODO
  * This component does not work.
- * To make it work: wordFrequencies must be updated for all players for each input?
+ * To make it work: wordDictionary must be updated for all players for each input?
  */
-export const EditAnswer: FunctionComponent<EditAnswerProps> = ({ player, square }) => {
+export const EditAnswerInput: FunctionComponent<EditAnswerInputProps> = ({
+  player,
+  square,
+}) => {
   const dispatch = useDispatch()
   const { letter, category } = square
   const oldInput = player.scoreBoard[letter][category]
-  const { boardSettings, wordFrequencies } = useSelector((state: RoomState) => state.room)
+  const { boardSettings, wordDictionary } = useSelector((state: RoomState) => state.room)
 
   return (
     <input
-      className="score-edit"
+      className="answer-edit"
       type="text"
       style={{ color: flagColor(oldInput.flag) }}
       value={oldInput.word}
@@ -31,7 +34,7 @@ export const EditAnswer: FunctionComponent<EditAnswerProps> = ({ player, square 
         const scoreCard = newScoreCard(
           newInputWord,
           boardSettings.letters[letter],
-          wordFrequencies
+          wordDictionary
         )
         dispatch(updatePlayerScoreBoard({ player, square, scoreCard }))
       }}

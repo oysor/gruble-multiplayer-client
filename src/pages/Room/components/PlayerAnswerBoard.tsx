@@ -1,7 +1,7 @@
 import React from 'react'
 import { FunctionComponent } from 'react'
-import { Player, ScoreBoard, ScoreCard } from '../../../../common/constants'
-import { flagColor } from '../../computation/calculation'
+import { Player, ScoreBoard, ScoreCard } from '../../../common/constants'
+import { flagColor } from '../utilities'
 
 interface PlayerAnswerBoardProps {
   player: Player

@@ -1,12 +1,11 @@
 import React, { FunctionComponent } from 'react'
-import { ChangeFlag } from './ChangeFlag'
+import { SelectFlag } from './SelectFlag'
 import { PlayerRow } from './PlayerRow'
-import { WrongAnswerButton } from './WrongAnswerButton'
+import { SetWrongAnswerButton } from './SetWrongAnswerButton'
 import { Player } from '../../../../common/constants'
-import { flagColor } from '../../computation/calculation'
-// import { PlayerAnswerBoard } from './PlayerAnswerBoard'
+import { flagColor } from '../../utilities'
 
-type HandleAnswersProps = {
+type HandleSquareProps = {
   playerList: Player[]
   square: { letter: number; category: number }
 }
@@ -14,7 +13,7 @@ type HandleAnswersProps = {
  * Iterates the playerslist and displays a row for each player.
  * Displays players input square for given letter and category.
  */
-export const HandleAnswers: FunctionComponent<HandleAnswersProps> = ({
+export const HandleSquare: FunctionComponent<HandleSquareProps> = ({
   square,
   playerList,
 }) => {
@@ -24,14 +23,11 @@ export const HandleAnswers: FunctionComponent<HandleAnswersProps> = ({
     const playerInput = player.scoreBoard[letter][category]
     return (
       <div key={player.name}>
-        {/* <PlayerAnswerBoard player={player} square={square} /> */}
         <PlayerRow>
           <h3>{player.name}</h3>
-          <div className={'score-square'} style={{ color: flagColor(playerInput.flag) }}>
-            {playerInput.word}
-          </div>
-          <ChangeFlag player={player} square={{ letter: letter, category: category }} />
-          <WrongAnswerButton
+          <span style={{ color: flagColor(playerInput.flag) }}>{playerInput.word}</span>
+          <SelectFlag player={player} square={{ letter: letter, category: category }} />
+          <SetWrongAnswerButton
             player={player}
             square={{ letter: letter, category: category }}
           />
@@ -41,12 +37,12 @@ export const HandleAnswers: FunctionComponent<HandleAnswersProps> = ({
   }
 
   const handlePlayers = (
-    <div className={'score-board'}>
+    <div className={'answer-board'}>
       {playerList.map((player) => {
         return player.scoreBoard ? handlePlayer(player) : null
       })}
     </div>
   )
 
-  return <div className={'handle-answers'}>{handlePlayers}</div>
+  return <div className={'handle-square'}>{handlePlayers}</div>
 }

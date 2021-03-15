@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 import { Flag, Player } from '../../../../common/constants'
 import { updatePlayerScoreBoard } from '../../roomReducer'
 
-type ChangeFlagProps = {
+type SelectFlagProps = {
   player: Player
   square: { letter: number; category: number }
 }
 
-export const ChangeFlag: FunctionComponent<ChangeFlagProps> = ({ player, square }) => {
+export const SelectFlag: FunctionComponent<SelectFlagProps> = ({ player, square }) => {
   const dispatch = useDispatch()
   const { letter, category } = square
 
@@ -26,7 +26,7 @@ export const ChangeFlag: FunctionComponent<ChangeFlagProps> = ({ player, square 
   return (
     <select
       value={player.scoreBoard[letter][category].flag}
-      id="change-flag"
+      className="change-flag"
       onChange={(ev) => {
         const scoreCard = {
           flag: ev.target.value,

@@ -2,12 +2,12 @@ import React, { FunctionComponent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '../../../../common/components'
 import { DisplayList } from '../../components/DisplayList'
-import { updatePlayerListResults } from '../../computation/calculation'
 import { setNextPage, setPlayerResults } from '../../roomReducer'
 import { RoomState } from '../../roomStore'
-import { HandleAnswers } from './HandleAnswers'
+import { updatePlayerListResults } from '../../utilities'
+import { HandleSquare } from './HandleSquare'
 
-export const HandleResults: FunctionComponent = () => {
+export const HandleAnswers: FunctionComponent = () => {
   const { playerList, boardSettings, receivedBoards } = useSelector(
     (state: RoomState) => state.room
   )
@@ -31,13 +31,13 @@ export const HandleResults: FunctionComponent = () => {
   }
 
   return receivedBoards ? (
-    <div className="handle-results">
+    <div className="handle-answers">
       <div className="show-info">
         <DisplayList list={letters} hightlight={letterNr} />
         <DisplayList list={categories} hightlight={categoryNr} />
       </div>
       <div className="show-answers">
-        <HandleAnswers
+        <HandleSquare
           playerList={playerList}
           square={{ letter: letterNr, category: categoryNr }}
         />

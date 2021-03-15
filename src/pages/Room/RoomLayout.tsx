@@ -8,7 +8,7 @@ import {
   TimeLimit,
   CreateRoom,
   StartGame,
-  HandleResults,
+  HandleAnswers,
   ShowResults,
 } from './pages'
 
@@ -28,7 +28,7 @@ export const RoomLayout: FunctionComponent = () => {
       case 4:
         return <StartGame />
       case 5:
-        return <HandleResults />
+        return <HandleAnswers />
       case 6:
         return <ShowResults />
     }

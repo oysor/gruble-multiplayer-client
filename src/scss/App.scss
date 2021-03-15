@@ -177,6 +177,10 @@ form.input-join-room {
     }
 }
 
+/**
+ *   board
+ */
+
 .board{
     height: 20rem;
     width: 20rem;
@@ -208,34 +212,10 @@ form.input-join-room {
     // border-radius: 0;
 }
 
-
-
-.score-board{
-    display: flex;
-    flex-direction: column;
-    // height: 20rem;
-    width: 30rem;
-}
-
-.score-row{
-    display: flex;
-    // height: 100%;
-    width: 100%;
-    height: 2.5rem;
-}
-
-.score-square{
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-.score-edit{
-    text-align: center;
-}
-
-
-.handle-results {
+/**
+ *   Handle answers
+ */
+.handle-answers {
     display: grid;
     grid-template-areas: "info info" 
                          "answers answers"
@@ -256,7 +236,59 @@ form.input-join-room {
     }
 }
 
+/**
+ *   Answer board
+ */
 
+.answer-board{
+    display: flex;
+    flex-direction: column;
+    // height: 20rem;
+    width: 30rem;
+}
+
+.answer-row{
+    display: flex;
+    // height: 100%;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.answer-square{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.answer-edit{
+    text-align: center;
+}
+/**
+ *   Result table board
+ */
+
+ .result-board{
+    display: flex;
+    flex-direction: column;
+    // height: 20rem;
+    width: 30rem;
+}
+
+.result-row{
+    display: flex;
+    // height: 100%;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.result-square{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/**
+ *   Display list component in room
+ */
 .display-list {
     margin-top:2rem;
     margin-bottom:2rem;

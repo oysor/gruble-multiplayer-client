@@ -6,32 +6,32 @@ import {
   PlayerResult,
   ScoreBoard,
   ScoreCard,
-  WordFrequencies,
+  WordInfoDict,
   WordInfo,
 } from '../../../common/constants'
 /**
  *  This function goes through every players board
- *  and adds the input word (key) and its frequency (value) to a dictionary.
+ *  and adds the input word (key) and its frequency (word count) to a dictionary.
  */
-export function calculateWordFrequencies(
+export function createWordInfoDict(
   players: Player[],
   boardSettings: BoardSettings
-): WordFrequencies {
+): WordInfoDict {
   const { categories, letters } = boardSettings
-  const frequencyList: { [word: string]: WordInfo } = {}
+  const dictionary: { [word: string]: WordInfo } = {}
 
   for (let l = 0; l < letters.length; l++) {
     for (let c = 0; c < categories.length; c++) {
       players.forEach((player) => {
         const word = player.board[l][c].toLowerCase()
-        frequencyList[word] = !(word in frequencyList)
+        dictionary[word] = !(word in dictionary)
           ? { frequency: 1 }
-          : { frequency: frequencyList[word].frequency + 1 }
+          : { frequency: dictionary[word].frequency + 1 }
       })
     }
   }
 
-  return frequencyList
+  return dictionary
 }
 
 /**
@@ -41,11 +41,11 @@ export function calculateWordFrequencies(
 export const newScoreCard = (
   inputWord: string,
   letter: string,
-  freqList: WordFrequencies
+  dictionary: WordInfoDict
 ): ScoreCard => {
   const word = inputWord.toLowerCase()
   const card: ScoreCard = { flag: Flag.Unknown, word: word }
-  const wordFrequency = freqList[word].frequency
+  const wordFrequency = dictionary[word].frequency
 
   // empty space
   if (word === '') {
@@ -78,7 +78,7 @@ const emptyScoreBoard = (letters: string[], categories: string[]) => {
  */
 const fillScoreBoard = (
   board: Board,
-  freqList: WordFrequencies,
+  dictionary: WordInfoDict,
   boardSettings: BoardSettings
 ): ScoreBoard => {
   const { categories, letters } = boardSettings
@@ -87,7 +87,7 @@ const fillScoreBoard = (
   letters.forEach((letter, l) => {
     categories.forEach((category, c) => {
       const word = board[l][c]
-      const card = newScoreCard(word, letter, freqList)
+      const card = newScoreCard(word, letter, dictionary)
       scoreBoard[l][c] = card
     })
   })
@@ -99,10 +99,10 @@ const fillScoreBoard = (
 export const updatePlayerScores = (
   playerList: Player[],
   boardSettings: BoardSettings,
-  freqList: WordFrequencies
+  dictionary: WordInfoDict
 ): Player[] => {
   return playerList.map((player) => {
-    player.scoreBoard = fillScoreBoard(player.board, freqList, boardSettings)
+    player.scoreBoard = fillScoreBoard(player.board, dictionary, boardSettings)
     return player
   })
 }
