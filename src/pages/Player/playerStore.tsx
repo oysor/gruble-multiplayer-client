@@ -21,8 +21,8 @@ import {
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
-  // .withUrl('https://pondrapi.azurewebsites.net/chathub')
-  .withUrl('https://localhost:5001/chathub')
+  .withUrl('https://pondrapi.azurewebsites.net/chathub')
+  // .withUrl('https://localhost:5001/chathub')
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Information)
   .build()
