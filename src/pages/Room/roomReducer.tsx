@@ -6,7 +6,7 @@ import {
   Player,
   WordInfoDict,
 } from '../../common/constants/'
-import { test_boardSettings, test_playerList } from './testData'
+// import { test_boardSettings, test_playerList } from './testData'
 import { createWordInfoDict, updatePlayerScores } from './utilities'
 
 export interface RoomState {
@@ -62,23 +62,23 @@ const roomSlice = createSlice({
       state.commonStates.elapsedTime = 0
     },
     receiveBoards: (state, action) => {
-      // const playerList = action.payload
-      // const wordDictionary = createWordInfoDict(playerList, state.boardSettings)
-      // state.wordDictionary = wordDictionary
-      // state.playerList = updatePlayerScores(
-      //   playerList,
-      //   state.boardSettings,
-      //   wordDictionary
-      // )
-      // state.receivedBoards = true
-
-      const playerList = test_playerList
-      const boardSettings = test_boardSettings
-      const wordDictionary = createWordInfoDict(playerList, boardSettings)
-      state.boardSettings = boardSettings
+      const playerList = action.payload
+      const wordDictionary = createWordInfoDict(playerList, state.boardSettings)
       state.wordDictionary = wordDictionary
-      state.playerList = updatePlayerScores(playerList, boardSettings, wordDictionary)
+      state.playerList = updatePlayerScores(
+        playerList,
+        state.boardSettings,
+        wordDictionary
+      )
       state.receivedBoards = true
+
+      // const playerList = test_playerList
+      // const boardSettings = test_boardSettings
+      // const wordDictionary = createWordInfoDict(playerList, boardSettings)
+      // state.boardSettings = boardSettings
+      // state.wordDictionary = wordDictionary
+      // state.playerList = updatePlayerScores(playerList, boardSettings, wordDictionary)
+      // state.receivedBoards = true
     },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]

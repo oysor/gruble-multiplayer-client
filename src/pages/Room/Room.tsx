@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { RoomLayout } from './RoomLayout'
 import { Provider } from 'react-redux'
-import store from './roomStore'
-import { startRoomConnection, stopRoomConnection } from '../Room/roomStore'
 import { useHistory } from 'react-router-dom'
+import store, { startRoomConnection, stopRoomConnection } from './roomStore'
 import { resetState } from './roomReducer'
+import { RoomLayout } from './RoomLayout'
 
 export const Room: FunctionComponent = () => {
   // Start connection
