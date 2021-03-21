@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useEffect } from 'react'
-import { PlayerLayout } from './PlayerLayout'
-import { useHistory } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store from './playerStore'
-import { startPlayerConnection, stopPlayerConnection } from '../Player/playerStore'
+import { useHistory } from 'react-router-dom'
+import store, { startPlayerConnection, stopPlayerConnection } from './playerStore'
+import { PlayerLayout } from './PlayerLayout'
 import { resetState } from './playerReducer'
 
 export const Player: FunctionComponent = () => {

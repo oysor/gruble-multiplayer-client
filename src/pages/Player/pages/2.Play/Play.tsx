@@ -1,21 +1,27 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../playerStore'
-import { InputBoard } from './components/InputBoard'
+import { PlayerState } from '../../playerStore'
+import { InputBoard } from './InputBoard'
 import { SendMessage } from '../../components/SendMessage'
+import { setNextPage } from '../../playerReducer'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp } = useSelector(
-    (state: RootState) => state.player
+    (state: PlayerState) => state.player
   )
   const dispatch = useDispatch()
-
-  if (timesUp === true) {
-    dispatch({
-      type: 'player/sendBoard',
-      payload: { roomId: roomId, board: playerBoard },
-    })
-  }
+  /**
+   *  Go to next component when time is up
+   */
+  useEffect(() => {
+    if (timesUp === true) {
+      dispatch({
+        type: 'player/sendBoard',
+        payload: { roomId: roomId, board: playerBoard },
+      })
+      dispatch(setNextPage())
+    }
+  }, [timesUp, dispatch, roomId, playerBoard])
 
   return (
     <div className="play">

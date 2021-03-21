@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { useDispatch } from 'react-redux'
-import { updateBoard } from '../../../../playerReducer'
+import { updateBoard } from '../../playerReducer'
 
 interface SquareProps {
   board: string[][]

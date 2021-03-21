@@ -1,43 +1,34 @@
 import React, { FunctionComponent, useState } from 'react'
-import { StartGame } from '../4.StartGame'
-import { useDispatch } from 'react-redux'
-import { toServer } from '../../roomReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNextPage, toServer } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components/'
-import { InputCategories } from './components/InputCategories'
+import { InputCategories } from './InputCategories'
+import { RoomState } from '../../roomStore'
 
-type CreateRoomProps = {
-  name: string
-  time: number
-}
-
-export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
-  const { name, time } = props
-  // Next component
-  const [nextPage, setNext] = useState(true)
-
+export const CreateRoom: FunctionComponent = () => {
+  const { roomName, timeLimit } = useSelector((state: RoomState) => state.room)
+  const dispatch = useDispatch()
   // input categories
   const [categoryList, setCategoryList] = useState([''])
-
-  const dispatch = useDispatch()
-
-  const validInput = categoryList[0].length > 0
+  // Missing input warning
   const [reminder, setReminder] = useState(false)
+  const validInput = categoryList[0].length > 0
 
   const dispatchOnClick = () => {
     dispatch({
       type: toServer.CreateRoom,
       payload: {
-        LobbyName: name,
-        TimeLimit: time,
+        RoomName: roomName,
+        TimeLimit: timeLimit,
         BoardSettings: {
-          categories: categoryList,
+          Categories: categoryList,
         },
       },
     })
-    setNext(false)
+    dispatch(setNextPage())
   }
 
-  return nextPage ? (
+  return (
     <div className="room-create">
       <InputCategories inputList={categoryList} setInputList={setCategoryList} />
       <Button
@@ -49,7 +40,5 @@ export const CreateRoom: FunctionComponent<CreateRoomProps> = (props) => {
       </Button>
       {reminder ? <MissingInput categoryList={categoryList} /> : null}
     </div>
-  ) : (
-    <StartGame />
   )
 }

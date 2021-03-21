@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-  Board,
-  boardSettings,
+  BoardSettings,
   CommonStates,
   initialCommonStates,
   Player,
+  WordInfoDict,
 } from '../../common/constants/'
+// import { test_boardSettings, test_playerList } from './testData'
+import { createWordInfoDict, updatePlayerScores } from './utilities'
 
 export interface RoomState {
   roomName: string
@@ -13,9 +15,11 @@ export interface RoomState {
   messages: Array<string>
   timeLimit: number
   commonStates: CommonStates
-  boardSettings: boardSettings
-  playerBoard: Board
+  boardSettings: BoardSettings
   playerList: Player[]
+  wordDictionary: WordInfoDict
+  receivedBoards: boolean
+  currentPage: number
 }
 
 const initialState: RoomState = {
@@ -25,8 +29,10 @@ const initialState: RoomState = {
   timeLimit: 0,
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
-  playerBoard: [['']],
   playerList: [],
+  wordDictionary: {},
+  receivedBoards: false,
+  currentPage: 1,
 }
 
 const roomSlice = createSlice({
@@ -40,9 +46,12 @@ const roomSlice = createSlice({
     setRoomName: (state, action) => {
       state.roomName = action.payload
     },
+    setTimeLimit: (state, action) => {
+      state.timeLimit = action.payload
+    },
     setRoom: (state, action) => {
       state.roomId = action.payload.roomId
-      state.roomName = action.payload.lobbyName
+      state.roomName = action.payload.roomName
       state.timeLimit = action.payload.timeLimit
       state.boardSettings = action.payload.boardSettings
     },
@@ -52,17 +61,52 @@ const roomSlice = createSlice({
     timesUp: (state) => {
       state.commonStates.elapsedTime = 0
     },
+    receiveBoards: (state, action) => {
+      const playerList = action.payload
+      const wordDictionary = createWordInfoDict(playerList, state.boardSettings)
+      state.wordDictionary = wordDictionary
+      state.playerList = updatePlayerScores(
+        playerList,
+        state.boardSettings,
+        wordDictionary
+      )
+      state.receivedBoards = true
+
+      // const playerList = test_playerList
+      // const boardSettings = test_boardSettings
+      // const wordDictionary = createWordInfoDict(playerList, boardSettings)
+      // state.boardSettings = boardSettings
+      // state.wordDictionary = wordDictionary
+      // state.playerList = updatePlayerScores(playerList, boardSettings, wordDictionary)
+      // state.receivedBoards = true
+    },
     newMessage: (state, action) => {
       state.messages = [...state.messages, action.payload]
     },
     removePlayer: (state, action) => {
       const newList = [...state.playerList]
       state.playerList = newList.filter((player) => {
-        return player.playerId !== action.payload
+        return player.id !== action.payload
       })
     },
     addPlayer: (state, action) => {
       state.playerList = [...state.playerList, action.payload]
+    },
+    updatePlayerScoreBoard: (state, action) => {
+      const { letter, category } = action.payload.square
+
+      state.playerList = state.playerList.map((player) => {
+        if (player.name === action.payload.player.name) {
+          player.scoreBoard[letter][category] = action.payload.scoreCard
+        }
+        return player
+      })
+    },
+    setPlayerResults: (state, action) => {
+      state.playerList = action.payload
+    },
+    setNextPage: (state) => {
+      state.currentPage += 1
     },
     resetState: () => initialState,
   },
@@ -72,6 +116,7 @@ const roomSlice = createSlice({
 export enum toServer {
   CreateRoom = 'CreateRoom',
   StartGame = 'StartGame',
+  SendResults = 'SendResults',
 }
 
 // receive from server
@@ -82,12 +127,14 @@ export enum fromServer {
   onTimerElapsed = 'onTimerCount',
   onPlayerLeft = 'onPlayerLeft',
   onTimesUp = 'onTimerFinished',
+  ReceiveBoards = 'ReceiveBoards',
 }
 
 // import the actions where you want to dispatch them.
 export const {
   setStatus,
   setRoomName,
+  setTimeLimit,
   setRoom,
   setTimeElapsed,
   newMessage,
@@ -95,6 +142,10 @@ export const {
   addPlayer,
   resetState,
   timesUp,
+  receiveBoards,
+  updatePlayerScoreBoard,
+  setNextPage,
+  setPlayerResults,
 } = roomSlice.actions
 
 export default roomSlice.reducer

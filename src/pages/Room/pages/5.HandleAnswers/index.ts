@@ -1,0 +1,1 @@
+export { HandleAnswers } from './HandleAnswers'

@@ -10,19 +10,22 @@ import roomReducer, {
   removePlayer,
   addPlayer,
   timesUp,
+  receiveBoards,
 } from './roomReducer'
 import { ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
 import {
-  checkOnPlayer,
+  checkOnNewPlayer,
   checkOnReceiveMessage,
   checkOnRoom,
   checkOnTimerElapsed,
+  checkPlayerList,
 } from '../../common/typeGuards'
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('https://localhost:5001/chathub')
+  .withUrl('https://pondrapi.azurewebsites.net/chathub')
+  // .withUrl('https://localhost:5001/chathub')
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Information)
   .build()
@@ -42,12 +45,12 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
-      checkOnPlayer(player)
+      checkOnNewPlayer(player)
       store.dispatch(addPlayer(player))
     })
 
     hubConnection.on(fromServer.onPlayerLeft, (player) => {
-      checkOnPlayer(player)
+      checkOnNewPlayer(player)
       store.dispatch(removePlayer(player))
     })
 
@@ -60,8 +63,14 @@ export async function startRoomConnection(): Promise<void> {
       checkOnTimerElapsed(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
+
     hubConnection.on(fromServer.onTimesUp, () => {
       store.dispatch(timesUp())
+    })
+
+    hubConnection.on(fromServer.ReceiveBoards, (playerList) => {
+      checkPlayerList(playerList)
+      store.dispatch(receiveBoards(playerList))
     })
   } catch (err) {
     console.log(err)
@@ -101,6 +110,12 @@ export const homeMadeMiddleware: Middleware = (store) => (next) => async (action
   if (action.type === toServer.StartGame) {
     hubConnection.invoke(toServer.StartGame, action.payload)
   }
+  /**
+   * Sends the updated playerList to the hub.
+   */
+  if (action.type === 'room/setPlayerResults') {
+    hubConnection.invoke(toServer.SendResults, action.payload)
+  }
 
   console.log(store.getState)
 
@@ -119,6 +134,6 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 })
 
-export type RootState = ReturnType<typeof store.getState>
+export type RoomState = ReturnType<typeof store.getState>
 
 export default store

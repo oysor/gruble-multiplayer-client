@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   Board,
-  boardSettings,
+  BoardSettings,
   CommonStates,
   initialCommonStates,
+  Player,
 } from '../../common/constants/'
 
 export interface playerState {
@@ -11,9 +12,12 @@ export interface playerState {
   messages: Array<string>
   roomId: string
   commonStates: CommonStates
-  boardSettings: boardSettings
+  boardSettings: BoardSettings
   playerBoard: Board
   timesUp: boolean
+  playerList: Player[]
+  receivedResult: boolean
+  currentPage: number
 }
 
 const initialState: playerState = {
@@ -24,6 +28,9 @@ const initialState: playerState = {
   boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],
   timesUp: false,
+  playerList: [],
+  receivedResult: false,
+  currentPage: 1,
 }
 
 const playerSlice = createSlice({
@@ -53,9 +60,7 @@ const playerSlice = createSlice({
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 
-      const arr = [...Array(x)].map(() => [...Array(y)].map(() => ''))
-
-      state.playerBoard = arr
+      state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
     },
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
@@ -65,8 +70,16 @@ const playerSlice = createSlice({
       state.timesUp = true
     },
     sendBoard: (state) => {
-      // Board is already sent to server in middleware.
+      // Board is already sent to server by middleware.
       state.timesUp = false
+    },
+    receiveResults: (state, action) => {
+      // PlayerList with results is already sent to server by middleware.
+      state.playerList = action.payload
+      state.receivedResult = true
+    },
+    setNextPage: (state) => {
+      state.currentPage += 1
     },
     resetState: () => initialState,
   },
@@ -84,6 +97,7 @@ export enum fromServer {
   onTimerElapsed = 'onTimerCount',
   onJoinRoom = 'onJoinRoom',
   onTimesUp = 'onTimerFinished',
+  receiveResults = 'ReceiveResults',
 }
 
 export const {
@@ -97,6 +111,8 @@ export const {
   resetState,
   timesUp,
   sendBoard,
+  setNextPage,
+  receiveResults,
 } = playerSlice.actions
 
 export default playerSlice.reducer

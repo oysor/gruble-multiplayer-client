@@ -37,8 +37,45 @@ html, body, #root {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100%;
+    // height: 100%;
 }
+
+.input-categories{
+
+    border: 1px solid black;
+    border-radius: 16px;
+    background: $input-color;
+    padding: 0.5rem;
+
+   .add-category,
+   .remove-category,
+   .write-category
+   {
+        display: inline-block;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        background: $input-color;
+        padding: 1rem 2rem;
+        margin: 0;
+   }
+
+   .add-category {
+        width: 100%;
+        font-size: 1.5rem;
+    }
+
+    .remove-category {
+        font-size: 1.5rem;
+    }
+
+    .write-category{
+        font-size: 1rem;
+    }
+}
+
+
+
 
 .smart-input,
 .smart-numeric-input,
@@ -140,14 +177,17 @@ form.input-join-room {
     }
 }
 
-.board{
+/**
+ *   board
+ */
 
-    height: 15rem;
-    width: 15rem;
+.board{
+    height: 20rem;
+    width: 20rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-top: 1rem;
+    // margin-top: 1rem;
 }
 
 .board-row{
@@ -170,4 +210,93 @@ form.input-join-room {
     text-align: center;
     border: none;
     // border-radius: 0;
+}
+
+/**
+ *   Handle answers
+ */
+.handle-answers {
+    display: grid;
+    grid-template-areas: "info info" 
+                         "answers answers"
+                         "buttons buttons";
+
+    .show-info{
+        grid-area: info;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .show-answers{
+        grid-area: answers;
+    }
+
+    .show-buttons{
+        grid-area: buttons;
+    }
+}
+
+/**
+ *   Answer board
+ */
+
+.answer-board{
+    display: flex;
+    flex-direction: column;
+    // height: 20rem;
+    width: 30rem;
+}
+
+.answer-row{
+    display: flex;
+    // height: 100%;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.answer-square{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.answer-edit{
+    text-align: center;
+}
+/**
+ *   Result table board
+ */
+
+ .result-board{
+    display: flex;
+    flex-direction: column;
+    // height: 20rem;
+    width: 30rem;
+}
+
+.result-row{
+    display: flex;
+    // height: 100%;
+    width: 100%;
+    height: 2.5rem;
+}
+
+.result-square{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/**
+ *   Display list component in room
+ */
+.display-list {
+    margin-top:2rem;
+    margin-bottom:2rem;
+
+    .list-item{ 
+        padding: 0.1rem;
+    }
+    .highlight{
+        font-size: 2rem;
+    }
 }

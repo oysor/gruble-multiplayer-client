@@ -9,6 +9,7 @@ import playerReducer, {
   setBoard,
   timesUp,
   sendBoard,
+  receiveResults,
 } from './playerReducer'
 import { ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -20,7 +21,8 @@ import {
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('https://localhost:5001/chathub')
+  .withUrl('https://pondrapi.azurewebsites.net/chathub')
+  // .withUrl('https://localhost:5001/chathub')
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Information)
   .build()
@@ -51,6 +53,10 @@ export async function startPlayerConnection(): Promise<void> {
 
     hubConnection.on(fromServer.onTimesUp, () => {
       store.dispatch(timesUp())
+    })
+
+    hubConnection.on(fromServer.receiveResults, (results) => {
+      store.dispatch(receiveResults(results))
     })
   } catch (err) {
     console.log(err)
@@ -121,6 +127,6 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 })
 
-export type RootState = ReturnType<typeof store.getState>
+export type PlayerState = ReturnType<typeof store.getState>
 
 export default store

@@ -1,15 +1,11 @@
 import React, { FunctionComponent } from 'react'
-import './scss/App.scss'
-import { LandingPage } from './pages/LandingPage'
-import { Room } from './pages/Room'
-import { Player } from './pages/Player'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { LandingPage, Player, Room } from './pages'
 
 const App: FunctionComponent = () => {
   return (
     <div className="App">
-      <BrowserRouter>
-        <LandingPage />
+      <Router>
         <Switch>
           <Route path="/room">
             <Room />
@@ -17,8 +13,11 @@ const App: FunctionComponent = () => {
           <Route path="/player">
             <Player />
           </Route>
+          <Route path="/">
+            <LandingPage />
+          </Route>
         </Switch>
-      </BrowserRouter>
+      </Router>
     </div>
   )
 }
