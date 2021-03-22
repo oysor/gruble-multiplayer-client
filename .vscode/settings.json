@@ -3,4 +3,7 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
       },
+      "staticWebApps.appSubpath": "/",
+      "staticWebApps.apiSubpath": "api",
+      "staticWebApps.outputSubpath": "build",
 }
