@@ -12,7 +12,7 @@ import roomReducer, {
   timesUp,
   receiveBoards,
 } from './roomReducer'
-import { ConnectionMode } from '../../common/constants'
+import { API_Url, ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
 import {
   checkOnNewPlayer,
@@ -24,10 +24,7 @@ import {
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('https://pondrapi.azurewebsites.net/chathub', {
-    withCredentials: false,
-  })
-  // .withUrl('https://localhost:5001/chathub')
+  .withUrl(API_Url, { withCredentials: false })
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Information)
   .build()

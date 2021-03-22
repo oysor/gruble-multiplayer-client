@@ -99,3 +99,7 @@ export const initPlayerResult: PlayerResult = {
   missing: 0,
   unknown: 0,
 }
+
+export const API_Url = 'https://pondrapi.azurewebsites.net/chathub'
+
+export const Localhost_Url = 'https://localhost:5001/chathub'
