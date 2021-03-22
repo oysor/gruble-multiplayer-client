@@ -13,7 +13,7 @@ import {
 } from './pages'
 
 export const RoomLayout: FunctionComponent = () => {
-  const { commonStates, messages, currentPage } = useSelector(
+  const { commonStates, messages, currentPage, playerList } = useSelector(
     (state: RoomState) => state.room
   )
 
@@ -41,7 +41,7 @@ export const RoomLayout: FunctionComponent = () => {
       <ConnectionStatus status={commonStates.status} />
       <MessageBox messages={messages} />
       <Timer elapsedTime={commonStates.elapsedTime}></Timer>
-      <PlayerList />
+      <PlayerList playerList={playerList} />
     </div>
   )
 }

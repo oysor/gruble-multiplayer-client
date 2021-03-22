@@ -14,7 +14,6 @@ export const ShowRoomInput: FunctionComponent = () => {
       <div>
         roomId:<b>{roomId}</b>
       </div>
-      <div>TimeLimit: {timeLimit}</div>
       <div>GameBoard: {JSON.stringify(boardSettings)}</div>
       <div>
         Players:
