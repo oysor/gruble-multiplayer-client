@@ -1,5 +1,5 @@
 import path from 'path'
-import webpack from 'webpack'
+import webpack, { EnvironmentPlugin } from 'webpack'
 import CompressionPlugin from 'compression-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
@@ -14,6 +14,10 @@ const config: webpack.Configuration = merge(common, {
     publicPath: '',
   },
   plugins: [
+    new EnvironmentPlugin({
+      API_URL: 'https://multiplayerapi.azurewebsites.net/chathub',
+      DEBUG: false,
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),

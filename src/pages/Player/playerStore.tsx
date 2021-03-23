@@ -11,7 +11,7 @@ import playerReducer, {
   sendBoard,
   receiveResults,
 } from './playerReducer'
-import { API_Url, ConnectionMode } from '../../common/constants'
+import { API_URL, ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
 import {
   checkOnReceiveMessage,
@@ -21,7 +21,7 @@ import {
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl(API_Url, { withCredentials: false })
+  .withUrl(API_URL, { withCredentials: false })
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Information)
   .build()

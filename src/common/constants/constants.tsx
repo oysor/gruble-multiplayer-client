@@ -100,6 +100,10 @@ export const initPlayerResult: PlayerResult = {
   unknown: 0,
 }
 
-export const API_Url = 'https://pondrapi.azurewebsites.net/chathub'
+if (typeof process.env.API_URL !== 'string') {
+  throw new Error(
+    `---> Expected API_URL to be string, got '${process.env.API_URL}'. <---`
+  )
+}
 
-export const Localhost_Url = 'https://localhost:5001/chathub'
+export const API_URL = typeof process.env.API_URL === 'string' ? process.env.API_URL : ''
