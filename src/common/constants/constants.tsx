@@ -100,10 +100,4 @@ export const initPlayerResult: PlayerResult = {
   unknown: 0,
 }
 
-if (typeof process.env.API_URL !== 'string') {
-  throw new Error(
-    `---> Expected API_URL to be string, got '${process.env.API_URL}'. <---`
-  )
-}
-
-export const API_URL = typeof process.env.API_URL === 'string' ? process.env.API_URL : ''
+export const API_URL = process.env.API_URL ? process.env.API_URL : 'API URL MISSING?'

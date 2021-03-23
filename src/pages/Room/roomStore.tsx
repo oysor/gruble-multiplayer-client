@@ -100,8 +100,6 @@ export async function stopRoomConnection(): Promise<void> {
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
 export const homeMadeMiddleware: Middleware = (store) => (next) => async (action) => {
-  console.log('...Middleware...')
-
   if (action.type === toServer.CreateRoom) {
     hubConnection.invoke(toServer.CreateRoom, action.payload)
   }
@@ -116,7 +114,9 @@ export const homeMadeMiddleware: Middleware = (store) => (next) => async (action
     hubConnection.invoke(toServer.SendResults, action.payload)
   }
 
-  console.log(store.getState)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(store.getState)
+  }
 
   return next(action)
 }

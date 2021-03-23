@@ -86,8 +86,6 @@ export async function stopPlayerConnection(): Promise<void> {
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
 export const homeMadeMiddleware: Middleware = (store) => (next) => async (action) => {
-  console.log('...Middleware...')
-
   if (action.type === toServer.JoinRoom) {
     hubConnection.invoke(
       toServer.JoinRoom,
@@ -109,7 +107,9 @@ export const homeMadeMiddleware: Middleware = (store) => (next) => async (action
     hubConnection.invoke(toServer.SendBoard, action.payload.roomId, action.payload.board)
   }
 
-  console.log(store.getState)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(store.getState)
+  }
 
   return next(action)
 }
