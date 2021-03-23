@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { PlayerState } from '../../playerStore'
 import { InputBoard } from './InputBoard'
-import { SendMessage } from '../../components/SendMessage'
 import { setNextPage } from '../../playerReducer'
 
 export const Play: FunctionComponent = () => {
@@ -25,7 +24,6 @@ export const Play: FunctionComponent = () => {
 
   return (
     <div className="play">
-      <SendMessage roomId={roomId} />
       <InputBoard board={playerBoard} boardSettings={boardSettings} />
     </div>
   )

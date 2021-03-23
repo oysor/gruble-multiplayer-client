@@ -4,9 +4,10 @@ import { PlayerState } from './playerStore'
 import { ConnectionStatus, MessageBox, Timer } from '../../common/components/'
 import { ShowPlayerInput } from './components'
 import { JoinGame, Play, Results } from './pages'
+import { SendMessage } from './components/SendMessage'
 
 export const PlayerLayout: FunctionComponent = () => {
-  const { commonStates, messages, currentPage } = useSelector(
+  const { commonStates, messages, currentPage, roomId } = useSelector(
     (state: PlayerState) => state.player
   )
 
@@ -28,6 +29,7 @@ export const PlayerLayout: FunctionComponent = () => {
       <ShowPlayerInput />
       <MessageBox messages={messages} />
       <ConnectionStatus status={commonStates.status} />
+      <SendMessage roomId={roomId} />
       <Timer elapsedTime={commonStates.elapsedTime}></Timer>
     </div>
   )
