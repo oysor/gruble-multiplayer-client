@@ -99,3 +99,5 @@ export const initPlayerResult: PlayerResult = {
   missing: 0,
   unknown: 0,
 }
+
+export const API_URL = process.env.API_URL ? process.env.API_URL : 'API URL MISSING?'

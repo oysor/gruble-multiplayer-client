@@ -12,7 +12,7 @@ import roomReducer, {
   timesUp,
   receiveBoards,
 } from './roomReducer'
-import { ConnectionMode } from '../../common/constants'
+import { API_URL, ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
 import {
   checkOnNewPlayer,
@@ -24,12 +24,9 @@ import {
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
-  .withUrl('https://pondrapi.azurewebsites.net/chathub', {
-    withCredentials: false,
-  })
-  // .withUrl('https://localhost:5001/chathub')
+  .withUrl(API_URL, { withCredentials: false })
   .withAutomaticReconnect()
-  .configureLogging(signalR.LogLevel.Information)
+  .configureLogging(signalR.LogLevel.Debug)
   .build()
 
 /**
@@ -103,8 +100,6 @@ export async function stopRoomConnection(): Promise<void> {
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
 export const homeMadeMiddleware: Middleware = (store) => (next) => async (action) => {
-  console.log('...Middleware...')
-
   if (action.type === toServer.CreateRoom) {
     hubConnection.invoke(toServer.CreateRoom, action.payload)
   }
@@ -119,7 +114,9 @@ export const homeMadeMiddleware: Middleware = (store) => (next) => async (action
     hubConnection.invoke(toServer.SendResults, action.payload)
   }
 
-  console.log(store.getState)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(store.getState)
+  }
 
   return next(action)
 }

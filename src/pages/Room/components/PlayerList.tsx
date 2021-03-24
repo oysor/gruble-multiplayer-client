@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
-import { RoomState } from '../roomStore'
+import { Player } from '../../../common/constants'
 
-export const PlayerList: FunctionComponent = () => {
-  const { playerList } = useSelector((state: RoomState) => state.room)
+type PlayerListProps = {
+  playerList: Player[]
+}
 
+export const PlayerList: FunctionComponent<PlayerListProps> = ({ playerList }) => {
   return (
-    <div>
+    <div className="room-player-list">
       {playerList.map(function (player, idx) {
         return (
           <div key={idx}>
