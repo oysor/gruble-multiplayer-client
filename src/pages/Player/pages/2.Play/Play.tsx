@@ -23,7 +23,7 @@ export const Play: FunctionComponent = () => {
     }
   }, [timesUp, dispatch, roomId, playerBoard])
 
-  const gameIsOn = commonStates.elapsedTime > 0
+  const gameIsOn = commonStates.elapsedTime !== -99
 
   return (
     <div className="play">
@@ -31,7 +31,7 @@ export const Play: FunctionComponent = () => {
       {gameIsOn ? (
         <InputBoard board={playerBoard} boardSettings={boardSettings} />
       ) : (
-        <h2>Waiting for players...</h2>
+        <h2>Waiting for game to start...</h2>
       )}
     </div>
   )
