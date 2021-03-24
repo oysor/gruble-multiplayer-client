@@ -26,7 +26,7 @@ import {
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
   .withAutomaticReconnect()
-  .configureLogging(signalR.LogLevel.Information)
+  .configureLogging(signalR.LogLevel.Debug)
   .build()
 
 /**
