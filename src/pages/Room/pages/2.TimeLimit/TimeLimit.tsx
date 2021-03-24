@@ -20,10 +20,17 @@ export const TimeLimit: FunctionComponent = () => {
     dispatch(setNextPage())
   }
 
+  const handleKeyPress = (e: React.KeyboardEvent): void => {
+    if (e.key === 'Enter') {
+      dispatchOnClick()
+      e.preventDefault()
+    }
+  }
+
   return (
     <div className="room-time">
       <form>
-        <SmartNumericInput onChange={setTime} value={time} />
+        <SmartNumericInput onChange={setTime} onKeyPress={handleKeyPress} value={time} />
         <SubmitButton
           value="Submit"
           onClick={() => {

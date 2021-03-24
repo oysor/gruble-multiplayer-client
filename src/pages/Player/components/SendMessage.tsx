@@ -23,11 +23,19 @@ export const SendMessage: FunctionComponent<SendMessageProps> = ({ roomId }) => 
     }
   }
 
+  const handleKeyPress = (e: React.KeyboardEvent): void => {
+    if (e.key === 'Enter') {
+      dispatchOnClick()
+      e.preventDefault()
+    }
+  }
+
   return (
     <div className="send-message">
       <form>
         <SmartInput
           onChange={setMessage}
+          onKeyPress={handleKeyPress}
           placeholder={'message'}
           value={msg}
           disabled={roomId === ''}

@@ -16,10 +16,21 @@ export const RoomName: FunctionComponent = () => {
     dispatch(setNextPage())
   }
 
+  const handleKeyPress = (e: React.KeyboardEvent): void => {
+    if (e.key === 'Enter') {
+      dispatchOnClick()
+      e.preventDefault()
+    }
+  }
+
   return (
     <div className="room-name">
       <form>
-        <SmartInput onChange={setName} placeholder={'room name...'} />
+        <SmartInput
+          onChange={setName}
+          placeholder={'room name...'}
+          onKeyPress={handleKeyPress}
+        />
         <SubmitButton
           value="Submit"
           onClick={() => {
