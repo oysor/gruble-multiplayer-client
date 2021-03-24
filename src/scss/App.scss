@@ -18,6 +18,15 @@ $btnColor: #fff;
 
 html, body, #root {
     height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 .App {
@@ -37,69 +46,7 @@ html, body, #root {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    // height: 100%;
-}
-
-.input-categories{
-
-    border: 1px solid black;
-    border-radius: 16px;
-    background: $input-color;
-    padding: 0.5rem;
-
-   .add-category,
-   .remove-category,
-   .write-category
-   {
-        display: inline-block;
-        border: none;
-        text-align: center;
-        text-decoration: none;
-        background: $input-color;
-        padding: 1rem 2rem;
-        margin: 0;
-   }
-
-   .add-category {
-        width: 100%;
-        font-size: 1.5rem;
-    }
-
-    .remove-category {
-        font-size: 1.5rem;
-    }
-
-    .write-category{
-        font-size: 1rem;
-    }
-}
-
-
-
-
-.smart-input,
-.smart-numeric-input,
-.submit-input {
-    display: inline-block;
-    border: none;
-    font-size: 1rem;
-    text-align: center;
-    text-decoration: none;
-    background: $input-color;
-    padding: 1rem 2rem;
-    margin: 0;
-    color: black;
-    border: 1px solid black;
-}
-
-.smart-numeric-input,
-.smart-numeric-input,
-.submit-input[type = button]:hover {
-    background: $input-color-hover;
-}
-
-a.router-link {
-    text-decoration: none;
+    height: 100%;
 }
 
 button.button,
@@ -144,6 +91,31 @@ a.router-link {
       }
 } 
 
+.smart-input,
+.smart-numeric-input,
+.submit-input {
+    display: inline-block;
+    border: none;
+    font-size: 1rem;
+    text-align: center;
+    text-decoration: none;
+    background: $input-color;
+    padding: 1rem 2rem;
+    margin: 0;
+    color: black;
+    border: 1px solid black;
+}
+
+.smart-numeric-input,
+.smart-numeric-input,
+.submit-input[type = button]:hover {
+    background: $input-color-hover;
+}
+
+a.router-link {
+    text-decoration: none;
+}
+
 .room-create {
     display: inline-flex;
     justify-content: space-between;
@@ -180,7 +152,43 @@ form.input-join-room {
 /**
  *   board
  */
+.input-categories{
 
+    border: 1px solid black;
+    border-radius: 16px;
+    background: $input-color;
+    padding: 0.5rem;
+
+   .add-category,
+   .remove-category,
+   .write-category
+   {
+        display: inline-block;
+        border: none;
+        text-align: center;
+        text-decoration: none;
+        background: $input-color;
+        padding: 1rem 2rem;
+        margin: 0;
+   }
+
+   .add-category {
+        width: 100%;
+        font-size: 1.5rem;
+    }
+
+    .remove-category {
+        font-size: 1.5rem;
+    }
+
+    .write-category{
+        font-size: 1rem;
+    }
+}
+
+/**
+ *   board
+ */
 .board{
     height: 20rem;
     width: 20rem;
@@ -299,4 +307,12 @@ form.input-join-room {
     .highlight{
         font-size: 2rem;
     }
+}
+
+/**
+ *   component in room
+ */
+.room-player-list {
+    margin-top:1rem;
+    margin-bottom:1rem;
 }

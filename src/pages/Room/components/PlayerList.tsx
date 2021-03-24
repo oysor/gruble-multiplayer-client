@@ -7,7 +7,7 @@ type PlayerListProps = {
 
 export const PlayerList: FunctionComponent<PlayerListProps> = ({ playerList }) => {
   return (
-    <div>
+    <div className="room-player-list">
       {playerList.map(function (player, idx) {
         return (
           <div key={idx}>
