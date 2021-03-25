@@ -1,12 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { RoomState } from './roomStore'
-import {
-  ConnectionStatus,
-  MessageBox,
-  PlayerMessageBox,
-  Timer,
-} from '../../common/components/'
+import { ConnectionStatus, MessageBox, PlayerMessageBox } from '../../common/components/'
 import {
   RoomName,
   TimeLimit,
@@ -45,7 +40,6 @@ export const RoomLayout: FunctionComponent = () => {
       {showComponent(currentPage)}
       <MessageBox messages={messages} />
       <PlayerMessageBox playerMessages={playerMessages} />
-      <Timer elapsedTime={commonStates.elapsedTime}></Timer>
     </div>
   )
 }

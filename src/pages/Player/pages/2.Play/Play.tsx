@@ -6,9 +6,14 @@ import { setNextPage } from '../../playerReducer'
 import { Timer } from '../../../../common/components'
 
 export const Play: FunctionComponent = () => {
-  const { roomId, boardSettings, playerBoard, timesUp, commonStates } = useSelector(
-    (state: PlayerState) => state.player
-  )
+  const {
+    roomId,
+    boardSettings,
+    playerBoard,
+    timesUp,
+    commonStates,
+    timeLimit,
+  } = useSelector((state: PlayerState) => state.player)
   const dispatch = useDispatch()
   /**
    *  Go to next component when time is up
@@ -23,15 +28,18 @@ export const Play: FunctionComponent = () => {
     }
   }, [timesUp, dispatch, roomId, playerBoard])
 
-  const gameIsOn = commonStates.elapsedTime !== -99
+  const gameIsOn =
+    commonStates.elapsedTime < timeLimit && commonStates.elapsedTime !== -99
 
   return (
     <div className="play">
-      <Timer elapsedTime={commonStates.elapsedTime}></Timer>
       {gameIsOn ? (
-        <InputBoard board={playerBoard} boardSettings={boardSettings} />
+        <div>
+          <Timer elapsedTime={commonStates.elapsedTime}></Timer>
+          <InputBoard board={playerBoard} boardSettings={boardSettings} />
+        </div>
       ) : (
-        <h2>Waiting for game to start...</h2>
+        <div>Time limit is set to {timeLimit} seconds</div>
       )}
     </div>
   )

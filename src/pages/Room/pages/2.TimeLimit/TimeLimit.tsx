@@ -10,7 +10,7 @@ import { setNextPage, setTimeLimit } from '../../roomReducer'
 export const TimeLimit: FunctionComponent = () => {
   const dispatch = useDispatch()
   // Default value: 2 seconds
-  const [time, setTime] = useState(1)
+  const [time, setTime] = useState(30)
   // Missing input warning
   const [reminder, setReminder] = useState(false)
   const validInput = time > 0
