@@ -14,7 +14,7 @@ export const PlayerMessageBox: FunctionComponent<PlayerMessageBoxProps> = ({
     return (
       <li key={i}>
         <span
-          className="player-message-item"
+          className="message-item"
           style={{ boxShadow: '0px 0px 3px' + m.player.color }}
         >
           {m.message}
@@ -23,9 +23,9 @@ export const PlayerMessageBox: FunctionComponent<PlayerMessageBoxProps> = ({
     )
   })
 
-  return (
+  return listItems.length > 0 ? (
     <div className="message-box">
       <ul>{listItems}</ul>
     </div>
-  )
+  ) : null
 }

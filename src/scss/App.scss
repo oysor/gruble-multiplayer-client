@@ -322,10 +322,12 @@ form.input-join-room {
     overflow:hidden; 
     overflow-y:scroll;
     scrollbar-color: #c4c4c4 white;
+    border-bottom: 0.1px solid #c4c4c4;
 }
 
-.player-message-item{
+.message-item{
     padding: 0.25em 0.75em;
-    display:inline-block;
+    margin-left: 0.5rem;
+    // display:inline-block;
     border-radius: 16px;
 }

@@ -8,10 +8,23 @@ interface ResultTableProps {
  * Displays a table listing all players and their scores
  */
 export const ResultTable: FunctionComponent<ResultTableProps> = ({ playerList }) => {
+  const highestScore = () => {
+    let winner = playerList[0]
+    for (let i = 1; i < playerList.length; i++) {
+      if (playerList[i].playerResult.score > winner.playerResult.score) {
+        winner = playerList[i]
+      }
+    }
+    return winner
+  }
+
+  const winner = highestScore()
+
   const getPlayerResult = (player: Player) => {
     const { score, correct, common, unique, wrong, missing } = player.playerResult
+    const color = score === winner.playerResult.score ? 'bold' : 'normal'
     return (
-      <div className="result-row" key={player.name}>
+      <div className="result-row" key={player.name} style={{ fontWeight: color }}>
         <div className="result-square">{player.name}</div>
         <div className="result-square">{score}</div>
         <div className="result-square">{correct}</div>

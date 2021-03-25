@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RoomState } from '../../roomStore'
 import { setNextPage, toServer } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components'
-import { PlayerList, ShowRoomInput } from '../../components'
+import { ShowRoomInput } from '../../components'
 
 export const StartGame: FunctionComponent = () => {
   const { roomId, playerList } = useSelector((state: RoomState) => state.room)
@@ -28,7 +28,6 @@ export const StartGame: FunctionComponent = () => {
         Start Game
       </Button>
       {reminder ? <MissingInput playerList={playerList} /> : null}
-      <PlayerList playerList={playerList} />
     </div>
   )
 }

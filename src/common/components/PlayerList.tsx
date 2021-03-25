@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Player } from '../../../common/constants'
+import { Player } from '../constants'
 
 type PlayerListProps = {
   playerList: Player[]

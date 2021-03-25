@@ -1,7 +1,12 @@
 import React, { FunctionComponent } from 'react'
 import { useSelector } from 'react-redux'
 import { RoomState } from './roomStore'
-import { ConnectionStatus, MessageBox, PlayerMessageBox } from '../../common/components/'
+import {
+  ConnectionStatus,
+  MessageBox,
+  PlayerList,
+  PlayerMessageBox,
+} from '../../common/components/'
 import {
   RoomName,
   TimeLimit,
@@ -12,7 +17,7 @@ import {
 } from './pages'
 
 export const RoomLayout: FunctionComponent = () => {
-  const { commonStates, messages, currentPage, playerMessages } = useSelector(
+  const { commonStates, messages, currentPage, playerMessages, playerList } = useSelector(
     (state: RoomState) => state.room
   )
 
@@ -38,6 +43,7 @@ export const RoomLayout: FunctionComponent = () => {
       <h1>GameRoom</h1>
       <ConnectionStatus status={commonStates.status} />
       {showComponent(currentPage)}
+      <PlayerList playerList={playerList} />
       <MessageBox messages={messages} />
       <PlayerMessageBox playerMessages={playerMessages} />
     </div>
