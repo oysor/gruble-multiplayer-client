@@ -331,3 +331,19 @@ form.input-join-room {
     // display:inline-block;
     border-radius: 16px;
 }
+
+/**
+ *   info boxes
+ */
+
+ .explain-box{
+    width: 30rem;
+
+    .rules{
+        font-family: "Franklin Gothic Medium", "Franklin Gothic", sans-serif;
+    }
+
+    .timelimit {
+        color: red;
+    }
+}

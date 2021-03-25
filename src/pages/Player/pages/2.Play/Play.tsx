@@ -39,7 +39,20 @@ export const Play: FunctionComponent = () => {
           <InputBoard board={playerBoard} boardSettings={boardSettings} />
         </div>
       ) : (
-        <div>Time limit is set to {timeLimit} seconds</div>
+        <div className="explain-box">
+          <div className="rules">
+            <b>Rules:</b> <br />
+            In the time allotted, each player must attempt to think of and write down, in
+            the first column on the pad, a word or term that fits each of the{' '}
+            {boardSettings.categories.length} categories and starts with the rolled
+            letter. Any number of words in the answer is allowed, as long as the first
+            word starts with the correct letter.
+          </div>
+          <br />
+          <div className="timelimit">
+            &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
+          </div>
+        </div>
       )}
     </div>
   )
