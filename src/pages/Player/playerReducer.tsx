@@ -4,6 +4,7 @@ import {
   BoardSettings,
   CommonStates,
   initialCommonStates,
+  Message,
   Player,
 } from '../../common/constants/'
 
@@ -18,6 +19,8 @@ export interface playerState {
   playerList: Player[]
   receivedResult: boolean
   currentPage: number
+  timeLimit: number
+  playerMessages: Message[]
 }
 
 const initialState: playerState = {
@@ -31,6 +34,8 @@ const initialState: playerState = {
   playerList: [],
   receivedResult: false,
   currentPage: 1,
+  timeLimit: 0,
+  playerMessages: [],
 }
 
 const playerSlice = createSlice({
@@ -52,11 +57,22 @@ const playerSlice = createSlice({
       state.commonStates.elapsedTime = action.payload
     },
     newMessage: (state, action) => {
-      state.messages = [...state.messages, action.payload]
+      const { id, message } = action.payload
+      const messageSender = state.playerList.find((p) => {
+        return p.userId === id
+      })
+      messageSender
+        ? (state.playerMessages = [
+            { player: messageSender, message: message },
+            ...state.playerMessages,
+          ])
+        : (state.messages = [message, ...state.messages])
     },
     setBoard: (state, action) => {
       state.boardSettings = action.payload.boardSettings
       state.roomId = action.payload.roomId
+      state.timeLimit = action.payload.timeLimit
+      state.commonStates.elapsedTime = action.payload.timeLimit
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 

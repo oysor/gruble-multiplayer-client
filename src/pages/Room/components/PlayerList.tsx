@@ -11,7 +11,7 @@ export const PlayerList: FunctionComponent<PlayerListProps> = ({ playerList }) =
       {playerList.map(function (player, idx) {
         return (
           <div key={idx}>
-            {idx}: <span style={{ color: player.color }}>{player.name}</span>{' '}
+            Player {idx + 1}: <span style={{ color: player.color }}>{player.name}</span>{' '}
           </div>
         )
       })}

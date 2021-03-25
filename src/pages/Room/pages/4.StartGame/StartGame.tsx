@@ -20,7 +20,6 @@ export const StartGame: FunctionComponent = () => {
   return (
     <div className="room-start-game">
       <ShowRoomInput />
-      <PlayerList playerList={playerList} />
       <Button
         onClick={() => {
           startGame ? dispatchOnClick() : setReminder(!reminder)
@@ -29,6 +28,7 @@ export const StartGame: FunctionComponent = () => {
         Start Game
       </Button>
       {reminder ? <MissingInput playerList={playerList} /> : null}
+      <PlayerList playerList={playerList} />
     </div>
   )
 }

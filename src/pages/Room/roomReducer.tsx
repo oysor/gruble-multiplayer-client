@@ -3,6 +3,7 @@ import {
   BoardSettings,
   CommonStates,
   initialCommonStates,
+  Message,
   Player,
   WordInfoDict,
 } from '../../common/constants/'
@@ -20,6 +21,7 @@ export interface RoomState {
   wordDictionary: WordInfoDict
   receivedBoards: boolean
   currentPage: number
+  playerMessages: Message[]
 }
 
 const initialState: RoomState = {
@@ -33,6 +35,7 @@ const initialState: RoomState = {
   wordDictionary: {},
   receivedBoards: false,
   currentPage: 1,
+  playerMessages: [],
 }
 
 const roomSlice = createSlice({
@@ -81,7 +84,16 @@ const roomSlice = createSlice({
       // state.receivedBoards = true
     },
     newMessage: (state, action) => {
-      state.messages = [...state.messages, action.payload]
+      const { id, message } = action.payload
+      const messageSender = state.playerList.find((p) => {
+        return p.userId === id
+      })
+      messageSender
+        ? (state.playerMessages = [
+            { player: messageSender, message: message },
+            ...state.playerMessages,
+          ])
+        : (state.messages = [message, ...state.messages])
     },
     removePlayer: (state, action) => {
       const newList = [...state.playerList]

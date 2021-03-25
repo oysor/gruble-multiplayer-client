@@ -12,6 +12,7 @@ export const MessageBox: FunctionComponent<MessageBoxProps> = ({ messages }) => 
   return (
     <div className="message-box">
       <ul>{listItems}</ul>
+      ...
     </div>
   )
 }
