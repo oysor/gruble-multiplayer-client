@@ -22,9 +22,14 @@ export const ResultTable: FunctionComponent<ResultTableProps> = ({ playerList })
 
   const getPlayerResult = (player: Player) => {
     const { score, correct, common, unique, wrong, missing } = player.playerResult
-    const color = score === winner.playerResult.score ? 'bold' : 'normal'
+    const weight = score === winner.playerResult.score ? 'bold' : 'normal'
+    const color = player.color
     return (
-      <div className="result-row" key={player.name} style={{ fontWeight: color }}>
+      <div
+        className="result-row"
+        key={player.name}
+        style={{ fontWeight: weight, color: color }}
+      >
         <div className="result-square">{player.name}</div>
         <div className="result-square">{score}</div>
         <div className="result-square">{correct}</div>
