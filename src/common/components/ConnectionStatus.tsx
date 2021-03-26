@@ -22,5 +22,5 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({
         return <span style={{ color: 'red' }}>Connection Failed</span>
     }
   }
-  return <div className="connection-status">{connectionStatus()}</div>
+  return <span className="connection-status">{connectionStatus()}</span>
 }

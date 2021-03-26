@@ -53,9 +53,9 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(removePlayer(player))
     })
 
-    hubConnection.on(fromServer.ReceiveMessage, (msg) => {
+    hubConnection.on(fromServer.ReceiveMessage, (msg, connectionID) => {
       checkOnReceiveMessage(msg)
-      store.dispatch(newMessage(msg))
+      store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
     hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {

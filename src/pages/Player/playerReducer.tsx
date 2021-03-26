@@ -4,6 +4,7 @@ import {
   BoardSettings,
   CommonStates,
   initialCommonStates,
+  Message,
   Player,
 } from '../../common/constants/'
 
@@ -18,6 +19,8 @@ export interface playerState {
   playerList: Player[]
   receivedResult: boolean
   currentPage: number
+  timeLimit: number
+  playerMessages: Message[]
 }
 
 const initialState: playerState = {
@@ -31,6 +34,8 @@ const initialState: playerState = {
   playerList: [],
   receivedResult: false,
   currentPage: 1,
+  timeLimit: 0,
+  playerMessages: [],
 }
 
 const playerSlice = createSlice({
@@ -52,11 +57,23 @@ const playerSlice = createSlice({
       state.commonStates.elapsedTime = action.payload
     },
     newMessage: (state, action) => {
-      state.messages = [...state.messages, action.payload]
+      const { id, message } = action.payload
+      const messageSender = state.playerList.find((p) => {
+        return p.userId === id
+      })
+      messageSender
+        ? (state.playerMessages = [
+            { player: messageSender, message: message },
+            ...state.playerMessages,
+          ])
+        : (state.messages = [message, ...state.messages])
     },
     setBoard: (state, action) => {
       state.boardSettings = action.payload.boardSettings
       state.roomId = action.payload.roomId
+      state.timeLimit = action.payload.timeLimit
+      state.commonStates.elapsedTime = action.payload.timeLimit
+      state.playerList = action.payload.players
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 
@@ -81,6 +98,14 @@ const playerSlice = createSlice({
     setNextPage: (state) => {
       state.currentPage += 1
     },
+    addPlayer: (state, action) => {
+      state.playerList = [...state.playerList, action.payload]
+    },
+    removePlayer: (state, action) => {
+      state.playerList = [...state.playerList].filter((player) => {
+        return player.userId !== action.payload.userId
+      })
+    },
     resetState: () => initialState,
   },
 })
@@ -98,6 +123,8 @@ export enum fromServer {
   onJoinRoom = 'onJoinRoom',
   onTimesUp = 'onTimerFinished',
   receiveResults = 'ReceiveResults',
+  onPlayerJoined = 'onPlayerJoined',
+  onPlayerLeft = 'onPlayerLeft',
 }
 
 export const {
@@ -113,6 +140,8 @@ export const {
   sendBoard,
   setNextPage,
   receiveResults,
+  addPlayer,
+  removePlayer,
 } = playerSlice.actions
 
 export default playerSlice.reducer

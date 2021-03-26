@@ -6,9 +6,14 @@ import { setNextPage } from '../../playerReducer'
 import { Timer } from '../../../../common/components'
 
 export const Play: FunctionComponent = () => {
-  const { roomId, boardSettings, playerBoard, timesUp, commonStates } = useSelector(
-    (state: PlayerState) => state.player
-  )
+  const {
+    roomId,
+    boardSettings,
+    playerBoard,
+    timesUp,
+    commonStates,
+    timeLimit,
+  } = useSelector((state: PlayerState) => state.player)
   const dispatch = useDispatch()
   /**
    *  Go to next component when time is up
@@ -23,15 +28,31 @@ export const Play: FunctionComponent = () => {
     }
   }, [timesUp, dispatch, roomId, playerBoard])
 
-  const gameIsOn = commonStates.elapsedTime !== -99
+  const gameIsOn =
+    commonStates.elapsedTime < timeLimit && commonStates.elapsedTime !== -99
 
   return (
     <div className="play">
-      <Timer elapsedTime={commonStates.elapsedTime}></Timer>
       {gameIsOn ? (
-        <InputBoard board={playerBoard} boardSettings={boardSettings} />
+        <div>
+          <Timer elapsedTime={commonStates.elapsedTime}></Timer>
+          <InputBoard board={playerBoard} boardSettings={boardSettings} />
+        </div>
       ) : (
-        <h2>Waiting for game to start...</h2>
+        <div className="explain-box">
+          <div className="rules">
+            <b>Rules:</b> <br />
+            In the time allotted, each player must attempt to think of and write down, in
+            the first column on the board, a word or term that fits each of the{' '}
+            {boardSettings.categories.length} categories and starts with the rolled
+            letter. Any number of words in the answer is allowed, as long as the first
+            word starts with the correct letter.
+          </div>
+          <br />
+          <div className="timelimit">
+            &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
+          </div>
+        </div>
       )}
     </div>
   )

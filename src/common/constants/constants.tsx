@@ -17,6 +17,10 @@ export type Player = {
   scoreBoard: ScoreBoard
   playerResult: PlayerResult
 }
+export type Message = {
+  player: Player
+  message: string
+}
 
 export type PlayerResult = {
   score: number

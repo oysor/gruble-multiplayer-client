@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from '../../../../common/components'
+import { Button, Timer } from '../../../../common/components'
 import { DisplayList } from '../../components/DisplayList'
 import { setNextPage, setPlayerResults } from '../../roomReducer'
 import { RoomState } from '../../roomStore'
@@ -8,7 +8,7 @@ import { updatePlayerListResults } from '../../utilities'
 import { HandleSquare } from './HandleSquare'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { playerList, boardSettings, receivedBoards } = useSelector(
+  const { playerList, boardSettings, receivedBoards, commonStates } = useSelector(
     (state: RoomState) => state.room
   )
   const dispatch = useDispatch()
@@ -49,6 +49,6 @@ export const HandleAnswers: FunctionComponent = () => {
       </div>
     </div>
   ) : (
-    <h2>Waiting...</h2>
+    <Timer elapsedTime={commonStates.elapsedTime} />
   )
 }

@@ -10,7 +10,7 @@ import { setNextPage, setTimeLimit } from '../../roomReducer'
 export const TimeLimit: FunctionComponent = () => {
   const dispatch = useDispatch()
   // Default value: 2 seconds
-  const [time, setTime] = useState(1)
+  const [time, setTime] = useState(30)
   // Missing input warning
   const [reminder, setReminder] = useState(false)
   const validInput = time > 0
@@ -29,6 +29,7 @@ export const TimeLimit: FunctionComponent = () => {
 
   return (
     <div className="room-time">
+      <span className="reminder">Set time limit</span>
       <form>
         <SmartNumericInput onChange={setTime} onKeyPress={handleKeyPress} value={time} />
         <SubmitButton

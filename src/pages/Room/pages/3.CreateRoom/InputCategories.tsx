@@ -47,14 +47,12 @@ export const InputCategories: FunctionComponent<InputCategoriesProps> = ({
                 -
               </button>
             )}
-            {inputList.length - 1 === i && (
-              <button onClick={handleAddClick} className="add-category">
-                +
-              </button>
-            )}
           </div>
         )
       })}
+      <button onClick={handleAddClick} className="add-category">
+        +
+      </button>
     </div>
   )
 }
