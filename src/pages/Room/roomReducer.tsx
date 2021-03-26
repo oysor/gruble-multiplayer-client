@@ -95,14 +95,13 @@ const roomSlice = createSlice({
           ])
         : (state.messages = [message, ...state.messages])
     },
-    removePlayer: (state, action) => {
-      const newList = [...state.playerList]
-      state.playerList = newList.filter((player) => {
-        return player.id !== action.payload
-      })
-    },
     addPlayer: (state, action) => {
       state.playerList = [...state.playerList, action.payload]
+    },
+    removePlayer: (state, action) => {
+      state.playerList = [...state.playerList].filter((player) => {
+        return player.userId !== action.payload.userId
+      })
     },
     updatePlayerScoreBoard: (state, action) => {
       const { letter, category } = action.payload.square

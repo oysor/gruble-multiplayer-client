@@ -73,6 +73,7 @@ const playerSlice = createSlice({
       state.roomId = action.payload.roomId
       state.timeLimit = action.payload.timeLimit
       state.commonStates.elapsedTime = action.payload.timeLimit
+      state.playerList = action.payload.players
       const x = action.payload.boardSettings.letters.length
       const y = action.payload.boardSettings.categories.length
 
@@ -97,6 +98,14 @@ const playerSlice = createSlice({
     setNextPage: (state) => {
       state.currentPage += 1
     },
+    addPlayer: (state, action) => {
+      state.playerList = [...state.playerList, action.payload]
+    },
+    removePlayer: (state, action) => {
+      state.playerList = [...state.playerList].filter((player) => {
+        return player.userId !== action.payload.userId
+      })
+    },
     resetState: () => initialState,
   },
 })
@@ -114,6 +123,8 @@ export enum fromServer {
   onJoinRoom = 'onJoinRoom',
   onTimesUp = 'onTimerFinished',
   receiveResults = 'ReceiveResults',
+  onPlayerJoined = 'onPlayerJoined',
+  onPlayerLeft = 'onPlayerLeft',
 }
 
 export const {
@@ -129,6 +140,8 @@ export const {
   sendBoard,
   setNextPage,
   receiveResults,
+  addPlayer,
+  removePlayer,
 } = playerSlice.actions
 
 export default playerSlice.reducer
