@@ -6,7 +6,7 @@ type PlayerListProps = {
 }
 
 export const PlayerList: FunctionComponent<PlayerListProps> = ({ playerList }) => {
-  return (
+  return playerList.length > 0 ? (
     <div className="room-player-list">
       {playerList.map(function (player, idx) {
         return (
@@ -16,5 +16,5 @@ export const PlayerList: FunctionComponent<PlayerListProps> = ({ playerList }) =
         )
       })}
     </div>
-  )
+  ) : null
 }

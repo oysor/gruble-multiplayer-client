@@ -29,7 +29,7 @@ export const TimeLimit: FunctionComponent = () => {
 
   return (
     <div className="room-time">
-      <span style={{ color: 'grey' }}>Set time limit</span>
+      <span className="reminder">Set time limit</span>
       <form>
         <SmartNumericInput onChange={setTime} onKeyPress={handleKeyPress} value={time} />
         <SubmitButton

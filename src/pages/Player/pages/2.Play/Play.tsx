@@ -43,7 +43,7 @@ export const Play: FunctionComponent = () => {
           <div className="rules">
             <b>Rules:</b> <br />
             In the time allotted, each player must attempt to think of and write down, in
-            the first column on the pad, a word or term that fits each of the{' '}
+            the first column on the board, a word or term that fits each of the{' '}
             {boardSettings.categories.length} categories and starts with the rolled
             letter. Any number of words in the answer is allowed, as long as the first
             word starts with the correct letter.

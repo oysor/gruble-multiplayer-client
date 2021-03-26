@@ -34,14 +34,22 @@ export const PlayerLayout: FunctionComponent = () => {
 
   return (
     <div className="player-layout">
-      <h1>PlayerRoom</h1>
-      {showComponent(currentPage)}
-      {/* <ShowPlayerInput /> */}
-      <ConnectionStatus status={commonStates.status} />
-      <PlayerList playerList={playerList} />
-      <SendMessage roomId={roomId} />
-      <MessageBox messages={messages} />
-      <PlayerMessageBox playerMessages={playerMessages} />
+      <div className="layout-header">
+        <div className="header-logo">
+          <h1>PlayerRoom</h1>
+          <ConnectionStatus status={commonStates.status} />
+        </div>
+      </div>
+      <div className="layout-main">{showComponent(currentPage)}</div>
+      <div className="layout-bottom">
+        {/* <ShowPlayerInput /> */}
+        <SendMessage roomId={roomId} />
+        <PlayerList playerList={playerList} />
+        <div className="message-boxes">
+          <MessageBox messages={messages} />
+          <PlayerMessageBox playerMessages={playerMessages} />
+        </div>
+      </div>
     </div>
   )
 }

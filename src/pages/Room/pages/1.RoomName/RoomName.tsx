@@ -25,7 +25,8 @@ export const RoomName: FunctionComponent = () => {
 
   return (
     <div className="room-name">
-      <form>
+      {reminder ? <MissingInput name={name} /> : null}
+      <form className="input-field">
         <SmartInput
           onChange={setName}
           placeholder={'room name...'}
@@ -38,7 +39,6 @@ export const RoomName: FunctionComponent = () => {
           }}
         />
       </form>
-      {reminder ? <MissingInput name={name} /> : null}
     </div>
   )
 }
