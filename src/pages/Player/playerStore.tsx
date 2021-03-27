@@ -12,6 +12,7 @@ import playerReducer, {
   receiveResults,
   addPlayer,
   removePlayer,
+  newServerMessage,
 } from './playerReducer'
 import { API_URL, ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -47,9 +48,10 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 
-    hubConnection.on(fromServer.onJoinRoom, (gameRoom) => {
+    hubConnection.on(fromServer.onJoinRoom, (gameRoom, msg) => {
       checkOnRoom(gameRoom)
-      store.dispatch(setBoard(gameRoom))
+        ? store.dispatch(setBoard(gameRoom))
+        : store.dispatch(newServerMessage(msg))
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {

@@ -1,23 +1,28 @@
-import React, { FunctionComponent, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { setNextPage, setPlayerName, setRoomId, toServer } from '../../playerReducer'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNextPage, toServer } from '../../playerReducer'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
+import { PlayerState } from '../../playerStore'
 
 export const JoinGame: FunctionComponent = () => {
+  // Room id received from server
+  const { roomId, serverMessage } = useSelector((state: PlayerState) => state.player)
+  // Go to next page if room is received from server
+  useEffect(() => {
+    roomId !== '' && dispatch(setNextPage())
+  })
+  // Set playerName and roomId (to be sent to server)
   const [playerName, setplayerName] = useState('')
-  const [roomId, setId] = useState('')
+  const [inputRoomId, setId] = useState('')
   // remind about missing input
   const [remind, setRemind] = useState(false)
-  const validInput = playerName.length > 0 && roomId.length > 0
+  const validInput = playerName.length > 0 && inputRoomId.length > 0
   const dispatch = useDispatch()
   const dispatchOnClick = () => {
-    dispatch(setPlayerName(playerName))
-    dispatch(setRoomId(roomId))
     dispatch({
       type: toServer.JoinRoom,
-      payload: { roomId: roomId, playerName: playerName },
+      payload: { roomId: inputRoomId, playerName: playerName },
     })
-    dispatch(setNextPage())
   }
 
   return (
@@ -32,7 +37,8 @@ export const JoinGame: FunctionComponent = () => {
           value={'Join room'}
         />
       </form>
-      {remind ? <MissingInput name={playerName} roomId={roomId} /> : null}
+      {remind ? <MissingInput name={playerName} roomId={inputRoomId} /> : null}
+      {serverMessage !== '' ? serverMessage : null}
     </div>
   )
 }
