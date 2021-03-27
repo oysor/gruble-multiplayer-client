@@ -21,6 +21,7 @@ export interface playerState {
   currentPage: number
   timeLimit: number
   playerMessages: Message[]
+  serverMessage: string
 }
 
 const initialState: playerState = {
@@ -36,6 +37,7 @@ const initialState: playerState = {
   currentPage: 1,
   timeLimit: 0,
   playerMessages: [],
+  serverMessage: '',
 }
 
 const playerSlice = createSlice({
@@ -46,15 +48,8 @@ const playerSlice = createSlice({
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
-    setPlayerName: (state, action) => {
-      state.playerName = action.payload
-    },
-    // Room which the player has joined.
-    setRoomId: (state, action) => {
-      state.roomId = action.payload
-    },
-    setTimeElapsed: (state, action) => {
-      state.commonStates.elapsedTime = action.payload
+    setNextPage: (state) => {
+      state.currentPage += 1
     },
     newMessage: (state, action) => {
       const { id, message } = action.payload
@@ -68,7 +63,11 @@ const playerSlice = createSlice({
           ])
         : (state.messages = [message, ...state.messages])
     },
+    newServerMessage: (state, action) => {
+      state.serverMessage = action.payload
+    },
     setBoard: (state, action) => {
+      state.playerName = action.payload.playerName
       state.boardSettings = action.payload.boardSettings
       state.roomId = action.payload.roomId
       state.timeLimit = action.payload.timeLimit
@@ -82,6 +81,9 @@ const playerSlice = createSlice({
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
     },
+    setTimeElapsed: (state, action) => {
+      state.commonStates.elapsedTime = action.payload
+    },
     timesUp: (state) => {
       state.commonStates.elapsedTime = 0
       state.timesUp = true
@@ -94,9 +96,6 @@ const playerSlice = createSlice({
       // PlayerList with results is already sent to server by middleware.
       state.playerList = action.payload
       state.receivedResult = true
-    },
-    setNextPage: (state) => {
-      state.currentPage += 1
     },
     addPlayer: (state, action) => {
       state.playerList = [...state.playerList, action.payload]
@@ -129,8 +128,6 @@ export enum fromServer {
 
 export const {
   setStatus,
-  setPlayerName,
-  setRoomId,
   setTimeElapsed,
   newMessage,
   setBoard,
@@ -142,6 +139,7 @@ export const {
   receiveResults,
   addPlayer,
   removePlayer,
+  newServerMessage,
 } = playerSlice.actions
 
 export default playerSlice.reducer

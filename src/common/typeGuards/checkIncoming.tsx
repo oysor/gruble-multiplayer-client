@@ -48,6 +48,10 @@ export function isBoardSettings(object: BoardSettings): object is BoardSettings 
 }
 
 export function checkOnRoom(object: GameRoom): object is GameRoom {
+  if (object === null) {
+    return false
+  }
+
   const { roomId, roomName, timeLimit, boardSettings } = object
 
   if (!isString(roomId)) {

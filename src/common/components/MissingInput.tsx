@@ -36,5 +36,11 @@ export const MissingInput: FunctionComponent<MissingInputProps> = ({
       <span key={5}>At least one player must join the game before you can start.</span>
     )
   }
-  return <div className="reminder">{reminders}</div>
+  return (
+    <div className="reminder">
+      {reminders.map((r, i) => {
+        return <div key={i}>{r}</div>
+      })}
+    </div>
+  )
 }
