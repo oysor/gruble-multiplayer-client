@@ -117,9 +117,10 @@ button:focus {
 
     //Player pages
     .join-room{
+        height: 15rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        justify-content: flex-start;
     }
 
     .play{
@@ -205,8 +206,11 @@ a.router-link {
 }
 
 .smart-numeric-input,
-.smart-numeric-input,
-.submit-input[type = button]:hover {
+.smart-numeric-input {
+    background: $input-color-hover;
+}
+
+.hover:hover{
     background: $input-color-hover;
 }
 

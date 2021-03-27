@@ -30,7 +30,9 @@ export const SendMessage: FunctionComponent<SendMessageProps> = ({ roomId }) => 
     }
   }
 
-  return (
+  const disable: boolean = roomId === ''
+
+  return !disable ? (
     <div className="send-message">
       <form>
         <SmartInput
@@ -38,10 +40,10 @@ export const SendMessage: FunctionComponent<SendMessageProps> = ({ roomId }) => 
           onKeyPress={handleKeyPress}
           placeholder={'message'}
           value={msg}
-          disabled={roomId === ''}
+          disabled={disable}
         />
-        <SubmitButton onClick={dispatchOnClick} value={'Send'} disabled={roomId === ''} />
+        <SubmitButton onClick={dispatchOnClick} value={'Send'} disabled={disable} />
       </form>
     </div>
-  )
+  ) : null
 }

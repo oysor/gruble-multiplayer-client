@@ -13,7 +13,7 @@ export const SmartNumericInput: FunctionComponent<SmartNumericInputProps> = ({
 }) => {
   return (
     <input
-      className="smart-numeric-input"
+      className="smart-numeric-input hover"
       type="number"
       value={value}
       step="any"
