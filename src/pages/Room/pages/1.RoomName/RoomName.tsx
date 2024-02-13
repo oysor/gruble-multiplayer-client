@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
 import { setNextPage, setRoomName } from '../../roomReducer'
+import { useAppDispatch } from '../../roomHooks'
 
 export const RoomName: FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   // Set room name
   const [name, setName] = useState('')
   // Missing input warning

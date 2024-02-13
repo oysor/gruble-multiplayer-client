@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
 import { PlayerState } from './playerStore'
 import {
   ConnectionStatus,
@@ -10,16 +9,11 @@ import {
 // import { ShowPlayerInput } from './components'
 import { JoinGame, Play, Results } from './pages'
 import { SendMessage } from './components/SendMessage'
+import { useAppSelector } from './playerHooks'
 
 export const PlayerLayout: FunctionComponent = () => {
-  const {
-    commonStates,
-    messages,
-    currentPage,
-    roomId,
-    playerMessages,
-    playerList,
-  } = useSelector((state: PlayerState) => state.player)
+  const { commonStates, messages, currentPage, roomId, playerMessages, playerList } =
+    useAppSelector((state: PlayerState) => state.player)
 
   const showComponent = (currentPage: number) => {
     switch (currentPage) {

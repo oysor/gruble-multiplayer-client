@@ -1,4 +1,4 @@
-import { configureStore, Middleware } from '@reduxjs/toolkit'
+import { configureStore, isAnyOf } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import playerReducer, {
   toServer,
@@ -13,6 +13,8 @@ import playerReducer, {
   addPlayer,
   removePlayer,
   newServerMessage,
+  sendMessage,
+  joinRoom,
 } from './playerReducer'
 import { API_URL, ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -21,6 +23,8 @@ import {
   checkOnRoom,
   checkOnTimerElapsed,
 } from '../../common/typeGuards'
+import { HubConnectionState } from '@microsoft/signalr'
+import { listenerMiddleware, startAppListening } from './listenerMiddleware'
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -34,9 +38,11 @@ const hubConnection = new signalR.HubConnectionBuilder()
  */
 export async function startPlayerConnection(): Promise<void> {
   try {
-    await hubConnection.start()
-    console.log('***** PLAYER connected *****')
-    store.dispatch(setStatus(ConnectionMode.Connected))
+    if (hubConnection.state === HubConnectionState.Disconnected) {
+      await hubConnection.start()
+    }
+    store.dispatch(setStatus(hubConnection.state))
+    console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
     hubConnection.on(fromServer.receiveMessage, (msg, connectionID) => {
       checkOnReceiveMessage(msg)
@@ -97,34 +103,83 @@ export async function stopPlayerConnection(): Promise<void> {
 /**
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
-export const homeMadeMiddleware: Middleware = (store) => (next) => async (action) => {
-  if (action.type === toServer.JoinRoom) {
+// Add one or more listener entries that look for specific actions.
+// They may contain any sync or async logic, similar to thunks.
+startAppListening({
+  matcher: isAnyOf(sendMessage, sendBoard, joinRoom),
+  effect: async (action, listenerApi) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('getOriginalState')
+      console.log(listenerApi.getOriginalState())
+    }
+  },
+})
+
+startAppListening({
+  actionCreator: joinRoom,
+  effect: async (action) => {
     hubConnection.invoke(
       toServer.JoinRoom,
       action.payload.roomId,
       action.payload.playerName
     )
-  }
+  },
+})
 
-  if (action.type === toServer.SendMessage) {
+startAppListening({
+  actionCreator: sendMessage,
+  effect: async (action) => {
     hubConnection.invoke(
       toServer.SendMessage,
       action.payload.roomId,
       action.payload.message
     )
-  }
+  },
+})
 
-  // this method needs to reach the reducer
-  if (action.type === sendBoard.type) {
+startAppListening({
+  actionCreator: sendBoard,
+  effect: async (action) => {
     hubConnection.invoke(toServer.SendBoard, action.payload.roomId, action.payload.board)
-  }
+  },
+})
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(store.getState)
-  }
+/**
+ *   MIDDLEWARE - add singnalR 'invoke' here
+ */
+// export const homeMadeMiddleware: Middleware =
+//   (store) => (next) => async (action: any) => {
+// if (action.type === toServer.JoinRoom) {
+//   hubConnection.invoke(
+//     toServer.JoinRoom,
+//     action.payload.roomId,
+//     action.payload.playerName
+//   )
+// }
 
-  return next(action)
-}
+// if (action.type === toServer.SendMessage) {
+//   hubConnection.invoke(
+//     toServer.SendMessage,
+//     action.payload.roomId,
+//     action.payload.message
+//   )
+// }
+
+// this method needs to reach the reducer
+// if (action.type === sendBoard.type) {
+//   hubConnection.invoke(
+//     toServer.SendBoard,
+//     action.payload.roomId,
+//     action.payload.board
+//   )
+// }
+
+//     if (process.env.NODE_ENV !== 'production') {
+//       console.log(store.getState)
+//     }
+
+//     return next(action)
+//   }
 
 /**
  *   STORE
@@ -134,10 +189,12 @@ const store = configureStore({
     player: playerReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(homeMadeMiddleware).concat(logger),
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
 })
 
 export type PlayerState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch
 
 export default store

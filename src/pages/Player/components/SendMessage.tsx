@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { SmartInput, SubmitButton } from '../../../common/components'
-import { toServer } from '../playerReducer'
+import { sendMessage } from '../playerReducer'
+import { useAppDispatch } from '../playerHooks'
 
 interface SendMessageProps {
   roomId: string
@@ -9,16 +9,13 @@ interface SendMessageProps {
 
 export const SendMessage: FunctionComponent<SendMessageProps> = ({ roomId }) => {
   const [msg, setMessage] = useState('')
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const validInput = msg.length !== 0
 
   const dispatchOnClick = () => {
     if (validInput) {
-      dispatch({
-        type: toServer.SendMessage,
-        payload: { roomId: roomId, message: msg },
-      })
+      dispatch(sendMessage({ roomId: roomId, message: msg }))
       setMessage('')
     }
   }

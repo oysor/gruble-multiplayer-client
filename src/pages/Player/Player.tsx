@@ -1,28 +1,22 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import store, { startPlayerConnection, stopPlayerConnection } from './playerStore'
 import { PlayerLayout } from './PlayerLayout'
+import { router } from '../../App'
+import { NavigationType } from 'react-router-dom'
 import { resetState } from './playerReducer'
 
 export const Player: FunctionComponent = () => {
   // Start connection
   useEffect(() => {
     startPlayerConnection()
-  })
-
-  const history = useHistory()
-  // End connection when going back (browser back button)
-  useEffect(() => {
-    return history.listen((location) => {
-      if (history.action === 'POP' && location.pathname === '/') {
-        // reset store
-        store.dispatch(resetState)
-        // stop singnalR
+    return router.subscribe((state) => {
+      if (state.historyAction === NavigationType.Pop) {
+        resetState()
         stopPlayerConnection()
       }
     })
-  })
+  }, [])
 
   return (
     <Provider store={store}>

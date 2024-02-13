@@ -88,10 +88,14 @@ const playerSlice = createSlice({
       state.commonStates.elapsedTime = 0
       state.timesUp = true
     },
-    sendBoard: (state) => {
-      // Board is already sent to server by middleware.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    sendBoard: (state, action) => {
       state.timesUp = false
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    sendMessage: (state, action) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    joinRoom: (state, action) => {},
     receiveResults: (state, action) => {
       // PlayerList with results is already sent to server by middleware.
       state.playerList = action.payload
@@ -130,6 +134,8 @@ export const {
   setStatus,
   setTimeElapsed,
   newMessage,
+  joinRoom,
+  sendMessage,
   setBoard,
   updateBoard,
   resetState,

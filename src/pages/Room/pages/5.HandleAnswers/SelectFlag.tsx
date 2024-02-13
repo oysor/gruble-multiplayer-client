@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import { useDispatch } from 'react-redux'
 import { Flag, Player } from '../../../../common/constants'
 import { updatePlayerScoreBoard } from '../../roomReducer'
+import { useAppDispatch } from '../../roomHooks'
 
 type SelectFlagProps = {
   player: Player
@@ -9,7 +9,7 @@ type SelectFlagProps = {
 }
 
 export const SelectFlag: FunctionComponent<SelectFlagProps> = ({ player, square }) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { letter, category } = square
 
   /*

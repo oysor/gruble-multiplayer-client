@@ -78,10 +78,11 @@ export enum Flag {
  * Enum containing all possible connection status types.
  */
 export enum ConnectionMode {
-  Connecting = 'CONNECTING',
-  Connected = 'CONNECTED',
-  Disconnected = 'DISCONNECTED',
-  Reconnecting = 'RECONNECTING',
+  Connecting = 'Connecting',
+  Connected = 'Connected',
+  Disconnected = 'Disconnected',
+  Reconnecting = 'Reconnecting',
+  Disconnecting = 'Disconnecting',
   Failed = 'FAILED',
 }
 

@@ -1,10 +1,12 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
 import { ResultTable } from '../../../../common/components'
 import { PlayerState } from '../../playerStore'
+import { useAppSelector } from '../../playerHooks'
 
 export const Results: FunctionComponent = () => {
-  const { receivedResult, playerList } = useSelector((state: PlayerState) => state.player)
+  const { receivedResult, playerList } = useAppSelector(
+    (state: PlayerState) => state.player
+  )
 
   return (
     <div className="show-results">

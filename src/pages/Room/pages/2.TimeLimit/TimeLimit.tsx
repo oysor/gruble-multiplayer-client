@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import {
   MissingInput,
   SmartNumericInput,
   SubmitButton,
 } from '../../../../common/components/'
 import { setNextPage, setTimeLimit } from '../../roomReducer'
+import { useAppDispatch } from '../../roomHooks'
 
 export const TimeLimit: FunctionComponent = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   // Default value: 2 seconds
   const [time, setTime] = useState(30)
   // Missing input warning

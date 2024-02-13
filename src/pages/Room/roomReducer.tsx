@@ -119,6 +119,10 @@ const roomSlice = createSlice({
     setNextPage: (state) => {
       state.currentPage += 1
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createRoom: (state, action) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    startGame: (state, action) => {},
     resetState: () => initialState,
   },
 })
@@ -157,6 +161,8 @@ export const {
   updatePlayerScoreBoard,
   setNextPage,
   setPlayerResults,
+  createRoom,
+  startGame,
 } = roomSlice.actions
 
 export default roomSlice.reducer

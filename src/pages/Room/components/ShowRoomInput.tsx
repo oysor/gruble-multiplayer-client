@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
 import { RoomState } from '../roomStore'
+import { useAppSelector } from '../roomHooks'
 
 export const ShowRoomInput: FunctionComponent = () => {
-  const { roomId, roomName, timeLimit } = useSelector((state: RoomState) => state.room)
+  const { roomId, roomName, timeLimit } = useAppSelector((state: RoomState) => state.room)
 
   return (
     <div className="show-room-input">

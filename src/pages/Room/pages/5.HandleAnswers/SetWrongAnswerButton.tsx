@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Flag, Player } from '../../../../common/constants'
 import { updatePlayerScoreBoard } from '../../roomReducer'
 import { RoomState } from '../../roomStore'
 import { getFlag } from '../../utilities'
+import { useAppDispatch, useAppSelector } from '../../roomHooks'
 
 type SetWrongAnswerButtonProps = {
   player: Player
@@ -14,8 +14,8 @@ export const SetWrongAnswerButton: FunctionComponent<SetWrongAnswerButtonProps> 
   player,
   square,
 }) => {
-  const dispatch = useDispatch()
-  const { wordDictionary } = useSelector((state: RoomState) => state.room)
+  const dispatch = useAppDispatch()
+  const { wordDictionary } = useAppSelector((state: RoomState) => state.room)
   const { letter, category } = square
   const scoreCard = { ...player.scoreBoard[letter][category] }
   const freq = wordDictionary[scoreCard.word].frequency

@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setNextPage, toServer } from '../../roomReducer'
+import { createRoom, setNextPage } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components/'
 import { InputCategories } from './InputCategories'
 import { RoomState } from '../../roomStore'
+import { useAppDispatch, useAppSelector } from '../../roomHooks'
 
 export const CreateRoom: FunctionComponent = () => {
-  const { roomName, timeLimit } = useSelector((state: RoomState) => state.room)
-  const dispatch = useDispatch()
+  const { roomName, timeLimit } = useAppSelector((state: RoomState) => state.room)
+  const dispatch = useAppDispatch()
   // input categories
   const [categoryList, setCategoryList] = useState([''])
   // Missing input warning
@@ -15,17 +15,16 @@ export const CreateRoom: FunctionComponent = () => {
   const validInput = categoryList[0].length > 0
 
   const dispatchOnClick = () => {
-    dispatch({
-      type: toServer.CreateRoom,
-      payload: {
+    dispatch(
+      createRoom({
         RoomName: roomName,
         TimeLimit: timeLimit,
         BoardSettings: {
           Categories: categoryList,
         },
-      },
-    })
-    dispatch(setNextPage())
+      })
+    ),
+      dispatch(setNextPage())
   }
 
   return (

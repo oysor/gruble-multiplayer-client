@@ -1,4 +1,4 @@
-import { configureStore, Middleware } from '@reduxjs/toolkit'
+import { configureStore, isAnyOf } from '@reduxjs/toolkit'
 import logger from 'redux-logger'
 import roomReducer, {
   toServer,
@@ -11,6 +11,9 @@ import roomReducer, {
   addPlayer,
   timesUp,
   receiveBoards,
+  createRoom,
+  startGame,
+  setPlayerResults,
 } from './roomReducer'
 import { API_URL, ConnectionMode } from '../../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -21,6 +24,8 @@ import {
   checkOnTimerElapsed,
   checkPlayerList,
 } from '../../common/typeGuards'
+import { HubConnectionState } from '@microsoft/signalr'
+import { listenerMiddleware, startAppListening } from './listenerMiddleware'
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -34,9 +39,11 @@ const hubConnection = new signalR.HubConnectionBuilder()
  */
 export async function startRoomConnection(): Promise<void> {
   try {
-    await hubConnection.start()
-    console.log('***** ROOM connected *****')
-    store.dispatch(setStatus(ConnectionMode.Connected))
+    if (hubConnection.state === HubConnectionState.Disconnected) {
+      await hubConnection.start()
+    }
+    store.dispatch(setStatus(hubConnection.state))
+    console.log('***** ROOM ' + hubConnection.state + ' *****')
 
     hubConnection.on(fromServer.onCreateRoom, (gameRoom) => {
       checkOnRoom(gameRoom)
@@ -99,27 +106,42 @@ export async function stopRoomConnection(): Promise<void> {
 /**
  *   MIDDLEWARE - add singnalR 'invoke' here
  */
-export const homeMadeMiddleware: Middleware = (store) => (next) => async (action) => {
-  if (action.type === toServer.CreateRoom) {
+
+startAppListening({
+  matcher: isAnyOf(createRoom, startGame, setPlayerResults),
+  effect: async (action, listenerApi) => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('getOriginalState')
+      console.log(listenerApi.getOriginalState())
+    }
+  },
+})
+
+// Add one or more listener entries that look for specific actions.
+// They may contain any sync or async logic, similar to thunks.
+startAppListening({
+  actionCreator: createRoom,
+  effect: async (action) => {
+    // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.CreateRoom, action.payload)
-  }
+  },
+})
 
-  if (action.type === toServer.StartGame) {
+startAppListening({
+  actionCreator: startGame,
+  effect: async (action) => {
+    // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.StartGame, action.payload)
-  }
-  /**
-   * Sends the updated playerList to the hub.
-   */
-  if (action.type === 'room/setPlayerResults') {
+  },
+})
+
+startAppListening({
+  actionCreator: setPlayerResults,
+  effect: async (action) => {
+    // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.SendResults, action.payload)
-  }
-
-  if (process.env.NODE_ENV !== 'production') {
-    console.log(store.getState)
-  }
-
-  return next(action)
-}
+  },
+})
 
 /**
  *   STORE
@@ -129,10 +151,12 @@ const store = configureStore({
     room: roomReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(homeMadeMiddleware).concat(logger),
+    getDefaultMiddleware().prepend(listenerMiddleware.middleware).concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
 })
 
 export type RoomState = ReturnType<typeof store.getState>
+
+export type AppDispatch = typeof store.dispatch
 
 export default store

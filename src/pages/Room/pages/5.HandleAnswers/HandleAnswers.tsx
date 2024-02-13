@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Button, Timer } from '../../../../common/components'
 import { DisplayList } from '../../components/DisplayList'
 import { setNextPage, setPlayerResults } from '../../roomReducer'
 import { RoomState } from '../../roomStore'
 import { updatePlayerListResults } from '../../utilities'
 import { HandleSquare } from './HandleSquare'
+import { useAppDispatch, useAppSelector } from '../../roomHooks'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { playerList, boardSettings, receivedBoards, commonStates } = useSelector(
+  const { playerList, boardSettings, receivedBoards, commonStates } = useAppSelector(
     (state: RoomState) => state.room
   )
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const { categories, letters } = boardSettings
   const [categoryNr, nextCategory] = useState(0)
   const [letterNr, nextLetter] = useState(0)

@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
 import { RoomState } from './roomStore'
 import {
   ConnectionStatus,
@@ -15,11 +14,11 @@ import {
   HandleAnswers,
   ShowResults,
 } from './pages'
+import { useAppSelector } from './roomHooks'
 
 export const RoomLayout: FunctionComponent = () => {
-  const { commonStates, messages, currentPage, playerMessages, playerList } = useSelector(
-    (state: RoomState) => state.room
-  )
+  const { commonStates, messages, currentPage, playerMessages, playerList } =
+    useAppSelector((state: RoomState) => state.room)
 
   const showComponent = (currentPage: number) => {
     switch (currentPage) {

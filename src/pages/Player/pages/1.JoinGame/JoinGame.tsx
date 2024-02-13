@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setNextPage, toServer } from '../../playerReducer'
+import { joinRoom, setNextPage } from '../../playerReducer'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
 import { PlayerState } from '../../playerStore'
+import { useAppDispatch, useAppSelector } from '../../playerHooks'
 
 export const JoinGame: FunctionComponent = () => {
   // Room id received from server
-  const { roomId, serverMessage } = useSelector((state: PlayerState) => state.player)
+  const { roomId, serverMessage } = useAppSelector((state: PlayerState) => state.player)
   // Go to next page if room is received from server
   useEffect(() => {
     roomId !== '' && dispatch(setNextPage())
@@ -17,12 +17,9 @@ export const JoinGame: FunctionComponent = () => {
   // remind about missing input
   const [remind, setRemind] = useState(false)
   const validInput = playerName.length > 0 && inputRoomId.length > 0
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const dispatchOnClick = () => {
-    dispatch({
-      type: toServer.JoinRoom,
-      payload: { roomId: inputRoomId, playerName: playerName },
-    })
+    dispatch(joinRoom({ roomId: inputRoomId, playerName: playerName }))
   }
 
   return (

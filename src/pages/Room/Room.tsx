@@ -1,28 +1,21 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import { Provider } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import store, { startRoomConnection, stopRoomConnection } from './roomStore'
 import { resetState } from './roomReducer'
+import { NavigationType } from 'react-router-dom'
 import { RoomLayout } from './RoomLayout'
+import { router } from '../../App'
 
 export const Room: FunctionComponent = () => {
-  // Start connection
   useEffect(() => {
     startRoomConnection()
-  })
-
-  // End connection when going back (browser back button)
-  const history = useHistory()
-  useEffect(() => {
-    return history.listen((location) => {
-      if (history.action === 'POP' && location.pathname === '/') {
-        // reset store
-        store.dispatch(resetState())
-        // stop singnalR
+    return router.subscribe((state) => {
+      if (state.historyAction === NavigationType.Pop) {
+        resetState()
         stopRoomConnection()
       }
     })
-  })
+  }, [])
 
   return (
     <Provider store={store}>

@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
 import { PlayerState } from '../playerStore'
+import { useAppSelector } from '../playerHooks'
 
 export const ShowPlayerInput: FunctionComponent = () => {
-  const { playerName, roomId, boardSettings, playerBoard } = useSelector(
+  const { playerName, roomId, boardSettings, playerBoard } = useAppSelector(
     (state: PlayerState) => state.player
   )
 

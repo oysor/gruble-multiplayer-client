@@ -1,20 +1,21 @@
 import React, { FunctionComponent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { RoomState } from '../../roomStore'
-import { setNextPage, toServer } from '../../roomReducer'
+import { setNextPage, startGame } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components'
 import { ShowRoomInput } from '../../components'
+import { useAppDispatch, useAppSelector } from '../../roomHooks'
 
 export const StartGame: FunctionComponent = () => {
-  const { roomId, playerList } = useSelector((state: RoomState) => state.room)
-  const dispatch = useDispatch()
+  const { roomId, playerList } = useAppSelector((state: RoomState) => state.room)
+  const dispatch = useAppDispatch()
   // Missing input warning
   const [reminder, setReminder] = useState(false)
-  const startGame = playerList.length > 0
+  const gameStart = playerList.length > 0
 
   const dispatchOnClick = () => {
-    dispatch({ type: toServer.StartGame, payload: roomId })
-    dispatch(setNextPage())
+    console.log('PAYLOUD')
+    console.log(roomId)
+    dispatch(startGame({ roomId: roomId })), dispatch(setNextPage())
   }
 
   return (
@@ -22,7 +23,7 @@ export const StartGame: FunctionComponent = () => {
       <ShowRoomInput />
       <Button
         onClick={() => {
-          startGame ? dispatchOnClick() : setReminder(!reminder)
+          gameStart ? dispatchOnClick() : setReminder(!reminder)
         }}
       >
         Start Game

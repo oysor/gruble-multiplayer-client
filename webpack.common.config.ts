@@ -1,5 +1,4 @@
 import webpack from 'webpack'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 
 const config: webpack.Configuration = {
   entry: {
@@ -22,22 +21,20 @@ const config: webpack.Configuration = {
         },
       },
       {
-        test: /\.scss$/,
+        test: /\.(css)$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(s(a|c)ss)$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['', '.tsx', '.ts', '.js'],
   },
-  plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      async: false,
-      eslint: {
-        files: './src/**/*',
-      },
-    }),
-  ],
+
+  plugins: [],
 }
 
 export default config

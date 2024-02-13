@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { useDispatch } from 'react-redux'
 import { updateBoard } from '../../playerReducer'
+import { useAppDispatch } from '../../playerHooks'
 
 interface SquareProps {
   board: string[][]
@@ -10,7 +10,7 @@ interface SquareProps {
 export const Square: FunctionComponent<SquareProps> = ({ board, coords }) => {
   const { x, y } = coords
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   // handle input change
   const onInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
