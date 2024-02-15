@@ -20,7 +20,7 @@ export const MissingInput: FunctionComponent<MissingInputProps> = ({
   const reminders = []
 
   if (!isUndefined(name) && name.length === 0) {
-    reminders.push(<span key={1}>You must input player name.</span>)
+    reminders.push(<span key={1}>You must input a player name.</span>)
   }
   if (!isUndefined(roomId) && roomId.length === 0) {
     reminders.push(<span key={2}>You must input room name.</span>)

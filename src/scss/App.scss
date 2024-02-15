@@ -106,7 +106,13 @@ button:focus {
 
         .input-categories {
             margin: 1rem;
+            width: fit-content;
+            // height: 4rem;
         }
+    }
+
+    .input-categories {
+        width: fit-content;
     }
 
     .room-start-game{
@@ -150,6 +156,7 @@ button:focus {
  */
 button.button,
 a.router-link {
+    width: fit-content; 
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -261,6 +268,9 @@ form.input-join-room {
     background: $input-color;
     padding: 0.5rem;
     
+    // display: flex;
+    // flex-direction: row;
+
     .input-category{
         display: flex;
     }
@@ -275,6 +285,7 @@ form.input-join-room {
         background: $input-color;
         padding: 1rem;
         border-radius: 16px;
+        // text-align: center;
 
         &:hover,
         &:active {

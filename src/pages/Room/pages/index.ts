@@ -1,6 +1,4 @@
-export { RoomName } from './1.RoomName'
-export { TimeLimit } from './2.TimeLimit'
-export { CreateRoom } from './3.CreateRoom'
+export { PrepareBoard } from './3.PrepareBoard'
 export { StartGame } from './4.StartGame'
 export { HandleAnswers } from './5.HandleAnswers'
 export { ShowResults } from './6.ShowResults'

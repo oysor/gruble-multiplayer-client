@@ -1,23 +1,21 @@
 import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
+import { Center_l, Cover_l, Stack_l } from '../../common/styledComponents/everyLayout'
 
-import Styled from 'styled-components'
-
-const Title = Styled.h1`
-  color: red;
-`
-interface Props {}
-
-export const LandingPage: FunctionComponent = ({}: Props) => {
+export const LandingPage: FunctionComponent = () => {
   return (
-    <div className="landing-page">
-      <Link to="/room" className="router-link">
-        <Title> Game room </Title>
-      </Link>
-      <Link to="/player" className="router-link">
-        Player room
-      </Link>
-    </div>
+    <Cover_l centered="div">
+      <Center_l intrinsic>
+        <Stack_l space="5rem">
+          <Link to="/room" className="router-link">
+            Game room
+          </Link>
+          <Link to="/player" className="router-link">
+            Player room
+          </Link>
+        </Stack_l>
+      </Center_l>
+    </Cover_l>
   )
 }
 

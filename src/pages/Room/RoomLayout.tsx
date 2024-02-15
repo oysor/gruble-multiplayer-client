@@ -6,15 +6,9 @@ import {
   PlayerList,
   PlayerMessageBox,
 } from '../../common/components/'
-import {
-  RoomName,
-  TimeLimit,
-  CreateRoom,
-  StartGame,
-  HandleAnswers,
-  ShowResults,
-} from './pages'
+import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from './pages'
 import { useAppSelector } from './roomHooks'
+import { PrepareRoom } from './pages/1.PrepareRoom'
 
 export const RoomLayout: FunctionComponent = () => {
   const { commonStates, messages, currentPage, playerMessages, playerList } =
@@ -23,16 +17,14 @@ export const RoomLayout: FunctionComponent = () => {
   const showComponent = (currentPage: number) => {
     switch (currentPage) {
       case 1:
-        return <RoomName />
+        return <PrepareRoom />
       case 2:
-        return <TimeLimit />
+        return <PrepareBoard />
       case 3:
-        return <CreateRoom />
-      case 4:
         return <StartGame />
-      case 5:
+      case 4:
         return <HandleAnswers />
-      case 6:
+      case 5:
         return <ShowResults />
     }
   }
