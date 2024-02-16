@@ -3,6 +3,15 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import { LandingPage, Player, Room } from './pages'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { StyleSheetManager } from 'styled-components'
+import isPropValid from '@emotion/is-prop-valid'
+
+function shouldForwardProp(propName: string, target: unknown) {
+  if (typeof target === 'string') {
+    return isPropValid(propName)
+  }
+  return true
+}
 
 export const router = createBrowserRouter([
   {
@@ -30,7 +39,9 @@ export const router = createBrowserRouter([
 const App: FunctionComponent = () => {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+        <RouterProvider router={router} />
+      </StyleSheetManager>
     </div>
   )
 }
