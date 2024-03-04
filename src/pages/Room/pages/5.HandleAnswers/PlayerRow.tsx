@@ -1,6 +1,10 @@
-import React, { FunctionComponent } from 'react'
+import React from 'react'
 
-export const PlayerRow: FunctionComponent = ({ children }) => {
+type Props = {
+  children: string | JSX.Element | JSX.Element[]
+}
+
+export const PlayerRow = ({ children }: Props) => {
   const squares = React.Children.map(children, (child, i) => {
     return (
       <div className="answer-square" key={i}>

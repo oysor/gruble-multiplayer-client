@@ -6,6 +6,7 @@ import {
   initialCommonStates,
   Message,
   Player,
+  WordInfoDict,
 } from '../../common/constants/'
 
 export interface playerState {
@@ -22,6 +23,7 @@ export interface playerState {
   timeLimit: number
   playerMessages: Message[]
   serverMessage: string
+  boardDictionary: WordInfoDict[][]
 }
 
 const initialState: playerState = {
@@ -38,6 +40,7 @@ const initialState: playerState = {
   timeLimit: 0,
   playerMessages: [],
   serverMessage: '',
+  boardDictionary: [[]],
 }
 
 const playerSlice = createSlice({
@@ -62,6 +65,8 @@ const playerSlice = createSlice({
             ...state.playerMessages,
           ])
         : (state.messages = [message, ...state.messages])
+
+      return state
     },
     newServerMessage: (state, action) => {
       state.serverMessage = action.payload
@@ -93,16 +98,21 @@ const playerSlice = createSlice({
       state.timesUp = false
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendMessage: (state, action) => {},
+    sendMessage: (state, action) => {
+      return state
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     joinRoom: (state, action) => {},
     receiveResults: (state, action) => {
-      // PlayerList with results is already sent to server by middleware.
-      state.playerList = action.payload
+      const { newPlayerList, boardDictionary } = action.payload
+      state.playerList = newPlayerList
+      state.boardDictionary = boardDictionary
       state.receivedResult = true
     },
-    addPlayer: (state, action) => {
-      state.playerList = [...state.playerList, action.payload]
+    addPlayer: (state, action: { payload: Player }) => {
+      if (!state.playerList.some((player) => player.name === action.payload.name)) {
+        return { ...state, playerList: [...state.playerList, action.payload] }
+      }
     },
     removePlayer: (state, action) => {
       state.playerList = [...state.playerList].filter((player) => {

@@ -1,11 +1,8 @@
 import {
-  Board,
   BoardSettings,
   Flag,
   Player,
   PlayerResult,
-  ScoreBoard,
-  ScoreCard,
   WordInfoDict,
   WordInfo,
 } from '../../../common/constants'
@@ -13,134 +10,64 @@ import {
  *  This function goes through every players board
  *  and adds the input word (key) and its frequency (word count) to a dictionary.
  */
-export function createWordInfoDict(
+export function createBoardDictionary(
   players: Player[],
   boardSettings: BoardSettings
-): WordInfoDict {
+): WordInfoDict[][] {
   const { categories, letters } = boardSettings
-  const dictionary: { [word: string]: WordInfo } = {}
+
+  const boardDictionary: WordInfoDict[][] = emptyBoardDictionary(letters, categories)
 
   for (let l = 0; l < letters.length; l++) {
     for (let c = 0; c < categories.length; c++) {
+      const dictionary: { [word: string]: WordInfo } = {}
+
       players.forEach((player) => {
         const word = player.board[l][c].toLowerCase()
-        dictionary[word] = !(word in dictionary)
-          ? { frequency: 1 }
-          : { frequency: dictionary[word].frequency + 1 }
+        const frequency = word in dictionary ? dictionary[word].frequency + 1 : 1
+        const flag = newFlag(word, letters[l], frequency)
+        dictionary[word] = { frequency: frequency, flag: flag, word: word }
       })
+      boardDictionary[l][c] = dictionary
     }
   }
 
-  return dictionary
+  return boardDictionary
 }
 
-/**
- *  Each square inside the scoreBoard contains a scoreCard.
- *  This scoreCard contains the input word and a flag that can be used to determine the score.
- */
-export const newScoreCard = (
-  inputWord: string,
-  letter: string,
-  dictionary: WordInfoDict
-): ScoreCard => {
-  const word = inputWord.toLowerCase()
-  const card: ScoreCard = { flag: Flag.Unknown, word: word }
-  const wordFrequency = dictionary[word].frequency
-
+const newFlag = (word: string, letter: string, frequency: number) => {
   // empty space
   if (word === '') {
-    card.flag = Flag.Missing
+    return Flag.Missing
     // Check if first letter is correct
   } else if (letter.toLowerCase() !== word[0]) {
-    card.flag = Flag.Wrong
+    return Flag.Wrong
     // Common word
-  } else if (wordFrequency > 1) {
-    card.flag = Flag.Common
+  } else if (frequency > 1) {
+    return Flag.Common
     // Unique word
-  } else if (wordFrequency === 1) {
-    card.flag = Flag.Unique
+  } else if (frequency === 1) {
+    return Flag.Unique
   }
-  return card
+  return Flag.Unknown
 }
-
 /**
  *  Creates an empty scoreBoard
  */
-const emptyScoreBoard = (letters: string[], categories: string[]) => {
+const emptyBoardDictionary = (letters: string[], categories: string[]) => {
   return [...Array(letters.length)].map(() =>
     [...Array(categories.length)].map(() => {
-      return { flag: Flag.Unknown, word: '' }
+      return {}
     })
   )
 }
 /**
- *  Fills in a scoreCard for each input square
- */
-const fillScoreBoard = (
-  board: Board,
-  dictionary: WordInfoDict,
-  boardSettings: BoardSettings
-): ScoreBoard => {
-  const { categories, letters } = boardSettings
-  const scoreBoard: ScoreBoard = emptyScoreBoard(letters, categories)
-
-  letters.forEach((letter, l) => {
-    categories.forEach((category, c) => {
-      const word = board[l][c]
-      const card = newScoreCard(word, letter, dictionary)
-      scoreBoard[l][c] = card
-    })
-  })
-  return scoreBoard
-}
-/**
- *  Updates the scoreBoard for every player
- */
-export const updatePlayerScores = (
-  playerList: Player[],
-  boardSettings: BoardSettings,
-  dictionary: WordInfoDict
-): Player[] => {
-  return playerList.map((player) => {
-    player.scoreBoard = fillScoreBoard(player.board, dictionary, boardSettings)
-    return player
-  })
-}
-/**
- *  Returns a string color code
- */
-export const flagColor = (flag: Flag): string => {
-  switch (flag) {
-    case Flag.Unknown:
-      return 'grey'
-    case Flag.Missing:
-      return 'white'
-    case Flag.Wrong:
-      return 'red'
-    case Flag.Common:
-      return 'green'
-    case Flag.Unique:
-      return 'purple'
-  }
-}
-/**
- *  Set flag based on word frequency
- */
-export const getFlag = (freq: number): Flag => {
-  if (freq === 1) {
-    return Flag.Unique
-  } else if (freq > 1) {
-    return Flag.Common
-  } else {
-    return Flag.Unknown
-  }
-}
-/**
  * Calculates player score by checking the flag for each answer
  */
-export const calculatePlayerScore = (
+const calculatePlayerScore = (
   player: Player,
-  boardSettings: BoardSettings
+  boardSettings: BoardSettings,
+  dictionary: WordInfoDict[][]
 ): PlayerResult => {
   const { letters, categories } = boardSettings
 
@@ -176,7 +103,8 @@ export const calculatePlayerScore = (
 
   for (let l = 0; l < letters.length; l++) {
     for (let c = 0; c < categories.length; c++) {
-      addScore(player.scoreBoard[l][c].flag)
+      const word = player.board[l][c].toLowerCase()
+      addScore(dictionary[l][c][word].flag)
     }
   }
 
@@ -191,11 +119,12 @@ export const calculatePlayerScore = (
  */
 export const updatePlayerListResults = (
   playerList: Player[],
-  boardSettings: BoardSettings
+  boardSettings: BoardSettings,
+  dictionary: WordInfoDict[][]
 ): Player[] => {
   return [...playerList].map((player) => {
     const updatedPlayer = { ...player }
-    updatedPlayer.playerResult = calculatePlayerScore(player, boardSettings)
+    updatedPlayer.playerResult = calculatePlayerScore(player, boardSettings, dictionary)
     return updatedPlayer
   })
 }

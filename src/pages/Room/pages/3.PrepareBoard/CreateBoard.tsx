@@ -76,7 +76,7 @@ export const CreateBoard: FunctionComponent<InputCategoriesProps> = ({
               {categoryList.map((x, i) => {
                 return (
                   <Square empty key={i}>
-                    -
+                    <span>-</span>
                   </Square>
                 )
               })}

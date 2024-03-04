@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
-import { Square } from './Square'
+import * as S from '../../../../common/styledComponents/board'
+import { InputSquare } from './InputSquare'
 
 interface InputBoardProps {
   board: string[][]
@@ -14,35 +15,46 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
 
   // Displays the first row with categories
   const headerRow = (
-    <div className="board-row">
-      <div className="board-square"></div>
-      {categories.map((category, i) => {
+    <S.Row>
+      <S.Square firstInRow>
+        <S.InfoSquare>
+          <span>{'Categories '}&rarr;</span>
+          <span>{'Letters '}&darr;</span>
+        </S.InfoSquare>
+      </S.Square>
+      {categories.map((x, i) => {
         return (
-          <div className="board-square" key={i}>
-            {category}
-          </div>
+          <S.Square empty key={i}>
+            {x}
+          </S.Square>
         )
       })}
-    </div>
+    </S.Row>
   )
 
   const boardRow = (row: string[], x: number) => {
     return (
-      <div className="board-row" key={x}>
-        <div className="board-square"> {letters[x]}</div>
+      <S.Row key={x}>
+        <S.Square empty firstInRow>
+          {letters[x].toLocaleUpperCase()}
+        </S.Square>
         {row.map((item, y) => {
-          return <Square key={y} coords={{ x: x, y: y }} board={board} />
+          return (
+            <S.Square empty key={y}>
+              <InputSquare key={y} coords={{ x: x, y: y }} board={board} />
+            </S.Square>
+          )
         })}
-      </div>
+      </S.Row>
     )
   }
 
   return (
-    <div className="board">
+    <S.Board>
       {headerRow}
       {board.map((row, x) => {
         return boardRow(row, x)
       })}
-    </div>
+    </S.Board>
   )
 }

@@ -34,11 +34,13 @@ export const InputCategories: FunctionComponent<InputCategoriesProps> = ({
       {inputList.map((x, i) => {
         return (
           <div className="input-category" key={i}>
-            {inputList.length !== 1 && (
-              <button onClick={() => handleRemoveClick(i)} className="remove-category">
-                -
-              </button>
-            )}
+            <button
+              disabled={inputList.length === 1}
+              onClick={() => handleRemoveClick(i)}
+              className="remove-category"
+            >
+              -
+            </button>
             <input
               className="write-category"
               value={x}

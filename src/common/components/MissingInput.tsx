@@ -28,8 +28,8 @@ export const MissingInput: FunctionComponent<MissingInputProps> = ({
   if (!isUndefined(timeLimit) && timeLimit <= 0) {
     reminders.push(<span key={3}>You must input time limit.</span>)
   }
-  if (!isUndefined(categoryList) && categoryList[0].length === 0) {
-    reminders.push(<span key={4}>You must input at least one category.</span>)
+  if (!isUndefined(categoryList)) {
+    reminders.push(<span key={4}>Missing category field</span>)
   }
   if (!isUndefined(playerList) && playerList.length === 0) {
     reminders.push(

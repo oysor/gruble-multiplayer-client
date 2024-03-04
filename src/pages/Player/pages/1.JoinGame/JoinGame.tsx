@@ -3,6 +3,7 @@ import { joinRoom, setNextPage } from '../../playerReducer'
 import { MissingInput, SmartInput, SubmitButton } from '../../../../common/components/'
 import { PlayerState } from '../../playerStore'
 import { useAppDispatch, useAppSelector } from '../../playerHooks'
+import { Box_l, Stack_l } from '../../../../common/styledComponents/everyLayout'
 
 export const JoinGame: FunctionComponent = () => {
   // Room id received from server
@@ -12,7 +13,7 @@ export const JoinGame: FunctionComponent = () => {
     roomId !== '' && dispatch(setNextPage())
   })
   // Set playerName and roomId (to be sent to server)
-  const [playerName, setplayerName] = useState('')
+  const [playerName, setplayerName] = useState('Bjarne')
   const [inputRoomId, setId] = useState('')
   // remind about missing input
   const [remind, setRemind] = useState(false)
@@ -24,16 +25,25 @@ export const JoinGame: FunctionComponent = () => {
 
   return (
     <div className="join-room">
-      <form className="input-join-room">
-        <SmartInput onChange={setplayerName} placeholder={'player name..'} />
-        <SmartInput onChange={setId} placeholder={'RoomId..'} />
-        <SubmitButton
-          onClick={() => {
-            validInput ? dispatchOnClick() : setRemind(!remind)
-          }}
-          value={'Join room'}
-        />
-      </form>
+      <div className="header-logo">
+        <div>Name yourself and input the roomId</div>
+      </div>
+      <Box_l padding="1rem">
+        <Stack_l>
+          <SmartInput
+            value={playerName}
+            onChange={setplayerName}
+            placeholder={'player name..'}
+          />
+          <SmartInput onChange={setId} placeholder={'RoomId..'} />
+          <SubmitButton
+            onClick={() => {
+              validInput ? dispatchOnClick() : setRemind(!remind)
+            }}
+            value={'Join room'}
+          />
+        </Stack_l>
+      </Box_l>
       {remind ? <MissingInput name={playerName} roomId={inputRoomId} /> : null}
       {serverMessage !== '' ? serverMessage : null}
     </div>

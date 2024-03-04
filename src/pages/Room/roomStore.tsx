@@ -41,7 +41,10 @@ export async function startRoomConnection(): Promise<void> {
   try {
     if (hubConnection.state === HubConnectionState.Disconnected) {
       await hubConnection.start()
+    } else {
+      return
     }
+
     store.dispatch(setStatus(hubConnection.state))
     console.log('***** ROOM ' + hubConnection.state + ' *****')
 
@@ -51,7 +54,7 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
-      checkOnNewPlayer(player)
+      // checkOnNewPlayer(player)
       store.dispatch(addPlayer(player))
     })
 
@@ -122,7 +125,6 @@ startAppListening({
 startAppListening({
   actionCreator: createRoom,
   effect: async (action) => {
-    // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.CreateRoom, action.payload)
   },
 })
@@ -130,8 +132,8 @@ startAppListening({
 startAppListening({
   actionCreator: startGame,
   effect: async (action) => {
-    // Run whatever additional side-effect-y logic you want here
-    hubConnection.invoke(toServer.StartGame, action.payload)
+    console.log('Ask server to Start Game')
+    hubConnection.invoke(toServer.StartGame, action.payload.roomId)
   },
 })
 

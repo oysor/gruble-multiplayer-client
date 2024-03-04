@@ -1,4 +1,4 @@
-import { BoardSettings, Player } from '../../common/constants'
+import { BoardSettings, Player } from '../constants'
 
 export const test_boardSettings: BoardSettings = {
   categories: ['Mat', 'Lukt', 'Skog'],
@@ -15,7 +15,6 @@ const player1: Player = {
   color: '',
   id: 0,
   userId: 0,
-  scoreBoard: [],
   playerResult: {
     score: 0,
     correct: 0,
@@ -36,7 +35,6 @@ const player2: Player = {
   color: '',
   id: 0,
   userId: 0,
-  scoreBoard: [],
   playerResult: {
     score: 0,
     correct: 0,
@@ -50,14 +48,13 @@ const player2: Player = {
 const player3: Player = {
   name: 'Carl',
   board: [
-    ['Aprikos', 'Avfall', 'Skog'],
+    ['Aprikos', 'Avfall', 'Brus'],
     ['Brus', 'Bæsj', 'Busk'],
     ['Dadler', 'Do', 'Dvergbjørk'],
   ],
   color: '',
   id: 0,
   userId: 0,
-  scoreBoard: [],
   playerResult: {
     score: 0,
     correct: 0,

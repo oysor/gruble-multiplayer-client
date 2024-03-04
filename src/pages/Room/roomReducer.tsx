@@ -7,8 +7,8 @@ import {
   Player,
   WordInfoDict,
 } from '../../common/constants/'
-// import { test_boardSettings, test_playerList } from './testData'
-import { createWordInfoDict, updatePlayerScores } from './utilities'
+import { test_boardSettings, test_playerList } from '../../common/tests/testData'
+import { createBoardDictionary } from './utilities/utilities'
 
 export interface RoomState {
   roomName: string
@@ -18,10 +18,10 @@ export interface RoomState {
   commonStates: CommonStates
   boardSettings: BoardSettings
   playerList: Player[]
-  wordDictionary: WordInfoDict
   receivedBoards: boolean
   currentPage: number
   playerMessages: Message[]
+  boardDictionary: WordInfoDict[][]
 }
 
 const initialState: RoomState = {
@@ -32,10 +32,10 @@ const initialState: RoomState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
   playerList: [],
-  wordDictionary: {},
   receivedBoards: false,
   currentPage: 1,
   playerMessages: [],
+  boardDictionary: [[]],
 }
 
 const roomSlice = createSlice({
@@ -65,23 +65,22 @@ const roomSlice = createSlice({
       state.commonStates.elapsedTime = 0
     },
     receiveBoards: (state, action) => {
-      const playerList = action.payload
-      const wordDictionary = createWordInfoDict(playerList, state.boardSettings)
-      state.wordDictionary = wordDictionary
-      state.playerList = updatePlayerScores(
-        playerList,
-        state.boardSettings,
-        wordDictionary
-      )
-      state.receivedBoards = true
+      const playerList: Player[] = action.payload
+      const boardSettings = state.boardSettings
+      state.boardSettings = boardSettings
+      state.boardDictionary = createBoardDictionary(playerList, boardSettings)
 
+      // Test data
       // const playerList = test_playerList
       // const boardSettings = test_boardSettings
-      // const wordDictionary = createWordInfoDict(playerList, boardSettings)
+      // state.boardDictionary = createBoardDictionary(playerList, boardSettings)
       // state.boardSettings = boardSettings
-      // state.wordDictionary = wordDictionary
-      // state.playerList = updatePlayerScores(playerList, boardSettings, wordDictionary)
-      // state.receivedBoards = true
+
+      state.playerList = playerList.map((player) => {
+        player.board = player.board
+        return player
+      })
+      state.receivedBoards = true
     },
     newMessage: (state, action) => {
       const { id, message } = action.payload
@@ -95,26 +94,23 @@ const roomSlice = createSlice({
           ])
         : (state.messages = [message, ...state.messages])
     },
-    addPlayer: (state, action) => {
-      state.playerList = [...state.playerList, action.payload]
+    addPlayer: (state, action: { payload: Player }) => {
+      if (!state.playerList.some((player) => player.name === action.payload.name)) {
+        return { ...state, playerList: [...state.playerList, action.payload] }
+      }
     },
     removePlayer: (state, action) => {
       state.playerList = [...state.playerList].filter((player) => {
         return player.userId !== action.payload.userId
       })
     },
-    updatePlayerScoreBoard: (state, action) => {
+    updateBoardDictionary: (state, action) => {
       const { letter, category } = action.payload.square
-
-      state.playerList = state.playerList.map((player) => {
-        if (player.name === action.payload.player.name) {
-          player.scoreBoard[letter][category] = action.payload.scoreCard
-        }
-        return player
-      })
+      const word = action.payload.word
+      state.boardDictionary[letter][category][word].flag = action.payload.flag
     },
     setPlayerResults: (state, action) => {
-      state.playerList = action.payload
+      state.playerList = action.payload.newPlayerList
     },
     setNextPage: (state) => {
       state.currentPage += 1
@@ -158,11 +154,11 @@ export const {
   resetState,
   timesUp,
   receiveBoards,
-  updatePlayerScoreBoard,
   setNextPage,
   setPlayerResults,
   createRoom,
   startGame,
+  updateBoardDictionary,
 } = roomSlice.actions
 
 export default roomSlice.reducer

@@ -21,6 +21,8 @@ html, body, #root {
     margin: 0;
     padding: 0;
     font-size: 1.1rem;
+    background-color: #03484F;
+    color: white;
 }
 
 input:focus,
@@ -50,12 +52,12 @@ button:focus {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100%;
+    // height: 100%;
 }
 
 .room-layout, .player-laylout {
-    width: 80%;
-    height: 90%;
+    // width: 80%;
+    // height: 90%;
 
 }
 
@@ -169,7 +171,7 @@ a.router-link {
 
     background-color: $btnColor;
     color: black;
-    border-radius: 16px;
+    // border-radius: 16px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
 
     padding: 0.25em 0.75em;
@@ -210,6 +212,7 @@ a.router-link {
     margin: 0;
     color: black;
     border: 1px solid black;
+    background-color: white;
 }
 
 .smart-numeric-input,
@@ -267,7 +270,7 @@ form.input-join-room {
     border-radius: 16px;
     background: $input-color;
     padding: 0.5rem;
-    
+    color: black;
     // display: flex;
     // flex-direction: row;
 
@@ -356,7 +359,9 @@ form.input-join-room {
     display: grid;
     grid-template-areas: "info info" 
                          "answers answers"
-                         "buttons buttons";
+                         "buttons buttons"
+                         "board board";
+    width: 100%;
 
     .show-info{
         grid-area: info;
@@ -370,6 +375,10 @@ form.input-join-room {
 
     .show-buttons{
         grid-area: buttons;
+    }
+    .show-board {
+        grid-area: board;
+
     }
 }
 
@@ -427,17 +436,18 @@ form.input-join-room {
 /**
  *   Display list component in room
  */
-.display-list {
+.display-words {
     margin-top:2rem;
     margin-bottom:2rem;
 
-    .list-item{ 
+    .word-item{ 
         padding: 0.1rem;
     }
     .highlight{
         font-size: 2rem;
         background: #eeecea;
         border-radius: 16px;
+        color:black;
     }
 }
 

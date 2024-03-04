@@ -1,32 +1,32 @@
 import React from 'react'
 import { FunctionComponent } from 'react'
-import { Player, ScoreBoard, ScoreCard } from '../../../common/constants'
+import { Player, Board } from '../../../common/constants'
 import { flagColor } from '../utilities'
 
 interface PlayerAnswerBoardProps {
   player: Player
-  square?: { letter: number; category: number }
+  square: { letter: number; category: number }
 }
 
 export const PlayerAnswerBoard: FunctionComponent<PlayerAnswerBoardProps> = ({
   player,
-  square = {},
+  square,
 }) => {
   const { letter, category } = square
 
-  const boardRow = (row: ScoreCard[], rowNr: number) => {
+  const boardRow = (row: string[], rowNr: number) => {
     return row.map((sq, i) => {
       const bcolor = i === category && rowNr === letter ? '#bfbbbb' : ''
       return (
         <div className="board-square" key={i} style={{ backgroundColor: bcolor }}>
-          <span style={{ color: flagColor(sq.flag) }}>{sq.word}</span>
+          {/* <span style={{ color: flagColor(sq.flag) }}>{sq}</span> */}
         </div>
       )
     })
   }
 
-  const boardColumns = (scoreBoard: ScoreBoard) => {
-    return scoreBoard.map((row, i) => {
+  const boardColumns = (board: Board) => {
+    return board.map((row, i) => {
       return (
         <div className="board-row" key={i}>
           {boardRow(row, i)}
@@ -37,7 +37,7 @@ export const PlayerAnswerBoard: FunctionComponent<PlayerAnswerBoardProps> = ({
 
   return (
     <div className="board">
-      {player.scoreBoard != undefined ? boardColumns(player.scoreBoard) : null}
+      {player.board != undefined ? boardColumns(player.board) : null}
     </div>
   )
 }

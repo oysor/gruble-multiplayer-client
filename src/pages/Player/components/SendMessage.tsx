@@ -14,6 +14,7 @@ export const SendMessage: FunctionComponent<SendMessageProps> = ({ roomId }) => 
   const validInput = msg.length !== 0
 
   const dispatchOnClick = () => {
+    console.log('kekeKEKEK')
     if (validInput) {
       dispatch(sendMessage({ roomId: roomId, message: msg }))
       setMessage('')
@@ -39,7 +40,11 @@ export const SendMessage: FunctionComponent<SendMessageProps> = ({ roomId }) => 
           value={msg}
           disabled={disable}
         />
-        <SubmitButton onClick={dispatchOnClick} value={'Send'} disabled={disable} />
+        <SubmitButton
+          onClick={() => dispatchOnClick()}
+          value={'Send'}
+          disabled={disable}
+        />
       </form>
     </div>
   ) : null

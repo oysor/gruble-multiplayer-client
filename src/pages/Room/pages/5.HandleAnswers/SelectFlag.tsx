@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react'
 import { Flag, Player } from '../../../../common/constants'
-import { updatePlayerScoreBoard } from '../../roomReducer'
-import { useAppDispatch } from '../../roomHooks'
+import { updateBoardDictionary } from '../../roomReducer'
+import { useAppDispatch, useAppSelector } from '../../roomHooks'
+import { RoomState } from '../../roomStore'
 
 type SelectFlagProps = {
   player: Player
@@ -11,7 +12,10 @@ type SelectFlagProps = {
 export const SelectFlag: FunctionComponent<SelectFlagProps> = ({ player, square }) => {
   const dispatch = useAppDispatch()
   const { letter, category } = square
+  const { boardDictionary } = useAppSelector((state: RoomState) => state.room)
 
+  const word = player.board[letter][category].toLowerCase()
+  const flag = boardDictionary[letter][category][word].flag
   /*
    * Creates the list of options by iterating the enum Flag.
    */
@@ -25,15 +29,12 @@ export const SelectFlag: FunctionComponent<SelectFlagProps> = ({ player, square 
 
   return (
     <select
-      value={player.scoreBoard[letter][category].flag}
+      value={flag}
       className="change-flag"
       onChange={(ev) => {
-        const scoreCard = {
-          flag: ev.target.value,
-          word: player.scoreBoard[letter][category].word,
-        }
-        const square = { letter: letter, category: category }
-        dispatch(updatePlayerScoreBoard({ player, square, scoreCard }))
+        dispatch(
+          updateBoardDictionary({ square: square, word: word, flag: ev.target.value })
+        )
       }}
     >
       {optionList}

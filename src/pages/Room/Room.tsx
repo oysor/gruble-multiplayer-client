@@ -1,18 +1,23 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent, useEffect, useRef } from 'react'
 import { Provider } from 'react-redux'
-import store, { startRoomConnection, stopRoomConnection } from './roomStore'
-import { resetState } from './roomReducer'
+import store, { startRoomConnection } from './roomStore'
 import { NavigationType } from 'react-router-dom'
 import { RoomLayout } from './RoomLayout'
 import { router } from '../../App'
 
 export const Room: FunctionComponent = () => {
+  const shouldConnect = useRef(true)
+
   useEffect(() => {
-    startRoomConnection()
+    if (shouldConnect.current) {
+      startRoomConnection()
+      shouldConnect.current = false
+    }
+
     return router.subscribe((state) => {
       if (state.historyAction === NavigationType.Pop) {
-        resetState()
-        stopRoomConnection()
+        // resetState()
+        // stopRoomConnection()
       }
     })
   }, [])

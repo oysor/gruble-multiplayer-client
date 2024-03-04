@@ -14,7 +14,7 @@ export type Player = {
   userId: number
   color: string
   board: Board
-  scoreBoard: ScoreBoard
+  // scoreBoard: ScoreBoard
   playerResult: PlayerResult
 }
 export type Message = {
@@ -39,7 +39,7 @@ export type ScoreCard = {
   word: string
 }
 
-export type ScoreBoard = ScoreCard[][]
+// export type ScoreBoard = string[][]
 
 export type GameRoom = {
   roomId: string
@@ -53,7 +53,7 @@ export type BoardSettings = {
   categories: string[]
 }
 
-export type WordInfo = { frequency: number }
+export type WordInfo = { frequency: number; flag: Flag; word: string }
 
 export type WordInfoDict = { [word: string]: WordInfo }
 

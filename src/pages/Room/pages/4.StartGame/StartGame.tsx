@@ -4,6 +4,7 @@ import { setNextPage, startGame } from '../../roomReducer'
 import { Button, MissingInput } from '../../../../common/components'
 import { ShowRoomInput } from '../../components'
 import { useAppDispatch, useAppSelector } from '../../roomHooks'
+import { Link, NavLink } from 'react-router-dom'
 
 export const StartGame: FunctionComponent = () => {
   const { roomId, playerList } = useAppSelector((state: RoomState) => state.room)
@@ -29,6 +30,9 @@ export const StartGame: FunctionComponent = () => {
         Start Game
       </Button>
       {reminder ? <MissingInput playerList={playerList} /> : null}
+      {/* <NavLink to={'/player'} target="_blank" rel="noopener noreferrer">
+        Open new player tab
+      </NavLink> */}
     </div>
   )
 }

@@ -1,16 +1,23 @@
 import React, { FunctionComponent } from 'react'
 import { updateBoard } from '../../playerReducer'
 import { useAppDispatch } from '../../playerHooks'
+import { styled } from 'styled-components'
 
-interface SquareProps {
+export const InputAnswers = styled.input`
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 1.1rem;
+`
+
+interface InputSquareProps {
   board: string[][]
   coords: { x: number; y: number }
 }
 
-export const Square: FunctionComponent<SquareProps> = ({ board, coords }) => {
-  const { x, y } = coords
-
+export const InputSquare: FunctionComponent<InputSquareProps> = ({ board, coords }) => {
   const dispatch = useAppDispatch()
+  const { x, y } = coords
 
   // handle input change
   const onInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,13 +29,12 @@ export const Square: FunctionComponent<SquareProps> = ({ board, coords }) => {
   }
 
   return (
-    <div className="board-square">
-      <input
-        className={'input-square'}
-        type="text"
-        placeholder={'...'}
-        onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onInput(ev)}
-      />
-    </div>
+    <InputAnswers
+      value={board[x][y]}
+      className={'input-square'}
+      type="text"
+      placeholder={'...'}
+      onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onInput(ev)}
+    />
   )
 }

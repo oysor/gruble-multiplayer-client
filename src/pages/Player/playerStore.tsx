@@ -40,12 +40,15 @@ export async function startPlayerConnection(): Promise<void> {
   try {
     if (hubConnection.state === HubConnectionState.Disconnected) {
       await hubConnection.start()
+    } else {
+      return
     }
     store.dispatch(setStatus(hubConnection.state))
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
     hubConnection.on(fromServer.receiveMessage, (msg, connectionID) => {
-      checkOnReceiveMessage(msg)
+      // checkOnReceiveMessage(msg)
+      console.log('receiveMessage')
       store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
@@ -55,12 +58,17 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.onJoinRoom, (gameRoom, msg) => {
-      checkOnRoom(gameRoom)
-        ? store.dispatch(setBoard(gameRoom))
-        : store.dispatch(newServerMessage(msg))
+      console.log('Player JOINED')
+      store.dispatch(setBoard(gameRoom))
+      // checkOnRoom(gameRoom)
+      //   ? store.dispatch(setBoard(gameRoom))
+      //   : store.dispatch(newServerMessage(msg))
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
+      // spiller legger til seg selv også?
+      console.log('SPILLEREN ')
+      console.log(player)
       store.dispatch(addPlayer(player))
     })
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent, useEffect, useRef } from 'react'
 import { Provider } from 'react-redux'
 import store, { startPlayerConnection, stopPlayerConnection } from './playerStore'
 import { PlayerLayout } from './PlayerLayout'
@@ -7,13 +7,20 @@ import { NavigationType } from 'react-router-dom'
 import { resetState } from './playerReducer'
 
 export const Player: FunctionComponent = () => {
-  // Start connection
+  const shouldConnect = useRef(true)
+
   useEffect(() => {
-    startPlayerConnection()
+    if (shouldConnect.current) {
+      startPlayerConnection()
+      shouldConnect.current = false
+    }
+
     return router.subscribe((state) => {
+      console.log('useffect dismount')
       if (state.historyAction === NavigationType.Pop) {
-        resetState()
-        stopPlayerConnection()
+        console.log('useffect back button')
+        // stopPlayerConnection()
+        // resetState()
       }
     })
   }, [])
@@ -26,5 +33,3 @@ export const Player: FunctionComponent = () => {
     </Provider>
   )
 }
-
-export default Player
