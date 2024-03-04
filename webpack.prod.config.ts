@@ -12,6 +12,7 @@ const config: webpack.Configuration = merge(common, {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
     publicPath: '',
+    clean: true,
   },
   plugins: [
     new EnvironmentPlugin({

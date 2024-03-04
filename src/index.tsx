@@ -1,8 +1,7 @@
 import React from 'react'
 import App from './App'
+import './css/main.css'
 import './scss/App.scss'
-
-// import './css/app.css'
 
 import { createRoot } from 'react-dom/client'
 
