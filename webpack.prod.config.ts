@@ -11,8 +11,14 @@ const config: webpack.Configuration = merge(common, {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
+    chunkFilename: '[name].[contenthash].js',
     publicPath: '',
     clean: true,
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   plugins: [
     new EnvironmentPlugin({

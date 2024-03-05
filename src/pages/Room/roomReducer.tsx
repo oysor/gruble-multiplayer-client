@@ -7,7 +7,6 @@ import {
   Player,
   WordInfoDict,
 } from '../../common/constants/'
-import { test_boardSettings, test_playerList } from '../../common/tests/testData'
 import { createBoardDictionary } from './utilities/utilities'
 
 export interface RoomState {

@@ -1,10 +1,9 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-import { LandingPage, Player, Room } from './pages'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { StyleSheetManager } from 'styled-components'
 import isPropValid from '@emotion/is-prop-valid'
+// import LoadingPage from './common/components/Loading'
 
 function shouldForwardProp(propName: string, target: unknown) {
   if (typeof target === 'string') {
@@ -13,15 +12,32 @@ function shouldForwardProp(propName: string, target: unknown) {
   return true
 }
 
+const LandingPage = lazy(() =>
+  import('./pages/LandingPage').then(({ LandingPage }) => ({ default: LandingPage }))
+)
+
+const Player = lazy(() =>
+  import('./pages/Player').then(({ Player }) => ({ default: Player }))
+)
+const Room = lazy(() => import('./pages/Room').then(({ Room }) => ({ default: Room })))
+
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <LandingPage />,
+    element: (
+      <Suspense fallback={''}>
+        <LandingPage />
+      </Suspense>
+    ),
     errorElement: <NotFoundPage />,
   },
   {
     path: '/room',
-    element: <Room />,
+    element: (
+      <Suspense fallback={''}>
+        <Room />
+      </Suspense>
+    ),
     children: [
       {
         path: '/room/:roomId',
@@ -32,7 +48,11 @@ export const router = createBrowserRouter([
 
   {
     path: '/player',
-    element: <Player />,
+    element: (
+      <Suspense fallback={''}>
+        <Player />
+      </Suspense>
+    ),
   },
 ])
 
