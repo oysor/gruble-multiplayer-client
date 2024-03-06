@@ -1,6 +1,6 @@
 import React, { FunctionComponent, Suspense, lazy } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { NotFoundPage } from './pages/NotFoundPage'
+import { NotFoundPage } from './NotFoundPage'
 import { StyleSheetManager } from 'styled-components'
 import isPropValid from '@emotion/is-prop-valid'
 // import LoadingPage from './common/components/Loading'
@@ -13,13 +13,11 @@ function shouldForwardProp(propName: string, target: unknown) {
 }
 
 const LandingPage = lazy(() =>
-  import('./pages/LandingPage').then(({ LandingPage }) => ({ default: LandingPage }))
+  import('./LandingPage').then(({ LandingPage }) => ({ default: LandingPage }))
 )
 
-const Player = lazy(() =>
-  import('./pages/Player').then(({ Player }) => ({ default: Player }))
-)
-const Room = lazy(() => import('./pages/Room').then(({ Room }) => ({ default: Room })))
+const Player = lazy(() => import('./Player').then(({ Player }) => ({ default: Player })))
+const Room = lazy(() => import('./Room').then(({ Room }) => ({ default: Room })))
 
 export const router = createBrowserRouter([
   {

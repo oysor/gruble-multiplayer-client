@@ -1,0 +1,21 @@
+import React, { FunctionComponent } from 'react'
+import { PlayerState } from '../store'
+import { useAppSelector } from '../hooks'
+
+export const ShowPlayerInput: FunctionComponent = () => {
+  const { playerName, roomId, boardSettings, playerBoard } = useAppSelector(
+    (state: PlayerState) => state.player
+  )
+
+  return (
+    <div className="show-player-input">
+      Player name: {playerName}
+      <br />
+      Room Id: {roomId}
+      <br />
+      boardSettings: {JSON.stringify(boardSettings)}
+      <br />
+      playerBoard: {JSON.stringify(playerBoard)}
+    </div>
+  )
+}

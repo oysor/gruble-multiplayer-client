@@ -1,4 +1,4 @@
-import { createWordInfoDict } from '../../pages/Room/utilities'
+import { createWordInfoDict } from '../../Room/utilities'
 import {
   Board,
   BoardSettings,

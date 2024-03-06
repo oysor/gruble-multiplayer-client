@@ -4,7 +4,7 @@ import {
   Cluster_l,
   Cover_l,
   Stack_l,
-} from '../../common/styledComponents/everyLayout'
+} from '../everyLayout'
 import { styled } from 'styled-components'
 
 // import Maskot from '../../svg/maskot.svg'
