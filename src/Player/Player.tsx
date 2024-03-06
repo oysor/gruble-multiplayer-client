@@ -28,7 +28,7 @@ export const Player: FunctionComponent = () => {
 
   return (
     <Provider store={store}>
-      <div className="player-page">
+      <div id="player">
         <PlayerPages />
       </div>
     </Provider>

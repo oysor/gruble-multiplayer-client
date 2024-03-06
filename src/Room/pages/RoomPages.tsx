@@ -9,7 +9,7 @@ import {
 import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from '.'
 import { useAppSelector } from '../hooks'
 import { PrepareRoom } from './1.PrepareRoom'
-import { Cover_l } from '../../common/everyLayout'
+import { Box_l, Center_l, Cover_l } from '../../common/everyLayout'
 
 export const RoomPages: FunctionComponent = () => {
   const { commonStates, messages, currentPage, playerMessages, playerList } =
@@ -32,18 +32,17 @@ export const RoomPages: FunctionComponent = () => {
 
   return (
     <Cover_l centered="div">
-      <div className="layout-header">
-        {/* <div className="header-logo">Create a room</div> */}
+      <Center_l>
         <ConnectionStatus status={commonStates.status} />
-      </div>
-      <div className="layout-main">{showComponent(currentPage)}</div>
-      <div className="layout-bottom">
+
+        <Center_l>{showComponent(currentPage)}</Center_l>
+
         <PlayerList playerList={playerList} />
-        <div className="message-boxes">
+        {/* <Box_l>
           <MessageBox messages={messages} />
-          {/* <PlayerMessageBox playerMessages={playerMessages} /> */}
-        </div>
-      </div>
+          <PlayerMessageBox playerMessages={playerMessages} />
+        </Box_l> */}
+      </Center_l>
     </Cover_l>
   )
 }

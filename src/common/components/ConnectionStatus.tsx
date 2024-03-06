@@ -1,5 +1,15 @@
 import React, { FunctionComponent } from 'react'
 import { ConnectionMode } from '../constants/'
+import { styled } from 'styled-components'
+import { Box_l } from '../everyLayout'
+
+type ButtonStyleProps = {
+  color: string
+}
+
+export const StyledStatus = styled.span<ButtonStyleProps>`
+  color: ${(props) => props.color};
+`
 
 interface ConnectionStatusProps {
   status: ConnectionMode
@@ -11,16 +21,20 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({
   const connectionStatus = () => {
     switch (status) {
       case ConnectionMode.Connecting:
-        return <span style={{ color: 'grey' }}>Connecting...</span>
+        return <StyledStatus color="grey">Connecting...</StyledStatus>
       case ConnectionMode.Disconnected:
-        return <span style={{ color: 'black' }}>Disconnected</span>
+        return <StyledStatus color="black">Disconnected</StyledStatus>
       case ConnectionMode.Reconnecting:
-        return <span style={{ color: 'grey' }}>Reconnecting...</span>
+        return <StyledStatus color="grey">Reconnecting...</StyledStatus>
       case ConnectionMode.Connected:
-        return <span style={{ color: 'green' }}>Connected</span>
+        return <StyledStatus color="green">Connected</StyledStatus>
       case ConnectionMode.Failed:
-        return <span style={{ color: 'red' }}>Connection Failed</span>
+        return <StyledStatus color="red">Connection Failed</StyledStatus>
     }
   }
-  return <span className="connection-status">{connectionStatus()}</span>
+  return (
+    <Box_l padding="2rem" className="text-center">
+      {connectionStatus()}
+    </Box_l>
+  )
 }

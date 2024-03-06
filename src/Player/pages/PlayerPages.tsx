@@ -9,7 +9,7 @@ import {
 // import { ShowPlayerInput } from './components'
 import { SendMessage } from '../components/SendMessage'
 import { useAppSelector } from '../hooks'
-import { Cover_l } from '../../common/everyLayout'
+import { Center_l, Cover_l } from '../../common/everyLayout'
 import { JoinGame } from './1.JoinGame'
 import { Play } from './2.Play'
 import { Results } from './3.Results'
@@ -31,22 +31,15 @@ export const PlayerPages: FunctionComponent = () => {
 
   return (
     <Cover_l centered="div">
-      <div className="layout-header">
-        {/* <div className="header-logo"> */}
-        {/* <div>Name yourself and input the roomId</div> */}
-        {/* </div> */}
+      <Center_l>
         <ConnectionStatus status={commonStates.status} />
-      </div>
-      <div className="layout-main">{showComponent(currentPage)}</div>
-      <div className="layout-bottom">
-        {/* <ShowPlayerInput /> */}
-        {/* <SendMessage roomId={roomId} /> */}
+        <Center_l>{showComponent(currentPage)}</Center_l>
         <PlayerList playerList={playerList} />
-        <div className="message-boxes">
+        {/* <Box_l>
           <MessageBox messages={messages} />
-          {/* <PlayerMessageBox playerMessages={playerMessages} /> */}
-        </div>
-      </div>
+          <PlayerMessageBox playerMessages={playerMessages} />
+        </Box_l> */}
+      </Center_l>
     </Cover_l>
   )
 }

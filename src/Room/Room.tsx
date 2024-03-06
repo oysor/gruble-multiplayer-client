@@ -25,7 +25,7 @@ export const Room: FunctionComponent = () => {
 
   return (
     <Provider store={store}>
-      <div className="room-page">
+      <div id="player">
         <RoomPages />
       </div>
     </Provider>
