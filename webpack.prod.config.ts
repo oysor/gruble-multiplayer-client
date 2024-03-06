@@ -15,11 +15,6 @@ const config: webpack.Configuration = merge(common, {
     publicPath: '',
     clean: true,
   },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
   plugins: [
     new EnvironmentPlugin({
       API_URL: 'https://multiplayerapi.azurewebsites.net/chathub',
