@@ -32,9 +32,7 @@ export const MissingInput: FunctionComponent<MissingInputProps> = ({
     reminders.push(<span key={4}>Missing category field</span>)
   }
   if (!isUndefined(playerList) && playerList.length === 0) {
-    reminders.push(
-      <span key={5}>At least one player must join the game before you can start.</span>
-    )
+    reminders.push(<span key={5}>At least one player must join the game.</span>)
   }
   return (
     <div className="reminder">
