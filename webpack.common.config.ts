@@ -1,5 +1,5 @@
 import webpack from 'webpack'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import path from 'path'
 
 const config: webpack.Configuration = {
   entry: {
@@ -22,22 +22,33 @@ const config: webpack.Configuration = {
         },
       },
       {
-        test: /\.scss$/,
+        test: /\.(css)$/,
+        include: path.resolve(__dirname, 'src'),
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.(s(a|c)ss)$/,
+        include: path.resolve(__dirname, 'src'),
         use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.svg$/i,
+        type: 'asset',
+        resourceQuery: /url/, // *.svg?url
+      },
+      {
+        test: /\.svg$/i,
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
+        use: ['@svgr/webpack'],
       },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['', '.tsx', '.ts', '.js'],
   },
-  plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      async: false,
-      eslint: {
-        files: './src/**/*',
-      },
-    }),
-  ],
+
+  plugins: [],
 }
 
 export default config

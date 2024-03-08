@@ -18,12 +18,27 @@ $btnColor: #fff;
 
 html, body, #root {
     height: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 1.1rem;
+    background-color: #03484F;
+    color: white;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 .App {
     height: 100%;
 }
 
+/**
+ *   layout
+ */
 .landing-page{
     display: flex;
     justify-content: space-around;
@@ -40,70 +55,110 @@ html, body, #root {
     // height: 100%;
 }
 
-.input-categories{
+.room-layout, .player-laylout {
+    // width: 80%;
+    // height: 90%;
 
-    border: 1px solid black;
-    border-radius: 16px;
-    background: $input-color;
-    padding: 0.5rem;
+}
 
-   .add-category,
-   .remove-category,
-   .write-category
-   {
-        display: inline-block;
-        border: none;
+.layout-header {
+    // grid-area: header;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+
+    .header-logo{
+        padding-top: 2rem;
+        padding-bottom: 3rem;
         text-align: center;
-        text-decoration: none;
-        background: $input-color;
-        padding: 1rem 2rem;
-        margin: 0;
-   }
-
-   .add-category {
-        width: 100%;
-        font-size: 1.5rem;
+        // background: #1abc9c;
+        // color: white;
+        font-size: 2rem;
     }
 
-    .remove-category {
-        font-size: 1.5rem;
+}
+
+.layout-main {
+    // grid-area: main;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0rem 2rem 0rem;
+
+    //Room pages
+    .room-name{
+        height: 5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
     }
 
-    .write-category{
-        font-size: 1rem;
+    .room-time{
+        height: 5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
     }
+
+    .room-create{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .input-categories {
+            margin: 1rem;
+            width: fit-content;
+            // height: 4rem;
+        }
+    }
+
+    .input-categories {
+        width: fit-content;
+    }
+
+    .room-start-game{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    //Player pages
+    .join-room{
+        height: 15rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .play{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .show-results{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+}
+
+.layout-bottom {
+    grid-area: chat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
-
-
-.smart-input,
-.smart-numeric-input,
-.submit-input {
-    display: inline-block;
-    border: none;
-    font-size: 1rem;
-    text-align: center;
-    text-decoration: none;
-    background: $input-color;
-    padding: 1rem 2rem;
-    margin: 0;
-    color: black;
-    border: 1px solid black;
-}
-
-.smart-numeric-input,
-.smart-numeric-input,
-.submit-input[type = button]:hover {
-    background: $input-color-hover;
-}
-
-a.router-link {
-    text-decoration: none;
-}
-
+/**
+ *   input and buttons
+ */
 button.button,
 a.router-link {
+    width: fit-content; 
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -111,12 +166,12 @@ a.router-link {
     // border: none;
     border: 1px solid black;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 1.2em;
     cursor: pointer;
 
     background-color: $btnColor;
     color: black;
-    border-radius: 16px;
+    // border-radius: 16px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
 
     padding: 0.25em 0.75em;
@@ -143,6 +198,35 @@ a.router-link {
         border: 2px solid currentcolor;
       }
 } 
+
+.smart-input,
+.smart-numeric-input,
+.submit-input {
+    display: inline-block;
+    border: none;
+    font-size: 1em;
+    text-align: center;
+    text-decoration: none;
+    background: $input-color;
+    padding: 1rem 2rem;
+    margin: 0;
+    color: black;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.smart-numeric-input,
+.smart-numeric-input {
+    background: $input-color-hover;
+}
+
+.hover:hover{
+    background: $input-color-hover;
+}
+
+a.router-link {
+    text-decoration: none;
+}
 
 .room-create {
     display: inline-flex;
@@ -178,9 +262,65 @@ form.input-join-room {
 }
 
 /**
+ *   board input
+ */
+.input-categories{
+
+    border: 1px solid black;
+    border-radius: 16px;
+    background: $input-color;
+    padding: 0.5rem;
+    color: black;
+    // display: flex;
+    // flex-direction: row;
+
+    .input-category{
+        display: flex;
+    }
+
+   .add-category,
+   .remove-category,
+   .write-category
+   {
+        display: inline-block;
+        border: none;
+        text-decoration: none;
+        background: $input-color;
+        padding: 1rem;
+        border-radius: 16px;
+        // text-align: center;
+
+        &:hover,
+        &:active {
+            background-color: scale-color($btnColor, $lightness: -20%);
+        }
+        &:focus {
+            outline-style: solid;
+            outline-color: transparent;
+            box-shadow: 0 0 0 4px scale-color($btnColor, $lightness: -40%);
+        }
+   }
+
+   .add-category {
+        width: 100%;
+        font-size: 1.5em;
+    }
+
+    .remove-category {
+        font-size: 1.5em;
+         padding: 1rem 2rem 1rem 2rem;
+         margin: 0.2rem;
+    }
+
+    .write-category{
+        font-size: 1em;
+        margin: 0.2rem;
+    }
+}
+
+/**
  *   board
  */
-
 .board{
     height: 20rem;
     width: 20rem;
@@ -219,7 +359,9 @@ form.input-join-room {
     display: grid;
     grid-template-areas: "info info" 
                          "answers answers"
-                         "buttons buttons";
+                         "buttons buttons"
+                         "board board";
+    width: 100%;
 
     .show-info{
         grid-area: info;
@@ -233,6 +375,10 @@ form.input-join-room {
 
     .show-buttons{
         grid-area: buttons;
+    }
+    .show-board {
+        grid-area: board;
+
     }
 }
 
@@ -270,6 +416,7 @@ form.input-join-room {
     display: flex;
     flex-direction: column;
     // height: 20rem;
+    font-size: 1em;
     width: 30rem;
 }
 
@@ -289,14 +436,62 @@ form.input-join-room {
 /**
  *   Display list component in room
  */
-.display-list {
+.display-words {
     margin-top:2rem;
     margin-bottom:2rem;
 
-    .list-item{ 
+    .word-item{ 
         padding: 0.1rem;
     }
     .highlight{
         font-size: 2rem;
+        background: #eeecea;
+        border-radius: 16px;
+        color:black;
     }
+}
+
+/**
+ *   component in room
+ */
+.room-player-list {
+    margin-top:1rem;
+    margin-bottom:1rem;
+    border-bottom: 1px solid gray;
+}
+
+.message-box ul{
+    max-height:200px; 
+    overflow:hidden; 
+    overflow-y:scroll;
+    scrollbar-color: #c4c4c4 white;
+}
+
+.message-item{
+    padding: 0.25em 0.75em;
+    margin-left: 0.5rem;
+    // display:inline-block;
+    border-radius: 16px;
+}
+
+/**
+ *   info boxes
+ */
+
+ .explain-box{
+    width: 30rem;
+
+    .rules{
+        font-family: 'Cinzel', serif;
+    }
+
+    .timelimit {
+        color: red;
+    }
+}
+
+.reminder{
+    padding-bottom: 0.1rem;
+    padding-top: 0.5rem;
+    color: grey;
 }

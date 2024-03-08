@@ -1,11 +1,16 @@
-import ReactDOM from 'react-dom'
 import React from 'react'
 import App from './App'
+import './css/main.css'
 import './scss/App.scss'
 
-ReactDOM.render(
+import { createRoot } from 'react-dom/client'
+
+const container = document.getElementById('root') as HTMLElement
+
+const root = createRoot(container)
+
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )

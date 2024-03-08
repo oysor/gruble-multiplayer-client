@@ -14,8 +14,12 @@ export type Player = {
   userId: number
   color: string
   board: Board
-  scoreBoard: ScoreBoard
+  // scoreBoard: ScoreBoard
   playerResult: PlayerResult
+}
+export type Message = {
+  player: Player
+  message: string
 }
 
 export type PlayerResult = {
@@ -35,7 +39,7 @@ export type ScoreCard = {
   word: string
 }
 
-export type ScoreBoard = ScoreCard[][]
+// export type ScoreBoard = string[][]
 
 export type GameRoom = {
   roomId: string
@@ -49,7 +53,7 @@ export type BoardSettings = {
   categories: string[]
 }
 
-export type WordInfo = { frequency: number }
+export type WordInfo = { frequency: number; flag: Flag; word: string }
 
 export type WordInfoDict = { [word: string]: WordInfo }
 
@@ -74,10 +78,11 @@ export enum Flag {
  * Enum containing all possible connection status types.
  */
 export enum ConnectionMode {
-  Connecting = 'CONNECTING',
-  Connected = 'CONNECTED',
-  Disconnected = 'DISCONNECTED',
-  Reconnecting = 'RECONNECTING',
+  Connecting = 'Connecting',
+  Connected = 'Connected',
+  Disconnected = 'Disconnected',
+  Reconnecting = 'Reconnecting',
+  Disconnecting = 'Disconnecting',
   Failed = 'FAILED',
 }
 
@@ -99,3 +104,5 @@ export const initPlayerResult: PlayerResult = {
   missing: 0,
   unknown: 0,
 }
+
+export const API_URL = process.env.API_URL ? process.env.API_URL : 'API URL MISSING?'
