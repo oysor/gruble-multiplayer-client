@@ -1,8 +1,10 @@
 {
     "name": "realtime-multiplayer-client",
     "version": "0.0.1",
-    "homepage": ".",
+    "homepage": "https://grublings.github.io/multiplayer-client/",
     "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
         "start": "webpack serve --config wepack.dev.config.ts --open",
         "build": "webpack --config webpack.prod.config.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -53,6 +55,7 @@
         "eslint-plugin-prettier": "^5.1.3",
         "eslint-plugin-react": "^7.33.2",
         "eslint-plugin-react-hooks": "^4.6.0",
+        "gh-pages": "^6.1.1",
         "html-webpack-plugin": "^5.6.0",
         "postcss": "^8.4.35",
         "postcss-loader": "^8.1.0",

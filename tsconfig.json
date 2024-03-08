@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-      "outDir": "./dist/",
+      "outDir": "./build/",
       "lib": ["dom", "dom.iterable", "esnext"],
       "allowJs": true,
       "allowSyntheticDefaultImports": true,

@@ -10,7 +10,7 @@ const devServer: DevServerConfiguration = {
   port: 4000,
   historyApiFallback: true,
   static: {
-    directory: path.join(__dirname, 'dist'),
+    directory: path.join(__dirname, 'build'),
   },
 }
 

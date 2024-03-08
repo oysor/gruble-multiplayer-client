@@ -9,7 +9,7 @@ import common from './webpack.common.config'
 const config: webpack.Configuration = merge(common, {
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     filename: '[name].bundle.js',
     chunkFilename: '[name].[contenthash].js',
     publicPath: '',
