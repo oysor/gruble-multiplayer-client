@@ -161,6 +161,7 @@ export const GameButton = styled.span`
   line-height: 1.2em;
   text-align: center;
   font-weight: bold;
+  font-size: 1.5rem;
 
   &:hover {
     /* background-color: #f9b; */

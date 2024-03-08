@@ -4,7 +4,7 @@
     "homepage": "https://grublings.github.io/multiplayer-client/",
     "scripts": {
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
+        "deploy": "gh-pages --dist build",
         "start": "webpack serve --config wepack.dev.config.ts --open",
         "build": "webpack --config webpack.prod.config.ts",
         "test": "echo \"Error: no test specified\" && exit 1"

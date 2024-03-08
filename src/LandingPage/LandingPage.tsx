@@ -10,9 +10,9 @@ import Maskot from '../svg/maskot.svg'
 export const LandingPage: FunctionComponent = () => {
   return (
     <Cover_l centered="div">
-      <Center_l intrinsic>
+      <Center_l gutters="2rem">
         <Stack_l space="1rem" className="items-center">
-          <Maskot width="200" height="200" />
+          <Maskot maxWidth="100%" height="100%" />
           <Cluster_l align="center" justify="center">
             <Link to="/room">
               <GameButton> Game room </GameButton>
