@@ -12,13 +12,14 @@ Go to branch *development*
    production
 ```
 
+
 ```sh
-~/Multiplayer-client/
 # Install dependencies
+~/Multiplayer-client/
 > yarn
 
-~/Multiplayer-client/
 # Run in development mode
+~/Multiplayer-client/
 > yarn start
 ```
 
