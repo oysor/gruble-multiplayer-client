@@ -172,3 +172,30 @@ export const GameButton = styled.button`
       0px 0px black;
   }
 `
+
+export const StyledSubmit = styled.input`
+  position: relative;
+  display: inline-block;
+  padding: 1em 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid black;
+  border-radius: 0.2rem;
+  color: black;
+  background: #f9b;
+  /* box-shadow: 2px 2px #ed6b97,6px 6px black; */
+  line-height: 1.2em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  &:hover {
+    background-color: #f7adc6;
+  }
+
+  &:active {
+    transform: translate(6px, 6px);
+    transition: all 10ms linear;
+    box-shadow:
+      0px 0px lightpink,
+      0px 0px black;
+  }
+`

@@ -1,6 +1,6 @@
 export * from './styles'
 import React, { FunctionComponent } from 'react'
-import { GameButton } from './styles'
+import { GameButton, StyledSubmit } from './styles'
 
 interface ButtonProps {
   onClick?: () => void
@@ -26,7 +26,7 @@ export const SubmitButton: FunctionComponent<SubmitButtonProps> = ({
 }) => {
   const hoverColor = !disabled && 'hover'
   return (
-    <input
+    <StyledSubmit
       className={className + ' ' + hoverColor}
       type="button"
       value={value}
