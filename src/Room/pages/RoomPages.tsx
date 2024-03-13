@@ -39,11 +39,13 @@ export const RoomPages: FunctionComponent = () => {
       <Center_l>
         <ConnectionStatus status={commonStates.status} />
         <Center_l>{displayPage(currentPage)}</Center_l>
-        <Stack_l space="1rem">
-          <MessageBox messages={messages} />
-          {/* <PlayerListBox playerList={playerList} /> */}
-          <ChatBox messages={playerMessages} />
-        </Stack_l>
+        {currentPage === 3 ? (
+          <Stack_l space="1rem">
+            <MessageBox messages={messages} />
+            {/* <PlayerListBox playerList={playerList} /> */}
+            <ChatBox messages={playerMessages} />
+          </Stack_l>
+        ) : null}
       </Center_l>
     </Cover_l>
   )
