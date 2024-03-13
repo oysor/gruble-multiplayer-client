@@ -12,7 +12,7 @@ const player1: Player = {
     ['Banan', 'Bæsj', 'Bjørk'],
     ['Dadler', 'Drenering', 'Dovendyr'],
   ],
-  color: '',
+  color: 'red',
   id: 0,
   userId: 0,
   playerResult: {
@@ -32,7 +32,7 @@ const player2: Player = {
     ['Bolle', 'Bunnavfall', 'Busk'],
     ['Drops', 'Dass', 'Dådyr'],
   ],
-  color: '',
+  color: 'green',
   id: 0,
   userId: 0,
   playerResult: {
@@ -52,7 +52,7 @@ const player3: Player = {
     ['Brus', 'Bæsj', 'Busk'],
     ['Dadler', 'Do', 'Dvergbjørk'],
   ],
-  color: '',
+  color: 'blue',
   id: 0,
   userId: 0,
   playerResult: {

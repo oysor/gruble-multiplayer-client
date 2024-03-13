@@ -2,9 +2,10 @@ import React, { FunctionComponent, useEffect } from 'react'
 import { PlayerState } from '../../store'
 import { InputBoard } from './InputBoard'
 import { sendBoard, setNextPage } from '../../reducer'
-import { Timer } from '../../../common/components'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { CountDown } from '../../../common/components/Timer'
+import { SendMessage } from '../../components/SendMessage'
+import { Box_l } from '../../../common/everyLayout'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
@@ -27,25 +28,27 @@ export const Play: FunctionComponent = () => {
     <div className="play">
       {gameIsOn ? (
         <div>
-          <Timer elapsedTime={commonStates.elapsedTime}></Timer>
-          <CountDown timeLeft={commonStates.elapsedTime} timeLimit={timeLimit}/>
+          <CountDown timeLeft={commonStates.elapsedTime} timeLimit={timeLimit} />
           <InputBoard board={playerBoard} boardSettings={boardSettings} />
         </div>
       ) : (
-        <div className="explain-box">
-          <div className="rules">
-            <b>Rules:</b> <br />
-            In the time allotted, each player must attempt to think of and write down, in
-            the first column on the board, a word or term that fits each of the{' '}
-            {boardSettings.categories.length} categories and starts with the rolled
-            letter. Any number of words in the answer is allowed, as long as the first
-            word starts with the correct letter.
+        <Box_l>
+          <div className="explain-box">
+            <div className="rules">
+              <b>Rules:</b> <br />
+              In the time allotted, each player must attempt to think of and write down,
+              in the first column on the board, a word or term that fits each of the{' '}
+              {boardSettings.categories.length} categories and starts with the rolled
+              letter. Any number of words in the answer is allowed, as long as the first
+              word starts with the correct letter.
+            </div>
+            <br />
+            <div className="timelimit">
+              &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
+            </div>
           </div>
-          <br />
-          <div className="timelimit">
-            &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
-          </div>
-        </div>
+          <SendMessage roomId={roomId} />
+        </Box_l>
       )}
     </div>
   )

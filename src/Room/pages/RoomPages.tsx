@@ -1,17 +1,17 @@
 import React, { FunctionComponent } from 'react'
 import { RoomState } from '../store'
 import {
+  ChatBox,
   ConnectionStatus,
   MessageBox,
-  PlayerList,
-  PlayerMessageBox,
+  PlayerListBox,
 } from '../../common/components'
 import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from '.'
 import { useAppSelector } from '../hooks'
 import { PrepareRoom } from './1.PrepareRoom'
-import { Box_l, Center_l, Cover_l } from '../../common/everyLayout'
+import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
 import { ConnectionMode } from '../../common/constants'
-import { DisconnectedCover } from '../../common/components/Connection/Disconnected'
+import { DisconnectedCover } from '../../common/components/connection/Disconnected'
 
 export const RoomPages: FunctionComponent = () => {
   const { commonStates, messages, currentPage, playerMessages, playerList } =
@@ -36,17 +36,14 @@ export const RoomPages: FunctionComponent = () => {
   return (
     <Cover_l centered="div">
       {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
-
       <Center_l>
         <ConnectionStatus status={commonStates.status} />
-
         <Center_l>{displayPage(currentPage)}</Center_l>
-
-        <PlayerList playerList={playerList} />
-        {/* <Box_l>
+        <Stack_l space="1rem">
           <MessageBox messages={messages} />
-          <PlayerMessageBox playerMessages={playerMessages} />
-        </Box_l> */}
+          {/* <PlayerListBox playerList={playerList} /> */}
+          <ChatBox messages={playerMessages} />
+        </Stack_l>
       </Center_l>
     </Cover_l>
   )

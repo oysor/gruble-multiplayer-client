@@ -1,19 +1,18 @@
 import React, { FunctionComponent } from 'react'
 import { PlayerState } from '../store'
 import {
+  ChatBox,
   ConnectionStatus,
   MessageBox,
   PlayerList,
-  PlayerMessageBox,
 } from '../../common/components'
 // import { ShowPlayerInput } from './components'
-import { SendMessage } from '../components/SendMessage'
 import { useAppSelector } from '../hooks'
-import { Center_l, Cover_l } from '../../common/everyLayout'
+import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
 import { JoinGame } from './1.JoinGame'
 import { Play } from './2.Play'
 import { Results } from './3.Results'
-import { DisconnectedCover } from '../../common/components/Connection/Disconnected'
+import { DisconnectedCover } from '../../common/components/connection/Disconnected'
 import { ConnectionMode } from '../../common/constants'
 
 export const PlayerPages: FunctionComponent = () => {
@@ -38,11 +37,11 @@ export const PlayerPages: FunctionComponent = () => {
       <Center_l>
         <ConnectionStatus status={commonStates.status} />
         <Center_l>{displayPage(currentPage)}</Center_l>
-        <PlayerList playerList={playerList} />
-        {/* <Box_l>
+        <Stack_l space="1rem">
           <MessageBox messages={messages} />
-          <PlayerMessageBox playerMessages={playerMessages} />
-        </Box_l> */}
+          {/* <PlayerListBox playerList={playerList} /> */}
+          <ChatBox messages={playerMessages} />
+        </Stack_l>
       </Center_l>
     </Cover_l>
   )

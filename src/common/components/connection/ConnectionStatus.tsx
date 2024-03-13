@@ -7,7 +7,7 @@ type ButtonStyleProps = {
   color: string
 }
 
-export const StyledStatus = styled.span<ButtonStyleProps>`
+const StyledStatus = styled.span<ButtonStyleProps>`
   color: ${(props) => props.color};
 `
 
