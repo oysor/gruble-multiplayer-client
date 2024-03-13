@@ -49,7 +49,7 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {
-      checkOnTimerElapsed(timeElapsed)
+      // checkOnTimerElapsed(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 

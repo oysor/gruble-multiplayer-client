@@ -1,4 +1,4 @@
-export { ConnectionStatus } from './ConnectionStatus'
+export { ConnectionStatus } from './Connection/ConnectionStatus'
 export { Button } from './buttons'
 export { SmartInput } from './inputs/SmartInput'
 export { SmartNumericInput } from './inputs/SmartNumericInput'

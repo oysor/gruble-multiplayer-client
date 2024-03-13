@@ -7,6 +7,8 @@ interface MissingInputProps {
   roomId?: string
   timeLimit?: number
   categoryList?: string[]
+  missingBaordInput?: boolean
+  letterList?: string[]
   playerList?: Player[]
 }
 
@@ -15,7 +17,9 @@ export const MissingInput: FunctionComponent<MissingInputProps> = ({
   roomId,
   timeLimit,
   categoryList,
+  letterList,
   playerList,
+  missingBaordInput,
 }) => {
   const reminders = []
 
@@ -30,6 +34,12 @@ export const MissingInput: FunctionComponent<MissingInputProps> = ({
   }
   if (!isUndefined(categoryList)) {
     reminders.push(<span key={4}>Missing category field</span>)
+  }
+  if (!isUndefined(letterList)) {
+    reminders.push(<span key={4}>Missing letter field</span>)
+  }
+  if (!isUndefined(missingBaordInput)) {
+    reminders.push(<span key={4}>Board contains an empty field</span>)
   }
   if (!isUndefined(playerList) && playerList.length === 0) {
     reminders.push(<span key={5}>At least one player must join the game.</span>)

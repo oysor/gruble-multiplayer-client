@@ -1,43 +1,48 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Button, Timer } from '../../../common/components'
-import { DisplayList } from '../../components/DisplayList'
+import { Button } from '../../../common/components'
 import { setNextPage, setPlayerResults } from '../../reducer'
 import { RoomState } from '../../store'
 import { updatePlayerListResults } from '../../utilities'
-import { HandleSquare } from './HandleSquare'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { HandleBoard } from './HandleBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
 import { SetWrongAnswerButton } from '../../components/SetWrongAnswerButton'
-import { PlayerResults } from './PlayerResult'
 import { ProofReading } from '../../components/ProofReading'
+import { CountDown } from '../../../common/components/Timer'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { playerList, boardSettings, receivedBoards, commonStates, boardDictionary } =
-    useAppSelector((state: RoomState) => state.room)
+  const {
+    playerList,
+    boardSettings,
+    receivedBoards,
+    commonStates,
+    timeLimit,
+    boardDictionary,
+  } = useAppSelector((state: RoomState) => state.room)
 
+  const { elapsedTime } = commonStates
   const dispatch = useAppDispatch()
   const { categories, letters } = boardSettings
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [currentPlayer, setNextPlayer] = useState(0)
 
-  const { x, y } = coords
+  // const { x, y } = coords
 
-  const showNextLetter = () => {
-    const nextLetter = y < letters.length - 1 ? y + 1 : 0
-    setCoords({ y: nextLetter, x: x })
-  }
+  // const showNextLetter = () => {
+  //   const nextLetter = y < letters.length - 1 ? y + 1 : 0
+  //   setCoords({ y: nextLetter, x: x })
+  // }
 
-  const showNextCategory = (next?: number) => {
-    if (Number.isFinite(next) && next !== undefined) {
-      setCoords({ x: next, y: y })
-    } else {
-      const nextCategory = x < categories.length - 1 ? x + 1 : 0
-      console.log(nextCategory)
-      console.log(coords)
-      setCoords({ x: nextCategory, y: y })
-    }
-  }
+  // const showNextCategory = (next?: number) => {
+  //   if (Number.isFinite(next) && next !== undefined) {
+  //     setCoords({ x: next, y: y })
+  //   } else {
+  //     const nextCategory = x < categories.length - 1 ? x + 1 : 0
+  //     console.log(nextCategory)
+  //     console.log(coords)
+  //     setCoords({ x: nextCategory, y: y })
+  //   }
+  // }
 
   const showNextPlayer = () => {
     const nextPlayer = currentPlayer + 1 !== playerList.length ? currentPlayer + 1 : 0
@@ -60,40 +65,9 @@ export const HandleAnswers: FunctionComponent = () => {
   }
 
   return receivedBoards ? (
-    // <div className="handle-answers">
-    <Box_l>
+    <Box_l id="handle-answers">
       <Center_l max-width="50rem">
         <Stack_l space="2rem">
-          {/* <Cluster_l justify={'space-between'}>
-            <DisplayList list={categories} hightlight={coords.x} />
-            <DisplayList list={letters} hightlight={coords.y} />
-          </Cluster_l>
-          <div>
-            <HandleSquare playerList={playerList} square={coords} />
-          </div>
-
-          <div>
-            <Button onClick={showNextLetter}>Next letter</Button>
-            <Button onClick={showNextCategory}>Next category</Button>
-          </div> */}
-
-          {/* {playerList.map((player, i) => {
-            return (
-              <Stack_l key={i}>
-                <HandleBoard
-                  player={player}
-                  boardSettings={{ categories: categories, letters: letters }}
-                  currentSquare={coords}
-                  setCurrentSquare={setCoords}
-                />
-                <SetWrongAnswerButton
-                  player={player}
-                  square={{ letter: coords.y, category: coords.x }}
-                />
-              </Stack_l>
-            )
-          })}  */}
-
           <Center_l intrinsic>
             <h2>{playerList[currentPlayer].name}</h2>
             <HandleBoard
@@ -118,6 +92,6 @@ export const HandleAnswers: FunctionComponent = () => {
       </Center_l>
     </Box_l>
   ) : (
-    <Timer elapsedTime={commonStates.elapsedTime} />
+    <CountDown timeLeft={elapsedTime} timeLimit={timeLimit} />
   )
 }

@@ -1,25 +1,17 @@
 import React, { FunctionComponent, useState } from 'react'
-import {
-  MissingInput,
-  SmartInput,
-  SmartNumericInput,
-  SubmitButton,
-} from '../../../common/components'
-import { setNextPage, setRoomName, setTimeLimit } from '../../reducer'
+import { Button, MissingInput, SmartInput } from '../../../common/components'
+import { setNextPage, setRoomName } from '../../reducer'
 import { useAppDispatch } from '../../hooks'
-import { Box_l, Stack_l } from '../../../common/everyLayout'
+import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 
 export const PrepareRoom: FunctionComponent = () => {
   const dispatch = useAppDispatch()
-  // Default value: 2 seconds
-  const [time, setTime] = useState(1)
-  const [name, setName] = useState('kuk')
+  const [name, setName] = useState('')
+  const [reminder, setReminder] = useState(false)
 
-  const validNumericInput = time > 0
   const validTextInput = name.length !== 0
 
   const dispatchOnClick = () => {
-    dispatch(setTimeLimit(time))
     dispatch(setRoomName(name))
     dispatch(setNextPage())
   }
@@ -33,33 +25,32 @@ export const PrepareRoom: FunctionComponent = () => {
 
   return (
     <div>
-      <div>Name your room and set a time limit.</div>
-      <Box_l padding="1rem">
-        {/* <span className="reminder">Set time limit</span> */}
-        <Stack_l>
-          <SmartNumericInput
-            onChange={setTime}
-            onKeyPress={handleKeyPress}
-            value={time}
-          />
-          <SmartInput
-            value={name}
-            onChange={setName}
-            placeholder={'room name...'}
-            onKeyPress={handleKeyPress}
-          />
-          <SubmitButton
-            value="Submit"
+      <Box_l padding="1rem" className="h-[18rem]">
+        <Center_l intrinsic className="mt-[2rem]">
+          <Stack_l space="0.2rem">
+            <div>Set room name</div>
+            <div>
+              <SmartInput
+                value={name}
+                onChange={setName}
+                placeholder={'room name...'}
+                onKeyPress={handleKeyPress}
+                className="w-[13rem]"
+              />
+            </div>
+          </Stack_l>
+        </Center_l>
+        <Center_l intrinsic className="mt-[2rem]">
+          <Button
             onClick={() => {
-              if (validTextInput && validNumericInput) {
-                dispatchOnClick()
-              }
+              validTextInput ? dispatchOnClick() : setReminder(true)
             }}
-          />
-        </Stack_l>
+          >
+            Submit
+          </Button>
+        </Center_l>
+        {reminder ? <MissingInput roomId={name} /> : null}
       </Box_l>
-      {!validNumericInput ? <MissingInput timeLimit={time} /> : null}
-      {!validTextInput ? <MissingInput roomId={name} /> : null}
     </div>
   )
 }

@@ -7,15 +7,20 @@ export interface SquareProps {
   topRow?: boolean
   highlightSquare?: boolean
 }
+interface BoardProps {
+  backgroundColor?: string
+}
 
-export const Board = styled.div`
+export const Board = styled.div<BoardProps>`
   display: flex;
   flex-direction: column;
   border: 1px solid black;
   margin: 1rem;
   padding: 0.5rem;
-  background-color: white;
+  background-color: ${(props) => props.backgroundColor || 'white'};
   color: black;
+  width: fit-content;
+  border-radius: 0.2rem;
 `
 export const Row = styled.div`
   display: flex;
@@ -63,15 +68,21 @@ export const InputCategory = styled.input`
   width: 100%;
   height: 100%;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   min-width: 0;
+  border: 0;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
 `
 export const InputLetter = styled.input`
   width: 100%;
   height: 100%;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   min-width: 0;
+  border: 0;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
 `
 export const InfoSquare = styled.div`
   height: 100%;

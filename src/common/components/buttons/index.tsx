@@ -1,5 +1,4 @@
 export * from './styles'
-
 import React, { FunctionComponent } from 'react'
 import { GameButton } from './styles'
 
@@ -9,28 +8,26 @@ interface ButtonProps {
 }
 
 export const Button: FunctionComponent<ButtonProps> = ({ onClick, children }) => {
-  return (
-    <GameButton className="button" onClick={onClick}>
-      {children}
-    </GameButton>
-  )
+  return <GameButton onClick={onClick}>{children}</GameButton>
 }
 
 interface SubmitButtonProps {
   onClick: () => void
   value?: string
   disabled?: boolean
+  className?: string
 }
 
 export const SubmitButton: FunctionComponent<SubmitButtonProps> = ({
   onClick,
   value = 'Submit',
   disabled = false,
+  className = '',
 }) => {
   const hoverColor = !disabled && 'hover'
   return (
     <input
-      className={'submit-input ' + hoverColor}
+      className={className + ' ' + hoverColor}
       type="button"
       value={value}
       onClick={onClick}

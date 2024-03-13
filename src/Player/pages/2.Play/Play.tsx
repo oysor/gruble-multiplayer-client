@@ -4,6 +4,7 @@ import { InputBoard } from './InputBoard'
 import { sendBoard, setNextPage } from '../../reducer'
 import { Timer } from '../../../common/components'
 import { useAppDispatch, useAppSelector } from '../../hooks'
+import { CountDown } from '../../../common/components/Timer'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
@@ -27,6 +28,7 @@ export const Play: FunctionComponent = () => {
       {gameIsOn ? (
         <div>
           <Timer elapsedTime={commonStates.elapsedTime}></Timer>
+          <CountDown timeLeft={commonStates.elapsedTime} timeLimit={timeLimit}/>
           <InputBoard board={playerBoard} boardSettings={boardSettings} />
         </div>
       ) : (

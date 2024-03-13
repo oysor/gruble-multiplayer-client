@@ -39,7 +39,7 @@ export const CreateBoard: FunctionComponent<InputCategoriesProps> = ({
   }
 
   return (
-    <Box_l>
+    <Box_l className="overflow-x-scroll">
       <Board>
         <Row>
           <Square firstInRow>
@@ -48,34 +48,35 @@ export const CreateBoard: FunctionComponent<InputCategoriesProps> = ({
               <span>{'Letters '}&darr;</span>
             </InfoSquare>
           </Square>
-          {categoryList.map((x, i) => {
+          {categoryList.map((category, c) => {
             return (
-              <Square key={i}>
+              <Square key={c}>
                 <InputCategory
-                  value={x}
+                  value={category}
                   placeholder={'category..'}
                   onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                    handleInputChange(ev, i)
+                    handleInputChange(ev, c)
                   }
                 />
               </Square>
             )
           })}
         </Row>
-        {categoryList.map((x, i) => {
+        {letterList.map((x, l) => {
           return (
-            <Row key={i}>
+            <Row key={l}>
               <Square firstInRow>
                 <InputLetter
-                  value={letterList[i].toLocaleUpperCase()}
+                  value={letterList[l].toLocaleUpperCase()}
+                  placeholder="letter.."
                   onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
-                    handleLetterChange(ev, i)
+                    handleLetterChange(ev, l)
                   }
                 />
               </Square>
-              {categoryList.map((x, i) => {
+              {categoryList.map((x, c) => {
                 return (
-                  <Square empty key={i}>
+                  <Square empty key={c}>
                     <span>-</span>
                   </Square>
                 )

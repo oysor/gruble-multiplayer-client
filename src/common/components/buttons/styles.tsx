@@ -143,7 +143,7 @@ export const Shadow = styled.span`
   }
 `
 
-export const GameButton = styled.span`
+export const GameButton = styled.button`
   position: relative;
   display: inline-block;
   padding: 0.5rem 0.75rem;
@@ -151,38 +151,22 @@ export const GameButton = styled.span`
   border: 1px solid black;
   border-radius: 0.2rem;
   color: black;
-  /* background: #eb88a9; */
   background: #f9b;
-  /* text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.75); */
   box-shadow:
     2px 2px #ed6b97,
     6px 6px black;
-  /* transition: all 50ms ease; */
   line-height: 1.2em;
   text-align: center;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 
   &:hover {
-    /* background-color: #f9b; */
     background-color: #f7adc6;
-    /* transform: translate(1px, 1px);
-      box-shadow:
-        1.5px 1.5px lightpink,
-        4px 4px black; */
-    /* transform: translate(-1px, -1px);
-      box-shadow:
-        3px 3px lightpink,
-        8px 8px black;
-      text-shadow: 0px 0px 0px rgba(255, 255, 255, 0.75);
-      transition: all 100ms ease; */
   }
 
   &:active {
     transform: translate(6px, 6px);
-    /* transition: transform 34ms; */
     transition: all 10ms linear;
-    /* text-shadow: 0px 0px 0px rgba(255, 255, 255, 0.75); */
     box-shadow:
       0px 0px lightpink,
       0px 0px black;

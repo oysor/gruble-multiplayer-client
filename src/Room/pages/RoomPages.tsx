@@ -10,12 +10,15 @@ import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from '.'
 import { useAppSelector } from '../hooks'
 import { PrepareRoom } from './1.PrepareRoom'
 import { Box_l, Center_l, Cover_l } from '../../common/everyLayout'
+import { ConnectionMode } from '../../common/constants'
+import { DisconnectedCover } from '../../common/components/Connection/Disconnected'
 
 export const RoomPages: FunctionComponent = () => {
   const { commonStates, messages, currentPage, playerMessages, playerList } =
     useAppSelector((state: RoomState) => state.room)
+  const connected = commonStates.status === ConnectionMode.Connected
 
-  const showComponent = (currentPage: number) => {
+  const displayPage = (currentPage: number) => {
     switch (currentPage) {
       case 1:
         return <PrepareRoom />
@@ -32,10 +35,12 @@ export const RoomPages: FunctionComponent = () => {
 
   return (
     <Cover_l centered="div">
+      {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
+
       <Center_l>
         <ConnectionStatus status={commonStates.status} />
 
-        <Center_l>{showComponent(currentPage)}</Center_l>
+        <Center_l>{displayPage(currentPage)}</Center_l>
 
         <PlayerList playerList={playerList} />
         {/* <Box_l>

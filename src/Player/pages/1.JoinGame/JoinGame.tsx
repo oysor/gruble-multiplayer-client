@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { joinRoom, setNextPage } from '../../reducer'
-import { MissingInput, SmartInput, SubmitButton } from '../../../common/components/'
+import { Button, MissingInput, SmartInput } from '../../../common/components/'
 import { PlayerState } from '../../store'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { Box_l, Stack_l } from '../../../common/everyLayout'
+import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 
 export const JoinGame: FunctionComponent = () => {
   // Room id received from server
@@ -29,20 +29,33 @@ export const JoinGame: FunctionComponent = () => {
         <div>Name yourself and input the roomId</div>
       </div>
       <Box_l padding="1rem">
-        <Stack_l>
-          <SmartInput
-            value={playerName}
-            onChange={setplayerName}
-            placeholder={'player name..'}
-          />
-          <SmartInput onChange={setId} placeholder={'RoomId..'} />
-          <SubmitButton
+        <Center_l intrinsic className="mt-[1rem]">
+          <Stack_l space="0.2rem">
+            {/* <div>Set player name</div> */}
+            <SmartInput
+              value={playerName}
+              onChange={setplayerName}
+              placeholder={'player name..'}
+            />
+          </Stack_l>
+        </Center_l>
+
+        <Center_l intrinsic className="mt-[1rem]">
+          <Stack_l space="0.2rem">
+            {/* <div>Input room ID </div> */}
+            <SmartInput onChange={setId} placeholder={'RoomId..'} />
+          </Stack_l>
+        </Center_l>
+
+        <Center_l intrinsic className="mt-[2rem]">
+          <Button
             onClick={() => {
               validInput ? dispatchOnClick() : setRemind(!remind)
             }}
-            value={'Join room'}
-          />
-        </Stack_l>
+          >
+            Join room
+          </Button>
+        </Center_l>
       </Box_l>
       {remind ? <MissingInput name={playerName} roomId={inputRoomId} /> : null}
       {serverMessage !== '' ? serverMessage : null}

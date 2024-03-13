@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import { ConnectionMode } from '../constants/'
+import { ConnectionMode } from '../../constants'
 import { styled } from 'styled-components'
-import { Box_l } from '../everyLayout'
+import { Box_l } from '../../everyLayout'
 
 type ButtonStyleProps = {
   color: string
@@ -33,7 +33,7 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({
     }
   }
   return (
-    <Box_l padding="2rem" className="text-center">
+    <Box_l padding="2rem" className="text-center z-10">
       {connectionStatus()}
     </Box_l>
   )

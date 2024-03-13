@@ -115,7 +115,15 @@ export const Box_l = styled.div<BoxProps>`
 
   background-color: ${(props) => props.backgroundColor};
   color: ${(props) => props.color};
-  border-color: ${(props) => props.borderColor};
+
+  ${(props) =>
+    props.borderColor &&
+    css`
+      border: solid;
+      border-color: ${props.borderColor};
+      border-width: ${props.borderWidth};
+  `}
+
   & * {
     color: ${(props) => props.color};
   }

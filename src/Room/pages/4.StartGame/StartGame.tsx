@@ -7,31 +7,32 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { NavLink } from 'react-router-dom'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 import { GameButton } from '../../../common/components/buttons'
-import { styled } from 'styled-components'
+import { BoardTemplate } from '../../../common/components/boards/BoardTemplate'
+import { ConnectionMode } from '../../../common/constants'
 
 export const StartGame: FunctionComponent = () => {
-  const { roomId, playerList } = useAppSelector((state: RoomState) => state.room)
+  const { roomId, playerList, boardSettings, commonStates } = useAppSelector(
+    (state: RoomState) => state.room
+  )
   const dispatch = useAppDispatch()
   // Missing input warning
   const [reminder, setReminder] = useState(false)
   const gameStart = playerList.length > 0
 
+  const { letters, categories } = boardSettings
   const dispatchOnClick = () => {
     console.log('PAYLOUD')
     console.log(roomId)
-    dispatch(startGame({ roomId: roomId })), dispatch(setNextPage())
+
+    if (commonStates.status === ConnectionMode.Connected) {
+      dispatch(startGame({ roomId: roomId })), dispatch(setNextPage())
+    }
   }
 
-  // const CenterBox = styled.div`
-  //   display: flex;
-  //   flex-wrap: wrap;
-  //   flex-direction: column;
-  // `
-
   return (
-    <Box_l id="start-game" className="min-h-[20rem]">
-      <Stack_l>
-        <Center_l>
+    <Box_l id="start-game">
+      <Stack_l className="min-h-[23rem]">
+        <Center_l intrinsic>
           <ShowRoomInput />
           <Button
             onClick={() => {
@@ -42,7 +43,7 @@ export const StartGame: FunctionComponent = () => {
           </Button>
         </Center_l>
         {reminder ? (
-          <Stack_l space="1rem">
+          <Stack_l space="1rem" className="items-center">
             <MissingInput playerList={playerList} />
             <NavLink
               className="self-center"
@@ -55,6 +56,9 @@ export const StartGame: FunctionComponent = () => {
           </Stack_l>
         ) : null}
       </Stack_l>
+      <Box_l>
+        <BoardTemplate categoryList={categories} letterList={letters} />
+      </Box_l>
     </Box_l>
   )
 }

@@ -1,11 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import {
-  Center_l,
-  Cluster_l,
-  Cover_l,
-  Stack_l,
-} from '../everyLayout'
+import { Cover_l } from '../everyLayout'
 import { styled } from 'styled-components'
+// import LoadingSVG from './LoaderImage'
 
 // import Maskot from '../../svg/maskot.svg'
 
@@ -20,11 +16,8 @@ export const LoadingPage: FunctionComponent = () => {
     <Cover_l centered="div">
       <StyledLoading>
         {/* <Center_l intrinsic>
-        <Stack_l space="1rem" className="items-center">
-          <Maskot width="200" height="200" />
-          <Cluster_l align="center" justify="center"></Cluster_l>
-        </Stack_l>
-      </Center_l> */}
+          <LoadingSVG />
+        </Center_l> */}
       </StyledLoading>
     </Cover_l>
   )

@@ -32,6 +32,10 @@ const config: webpack.Configuration = {
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
+        test: /\.(png|jpg)/,
+        type: 'asset/resource',
+      },
+      {
         test: /\.svg$/i,
         type: 'asset',
         resourceQuery: /url/, // *.svg?url
