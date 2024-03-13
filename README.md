@@ -38,5 +38,5 @@ Make a pull request to merge development into *production* branch.
 ## Deploy to github pages
 
 ```sh
-> npm run build
+> npm run deploy
 ```
