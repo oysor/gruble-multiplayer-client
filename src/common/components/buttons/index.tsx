@@ -5,10 +5,15 @@ import { GameButton, StyledSubmit } from './styles'
 interface ButtonProps {
   onClick?: () => void
   children?: JSX.Element | string
+  valid?: boolean
 }
 
-export const Button: FunctionComponent<ButtonProps> = ({ onClick, children }) => {
-  return <GameButton onClick={onClick}>{children}</GameButton>
+export const Button: FunctionComponent<ButtonProps> = ({ onClick, children, valid }) => {
+  return (
+    <GameButton valid={valid} onClick={onClick}>
+      {children}
+    </GameButton>
+  )
 }
 
 interface SubmitButtonProps {

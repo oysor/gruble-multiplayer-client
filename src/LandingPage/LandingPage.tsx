@@ -9,7 +9,7 @@ export const LandingPage: FunctionComponent = () => {
     <Cover_l centered="div">
       <Center_l gutters="2rem">
         <Stack_l space="1rem" className="items-center">
-          <Maskot maxWidth="100%" height="100%" />
+          <Maskot maxwidth="100%" height="100%" />
           <Box_l>
             <Cluster_l align="center" justify="center">
               <Link to="/room">

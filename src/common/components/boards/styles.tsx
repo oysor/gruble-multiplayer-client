@@ -16,6 +16,7 @@ export const Board = styled.div<BoardProps>`
   flex-direction: column;
   border: 1px solid black;
   margin: 1rem;
+  margin-top: 0.3rem;
   padding: 0.5rem;
   background-color: ${(props) => props.backgroundColor || 'white'};
   color: black;

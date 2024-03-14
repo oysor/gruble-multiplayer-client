@@ -36,6 +36,7 @@ export const StartGame: FunctionComponent = () => {
         <Center_l intrinsic>
           <ShowRoomInput />
           <Button
+            valid={!gameStart}
             onClick={() => {
               gameStart ? dispatchOnClick() : setReminder(!reminder)
             }}

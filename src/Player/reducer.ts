@@ -51,6 +51,9 @@ const playerSlice = createSlice({
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
+    setPlayerInfo: (state, action) => {
+      state.playerName = action.payload.playerName
+    },
     setNextPage: (state) => {
       state.currentPage += 1
     },
@@ -72,7 +75,6 @@ const playerSlice = createSlice({
       state.serverMessage = action.payload
     },
     setBoard: (state, action) => {
-      state.playerName = action.payload.playerName
       state.boardSettings = action.payload.boardSettings
       state.roomId = action.payload.roomId
       state.timeLimit = action.payload.timeLimit
@@ -141,6 +143,7 @@ export enum fromServer {
 }
 
 export const {
+  setPlayerInfo,
   setStatus,
   setTimeElapsed,
   newMessage,

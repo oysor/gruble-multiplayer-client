@@ -14,15 +14,13 @@ export const MessageBox: FunctionComponent<MessageBoxProps> = ({ messages }) => 
       <span>Messages</span>
       <TextBox>
         {messages.length > 0 ? (
-          messages
-            .map((message, i) => {
-              return (
-                <span key={i} className="text-slate-800">
-                  {message}
-                </span>
-              )
-            })
-            .reverse()
+          messages.map((message, i) => {
+            return (
+              <span key={i} className="text-slate-800">
+                {message}
+              </span>
+            )
+          })
         ) : (
           <span className="text-slate-800">{'Waiting for someone to join...'}</span>
         )}

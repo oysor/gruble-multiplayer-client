@@ -3,9 +3,11 @@ import { PlayerState } from '../../store'
 import { InputBoard } from './InputBoard'
 import { sendBoard, setNextPage } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { CountDown } from '../../../common/components/Timer'
+import { CountDown } from '../../../common/components/timer'
 import { SendMessage } from '../../components/SendMessage'
 import { Box_l, Stack_l } from '../../../common/everyLayout'
+
+import Maskot from '../../../assets/svg/maskot.svg'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
@@ -33,26 +35,25 @@ export const Play: FunctionComponent = () => {
         </div>
       ) : (
         <Box_l>
-          <Stack_l space="0.3rem">
-            <div className="text-base">Rules:</div>
+          <Stack_l space="0.3rem" className="mb-[2rem]">
+            <Maskot width="4rem" height="100%" />
+
             <Stack_l space="0.5rem" className="text-sm">
-              <div>
-                Ok, you will receive a board to fill out with words within the timit.
-              </div>
+              <div>Ok, stupid! </div>
+              <div>You will receive a board to fill out with words.</div>
               <div>
                 Each word must be within their category and start with the correct letter.
               </div>
               <div>
-                You will get an extra point if you write down a word that no one else
-                wrote down.
+                One extra point if you write down a word that no one else wrote down.
               </div>
-              <div>You will figure it out.</div>
+              <div>You will have limited time to figure it out.</div>
             </Stack_l>
           </Stack_l>
-          <br />
-          <Box_l padding="1rem" className="text-center mb-[2rem]">
-            &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
-          </Box_l>
+          {/* <Box_l padding="1rem" className="mb-[2rem]">
+            &#x231B;&#x2620;&nbsp; Time limit is set to {timeLimit} seconds
+            &nbsp;&#x2620;&#x231B;
+          </Box_l> */}
           <SendMessage roomId={roomId} />
         </Box_l>
       )}

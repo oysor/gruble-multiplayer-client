@@ -28,22 +28,20 @@ export const ChatBox: FunctionComponent<ChatBoxProps> = ({ messages }) => {
       <span>Player chat</span>
       <TextBox>
         {messages.length > 0 ? (
-          messages
-            .map((message, i) => {
-              return (
-                // <PlayerRow key={i} color={message.player.color}>
-                //   {message.message}
-                // </PlayerRow>
+          messages.map((message, i) => {
+            return (
+              // <PlayerRow key={i} color={message.player.color}>
+              //   {message.message}
+              // </PlayerRow>
 
-                <div key={i}>
-                  <PlayerName color={message.player.color}>
-                    {message.player.name + ': '}
-                  </PlayerName>
-                  <span className="text-slate-900">{message.message}</span>
-                </div>
-              )
-            })
-            .reverse()
+              <div key={i}>
+                <PlayerName color={message.player.color}>
+                  {message.player.name + ': '}
+                </PlayerName>
+                <span className="text-slate-900">{message.message}</span>
+              </div>
+            )
+          })
         ) : (
           <span className="text-slate-800">{'...'}</span>
         )}

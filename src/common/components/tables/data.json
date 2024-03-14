@@ -1,0 +1,38 @@
+[
+  {
+    "Player": "Ole",
+    "Score": 5,
+    "Correct": 3,
+    "Common": 2,
+    "Unique": 2,
+    "Wrong": 3,
+    "Missing": 3
+  },
+  {
+    "Player": "Carl",
+    "Score": 3,
+    "Correct": 3,
+    "Common": 2,
+    "Unique": 2,
+    "Wrong": 3,
+    "Missing": 3
+  },
+  {
+    "Player": "Bjarne",
+    "Score": 3,
+    "Correct": 3,
+    "Common": 2,
+    "Unique": 2,
+    "Wrong": 3,
+    "Missing": 3
+  },
+  {
+    "Player": "Bernt",
+    "Score": 3,
+    "Correct": 3,
+    "Common": 2,
+    "Unique": 2,
+    "Wrong": 3,
+    "Missing": 3
+  }
+]

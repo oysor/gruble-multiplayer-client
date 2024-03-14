@@ -8,7 +8,7 @@ import { HandleBoard } from './HandleBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
 import { SetWrongAnswerButton } from '../../components/SetWrongAnswerButton'
 import { ProofReading } from '../../components/ProofReading'
-import { CountDown } from '../../../common/components/Timer'
+import { CountDown } from '../../../common/components/timer'
 
 export const HandleAnswers: FunctionComponent = () => {
   const {

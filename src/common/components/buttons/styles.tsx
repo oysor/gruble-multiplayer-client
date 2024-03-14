@@ -143,7 +143,11 @@ export const Shadow = styled.span`
   }
 `
 
-export const GameButton = styled.button`
+interface GameButtonProps {
+  valid?: boolean
+}
+
+export const GameButton = styled.button<GameButtonProps>`
   position: relative;
   display: inline-block;
   padding: 0.5rem 0.75rem;
@@ -160,17 +164,21 @@ export const GameButton = styled.button`
   font-weight: bold;
   font-size: 1.2rem;
 
-  &:hover {
-    background-color: #f7adc6;
-  }
+  ${(props) =>
+    !props.valid &&
+    css`
+      &:hover {
+        background-color: #f7adc6;
+      }
 
-  &:active {
-    transform: translate(6px, 6px);
-    transition: all 10ms linear;
-    box-shadow:
-      0px 0px lightpink,
-      0px 0px black;
-  }
+      &:active {
+        transform: translate(6px, 6px);
+        transition: all 10ms linear;
+        box-shadow:
+          0px 0px lightpink,
+          0px 0px black;
+      }
+    `}
 `
 
 export const StyledSubmit = styled.input`
