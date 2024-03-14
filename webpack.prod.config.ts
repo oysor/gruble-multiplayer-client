@@ -22,6 +22,7 @@ const config: webpack.Configuration = merge(common, {
     }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
+      favicon: 'src/assets/icons/favicon.png',
     }),
     new CleanWebpackPlugin(),
     new CompressionPlugin(),

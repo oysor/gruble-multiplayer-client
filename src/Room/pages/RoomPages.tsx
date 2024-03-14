@@ -9,7 +9,7 @@ import {
 import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from '.'
 import { useAppSelector } from '../hooks'
 import { PrepareRoom } from './1.PrepareRoom'
-import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
+import { Box_l, Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
 import { ConnectionMode } from '../../common/constants'
 import { DisconnectedCover } from '../../common/components/connection/Disconnected'
 
@@ -37,15 +37,19 @@ export const RoomPages: FunctionComponent = () => {
     <Cover_l centered="div">
       {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
       <Center_l>
-        <ConnectionStatus status={commonStates.status} />
-        <Center_l>{displayPage(currentPage)}</Center_l>
-        {currentPage === 3 ? (
-          <Stack_l space="1rem">
-            <MessageBox messages={messages} />
-            {/* <PlayerListBox playerList={playerList} /> */}
-            <ChatBox messages={playerMessages} />
-          </Stack_l>
-        ) : null}
+        <div>
+          <ConnectionStatus status={commonStates.status} />
+          <Center_l>{displayPage(currentPage)}</Center_l>
+          {currentPage === 3 ? (
+            <Center_l>
+              <Stack_l space="1rem">
+                <MessageBox messages={messages} />
+                {/* <PlayerListBox playerList={playerList} /> */}
+                <ChatBox messages={playerMessages} />
+              </Stack_l>
+            </Center_l>
+          ) : null}
+        </div>
       </Center_l>
     </Cover_l>
   )

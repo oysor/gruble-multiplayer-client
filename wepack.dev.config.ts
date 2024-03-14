@@ -24,12 +24,12 @@ const config: Configuration = merge(common, {
   plugins: [
     new EnvironmentPlugin({
       API_URL: 'https://localhost:5001/chathub',
-      // API_URL: 'https://multiplayerapi.azurewebsites.net/chathub',
       DEBUG: true,
     }),
     new HtmlWebpackPlugin({
       title: 'Development',
       template: 'src/index.html',
+      favicon: 'src/assets/icons/favicon.png',
     }),
   ],
 })

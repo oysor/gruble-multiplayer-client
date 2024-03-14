@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { NavLink } from 'react-router-dom'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 import { GameButton } from '../../../common/components/buttons'
-import { BoardTemplate } from '../../../common/components/boards/BoardTemplate'
+// import { BoardTemplate } from '../../../common/components/boards/BoardTemplate'
 import { ConnectionMode } from '../../../common/constants'
 
 export const StartGame: FunctionComponent = () => {
@@ -17,6 +17,7 @@ export const StartGame: FunctionComponent = () => {
   const dispatch = useAppDispatch()
   // Missing input warning
   const [reminder, setReminder] = useState(false)
+  // const [boardTemplate, showBaordTemplet] = useState(false)
   const gameStart = playerList.length > 0
 
   const { letters, categories } = boardSettings
@@ -56,9 +57,20 @@ export const StartGame: FunctionComponent = () => {
           </Stack_l>
         ) : null}
       </Stack_l>
-      <Box_l>
-        <BoardTemplate categoryList={categories} letterList={letters} />
-      </Box_l>
+      {/* <Box_l>
+        {boardTemplate ? (
+          <BoardTemplate categoryList={categories} letterList={letters} />
+        ) : (
+          <div
+            className="text-center bg-color [#c4c4c4]"
+            onClick={() => {
+              showBaordTemplet(!boardTemplate)
+            }}
+          >
+            Show board
+          </div>
+        )}
+      </Box_l> */}
     </Box_l>
   )
 }

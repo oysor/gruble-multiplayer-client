@@ -5,7 +5,7 @@ import { sendBoard, setNextPage } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { CountDown } from '../../../common/components/Timer'
 import { SendMessage } from '../../components/SendMessage'
-import { Box_l } from '../../../common/everyLayout'
+import { Box_l, Stack_l } from '../../../common/everyLayout'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
@@ -33,20 +33,26 @@ export const Play: FunctionComponent = () => {
         </div>
       ) : (
         <Box_l>
-          <div className="explain-box">
-            <div className="rules">
-              <b>Rules:</b> <br />
-              In the time allotted, each player must attempt to think of and write down,
-              in the first column on the board, a word or term that fits each of the{' '}
-              {boardSettings.categories.length} categories and starts with the rolled
-              letter. Any number of words in the answer is allowed, as long as the first
-              word starts with the correct letter.
-            </div>
-            <br />
-            <div className="timelimit">
-              &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
-            </div>
-          </div>
+          <Stack_l space="0.3rem">
+            <div className="text-base">Rules:</div>
+            <Stack_l space="0.5rem" className="text-sm">
+              <div>
+                Ok, you will receive a board to fill out with words within the timit.
+              </div>
+              <div>
+                Each word must be within their category and start with the correct letter.
+              </div>
+              <div>
+                You will get an extra point if you write down a word that no one else
+                wrote down.
+              </div>
+              <div>You will figure it out.</div>
+            </Stack_l>
+          </Stack_l>
+          <br />
+          <Box_l padding="1rem" className="text-center mb-[2rem]">
+            &#x231B;&#x2620; Time limit is set to {timeLimit} seconds &#x2620;&#x231B;
+          </Box_l>
           <SendMessage roomId={roomId} />
         </Box_l>
       )}
