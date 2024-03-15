@@ -5,7 +5,7 @@ import { sendBoard, setNextPage } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { CountDown } from '../../../common/components/timer'
 import { SendMessage } from '../../components/SendMessage'
-import { Box_l, Stack_l } from '../../../common/everyLayout'
+import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 
 import Maskot from '../../../assets/svg/maskot.svg'
 
@@ -29,10 +29,14 @@ export const Play: FunctionComponent = () => {
   return (
     <div className="play">
       {gameIsOn ? (
-        <div>
-          <CountDown timeLeft={commonStates.elapsedTime} timeLimit={timeLimit} />
-          <InputBoard board={playerBoard} boardSettings={boardSettings} />
-        </div>
+        <Stack_l space="3rem">
+          <Center_l className="mb-2rem">
+            <CountDown timeLeft={commonStates.elapsedTime} timeLimit={timeLimit} />
+          </Center_l>
+          <Box_l className="overflow-x-scroll">
+            <InputBoard board={playerBoard} boardSettings={boardSettings} />
+          </Box_l>
+        </Stack_l>
       ) : (
         <Box_l>
           <Stack_l space="0.3rem" className="mb-[2rem]">

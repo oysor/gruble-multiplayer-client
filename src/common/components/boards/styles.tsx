@@ -15,13 +15,13 @@ export const Board = styled.div<BoardProps>`
   display: flex;
   flex-direction: column;
   border: 1px solid black;
-  margin: 1rem;
-  margin-top: 0.3rem;
-  padding: 0.5rem;
+  /* margin: 1em; */
+  /* margin-top: 0.3em; */
+  padding: 0.5em;
   background-color: ${(props) => props.backgroundColor || 'white'};
   color: black;
   width: fit-content;
-  border-radius: 0.2rem;
+  border-radius: 0.2em;
 `
 export const Row = styled.div`
   display: flex;
@@ -30,21 +30,21 @@ export const Row = styled.div`
 `
 
 export const Square = styled.div<SquareProps>`
-  min-height: 4rem;
-  min-width: 7rem;
-  flex-basis: 10rem;
-  max-width: 10rem;
+  min-height: 4em;
+  min-width: 5em;
+  flex-basis: 10em;
+  max-width: 10em;
 
   ${(props) =>
     props.firstInRow &&
     css`
-      max-width: 7rem;
+      max-width: 7em;
     `}
 
   ${(props) =>
     props.highlight &&
     css`
-      min-width: 5rem;
+      min-width: 5em;
       font-size: x-large;
     `}
 
@@ -69,7 +69,7 @@ export const InputCategory = styled.input`
   width: 100%;
   height: 100%;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1em;
   min-width: 0;
   border: 0;
   text-decoration-line: underline;
@@ -79,7 +79,7 @@ export const InputLetter = styled.input`
   width: 100%;
   height: 100%;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1em;
   min-width: 0;
   border: 0;
   text-decoration-line: underline;
@@ -91,8 +91,8 @@ export const InfoSquare = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  padding: 0.5rem;
-  font-size: 0.8rem;
+  padding: 0.5em;
+  font-size: 0.8em;
 
   & > :first-child {
     align-self: start;
@@ -118,7 +118,7 @@ export const SquareInput = styled.span<SquareInputProps>`
     props.highlight &&
     css`
       font-size: x-large;
-      font-size: 1.3rem;
+      font-size: 1.3em;
     `}
 
   color:  ${(props) => props.color || null};

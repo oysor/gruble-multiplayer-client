@@ -35,7 +35,7 @@ export const PrepareRoom: FunctionComponent = () => {
                 onChange={setName}
                 placeholder={'room name...'}
                 onKeyPress={handleKeyPress}
-                className="w-[13rem]"
+                className="w-[13em]"
               />
             </div>
           </Stack_l>

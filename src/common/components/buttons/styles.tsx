@@ -162,7 +162,7 @@ export const GameButton = styled.button<GameButtonProps>`
   line-height: 1.2em;
   text-align: center;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1em;
 
   ${(props) =>
     !props.valid &&

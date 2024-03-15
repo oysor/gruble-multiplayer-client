@@ -36,20 +36,18 @@ export const RoomPages: FunctionComponent = () => {
   return (
     <Cover_l centered="div">
       {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
-      <Center_l>
-        <div>
-          <ConnectionStatus status={commonStates.status} />
-          <Center_l>{displayPage(currentPage)}</Center_l>
-          {currentPage === 3 ? (
-            <Center_l>
-              <Stack_l space="1rem">
-                <MessageBox messages={messages} />
-                {/* <PlayerListBox playerList={playerList} /> */}
-                <ChatBox messages={playerMessages} />
-              </Stack_l>
-            </Center_l>
-          ) : null}
-        </div>
+      <Center_l intrinsic>
+        <ConnectionStatus status={commonStates.status} />
+        <Center_l>{displayPage(currentPage)}</Center_l>
+        {currentPage === 3 ? (
+          <Center_l intrinsic>
+            <Stack_l space="1rem">
+              <MessageBox messages={messages} />
+              {/* <PlayerListBox playerList={playerList} /> */}
+              <ChatBox messages={playerMessages} />
+            </Stack_l>
+          </Center_l>
+        ) : null}
       </Center_l>
     </Cover_l>
   )

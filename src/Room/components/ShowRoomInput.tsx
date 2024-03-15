@@ -13,7 +13,7 @@ export const ShowRoomInput: FunctionComponent = () => {
     <Box_l padding="1rem">
       <Stack_l space="0.2rem">
         <h2 className="text-center">{heading}</h2>
-        {copied ? <span>Copied!</span> : <span>Click to copy..</span>}
+        <span className="text-xl">{copied ? 'Copied!' : 'Click to copy..'}</span>
         <Box_l
           borderColor={copied ? 'black' : '#ff99bb'}
           borderWidth="0.1rem"
@@ -24,7 +24,7 @@ export const ShowRoomInput: FunctionComponent = () => {
             setCopied(true)
           }}
         >
-          <b>{roomId ?? 'loading..'}</b>
+          <b>{roomId ? roomId : '....'}</b>
         </Box_l>
       </Stack_l>
     </Box_l>

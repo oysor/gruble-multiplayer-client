@@ -22,16 +22,18 @@ export const Results: FunctionComponent = () => {
     <div className="show-results">
       {receivedResult ? (
         <Box_l>
-          <Stack_l space="1rem">
+          <Stack_l space="2.5rem">
             <Table playerStats={playerStats} />
-            <div>
-              The winner is {nameOfWinner} with {winner.score} points
-            </div>
-            <PlayerResultBoards
-              players={playerList}
-              boardDictionary={boardDictionary}
-              boardSettings={boardSettings}
-            />
+            <Stack_l space="0.3rem">
+              <div>
+                The winner is {nameOfWinner} with {winner.score} points
+              </div>
+              <PlayerResultBoards
+                players={playerList}
+                boardDictionary={boardDictionary}
+                boardSettings={boardSettings}
+              />
+            </Stack_l>
           </Stack_l>
         </Box_l>
       ) : (

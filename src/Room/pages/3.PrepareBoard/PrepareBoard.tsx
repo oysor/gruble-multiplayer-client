@@ -71,7 +71,7 @@ export const PrepareBoard: FunctionComponent = () => {
         </Box_l>
 
         <Stack_l space="0.2rem" className="self-center">
-          <div>Set time limit</div>
+          <div className="text-xl">Set time limit</div>
           <div>
             <SmartNumericInput
               onChange={setTime}
@@ -94,13 +94,14 @@ export const PrepareBoard: FunctionComponent = () => {
             </Stack_l>
           </Cluster_l>
         </Center_l>
-
-        <CreateBoard
-          categoryList={categoryList}
-          setCategoryList={setCategoryList}
-          letterList={letterList}
-          setLetterList={setLetterList}
-        />
+        <Center_l intrinsic>
+          <CreateBoard
+            categoryList={categoryList}
+            setCategoryList={setCategoryList}
+            letterList={letterList}
+            setLetterList={setLetterList}
+          />
+        </Center_l>
       </Stack_l>
     </Box_l>
   )
