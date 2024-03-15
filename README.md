@@ -40,3 +40,4 @@ Make a pull request to merge development into *production* branch.
 ```sh
 > npm run deploy
 ```
+Go to: https://grublings.github.io/Multiplayer-client/
