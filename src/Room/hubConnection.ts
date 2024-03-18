@@ -14,6 +14,7 @@ import {
   createRoom,
   startGame,
   setPlayerResults,
+  resetState,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -103,8 +104,12 @@ hubConnection.onreconnected((error) => {
 })
 
 export async function stopRoomConnection(): Promise<void> {
-  hubConnection.stop()
-  store.dispatch(setStatus(ConnectionMode.Disconnected))
+  if (hubConnection.state === HubConnectionState.Connected) {
+    store.dispatch(resetState())
+    hubConnection.stop().then(() => {
+      console.log('Room closed.')
+    })
+  }
 }
 
 /**

@@ -14,6 +14,7 @@ import {
   newServerMessage,
   sendMessage,
   joinRoom,
+  resetState,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -100,8 +101,12 @@ hubConnection.onreconnected((error) => {
 })
 
 export async function stopPlayerConnection(): Promise<void> {
-  hubConnection.stop()
-  store.dispatch(setStatus(ConnectionMode.Disconnected))
+  if (hubConnection.state === HubConnectionState.Connected) {
+    store.dispatch(resetState())
+    hubConnection.stop().then(() => {
+      console.log('Player logged out')
+    })
+  }
 }
 
 /**

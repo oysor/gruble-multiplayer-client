@@ -91,7 +91,7 @@ export enum ConnectionMode {
  */
 export const initialCommonStates: CommonStates = {
   playerCount: 0,
-  status: ConnectionMode.Connecting,
+  status: ConnectionMode.Disconnected,
   elapsedTime: -99,
 }
 
