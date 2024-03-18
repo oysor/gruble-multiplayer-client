@@ -52,11 +52,6 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
     timeLeft = timeLimit
   }
 
-  const calculateTimeFraction = () => {
-    const rawTimeFraction = timeLeft / timeLimit
-    return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction)
-  }
-
   const formatTimeLeft = (time: number) => {
     if (timeLeft === 0) {
       return 'Times up!'
@@ -87,6 +82,11 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
 
     // The output in MM:SS format
     return `${minutes}:${outputSeconds}`
+  }
+
+  const calculateTimeFraction = () => {
+    const rawTimeFraction = timeLeft / timeLimit
+    return rawTimeFraction - (1 / timeLimit) * (1 - rawTimeFraction)
   }
 
   const circleDasharray = `${(calculateTimeFraction() * FULL_DASH_ARRAY).toFixed(0)} 283`
@@ -120,7 +120,7 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
                 a 45,45 0 1,0 90,0
                 a 45,45 0 1,0 -90,0
               "
-          ></BaseTimer_pathRemaining>
+          />
         </BaseTimer_circle>
       </BaseTimer_svg>
       <BaseTimer_label>{formatTimeLeft(timeLeft)}</BaseTimer_label>

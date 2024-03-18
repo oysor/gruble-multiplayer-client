@@ -3,11 +3,11 @@ import { PlayerState } from '../../store'
 import { InputBoard } from './InputBoard'
 import { sendBoard, setNextPage } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { CountDown } from '../../../common/components/timer'
 import { SendMessage } from '../../components/SendMessage'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 
 import Maskot from '../../../assets/svg/maskot.svg'
+import { PlayerCountDown } from './PlayerCountDown'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
@@ -31,7 +31,7 @@ export const Play: FunctionComponent = () => {
       {gameIsOn ? (
         <Stack_l space="3rem">
           <Center_l className="mb-2rem">
-            <CountDown timeLeft={commonStates.elapsedTime} timeLimit={timeLimit} />
+            <PlayerCountDown />
           </Center_l>
           <Box_l className="overflow-x-scroll">
             <InputBoard board={playerBoard} boardSettings={boardSettings} />

@@ -8,19 +8,13 @@ import { HandleBoard } from './HandleBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
 import { SetWrongAnswerButton } from '../../components/SetWrongAnswerButton'
 import { ProofReading } from '../../components/ProofReading'
-import { CountDown } from '../../../common/components/timer'
+import { RoomCountDown } from './RoomCountDown'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const {
-    playerList,
-    boardSettings,
-    receivedBoards,
-    commonStates,
-    timeLimit,
-    boardDictionary,
-  } = useAppSelector((state: RoomState) => state.room)
+  const { playerList, boardSettings, receivedBoards, boardDictionary } = useAppSelector(
+    (state: RoomState) => state.room
+  )
 
-  const { elapsedTime } = commonStates
   const dispatch = useAppDispatch()
   const { categories, letters } = boardSettings
   const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -92,6 +86,6 @@ export const HandleAnswers: FunctionComponent = () => {
       </Center_l>
     </Box_l>
   ) : (
-    <CountDown timeLeft={elapsedTime} timeLimit={timeLimit} />
+    <RoomCountDown />
   )
 }

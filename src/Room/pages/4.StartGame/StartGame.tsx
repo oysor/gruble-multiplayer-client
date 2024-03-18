@@ -11,7 +11,7 @@ import { GameButton } from '../../../common/components/buttons'
 import { ConnectionMode } from '../../../common/constants'
 
 export const StartGame: FunctionComponent = () => {
-  const { roomId, playerList, boardSettings, commonStates } = useAppSelector(
+  const { roomId, playerList, commonStates } = useAppSelector(
     (state: RoomState) => state.room
   )
   const dispatch = useAppDispatch()
@@ -20,7 +20,6 @@ export const StartGame: FunctionComponent = () => {
   // const [boardTemplate, showBaordTemplet] = useState(false)
   const gameStart = playerList.length > 0
 
-  const { letters, categories } = boardSettings
   const dispatchOnClick = () => {
     console.log('PAYLOUD')
     console.log(roomId)

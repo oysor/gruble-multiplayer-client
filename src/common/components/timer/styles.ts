@@ -4,8 +4,8 @@ export const BaseTimer = styled.div`
   position: relative;
   /* height: 300px;
   width: 300px; */
-  height: 10em;
-  width: 10em;
+  height: 12rem;
+  width: 12rem;
 `
 
 export const BaseTimer_svg = styled.svg``
@@ -38,7 +38,7 @@ export const BaseTimer_label = styled.span`
   justify-content: center;
 
   /* Sort of an arbitrary number; adjust to your liking */
-  font-size: 2em;
+  /* font-size: 2em; */
 `
 interface TimeColorProps {
   color: string
@@ -56,7 +56,7 @@ export const BaseTimer_pathRemaining = styled.path<TimeColorProps>`
   transform-origin: center;
 
   /* One second aligns with the speed of the countdown timer */
-  transition: 1s linear all;
+  transition: 1.05s linear all;
 
   /* Allows the ring to change color when the color value updates */
   stroke: ${(props) => props.color};
