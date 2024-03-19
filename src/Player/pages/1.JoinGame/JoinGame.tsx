@@ -56,10 +56,12 @@ export const JoinGame: FunctionComponent = () => {
           >
             Join room
           </Button>
+          <div className="h-[2rem] text-center">
+            {serverMessage !== '' ? <span>{serverMessage}</span> : null}
+            {remind ? <MissingInput name={playerName} roomId={inputRoomId} /> : null}
+          </div>
         </Center_l>
       </Box_l>
-      {remind ? <MissingInput name={playerName} roomId={inputRoomId} /> : null}
-      {serverMessage !== '' ? serverMessage : null}
     </div>
   )
 }

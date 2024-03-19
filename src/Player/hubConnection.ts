@@ -18,7 +18,7 @@ import {
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
-import { checkOnTimerElapsed } from '../common/typeGuards'
+import { checkOnRoom } from '../common/typeGuards'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
 import store from './store'
@@ -55,11 +55,9 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.onJoinRoom, (gameRoom, msg) => {
-      console.log('Player JOINED')
-      store.dispatch(setBoard(gameRoom))
-      // checkOnRoom(gameRoom)
-      //   ? store.dispatch(setBoard(gameRoom))
-      //   : store.dispatch(newServerMessage(msg))
+      checkOnRoom(gameRoom)
+        ? store.dispatch(setBoard(gameRoom))
+        : store.dispatch(newServerMessage(msg))
     })
 
     hubConnection.on(fromServer.onPlayerJoined, (player) => {
