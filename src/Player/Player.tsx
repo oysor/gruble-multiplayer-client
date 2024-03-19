@@ -13,12 +13,25 @@ export const Player: FunctionComponent = () => {
       shouldConnect.current = false
     }
 
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // Custom logic to handle the refresh
+      // preventDefault() gives the user option to refresh or not.
+      event.preventDefault()
+      return (event.returnValue = '')
+    }
+    const handleBackButton = (event: PopStateEvent) => {
+      // Custom logic to handle the back button
+      alert('Player logged out.')
+      event.preventDefault()
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload, { capture: true })
+    window.addEventListener('popstate', handleBackButton, { capture: true })
+
     return () => {
-      window.onpopstate = () => {
-        // alert('You are now logged out.')
-        stopPlayerConnection()
-        // window.location.reload()
-      }
+      window.removeEventListener('beforeunload', handleBeforeUnload, { capture: true })
+      window.removeEventListener('popstate', handleBackButton, { capture: true })
+      stopPlayerConnection()
     }
   }, [])
 

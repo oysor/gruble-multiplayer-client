@@ -34,7 +34,7 @@ export const PlayerPages: FunctionComponent = () => {
   return (
     <Cover_l centered="div">
       {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
-      <Center_l>
+      <Center_l intrinsic>
         <ConnectionStatus status={commonStates.status} />
         <Center_l>{displayPage(currentPage)}</Center_l>
         {currentPage === 2 ? (
