@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react'
-import { Flag, Player } from '../../common/constants'
-import { updateBoardDictionary } from '../reducer'
-import { RoomState } from '../store'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { Button } from '../../common/components'
-import { getFlag } from '../../common/utilities'
+import { Flag, Player } from '../../../common/constants'
+import { updateBoardDictionary } from '../../reducer'
+import { RoomState } from '../../store'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { Button } from '../../../common/components'
+import { getFlag } from '../../../common/utilities'
 
 type SetWrongAnswerButtonProps = {
   player: Player

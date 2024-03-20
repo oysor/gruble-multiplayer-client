@@ -52,7 +52,7 @@ export const StartGame: FunctionComponent = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <GameButton> Open new player tab</GameButton>
+              <GameButton> Open player tab</GameButton>
             </NavLink>
           </Stack_l>
         ) : null}

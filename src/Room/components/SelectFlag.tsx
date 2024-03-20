@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { Flag, Player } from '../../../common/constants'
-import { updateBoardDictionary } from '../../reducer'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { RoomState } from '../../store'
+import { Flag, Player } from '../../common/constants'
+import { updateBoardDictionary } from '../reducer'
+import { useAppDispatch, useAppSelector } from '../hooks'
+import { RoomState } from '../store'
 
 type SelectFlagProps = {
   player: Player

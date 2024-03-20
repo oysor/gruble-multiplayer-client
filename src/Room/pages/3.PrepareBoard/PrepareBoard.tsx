@@ -13,7 +13,7 @@ export const PrepareBoard: FunctionComponent = () => {
   const { roomName } = useAppSelector((state: RoomState) => state.room)
   const dispatch = useAppDispatch()
 
-  const [time, setTime] = useState(10)
+  const [time, setTime] = useState(3)
 
   const validNumericInput = time > 1
 

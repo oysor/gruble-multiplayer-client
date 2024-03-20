@@ -6,9 +6,9 @@ import { updatePlayerListResults } from '../../utilities'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { HandleBoard } from './HandleBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
-import { SetWrongAnswerButton } from '../../components/SetWrongAnswerButton'
-import { ProofReading } from '../../components/ProofReading'
-import { RoomCountDown } from './RoomCountDown'
+import { SetWrongAnswerButton } from './SetWrongAnswerButton'
+import { ProofReading } from './ProofReading'
+import { RoomCountDown } from '../../components/RoomCountDown'
 
 export const HandleAnswers: FunctionComponent = () => {
   const { playerList, boardSettings, receivedBoards, boardDictionary } = useAppSelector(
@@ -16,10 +16,8 @@ export const HandleAnswers: FunctionComponent = () => {
   )
 
   const dispatch = useAppDispatch()
-  const { categories, letters } = boardSettings
   const [coords, setCoords] = useState({ x: 0, y: 0 })
   const [currentPlayer, setNextPlayer] = useState(0)
-
   // const { x, y } = coords
 
   // const showNextLetter = () => {
@@ -32,18 +30,12 @@ export const HandleAnswers: FunctionComponent = () => {
   //     setCoords({ x: next, y: y })
   //   } else {
   //     const nextCategory = x < categories.length - 1 ? x + 1 : 0
-  //     console.log(nextCategory)
-  //     console.log(coords)
   //     setCoords({ x: nextCategory, y: y })
   //   }
   // }
 
   const showNextPlayer = () => {
     const nextPlayer = currentPlayer + 1 !== playerList.length ? currentPlayer + 1 : 0
-
-    console.log(currentPlayer)
-    console.log(playerList.length)
-
     setNextPlayer(nextPlayer)
   }
 
@@ -66,9 +58,8 @@ export const HandleAnswers: FunctionComponent = () => {
             <h2>{playerList[currentPlayer].name}</h2>
             <HandleBoard
               player={playerList[currentPlayer]}
-              boardSettings={{ categories: categories, letters: letters }}
-              currentSquare={coords}
-              setCurrentSquare={setCoords}
+              coords={coords}
+              setCoords={setCoords}
             />
             <Cluster_l align="center">
               <SetWrongAnswerButton

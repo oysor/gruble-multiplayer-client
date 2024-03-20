@@ -45,7 +45,8 @@ export const Square = styled.div<SquareProps>`
     props.highlight &&
     css`
       min-width: 5em;
-      font-size: x-large;
+      font-weight: bolder;
+      /* font-size: 1.1em; */
     `}
 
   ${(props) =>
@@ -117,8 +118,8 @@ export const SquareInput = styled.span<SquareInputProps>`
   ${(props) =>
     props.highlight &&
     css`
-      font-size: x-large;
-      font-size: 1.3em;
+      /* font-size: 1.3em; */
+      font-weight: bolder;
     `}
 
   color:  ${(props) => props.color || null};

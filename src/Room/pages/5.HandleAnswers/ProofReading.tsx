@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Player } from '../../common/constants'
-import { useAppSelector } from '../hooks'
-import { RoomState } from '../store'
-import * as S from '../../common/everyLayout'
-import { DisplayList } from './DisplayList'
+import { Player } from '../../../common/constants'
+import { useAppSelector } from '../../hooks'
+import { RoomState } from '../../store'
+import * as S from '../../../common/everyLayout'
+import { DisplayList } from '../../components/DisplayList'
 import { SetWrongAnswerButton } from './SetWrongAnswerButton'
 import {
   Board,
@@ -11,9 +11,9 @@ import {
   Row,
   Square,
   SquareInput,
-} from '../../common/components/boards'
-import { Button } from '../../common/components'
-import { flagColor } from '../../common/utilities'
+} from '../../../common/components/boards'
+import { Button } from '../../../common/components'
+import { flagColor } from '../../../common/utilities'
 
 interface ProofReadingProps {
   players: Player[]

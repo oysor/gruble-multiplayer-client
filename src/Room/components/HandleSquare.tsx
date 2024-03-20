@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import { SelectFlag } from './SelectFlag'
 import { PlayerRow } from './PlayerRow'
-import { Player } from '../../../common/constants'
-import { useAppSelector } from '../../hooks'
-import { RoomState } from '../../store'
-import { flagColor } from '../../../common/utilities'
+import { Player } from '../../common/constants'
+import { useAppSelector } from '../hooks'
+import { RoomState } from '../store'
+import { flagColor } from '../../common/utilities'
 
 type HandleSquareProps = {
   playerList: Player[]
