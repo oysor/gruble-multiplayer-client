@@ -6,7 +6,6 @@ import {
   MessageBox,
   PlayerList,
 } from '../../common/components'
-// import { ShowPlayerInput } from './components'
 import { useAppSelector } from '../hooks'
 import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
 import { JoinGame } from './1.JoinGame'
@@ -14,9 +13,10 @@ import { Play } from './2.Play'
 import { Results } from './3.Results'
 import { DisconnectedCover } from '../../common/components/connection/Disconnected'
 import { ConnectionMode } from '../../common/constants'
+import { SendMessage } from '../components/SendMessage'
 
 export const PlayerPages: FunctionComponent = () => {
-  const { commonStates, messages, currentPage, roomId, playerMessages, playerList } =
+  const { commonStates, messages, currentPage, playerMessages, roomId, playerList } =
     useAppSelector((state: PlayerState) => state.player)
   const connected = commonStates.status === ConnectionMode.Connected
 
@@ -37,14 +37,13 @@ export const PlayerPages: FunctionComponent = () => {
       <Center_l intrinsic>
         <ConnectionStatus status={commonStates.status} />
         <Center_l>{displayPage(currentPage)}</Center_l>
-        {currentPage === 2 ? (
-          <Center_l intrinsic>
-            <Stack_l space="1rem" className="mt-[1rem]">
-              <MessageBox messages={messages} />
-              {/* <PlayerListBox playerList={playerList} /> */}
-              <ChatBox messages={playerMessages} />
-            </Stack_l>
-          </Center_l>
+        {currentPage >= 2 ? (
+          <Stack_l space="1rem" className="mt-[1rem]">
+            <MessageBox messages={messages} />
+            {/* <PlayerListBox playerList={playerList} /> */}
+            <ChatBox messages={playerMessages} />
+            {roomId && <SendMessage roomId={roomId} />}
+          </Stack_l>
         ) : null}
       </Center_l>
     </Cover_l>

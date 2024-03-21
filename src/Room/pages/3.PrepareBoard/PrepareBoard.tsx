@@ -13,7 +13,7 @@ export const PrepareBoard: FunctionComponent = () => {
   const { roomName } = useAppSelector((state: RoomState) => state.room)
   const dispatch = useAppDispatch()
 
-  const [time, setTime] = useState(3)
+  const [time, setTime] = useState(10)
 
   const validNumericInput = time > 1
 
@@ -25,10 +25,10 @@ export const PrepareBoard: FunctionComponent = () => {
   }
 
   // input categories
-  const [categoryList, setCategoryList] = useState(['Spiselig', 'Land', 'Fugler'])
+  const [categoryList, setCategoryList] = useState(['Land', 'Tresorter', 'Matretter'])
   // input lettes
   const norskeAlfabetet = 'abcdefghijklmnopqrstuvwxyzøæå'.split('')
-  const [letterList, setLetterList] = useState(['a', 'b', 'l'])
+  const [letterList, setLetterList] = useState(['a', 'b', 'k'])
 
   // Missing input warning
   const [reminder, setReminder] = useState(false)

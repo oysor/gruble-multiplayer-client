@@ -3,11 +3,14 @@ import {
   Board,
   BoardSettings,
   CommonStates,
+  IncomingMessage,
+  IncomingPlayer,
   initialCommonStates,
   Message,
   Player,
   WordInfoDict,
 } from '../common/constants'
+import { mapPlayerFromAPI } from '../common/mapping'
 
 export interface playerState {
   playerName: string
@@ -52,12 +55,13 @@ const playerSlice = createSlice({
       state.commonStates.status = action.payload
     },
     setPlayerInfo: (state, action) => {
-      state.playerName = action.payload.playerName
+      const { playerName } = action.payload
+      state.playerName = playerName
     },
     setNextPage: (state) => {
       state.currentPage += 1
     },
-    newMessage: (state, action) => {
+    newMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload
       const messageSender = state.playerList.find((p) => {
         return p.userId === id
@@ -74,14 +78,18 @@ const playerSlice = createSlice({
     newServerMessage: (state, action) => {
       state.serverMessage = action.payload
     },
-    setBoard: (state, action) => {
-      state.boardSettings = action.payload.boardSettings
-      state.roomId = action.payload.roomId
-      state.timeLimit = action.payload.timeLimit
-      state.commonStates.elapsedTime = action.payload.timeLimit
-      state.playerList = action.payload.players
-      const x = action.payload.boardSettings.letters.length
-      const y = action.payload.boardSettings.categories.length
+    addGameRoom: (state, action) => {
+      const { signalRGroupName, timeLimit, boardSettings, players } = action.payload
+      state.boardSettings = boardSettings
+      state.roomId = signalRGroupName
+      state.timeLimit = timeLimit
+      state.commonStates.elapsedTime = timeLimit
+      state.playerList = players.map(
+        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
+      )
+
+      const x = boardSettings.letters.length
+      const y = boardSettings.categories.length
 
       state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
     },
@@ -92,7 +100,8 @@ const playerSlice = createSlice({
       state.commonStates.elapsedTime = action.payload
     },
     timesUp: (state) => {
-      state.commonStates.elapsedTime = 0
+      // state.commonStates.elapsedTime = -99
+
       state.timesUp = true
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -107,40 +116,30 @@ const playerSlice = createSlice({
     joinRoom: (state, action) => {},
     receiveResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
-      state.playerList = newPlayerList
+      state.playerList = newPlayerList.map(
+        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
+      )
       state.boardDictionary = boardDictionary
       state.receivedResult = true
     },
-    addPlayer: (state, action: { payload: Player }) => {
-      if (!state.playerList.some((player) => player.name === action.payload.name)) {
-        return { ...state, playerList: [...state.playerList, action.payload] }
+    addPlayer: (state, action: { payload: IncomingPlayer }) => {
+      const { payload } = action
+
+      const newPlayer: Player = mapPlayerFromAPI(payload)
+
+      if (!state.playerList.some((player) => player.name === newPlayer.name)) {
+        return { ...state, playerList: [...state.playerList, newPlayer] }
       }
     },
     removePlayer: (state, action) => {
+      const { userId } = action.payload
       state.playerList = [...state.playerList].filter((player) => {
-        return player.userId !== action.payload.userId
+        return player.userId !== userId
       })
     },
     resetState: () => initialState,
   },
 })
-
-// send to server
-export enum toServer {
-  SendMessage = 'SendMessage',
-  JoinRoom = 'JoinRoom',
-  SendBoard = 'CollectBoard',
-}
-// receive from server
-export enum fromServer {
-  receiveMessage = 'ReceiveMessage',
-  onTimerElapsed = 'onTimerCount',
-  onJoinRoom = 'onJoinRoom',
-  onTimesUp = 'onTimerFinished',
-  receiveResults = 'ReceiveResults',
-  onPlayerJoined = 'onPlayerJoined',
-  onPlayerLeft = 'onPlayerLeft',
-}
 
 export const {
   setPlayerInfo,
@@ -149,7 +148,7 @@ export const {
   newMessage,
   joinRoom,
   sendMessage,
-  setBoard,
+  addGameRoom,
   updateBoard,
   resetState,
   timesUp,

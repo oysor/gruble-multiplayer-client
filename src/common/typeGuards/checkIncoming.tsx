@@ -1,4 +1,4 @@
-import { BoardSettings, GameRoom, Player } from '../constants'
+import { BoardSettings, GameRoom, IncomingGameRoom, Player } from '../constants'
 
 /**
  *  For checking the incomings from server.
@@ -47,15 +47,17 @@ export function isBoardSettings(object: BoardSettings): object is BoardSettings 
   return isStringArray(letters) && isStringArray(categories)
 }
 
-export function checkOnRoom(object: GameRoom): object is GameRoom {
+export function checkOnRoom(object: IncomingGameRoom): object is IncomingGameRoom {
   if (object === null) {
     return false
   }
 
-  const { roomId, roomName, timeLimit, boardSettings } = object
+  const { signalRGroupName, roomName, timeLimit, boardSettings } = object
 
-  if (!isString(roomId)) {
-    throw new Error(`---> Expected roomId to be string, got '${roomId}'. <---`)
+  if (!isString(signalRGroupName)) {
+    throw new Error(
+      `---> Expected signalRGroupName to be string, got '${signalRGroupName}'. <---`
+    )
   }
   if (!isString(roomName)) {
     throw new Error(`---> Expected roomName to be string, got '${roomName}'. <---`)
@@ -104,9 +106,9 @@ export function checkOnNewPlayer(object: Player): object is Player {
 export function checkOnPlayerResult(object: Player): object is Player {
   const { id, userId, name, color, board } = object
 
-  if (!isNumber(id)) {
-    throw new Error(`---> Expected player id to be number, got '${id}'. <---`)
-  }
+  // if (!isNumber(id)) {
+  //   throw new Error(`---> Expected player id to be number, got '${id}'. <---`)
+  // }
   if (!isString(userId)) {
     throw new Error(`---> Expected userId to be string, got '${userId}'. <---`)
   }

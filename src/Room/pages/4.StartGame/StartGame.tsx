@@ -15,18 +15,14 @@ export const StartGame: FunctionComponent = () => {
     (state: RoomState) => state.room
   )
   const dispatch = useAppDispatch()
+
   // Missing input warning
   const [reminder, setReminder] = useState(false)
   // const [boardTemplate, showBaordTemplet] = useState(false)
   const gameStart = playerList.length > 0
 
   const dispatchOnClick = () => {
-    console.log('PAYLOUD')
-    console.log(roomId)
-
-    if (commonStates.status === ConnectionMode.Connected) {
-      dispatch(startGame({ roomId: roomId })), dispatch(setNextPage())
-    }
+    dispatch(startGame({ roomId: roomId })), dispatch(setNextPage())
   }
 
   return (

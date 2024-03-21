@@ -3,11 +3,10 @@ import { PlayerState } from '../../store'
 import { InputBoard } from './InputBoard'
 import { sendBoard, setNextPage } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { SendMessage } from '../../components/SendMessage'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 
 import Maskot from '../../../assets/svg/maskot.svg'
-import { PlayerCountDown } from './PlayerCountDown'
+import { PlayerCountDown } from '../../components/PlayerCountDown'
 
 export const Play: FunctionComponent = () => {
   const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
@@ -58,7 +57,6 @@ export const Play: FunctionComponent = () => {
             &#x231B;&#x2620;&nbsp; Time limit is set to {timeLimit} seconds
             &nbsp;&#x2620;&#x231B;
           </Box_l> */}
-          <SendMessage roomId={roomId} />
         </Box_l>
       )}
     </div>

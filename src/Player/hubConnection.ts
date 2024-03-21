@@ -1,11 +1,9 @@
 import { isAnyOf } from '@reduxjs/toolkit'
 import {
-  toServer,
-  fromServer,
   setStatus,
   newMessage,
   setTimeElapsed,
-  setBoard,
+  addGameRoom,
   timesUp,
   sendBoard,
   receiveResults,
@@ -22,6 +20,24 @@ import { checkOnRoom } from '../common/typeGuards'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
 import store from './store'
+
+// send to server
+enum toServer {
+  SEND_MESSAGE = 'SendMessage',
+  JOINROOM = 'JoinRoom',
+  SENDBOARD = 'CollectBoard',
+}
+// receive from server
+enum fromServer {
+  ON_MESSAGE_RECEIVED = 'onMessageReceived',
+  ON_ROOM_JOINED = 'onRoomJoined',
+  ON_PLAYER_JOINED = 'onPlayerJoined',
+  ON_PLAYER_DISCONNECTED = 'onPlayerLeft',
+  ON_TIMER_STARTED = 'onTimerStarted',
+  ON_TIMER_ELAPSED = 'onTimerElapsed',
+  ON_TIMER_FINISHED = 'onTimerFinished',
+  ON_RECEIVE_RESULTS = 'onReceiveResults',
+}
 
 // Builds the SignalR connection, mapping it to /chathub
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -43,39 +59,39 @@ export async function startPlayerConnection(): Promise<void> {
     store.dispatch(setStatus(hubConnection.state))
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
-    hubConnection.on(fromServer.receiveMessage, (msg, connectionID) => {
+    hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
       // checkOnReceiveMessage(msg)
       console.log('receiveMessage')
       store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
-    hubConnection.on(fromServer.onTimerElapsed, (timeElapsed) => {
+    hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
       // checkOnTimerElapsed(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 
-    hubConnection.on(fromServer.onJoinRoom, (gameRoom, msg) => {
+    hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, msg) => {
       checkOnRoom(gameRoom)
-        ? store.dispatch(setBoard(gameRoom))
+        ? store.dispatch(addGameRoom(gameRoom))
         : store.dispatch(newServerMessage(msg))
     })
 
-    hubConnection.on(fromServer.onPlayerJoined, (player) => {
+    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
       // spiller legger til seg selv også?
       console.log('SPILLEREN ')
       console.log(player)
       store.dispatch(addPlayer(player))
     })
 
-    hubConnection.on(fromServer.onPlayerLeft, (player) => {
+    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (player) => {
       store.dispatch(removePlayer(player))
     })
 
-    hubConnection.on(fromServer.onTimesUp, () => {
+    hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
       store.dispatch(timesUp())
     })
 
-    hubConnection.on(fromServer.receiveResults, (results) => {
+    hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results) => {
       store.dispatch(receiveResults(results))
     })
   } catch (err) {
@@ -108,10 +124,14 @@ export async function stopPlayerConnection(): Promise<void> {
 }
 
 /**
+ * * * * * * * * * *
  *   MIDDLEWARE - add singnalR 'invoke' here
+ *   Messages to the server goes here.
+ *
+ *  Add one or more listener entries that look for specific actions.
+ *  They may contain any sync or async logic, similar to thunks.
  */
-// Add one or more listener entries that look for specific actions.
-// They may contain any sync or async logic, similar to thunks.
+
 startAppListening({
   matcher: isAnyOf(sendMessage, sendBoard, joinRoom),
   effect: async (action, listenerApi) => {
@@ -126,7 +146,7 @@ startAppListening({
   actionCreator: joinRoom,
   effect: async (action) => {
     hubConnection.invoke(
-      toServer.JoinRoom,
+      toServer.JOINROOM,
       action.payload.roomId,
       action.payload.playerName
     )
@@ -137,7 +157,7 @@ startAppListening({
   actionCreator: sendMessage,
   effect: async (action) => {
     hubConnection.invoke(
-      toServer.SendMessage,
+      toServer.SEND_MESSAGE,
       action.payload.roomId,
       action.payload.message
     )
@@ -147,6 +167,11 @@ startAppListening({
 startAppListening({
   actionCreator: sendBoard,
   effect: async (action) => {
-    hubConnection.invoke(toServer.SendBoard, action.payload.roomId, action.payload.board)
+    console.log('Board data:')
+    console.log(action)
+    // const guid = JSON.stringify(action.payload.roomId});
+    const signalRGroupName = action.payload.roomId
+    hubConnection.invoke(toServer.SENDBOARD, signalRGroupName, action.payload.board)
   },
 })
+/* * * * * * * * * * **/

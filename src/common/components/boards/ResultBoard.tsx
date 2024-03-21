@@ -28,7 +28,7 @@ export const ResultBoard: FunctionComponent<ResultBoardProps> = ({
           return (
             <Square empty key={colNr}>
               <SquareInput color={flagColor(card.flag)} defaultValue={word}>
-                {word}
+                {word === '' ? '-' : word}
               </SquareInput>
             </Square>
           )

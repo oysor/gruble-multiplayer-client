@@ -13,8 +13,8 @@ const player1: Player = {
     ['Dadler', 'Drenering', 'Dovendyr'],
   ],
   color: 'red',
-  id: 0,
-  userId: 0,
+  id: '',
+  userId: '',
   playerResult: {
     score: 0,
     correct: 0,
@@ -33,8 +33,8 @@ const player2: Player = {
     ['Drops', 'Dass', 'Dådyr'],
   ],
   color: 'green',
-  id: 0,
-  userId: 0,
+  id: '',
+  userId: '',
   playerResult: {
     score: 0,
     correct: 0,
@@ -53,8 +53,8 @@ const player3: Player = {
     ['Dadler', 'Do', 'Dvergbjørk'],
   ],
   color: 'blue',
-  id: 0,
-  userId: 0,
+  id: '',
+  userId: '',
   playerResult: {
     score: 0,
     correct: 0,

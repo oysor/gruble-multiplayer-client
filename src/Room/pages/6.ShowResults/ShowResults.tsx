@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { RoomState } from '../../store'
 import { useAppSelector } from '../../hooks'
-import { Stack_l } from '../../../common/everyLayout'
+import { Box_l, Stack_l } from '../../../common/everyLayout'
 import { Table } from '../../../common/components/tables'
 import { PlayerResultBoards } from '../../../common/components/boards'
 
@@ -18,18 +18,20 @@ export const ShowResults: FunctionComponent = () => {
   })
 
   return (
-    <div className="show-results">
-      <Stack_l space="1rem">
-        <Table playerStats={playerStats} />
-        <div>
-          The winner is {winner.player} with {winner.score} points
-        </div>
-        <PlayerResultBoards
-          players={playerList}
-          boardDictionary={boardDictionary}
-          boardSettings={boardSettings}
-        />
-      </Stack_l>
+    <div id="show-results">
+      <Box_l>
+        <Stack_l space="2.5rem">
+          <Table playerStats={playerStats} />
+          <div>
+            {winner.player} won {winner.score} points
+          </div>
+          <PlayerResultBoards
+            playerList={playerList}
+            boardDictionary={boardDictionary}
+            boardSettings={boardSettings}
+          />
+        </Stack_l>
+      </Box_l>
     </div>
   )
 }

@@ -19,21 +19,19 @@ export const Results: FunctionComponent = () => {
 
   const nameOfWinner = playerName === winner.player ? 'You' : winner.player
   return (
-    <div className="show-results">
+    <div id="show-results">
       {receivedResult ? (
         <Box_l>
           <Stack_l space="2.5rem">
             <Table playerStats={playerStats} />
-            <Stack_l space="0.3rem">
-              <div>
-                The winner is {nameOfWinner} with {winner.score} points
-              </div>
-              <PlayerResultBoards
-                players={playerList}
-                boardDictionary={boardDictionary}
-                boardSettings={boardSettings}
-              />
-            </Stack_l>
+            <div>
+              {nameOfWinner} won with {winner.score} points
+            </div>
+            <PlayerResultBoards
+              playerList={playerList}
+              boardDictionary={boardDictionary}
+              boardSettings={boardSettings}
+            />
           </Stack_l>
         </Box_l>
       ) : (

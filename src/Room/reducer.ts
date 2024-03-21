@@ -2,12 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
   BoardSettings,
   CommonStates,
+  IncomingMessage,
+  IncomingPlayer,
   initialCommonStates,
   Message,
   Player,
   WordInfoDict,
 } from '../common/constants'
 import { createBoardDictionary } from './utilities/utilities'
+import { mapPlayerFromAPI } from '../common/mapping'
 
 export interface RoomState {
   roomName: string
@@ -17,7 +20,8 @@ export interface RoomState {
   commonStates: CommonStates
   boardSettings: BoardSettings
   playerList: Player[]
-  receivedBoards: boolean
+  receivedBoards: number
+  allBoardsReceived: boolean
   currentPage: number
   playerMessages: Message[]
   boardDictionary: WordInfoDict[][]
@@ -31,7 +35,8 @@ const initialState: RoomState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
   playerList: [],
-  receivedBoards: false,
+  receivedBoards: 0,
+  allBoardsReceived: false,
   currentPage: 1,
   playerMessages: [],
   boardDictionary: [[]],
@@ -51,37 +56,44 @@ const roomSlice = createSlice({
     setTimeLimit: (state, action) => {
       state.timeLimit = action.payload
     },
-    setRoom: (state, action) => {
-      state.roomId = action.payload.roomId
-      state.roomName = action.payload.roomName
-      state.timeLimit = action.payload.timeLimit
-      state.boardSettings = action.payload.boardSettings
+    addGameRoom: (state, action) => {
+      const { signalRGroupName, roomName, timeLimit, boardSettings } = action.payload
+      state.roomId = signalRGroupName
+      state.roomName = roomName
+      state.timeLimit = timeLimit
+      state.boardSettings = boardSettings
     },
     setTimeElapsed: (state, action) => {
+      console.log('time elapsed ' + action.payload)
       state.commonStates.elapsedTime = action.payload
     },
     timesUp: (state) => {
-      state.commonStates.elapsedTime = 0
+      // state.commonStates.elapsedTime = 0
     },
-    receiveBoards: (state, action) => {
-      const playerList: Player[] = action.payload
-      const boardSettings = state.boardSettings
-      state.boardSettings = boardSettings
-      state.boardDictionary = createBoardDictionary(playerList, boardSettings)
-
+    receiveBoards: (state, action: { payload: IncomingPlayer[] }) => {
+      const playersWithBoards: IncomingPlayer[] = action.payload
+      const playerList = playersWithBoards.map(
+        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
+      )
+      state.boardDictionary = createBoardDictionary(playerList, state.boardSettings)
+      state.playerList = playerList
+      // state.receivedBoards += 1
+      state.allBoardsReceived = true
+      // if (state.receivedBoards === state.playerList.length) {
+      //   state.allBoardsReceived = true
+      // }
       // Test data
       // const playerList = test_playerList
       // const boardSettings = test_boardSettings
       // state.boardDictionary = createBoardDictionary(playerList, boardSettings)
       // state.boardSettings = boardSettings
 
-      state.playerList = playerList.map((player) => {
-        player.board = player.board
-        return player
-      })
-      state.receivedBoards = true
+      // state.playerList = playerList.map((player) => {
+      //   player.board = player.board
+      //   return player
+      // })
     },
-    newMessage: (state, action) => {
+    newMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload
       const messageSender = state.playerList.find((p) => {
         return p.userId === id
@@ -93,23 +105,30 @@ const roomSlice = createSlice({
           ])
         : (state.messages = [message, ...state.messages])
     },
-    addPlayer: (state, action: { payload: Player }) => {
-      if (!state.playerList.some((player) => player.name === action.payload.name)) {
-        return { ...state, playerList: [...state.playerList, action.payload] }
+    addPlayer: (state, action: { payload: IncomingPlayer }) => {
+      const { payload } = action
+      const newPlayer: Player = mapPlayerFromAPI(payload)
+
+      if (!state.playerList.some((player) => player.name === newPlayer.name)) {
+        return { ...state, playerList: [...state.playerList, newPlayer] }
       }
     },
     removePlayer: (state, action) => {
+      const { userId } = action.payload
       state.playerList = [...state.playerList].filter((player) => {
-        return player.userId !== action.payload.userId
+        return player.userId !== userId
       })
     },
     updateBoardDictionary: (state, action) => {
-      const { letter, category } = action.payload.square
-      const word = action.payload.word
-      state.boardDictionary[letter][category][word].flag = action.payload.flag
+      const { square, word, flag } = action.payload
+      const { letter, category } = square
+      state.boardDictionary[letter][category][word].flag = flag
     },
     setPlayerResults: (state, action) => {
-      state.playerList = action.payload.newPlayerList
+      const { newPlayerList } = action.payload
+      state.playerList = newPlayerList.map(
+        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
+      )
     },
     setNextPage: (state) => {
       state.currentPage += 1
@@ -122,30 +141,12 @@ const roomSlice = createSlice({
   },
 })
 
-// send to server
-export enum toServer {
-  CreateRoom = 'CreateRoom',
-  StartGame = 'StartGame',
-  SendResults = 'SendResults',
-}
-
-// receive from server
-export enum fromServer {
-  onCreateRoom = 'onCreateGame',
-  onPlayerJoined = 'onPlayerJoined',
-  ReceiveMessage = 'ReceiveMessage',
-  onTimerElapsed = 'onTimerCount',
-  onPlayerLeft = 'onPlayerLeft',
-  onTimesUp = 'onTimerFinished',
-  ReceiveBoards = 'ReceiveBoards',
-}
-
 // import the actions where you want to dispatch them.
 export const {
   setStatus,
   setRoomName,
   setTimeLimit,
-  setRoom,
+  addGameRoom,
   setTimeElapsed,
   newMessage,
   removePlayer,

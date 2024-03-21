@@ -35,6 +35,8 @@ export const Square = styled.div<SquareProps>`
   flex-basis: 10em;
   max-width: 10em;
 
+  word-break: break-all;
+
   ${(props) =>
     props.firstInRow &&
     css`

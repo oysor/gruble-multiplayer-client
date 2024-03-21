@@ -1,10 +1,10 @@
 import React from 'react'
 import { useAppSelector } from '../hooks'
-import { RoomState } from '../store'
 import { CountDown } from '../../common/components/timer'
+import { PlayerState } from '../store'
 
-export const RoomCountDown = () => {
-  const { timeLimit, commonStates } = useAppSelector((state: RoomState) => state.room)
+export const PlayerCountDown = () => {
+  const { timeLimit, commonStates } = useAppSelector((state: PlayerState) => state.player)
 
   const { elapsedTime } = commonStates
 

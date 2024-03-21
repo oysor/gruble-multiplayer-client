@@ -8,7 +8,7 @@ export const flagColor = (flag: Flag): string => {
     case Flag.Unknown:
       return 'grey'
     case Flag.Missing:
-      return 'white'
+      return 'grey'
     case Flag.Wrong:
       return 'red'
     case Flag.Common:

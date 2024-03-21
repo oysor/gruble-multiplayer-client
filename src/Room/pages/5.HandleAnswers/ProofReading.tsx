@@ -17,15 +17,9 @@ import { flagColor } from '../../../common/utilities'
 
 interface ProofReadingProps {
   players: Player[]
-  //   currentCategory: number
-  //   showNextCategory: (i?: number) => void
 }
 
-export const ProofReading: FunctionComponent<ProofReadingProps> = ({
-  players,
-  //   currentCategory,
-  //   showNextCategory,
-}) => {
+export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) => {
   const { boardDictionary, boardSettings } = useAppSelector(
     (state: RoomState) => state.room
   )
@@ -49,82 +43,84 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({
 
   return (
     <S.Box_l>
-      <S.Center_l>
-        <S.Cluster_l justify="center" space="1rem">
-          <DisplayList
-            list={categories}
-            hightlight={playerRow.category}
-            nextCategory={showNextCategory}
-          />
-        </S.Cluster_l>
-      </S.Center_l>
+      <S.Stack_l space="0.5rem">
+        <S.Center_l>
+          <S.Cluster_l justify="center" space="1rem">
+            <DisplayList
+              list={categories}
+              hightlight={playerRow.category}
+              nextCategory={showNextCategory}
+            />
+          </S.Cluster_l>
+        </S.Center_l>
 
-      <Board>
-        <Row>
-          <Square firstInRow>
-            <InfoSquare>
-              <span>{'Letters '}&rarr;</span>
-              <span>{'Players '}&darr;</span>
-            </InfoSquare>
-          </Square>
+        <Board>
+          <Row>
+            <Square firstInRow>
+              <InfoSquare>
+                <span>{'Letters '}&rarr;</span>
+                <span>{'Players '}&darr;</span>
+              </InfoSquare>
+            </Square>
 
-          {letters.map((letter, i) => {
-            const currentLetter = i === playerRow.letter
+            {letters.map((letter, i) => {
+              const currentLetter = i === playerRow.letter
+              return (
+                <Square empty topRow highlight={currentLetter} key={i}>
+                  {letter.toLocaleUpperCase()}
+                </Square>
+              )
+            })}
+          </Row>
+          {players.map((player, p) => {
+            const currentPlayer = p == playerRow.player
+
             return (
-              <Square empty topRow highlight={currentLetter} key={i}>
-                {letter.toLocaleUpperCase()}
-              </Square>
+              <Row key={p}>
+                <Square empty firstInRow highlight={currentPlayer}>
+                  {player.name}
+                </Square>
+                {letters.map((letter, l) => {
+                  const highLightSquare = l == playerRow.letter && p == playerRow.player
+                  const card = getCard(player, l)
+
+                  return (
+                    <Square
+                      empty
+                      key={l}
+                      highlightSquare={highLightSquare}
+                      onClick={() => {
+                        setplayerRow({ ...playerRow, letter: l, player: p })
+                      }}
+                    >
+                      <SquareInput
+                        color={flagColor(card.flag)}
+                        defaultValue={player.board[p][l]}
+                      >
+                        {card.word}
+                      </SquareInput>
+                    </Square>
+                  )
+                })}
+              </Row>
             )
           })}
-        </Row>
-        {players.map((player, p) => {
-          const currentPlayer = p == playerRow.player
+        </Board>
 
-          return (
-            <Row key={p}>
-              <Square empty firstInRow highlight={currentPlayer}>
-                {player.name}
-              </Square>
-              {letters.map((letter, l) => {
-                const highLightSquare = l == playerRow.letter && p == playerRow.player
-                const card = getCard(player, l)
+        <S.Cluster_l justify="center">
+          <SetWrongAnswerButton
+            player={players[playerRow.player]}
+            square={{ letter: playerRow.letter, category: playerRow.category }}
+          />
+          <Button onClick={showNextCategory}>Next category</Button>
 
-                return (
-                  <Square
-                    empty
-                    key={l}
-                    highlightSquare={highLightSquare}
-                    onClick={() => {
-                      setplayerRow({ ...playerRow, letter: l, player: p })
-                    }}
-                  >
-                    <SquareInput
-                      color={flagColor(card.flag)}
-                      defaultValue={player.board[p][l]}
-                    >
-                      {card.word}
-                    </SquareInput>
-                  </Square>
-                )
-              })}
-            </Row>
-          )
-        })}
-      </Board>
-
-      <S.Cluster_l justify="center">
-        <SetWrongAnswerButton
-          player={players[playerRow.player]}
-          square={{ letter: playerRow.letter, category: playerRow.category }}
-        />
-        <Button onClick={showNextCategory}>Next category</Button>
-
-        {/* <SetFlagButton
+          {/* <SetFlagButton
           player={players[playerRow.player]}
           square={{ letter: playerRow.letter, category: playerRow.category }}
           text={'Correct'}
         /> */}
-      </S.Cluster_l>
+        </S.Cluster_l>
+      </S.Stack_l>
     </S.Box_l>
   )
 }

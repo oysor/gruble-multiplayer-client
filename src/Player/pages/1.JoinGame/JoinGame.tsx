@@ -13,7 +13,7 @@ export const JoinGame: FunctionComponent = () => {
     roomId !== '' && dispatch(setNextPage())
   })
   // Set playerName and roomId (to be sent to server)
-  const [playerName, setplayerName] = useState('Bjarne')
+  const [playerName, setplayerName] = useState('')
   const [inputRoomId, setId] = useState('')
   // remind about missing input
   const [remind, setRemind] = useState(false)

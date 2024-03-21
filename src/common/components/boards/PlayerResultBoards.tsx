@@ -4,19 +4,19 @@ import { ResultBoard } from './ResultBoard'
 import { BoardSettings, Player, WordInfoDict } from '../../constants'
 
 interface ResultBoards {
-  players: Player[]
+  playerList: Player[]
   boardSettings: BoardSettings
   boardDictionary: WordInfoDict[][]
 }
 
 export const PlayerResultBoards: FunctionComponent<ResultBoards> = ({
-  players,
+  playerList,
   boardSettings,
   boardDictionary,
 }) => {
   return (
     <Stack_l>
-      {players.map((player, i) => {
+      {playerList.map((player, i) => {
         return (
           <Stack_l key={i}>
             <div className="text-center text-xl">{player.name}</div>

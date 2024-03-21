@@ -11,9 +11,8 @@ import { ProofReading } from './ProofReading'
 import { RoomCountDown } from '../../components/RoomCountDown'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { playerList, boardSettings, receivedBoards, boardDictionary } = useAppSelector(
-    (state: RoomState) => state.room
-  )
+  const { playerList, boardSettings, allBoardsReceived, boardDictionary } =
+    useAppSelector((state: RoomState) => state.room)
 
   const dispatch = useAppDispatch()
   const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -50,25 +49,30 @@ export const HandleAnswers: FunctionComponent = () => {
     dispatch(setNextPage())
   }
 
-  return receivedBoards ? (
+  return !allBoardsReceived ? (
+    <RoomCountDown />
+  ) : (
     <Box_l id="handle-answers">
       <Center_l max-width="50rem">
         <Stack_l space="2rem">
           <Center_l intrinsic>
-            <h2>{playerList[currentPlayer].name}</h2>
-            <HandleBoard
-              player={playerList[currentPlayer]}
-              coords={coords}
-              setCoords={setCoords}
-            />
-            <Cluster_l align="center">
-              <SetWrongAnswerButton
+            <Stack_l space="0.5rem">
+              <h2 className="text-center">{playerList[currentPlayer].name}</h2>
+              <HandleBoard
                 player={playerList[currentPlayer]}
-                square={{ letter: coords.y, category: coords.x }}
+                coords={coords}
+                setCoords={setCoords}
               />
-              <Button onClick={showNextPlayer}>Next player board</Button>
-            </Cluster_l>
+              <Cluster_l justify="center">
+                <SetWrongAnswerButton
+                  player={playerList[currentPlayer]}
+                  square={{ letter: coords.y, category: coords.x }}
+                />
+                <Button onClick={showNextPlayer}>Next player board</Button>
+              </Cluster_l>
+            </Stack_l>
           </Center_l>
+
           <ProofReading players={playerList} />
           <Center_l>
             <Button onClick={dispatchOnClick}>Show results!</Button>
@@ -76,7 +80,5 @@ export const HandleAnswers: FunctionComponent = () => {
         </Stack_l>
       </Center_l>
     </Box_l>
-  ) : (
-    <RoomCountDown />
   )
 }

@@ -3,7 +3,7 @@ import { SelectFlag } from './SelectFlag'
 import { PlayerRow } from './PlayerRow'
 import { Player } from '../../common/constants'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../common/everyLayout'
-import { DisplayList, PlayerNames } from '.'
+import { DisplayList } from '.'
 import { Button } from '../../common/components'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { RoomState } from '../store'
@@ -148,7 +148,6 @@ export const PlayerResults: FunctionComponent<PlayerResultsProps> = ({
         </Cluster_l>
       </Center_l>
 
-      {/* <PlayerNames playerList={playerList} /> */}
       {/* <Button onClick={UpdateScoreBoard}>Next category</Button> */}
 
       {playerAnswers()}

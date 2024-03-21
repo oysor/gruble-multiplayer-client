@@ -48,10 +48,6 @@ interface CountDownProps {
 export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLimit }) => {
   const { alert, warning, info } = COLOR_CODES
 
-  if (timeLeft === -99) {
-    timeLeft = timeLimit
-  }
-
   const formatTimeLeft = (time: number) => {
     if (timeLeft === 0) {
       return 'Times up!'
