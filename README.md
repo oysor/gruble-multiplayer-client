@@ -58,7 +58,7 @@ The repository consists mainly of two parts which are split into thunks by code 
 
 These are run as two separate applications.
 ```
-~/Multiplayer-client/src/Players
+~/Multiplayer-client/src/Player
 ~/Multiplayer-client/src/Room
 ```
 
@@ -81,5 +81,5 @@ React components shared between them are put in
 
 We also have a landing page where the user can choose wich 'application' to run:
 ```
-~/Multiplayer-client/LandingPage.tsx
+~/Multiplayer-client/LandingPage
 ```
