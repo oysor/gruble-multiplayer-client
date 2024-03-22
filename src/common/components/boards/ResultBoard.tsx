@@ -1,6 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import { Player, WordInfoDict } from '../../constants'
-import { Board, InfoSquare, Row, Square, SquareInput } from '.'
+import {
+  Board,
+  InfoSquare,
+  InputCategory,
+  InputLetter,
+  Row,
+  Square,
+  SquareInput,
+} from '.'
 import { flagColor } from '../../utilities'
 
 interface ResultBoardProps {
@@ -16,27 +24,6 @@ export const ResultBoard: FunctionComponent<ResultBoardProps> = ({
 }) => {
   const { categories, letters } = boardSettings
 
-  const boardRow = (row: string[], rowNr: number) => {
-    return (
-      <Row key={rowNr}>
-        <Square empty firstInRow>
-          {letters[rowNr].toLocaleUpperCase()}
-        </Square>
-        {row.map((item, colNr) => {
-          const word = player.board[rowNr][colNr].toLowerCase()
-          const card = boardDictionary[rowNr][colNr][word]
-          return (
-            <Square empty key={colNr}>
-              <SquareInput color={flagColor(card.flag)} defaultValue={word}>
-                {word === '' ? '-' : word}
-              </SquareInput>
-            </Square>
-          )
-        })}
-      </Row>
-    )
-  }
-
   return (
     <Board>
       <Row>
@@ -49,13 +36,30 @@ export const ResultBoard: FunctionComponent<ResultBoardProps> = ({
         {categories.map((x, i) => {
           return (
             <Square empty key={i}>
-              {x}
+              <InputCategory value={x} noStyle disabled />
             </Square>
           )
         })}
       </Row>
       {player.board.map((row, rowNr) => {
-        return boardRow(row, rowNr)
+        return (
+          <Row key={rowNr}>
+            <Square empty firstInRow>
+              <InputLetter value={letters[rowNr].toLocaleUpperCase()} noStyle disabled />
+            </Square>
+            {row.map((item, colNr) => {
+              const word = player.board[rowNr][colNr].toLowerCase()
+              const card = boardDictionary[rowNr][colNr][word]
+              return (
+                <Square empty key={colNr}>
+                  <SquareInput color={flagColor(card.flag)} defaultValue={word}>
+                    {word === '' ? '-' : word}
+                  </SquareInput>
+                </Square>
+              )
+            })}
+          </Row>
+        )
       })}
     </Board>
   )

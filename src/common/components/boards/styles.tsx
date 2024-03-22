@@ -67,8 +67,11 @@ export const Square = styled.div<SquareProps>`
       border-radius: 16px;
     `}
 `
+interface InputProps {
+  noStyle?: boolean
+}
 
-export const InputCategory = styled.input`
+export const InputCategory = styled.input<InputProps>`
   width: 100%;
   height: 100%;
   text-align: center;
@@ -77,8 +80,16 @@ export const InputCategory = styled.input`
   border: 0;
   text-decoration-line: underline;
   text-decoration-style: dotted;
+
+  ${(props) =>
+    props.noStyle &&
+    css`
+      text-decoration-line: none;
+      text-decoration-style: none;
+      color: inherit;
+    `}
 `
-export const InputLetter = styled.input`
+export const InputLetter = styled.input<InputProps>`
   width: 100%;
   height: 100%;
   text-align: center;
@@ -87,6 +98,14 @@ export const InputLetter = styled.input`
   border: 0;
   text-decoration-line: underline;
   text-decoration-style: dotted;
+
+  ${(props) =>
+    props.noStyle &&
+    css`
+      text-decoration-line: none;
+      text-decoration-style: none;
+      color: inherit;
+    `}
 `
 export const InfoSquare = styled.div`
   height: 100%;

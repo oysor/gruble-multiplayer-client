@@ -13,47 +13,38 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
 }) => {
   const { categories, letters } = boardSettings
 
-  // Displays the first row with categories
-  const headerRow = (
-    <Row>
-      <Square firstInRow>
-        <InfoSquare>
-          <span>{'Categories '}&rarr;</span>
-          <span>{'Letters '}&darr;</span>
-        </InfoSquare>
-      </Square>
-      {categories.map((x, i) => {
-        return (
-          <Square empty key={i}>
-            {x}
-          </Square>
-        )
-      })}
-    </Row>
-  )
-
-  const boardRow = (row: string[], x: number) => {
-    return (
-      <Row key={x}>
-        <Square empty firstInRow>
-          {letters[x].toLocaleUpperCase()}
+  return (
+    <Board className="text-[0.9em]">
+      <Row>
+        <Square firstInRow>
+          <InfoSquare>
+            <span>{'Categories '}&rarr;</span>
+            <span>{'Letters '}&darr;</span>
+          </InfoSquare>
         </Square>
-        {row.map((item, y) => {
+        {categories.map((x, i) => {
           return (
-            <Square empty key={y}>
-              <InputSquare key={y} coords={{ x: x, y: y }} board={board} />
+            <Square empty key={i}>
+              {x}
             </Square>
           )
         })}
       </Row>
-    )
-  }
-
-  return (
-    <Board className="text-[0.9em]">
-      {headerRow}
       {board.map((row, x) => {
-        return boardRow(row, x)
+        return (
+          <Row key={x}>
+            <Square empty firstInRow>
+              {letters[x].toLocaleUpperCase()}
+            </Square>
+            {row.map((item, y) => {
+              return (
+                <Square empty key={y}>
+                  <InputSquare key={y} coords={{ x: x, y: y }} board={board} />
+                </Square>
+              )
+            })}
+          </Row>
+        )
       })}
     </Board>
   )

@@ -5,6 +5,8 @@ import { RoomState } from '../../store'
 import {
   Board,
   InfoSquare,
+  InputCategory,
+  InputLetter,
   Row,
   Square,
   SquareInput,
@@ -27,34 +29,6 @@ export const HandleBoard: FunctionComponent<HandleBoardProps> = ({
   )
   const { categories, letters } = boardSettings
 
-  const boardRow = (row: string[], rowNr: number) => {
-    const currentLetter = rowNr === coords.y
-    return (
-      <Row key={rowNr}>
-        <Square empty firstInRow highlight={currentLetter}>
-          {letters[rowNr].toLocaleUpperCase()}
-        </Square>
-        {row.map((item, colNr) => {
-          const highLightSquare = colNr == coords.x && rowNr === coords.y
-          const word = player.board[rowNr][colNr].toLowerCase()
-          const card = boardDictionary[rowNr][colNr][word]
-          return (
-            <Square
-              empty
-              key={colNr}
-              highlightSquare={highLightSquare}
-              onClick={() => setCoords({ x: colNr, y: rowNr })}
-            >
-              <SquareInput color={flagColor(card.flag)} defaultValue={word}>
-                {word}
-              </SquareInput>
-            </Square>
-          )
-        })}
-      </Row>
-    )
-  }
-
   return (
     <Board>
       <Row>
@@ -68,13 +42,37 @@ export const HandleBoard: FunctionComponent<HandleBoardProps> = ({
           const currentCategory = i === coords.x
           return (
             <Square empty highlight={currentCategory} key={i}>
-              {x}
+              <InputCategory value={x} noStyle disabled />
             </Square>
           )
         })}
       </Row>
       {player.board.map((row, rowNr) => {
-        return boardRow(row, rowNr)
+        const currentLetter = rowNr === coords.y
+        return (
+          <Row key={rowNr}>
+            <Square empty firstInRow highlight={currentLetter}>
+              <InputLetter value={letters[rowNr].toLocaleUpperCase()} noStyle disabled />
+            </Square>
+            {row.map((item, colNr) => {
+              const highLightSquare = colNr == coords.x && rowNr === coords.y
+              const word = player.board[rowNr][colNr].toLowerCase()
+              const card = boardDictionary[rowNr][colNr][word]
+              return (
+                <Square
+                  empty
+                  key={colNr}
+                  highlightSquare={highLightSquare}
+                  onClick={() => setCoords({ x: colNr, y: rowNr })}
+                >
+                  <SquareInput color={flagColor(card.flag)} defaultValue={word}>
+                    {word}
+                  </SquareInput>
+                </Square>
+              )
+            })}
+          </Row>
+        )
       })}
     </Board>
   )

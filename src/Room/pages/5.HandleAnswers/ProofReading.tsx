@@ -53,59 +53,60 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) 
             />
           </S.Cluster_l>
         </S.Center_l>
+        <S.Center_l>
+          <Board>
+            <Row>
+              <Square firstInRow>
+                <InfoSquare>
+                  <span>{'Letters '}&rarr;</span>
+                  <span>{'Players '}&darr;</span>
+                </InfoSquare>
+              </Square>
 
-        <Board>
-          <Row>
-            <Square firstInRow>
-              <InfoSquare>
-                <span>{'Letters '}&rarr;</span>
-                <span>{'Players '}&darr;</span>
-              </InfoSquare>
-            </Square>
+              {letters.map((letter, i) => {
+                const currentLetter = i === playerRow.letter
+                return (
+                  <Square empty topRow highlight={currentLetter} key={i}>
+                    {letter.toLocaleUpperCase()}
+                  </Square>
+                )
+              })}
+            </Row>
+            {players.map((player, p) => {
+              const currentPlayer = p == playerRow.player
 
-            {letters.map((letter, i) => {
-              const currentLetter = i === playerRow.letter
               return (
-                <Square empty topRow highlight={currentLetter} key={i}>
-                  {letter.toLocaleUpperCase()}
-                </Square>
+                <Row key={p}>
+                  <Square empty firstInRow highlight={currentPlayer}>
+                    {player.name}
+                  </Square>
+                  {letters.map((letter, l) => {
+                    const highLightSquare = l == playerRow.letter && p == playerRow.player
+                    const card = getCard(player, l)
+
+                    return (
+                      <Square
+                        empty
+                        key={l}
+                        highlightSquare={highLightSquare}
+                        onClick={() => {
+                          setplayerRow({ ...playerRow, letter: l, player: p })
+                        }}
+                      >
+                        <SquareInput
+                          color={flagColor(card.flag)}
+                          defaultValue={player.board[p][l]}
+                        >
+                          {card.word}
+                        </SquareInput>
+                      </Square>
+                    )
+                  })}
+                </Row>
               )
             })}
-          </Row>
-          {players.map((player, p) => {
-            const currentPlayer = p == playerRow.player
-
-            return (
-              <Row key={p}>
-                <Square empty firstInRow highlight={currentPlayer}>
-                  {player.name}
-                </Square>
-                {letters.map((letter, l) => {
-                  const highLightSquare = l == playerRow.letter && p == playerRow.player
-                  const card = getCard(player, l)
-
-                  return (
-                    <Square
-                      empty
-                      key={l}
-                      highlightSquare={highLightSquare}
-                      onClick={() => {
-                        setplayerRow({ ...playerRow, letter: l, player: p })
-                      }}
-                    >
-                      <SquareInput
-                        color={flagColor(card.flag)}
-                        defaultValue={player.board[p][l]}
-                      >
-                        {card.word}
-                      </SquareInput>
-                    </Square>
-                  )
-                })}
-              </Row>
-            )
-          })}
-        </Board>
+          </Board>
+        </S.Center_l>
 
         <S.Cluster_l justify="center">
           <SetWrongAnswerButton
