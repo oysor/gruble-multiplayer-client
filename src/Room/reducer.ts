@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  Board,
   BoardSettings,
   CommonStates,
   IncomingMessage,
@@ -70,28 +71,26 @@ const roomSlice = createSlice({
     timesUp: (state) => {
       // state.commonStates.elapsedTime = 0
     },
-    receiveBoards: (state, action: { payload: IncomingPlayer[] }) => {
-      const playersWithBoards: IncomingPlayer[] = action.payload
-      const playerList = playersWithBoards.map(
-        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
-      )
-      state.boardDictionary = createBoardDictionary(playerList, state.boardSettings)
-      state.playerList = playerList
-      // state.receivedBoards += 1
-      state.allBoardsReceived = true
-      // if (state.receivedBoards === state.playerList.length) {
-      //   state.allBoardsReceived = true
-      // }
-      // Test data
-      // const playerList = test_playerList
-      // const boardSettings = test_boardSettings
-      // state.boardDictionary = createBoardDictionary(playerList, boardSettings)
-      // state.boardSettings = boardSettings
+    receiveBoards: (state, action: { payload: { userId: string; board: Board } }) => {
+      const { userId, board } = action.payload
+      let updatedPlayerList = state.playerList
+      updatedPlayerList = updatedPlayerList.map((player) => {
+        if (player.userId === userId) {
+          player.board = board
+          player.hasSubmitted = true
+        }
+        return player
+      })
 
-      // state.playerList = playerList.map((player) => {
-      //   player.board = player.board
-      //   return player
-      // })
+      state.receivedBoards += 1
+      state.playerList = updatedPlayerList
+      if (state.receivedBoards === state.playerList.length) {
+        state.allBoardsReceived = true
+        state.boardDictionary = createBoardDictionary(
+          updatedPlayerList,
+          state.boardSettings
+        )
+      }
     },
     newMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload

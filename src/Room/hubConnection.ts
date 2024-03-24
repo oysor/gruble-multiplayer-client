@@ -99,9 +99,9 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(timesUp())
     })
 
-    hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (playerList) => {
+    hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (userId, board) => {
       // checkPlayerList(playerList)
-      store.dispatch(receiveBoards(playerList))
+      store.dispatch(receiveBoards({ userId: userId, board: board }))
     })
   } catch (err) {
     console.log(err)

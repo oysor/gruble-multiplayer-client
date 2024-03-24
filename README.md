@@ -46,7 +46,7 @@ Go to: https://grublings.github.io/Multiplayer-client/
 
 
 
-## Repo explanation
+## Repo explaination
 
 The repository consists mainly of two parts which are split into thunks by code splitting.
 

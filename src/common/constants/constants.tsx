@@ -14,6 +14,7 @@ export type Player = {
   userId: string
   color: string
   board: Board
+  hasSubmitted: boolean
   // scoreBoard: ScoreBoard
   playerResult: PlayerResult
 }
@@ -29,7 +30,6 @@ export type IncomingPlayer = {
   // scoreBoard: ScoreBoard
   playerResult: PlayerResult
 }
-
 
 export type Message = {
   player: Player
