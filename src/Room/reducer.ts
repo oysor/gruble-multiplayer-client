@@ -65,12 +65,10 @@ const roomSlice = createSlice({
       state.boardSettings = boardSettings
     },
     setTimeElapsed: (state, action) => {
-      console.log('time elapsed ' + action.payload)
       state.commonStates.elapsedTime = action.payload
     },
-    timesUp: (state) => {
-      // state.commonStates.elapsedTime = 0
-    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    timesUp: (state) => {},
     receiveBoards: (state, action: { payload: { userId: string; board: Board } }) => {
       const { userId, board } = action.payload
       let updatedPlayerList = state.playerList

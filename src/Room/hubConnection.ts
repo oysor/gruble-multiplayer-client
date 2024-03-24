@@ -16,13 +16,6 @@ import {
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
-import {
-  checkOnNewPlayer,
-  checkOnReceiveMessage,
-  checkOnRoom,
-  checkOnTimerElapsed,
-  checkPlayerList,
-} from '../common/typeGuards'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
 import store from './store'
@@ -70,28 +63,22 @@ export async function startRoomConnection(): Promise<void> {
 
     // Receive newly created room object here.
     hubConnection.on(fromServer.ON_GAME_CREATED, (gameRoom) => {
-      checkOnRoom(gameRoom)
       store.dispatch(addGameRoom(gameRoom))
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
-      // checkOnNewPlayer(player)
       store.dispatch(addPlayer(player))
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (player) => {
-      checkOnNewPlayer(player)
-      store.dispatch(removePlayer(player))
+    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (usedId) => {
+      store.dispatch(removePlayer({ userId: usedId }))
     })
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
-      checkOnReceiveMessage(msg)
       store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
-      // checkOnTimerElapsed(timeElapsed)
-      console.log('fromServer: time elapsed ' + timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 
@@ -100,7 +87,6 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (userId, board) => {
-      // checkPlayerList(playerList)
       store.dispatch(receiveBoards({ userId: userId, board: board }))
     })
   } catch (err) {

@@ -13,10 +13,10 @@ import {
   sendMessage,
   joinRoom,
   resetState,
+  gameClosed,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
-import { checkOnRoom } from '../common/typeGuards'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
 import store from './store'
@@ -30,6 +30,7 @@ enum toServer {
 // receive from server
 enum fromServer {
   ON_MESSAGE_RECEIVED = 'onMessageReceived',
+  ON_SERVER_REPLY = 'onServerReply',
   ON_ROOM_JOINED = 'onRoomJoined',
   ON_PLAYER_JOINED = 'onPlayerJoined',
   ON_PLAYER_DISCONNECTED = 'onPlayerLeft',
@@ -37,6 +38,8 @@ enum fromServer {
   ON_TIMER_ELAPSED = 'onTimerElapsed',
   ON_TIMER_FINISHED = 'onTimerFinished',
   ON_RECEIVE_RESULTS = 'onReceiveResults',
+  ON_GAME_ROOM_DISCONNECT = 'onGameRoomDisconnect',
+  ON_ERROR = 'onError',
 }
 
 // Builds the SignalR connection, mapping it to /chathub
@@ -59,32 +62,35 @@ export async function startPlayerConnection(): Promise<void> {
     store.dispatch(setStatus(hubConnection.state))
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
+    hubConnection.on(fromServer.ON_ERROR, (msg) => {
+      store.dispatch(newServerMessage({ message: msg }))
+    })
+
+    hubConnection.on(fromServer.ON_SERVER_REPLY, (msg) => {
+      store.dispatch(newServerMessage({ message: msg }))
+    })
+
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
-      // checkOnReceiveMessage(msg)
-      console.log('receiveMessage')
       store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
-      // checkOnTimerElapsed(timeElapsed)
       store.dispatch(setTimeElapsed(timeElapsed))
     })
 
     hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, msg) => {
-      checkOnRoom(gameRoom)
-        ? store.dispatch(addGameRoom(gameRoom))
-        : store.dispatch(newServerMessage(msg))
+      store.dispatch(addGameRoom(gameRoom))
+    })
+    hubConnection.on(fromServer.ON_GAME_ROOM_DISCONNECT, () => {
+      store.dispatch(gameClosed())
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
-      // spiller legger til seg selv også?
-      console.log('SPILLEREN ')
-      console.log(player)
       store.dispatch(addPlayer(player))
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (player) => {
-      store.dispatch(removePlayer(player))
+    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (usedId) => {
+      store.dispatch(removePlayer({ userId: usedId }))
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {

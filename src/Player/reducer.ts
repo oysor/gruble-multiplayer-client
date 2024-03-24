@@ -27,6 +27,7 @@ export interface playerState {
   playerMessages: Message[]
   serverMessage: string
   boardDictionary: WordInfoDict[][]
+  gameClosed: boolean
 }
 
 const initialState: playerState = {
@@ -44,6 +45,7 @@ const initialState: playerState = {
   playerMessages: [],
   serverMessage: '',
   boardDictionary: [[]],
+  gameClosed: false,
 }
 
 const playerSlice = createSlice({
@@ -54,7 +56,7 @@ const playerSlice = createSlice({
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
-    setPlayerInfo: (state, action) => {
+    setPlayerName: (state, action) => {
       const { playerName } = action.payload
       state.playerName = playerName
     },
@@ -75,8 +77,9 @@ const playerSlice = createSlice({
 
       return state
     },
-    newServerMessage: (state, action) => {
-      state.serverMessage = action.payload
+    newServerMessage: (state, action: { payload: { message: string } }) => {
+      const { message } = action.payload
+      state.serverMessage = message
     },
     addGameRoom: (state, action) => {
       const { signalRGroupName, timeLimit, boardSettings, players } = action.payload
@@ -93,6 +96,9 @@ const playerSlice = createSlice({
 
       state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
     },
+    gameClosed: (state) => {
+      state.gameClosed = true
+    },
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
     },
@@ -100,8 +106,6 @@ const playerSlice = createSlice({
       state.commonStates.elapsedTime = action.payload
     },
     timesUp: (state) => {
-      // state.commonStates.elapsedTime = -99
-
       state.timesUp = true
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -141,8 +145,9 @@ const playerSlice = createSlice({
   },
 })
 
+// import the actions where you want to dispatch them.
 export const {
-  setPlayerInfo,
+  setPlayerName,
   setStatus,
   setTimeElapsed,
   newMessage,
@@ -158,6 +163,7 @@ export const {
   addPlayer,
   removePlayer,
   newServerMessage,
+  gameClosed,
 } = playerSlice.actions
 
 export default playerSlice.reducer
