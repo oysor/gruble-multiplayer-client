@@ -6,6 +6,7 @@ export type CommonStates = {
   playerCount: number
   status: ConnectionMode
   elapsedTime: number
+  roundIsOn: boolean
 }
 
 export type Player = {
@@ -119,6 +120,7 @@ export const initialCommonStates: CommonStates = {
   playerCount: 0,
   status: ConnectionMode.Disconnected,
   elapsedTime: -99,
+  roundIsOn: false,
 }
 
 export const initPlayerResult: PlayerResult = {

@@ -13,6 +13,7 @@ import {
   setPlayerResults,
   resetState,
   addGameRoom,
+  setRoundIsOn,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -76,6 +77,10 @@ export async function startRoomConnection(): Promise<void> {
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
       store.dispatch(newMessage({ id: connectionID, message: msg }))
+    })
+
+    hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
+      store.dispatch(setRoundIsOn())
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {

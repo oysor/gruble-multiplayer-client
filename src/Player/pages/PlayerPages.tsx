@@ -50,7 +50,7 @@ export const PlayerPages: FunctionComponent = () => {
         {currentPage >= 2 ? (
           <Stack_l space="1rem" className="mt-[1rem]">
             <MessageBox messages={messages} />
-            <PlayerListBox playerList={playerList} />
+            {/* <PlayerListBox playerList={playerList} /> */}
             <ChatBox messages={playerMessages} />
             {roomId && <SendMessage roomId={roomId} />}
           </Stack_l>

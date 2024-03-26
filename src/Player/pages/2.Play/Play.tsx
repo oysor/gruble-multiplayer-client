@@ -9,8 +9,9 @@ import Maskot from '../../../assets/svg/maskot.svg'
 import { PlayerCountDown } from '../../components/PlayerCountDown'
 
 export const Play: FunctionComponent = () => {
-  const { roomId, boardSettings, playerBoard, timesUp, commonStates, timeLimit } =
-    useAppSelector((state: PlayerState) => state.player)
+  const { roomId, boardSettings, playerBoard, timesUp, commonStates } = useAppSelector(
+    (state: PlayerState) => state.player
+  )
   const dispatch = useAppDispatch()
   /**
    *  Go to next component when time is up
@@ -22,12 +23,9 @@ export const Play: FunctionComponent = () => {
     }
   }, [timesUp, dispatch, roomId, playerBoard])
 
-  const gameIsOn =
-    commonStates.elapsedTime < timeLimit && commonStates.elapsedTime !== -99
-
-  return (
-    <div className="play">
-      {gameIsOn ? (
+  if (commonStates.roundIsOn) {
+    return (
+      <div id="playing">
         <Stack_l space="3rem">
           <Center_l className="mb-2rem">
             <PlayerCountDown />
@@ -36,29 +34,28 @@ export const Play: FunctionComponent = () => {
             <InputBoard board={playerBoard} boardSettings={boardSettings} />
           </Box_l>
         </Stack_l>
-      ) : (
-        <Box_l>
-          <Stack_l space="0.3rem" className="mb-[2rem]">
-            <Maskot width="4rem" height="100%" />
+      </div>
+    )
+  }
 
-            <Stack_l space="0.5rem" className="text-sm">
-              <div>Ok, stupid! </div>
-              <div>You will receive a board to fill out with words.</div>
-              <div>
-                Each word must be within their category and start with the correct letter.
-              </div>
-              <div>
-                One extra point if you write down a word that no one else wrote down.
-              </div>
-              <div>You will have limited time to figure it out.</div>
-            </Stack_l>
+  return (
+    <div id="play">
+      <Box_l>
+        <Stack_l space="0.3rem" className="mb-[2rem]">
+          <Maskot width="4rem" height="100%" />
+          <Stack_l space="0.5rem" className="text-sm">
+            <div>Ok, stupid! </div>
+            <div>You will receive a board to fill out with words.</div>
+            <div>
+              Each word must be within their category and start with the correct letter.
+            </div>
+            <div>
+              One extra point if you write down a word that no one else wrote down.
+            </div>
+            <div>You will have limited time to figure it out.</div>
           </Stack_l>
-          {/* <Box_l padding="1rem" className="mb-[2rem]">
-            &#x231B;&#x2620;&nbsp; Time limit is set to {timeLimit} seconds
-            &nbsp;&#x2620;&#x231B;
-          </Box_l> */}
-        </Box_l>
-      )}
+        </Stack_l>
+      </Box_l>
     </div>
   )
 }

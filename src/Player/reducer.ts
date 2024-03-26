@@ -86,7 +86,6 @@ const playerSlice = createSlice({
       state.boardSettings = boardSettings
       state.roomId = signalRGroupName
       state.timeLimit = timeLimit
-      state.commonStates.elapsedTime = timeLimit
       state.playerList = players.map(
         (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
       )
@@ -102,11 +101,15 @@ const playerSlice = createSlice({
     updateBoard: (state, action) => {
       state.playerBoard = action.payload
     },
+    setRoundIsOn: (state) => {
+      state.commonStates.roundIsOn = true
+    },
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
     timesUp: (state) => {
       state.timesUp = true
+      state.commonStates.roundIsOn = false
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     sendBoard: (state, action) => {
@@ -156,6 +159,7 @@ export const {
   addGameRoom,
   updateBoard,
   resetState,
+  setRoundIsOn,
   timesUp,
   sendBoard,
   setNextPage,

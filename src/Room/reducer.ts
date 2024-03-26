@@ -64,11 +64,16 @@ const roomSlice = createSlice({
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
     },
+    setRoundIsOn: (state) => {
+      state.commonStates.roundIsOn = true
+    },
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    timesUp: (state) => {},
+    timesUp: (state) => {
+      state.commonStates.roundIsOn = false
+    },
     receiveBoards: (state, action: { payload: { userId: string; board: Board } }) => {
       const { userId, board } = action.payload
       let updatedPlayerList = state.playerList
@@ -156,6 +161,7 @@ export const {
   createRoom,
   startGame,
   updateBoardDictionary,
+  setRoundIsOn,
 } = roomSlice.actions
 
 export default roomSlice.reducer

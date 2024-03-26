@@ -22,7 +22,8 @@ export const StartGame: FunctionComponent = () => {
   const gameStart = playerList.length > 0
 
   const dispatchOnClick = () => {
-    dispatch(startGame({ roomId: roomId })), dispatch(setNextPage())
+    dispatch(startGame({ roomId: roomId }))
+    dispatch(setNextPage())
   }
 
   return (

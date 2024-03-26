@@ -14,6 +14,7 @@ import {
   joinRoom,
   resetState,
   gameClosed,
+  setRoundIsOn,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -25,7 +26,7 @@ import store from './store'
 enum toServer {
   SEND_MESSAGE = 'SendMessage',
   JOINROOM = 'JoinRoom',
-  SENDBOARD = 'CollectBoard',
+  SENDBOARD = 'SendBoard',
 }
 // receive from server
 enum fromServer {
@@ -74,10 +75,6 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
-    hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
-      store.dispatch(setTimeElapsed(timeElapsed))
-    })
-
     hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, msg) => {
       store.dispatch(addGameRoom(gameRoom))
     })
@@ -91,6 +88,14 @@ export async function startPlayerConnection(): Promise<void> {
 
     hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (usedId) => {
       store.dispatch(removePlayer({ userId: usedId }))
+    })
+
+    hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
+      store.dispatch(setRoundIsOn())
+    })
+
+    hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
+      store.dispatch(setTimeElapsed(timeElapsed))
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
@@ -173,9 +178,6 @@ startAppListening({
 startAppListening({
   actionCreator: sendBoard,
   effect: async (action) => {
-    console.log('Board data:')
-    console.log(action)
-    // const guid = JSON.stringify(action.payload.roomId});
     const signalRGroupName = action.payload.roomId
     hubConnection.invoke(toServer.SENDBOARD, signalRGroupName, action.payload.board)
   },
