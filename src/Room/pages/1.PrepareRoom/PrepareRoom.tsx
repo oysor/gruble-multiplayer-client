@@ -28,7 +28,7 @@ export const PrepareRoom: FunctionComponent = () => {
       <Box_l padding="1rem" className="h-[18rem]">
         <Center_l intrinsic className="mt-[2rem]">
           <Stack_l space="0.2rem">
-            <div>Set room name</div>
+            {/* <div>Set room name</div> */}
             <div>
               <SmartInput
                 value={name}

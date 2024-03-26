@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useState } from 'react'
 import { createRoom, setNextPage } from '../../reducer'
 import { Button, MissingInput, SmartNumericInput } from '../../../common/components'
-import { InputCategories } from './InputCategories'
+import { InputCategories } from './inputCategories/InputCategories'
+import { InputLetters } from './inputCategories/InputLetters'
 import { RoomState } from '../../store'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 
 import { CreateBoard } from './CreateBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
-import { InputLetters } from './InputLetters'
 
 export const PrepareBoard: FunctionComponent = () => {
   const { roomName } = useAppSelector((state: RoomState) => state.room)

@@ -12,4 +12,8 @@ body, */
   background-color: #03484f;
   color: white;
   font-size: calc(1rem + 0.5vw);
+
+  --input-color: #c4c4c4;
+  --input-color-hover: #f4f2f1;
+  --btnColor: #fff;
 }

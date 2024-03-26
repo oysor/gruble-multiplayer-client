@@ -70,7 +70,6 @@ const roomSlice = createSlice({
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     timesUp: (state) => {
       state.commonStates.roundIsOn = false
     },

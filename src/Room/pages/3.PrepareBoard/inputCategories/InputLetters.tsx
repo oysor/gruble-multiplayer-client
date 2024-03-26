@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react'
+import * as S from './styles'
 
 type InputLettersProps = {
   setInputList: (inputList: string[]) => void
@@ -30,18 +31,18 @@ export const InputLetters: FunctionComponent<InputLettersProps> = ({
   }
 
   return (
-    <div className="input-categories">
+    <S.InputCategories>
       {inputList.map((x, i) => {
         return (
-          <div className="input-category" key={i}>
-            <button
+          <S.InputCategory key={i}>
+            <S.RemoveCategory
               disabled={inputList.length === 1}
               onClick={() => handleRemoveClick(i)}
               className="remove-category"
             >
               -
-            </button>
-            <input
+            </S.RemoveCategory>
+            <S.WriteCategory
               className="write-category"
               value={x.toUpperCase()}
               placeholder={'letter..'}
@@ -49,12 +50,12 @@ export const InputLetters: FunctionComponent<InputLettersProps> = ({
                 handleInputChange(ev, i)
               }
             />
-          </div>
+          </S.InputCategory>
         )
       })}
-      <button onClick={handleAddClick} className="add-category">
+      <S.AddCategory onClick={handleAddClick} className="add-category">
         +
-      </button>
-    </div>
+      </S.AddCategory>
+    </S.InputCategories>
   )
 }
