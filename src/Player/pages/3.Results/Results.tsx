@@ -35,7 +35,7 @@ export const Results: FunctionComponent = () => {
           </Stack_l>
         </Box_l>
       ) : (
-        <h2>Waiting for results...</h2>
+        <h3>Awaiting board approval...</h3>
       )}
     </div>
   )
