@@ -23,7 +23,7 @@ export const ShowResults: FunctionComponent = () => {
         <Stack_l space="2.5rem">
           <Table playerStats={playerStats} />
           <div>
-            {winner.player} won {winner.score} points
+            {winner.player} won with {winner.score} points
           </div>
           <PlayerResultBoards
             playerList={playerList}

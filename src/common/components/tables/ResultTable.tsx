@@ -5,9 +5,6 @@ interface ResultTableProps {
   playerList: Player[]
 }
 
-[]
-
-
 /*
  * Displays a table listing all players and their scores
  */

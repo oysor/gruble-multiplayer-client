@@ -6,7 +6,8 @@ export const TableContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px;
+  /* font-size: 0.6em; */
+  font-size: 50%;
   max-width: 800px;
   color: black;
 `
@@ -14,20 +15,20 @@ export const TableContainer = styled.div`
 export const StyledTable = styled.table`
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 0.9em;
+  margin-top: 1em;
+  /* font-size: 0.9em; */
 
   th {
     background-color: #ff99bb;
     color: black;
-    padding: 5px;
+    padding: 0.4em;
     border: 1px solid black;
     text-align: left;
   }
 
   td {
     background-color: hsl(240, 50%, 90%);
-    padding: 5px;
+    padding: 0.4em;
     border: 1px solid #ddd;
     text-align: left;
   }

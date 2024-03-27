@@ -26,12 +26,16 @@ const columns = [
     header: 'Player',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor('score', {
-    header: 'Score',
+  // columnHelper.accessor('correct', {
+  //   header: 'Correct',
+  //   cell: (info) => info.getValue(),
+  // }),
+  columnHelper.accessor('missing', {
+    header: 'Missing',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor('correct', {
-    header: 'Correct',
+  columnHelper.accessor('wrong', {
+    header: 'Wrong',
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor('common', {
@@ -42,12 +46,8 @@ const columns = [
     header: 'Unique',
     cell: (info) => info.getValue(),
   }),
-  columnHelper.accessor('wrong', {
-    header: 'Wrong',
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('missing', {
-    header: 'Missing',
+  columnHelper.accessor('score', {
+    header: 'Total',
     cell: (info) => info.getValue(),
   }),
 ]
