@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react'
 import { Stack_l } from '../../everyLayout'
-import { Message } from '../../constants'
+import { Message, MessageItem } from '../../constants'
 import { styled } from 'styled-components'
 import { TextBox } from './TextBox'
 
 type ChatBoxProps = {
-  messages: Message[]
+  messages: MessageItem[]
 }
 
 interface PlayerRowProps {
@@ -14,6 +14,8 @@ interface PlayerRowProps {
 
 export const PlayerRow = styled.span<PlayerRowProps>`
   color: ${(props) => props.color};
+  font-size: 0.8em;
+  word-break: break-all;
 `
 
 export const PlayerName = styled.span<PlayerRowProps>`
@@ -25,21 +27,23 @@ export const PlayerName = styled.span<PlayerRowProps>`
 export const ChatBox: FunctionComponent<ChatBoxProps> = ({ messages }) => {
   return (
     <Stack_l space="0.3rem" className="">
-      <span>Player chat</span>
+      <span>Messages</span>
       <TextBox>
         {messages.length > 0 ? (
           messages.map((message, i) => {
+            const color = message?.color === 'undefined' ? 'grey' : message?.color
+            const name = message?.name
             return (
-              // <PlayerRow key={i} color={message.player.color}>
-              //   {message.message}
-              // </PlayerRow>
-
-              <div key={i}>
-                <PlayerName color={message.player.color}>
-                  {message.player.name + ': '}
-                </PlayerName>
-                <span className="text-slate-900">{message.message}</span>
-              </div>
+              <PlayerRow key={i}>
+                {name !== undefined ? (
+                  <>
+                    <PlayerName color={color ? color : 'gray'}>{name}</PlayerName>
+                    <span className="text-slate-900">{': ' + message.message}</span>
+                  </>
+                ) : (
+                  <span className="text-slate-900">{message.message}</span>
+                )}
+              </PlayerRow>
             )
           })
         ) : (

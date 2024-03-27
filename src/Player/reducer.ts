@@ -7,6 +7,7 @@ import {
   IncomingPlayer,
   initialCommonStates,
   Message,
+  MessageItem,
   Player,
   WordInfoDict,
 } from '../common/constants'
@@ -14,8 +15,9 @@ import { mapPlayerFromAPI } from '../common/mapping'
 
 export interface playerState {
   playerName: string
-  messages: Array<string>
   roomId: string
+  messages: MessageItem[]
+  serverMessage: string
   commonStates: CommonStates
   boardSettings: BoardSettings
   playerBoard: Board
@@ -24,16 +26,15 @@ export interface playerState {
   receivedResult: boolean
   currentPage: number
   timeLimit: number
-  playerMessages: Message[]
-  serverMessage: string
   boardDictionary: WordInfoDict[][]
   gameClosed: boolean
 }
 
 const initialState: playerState = {
   playerName: '',
-  messages: [],
   roomId: '',
+  messages: [],
+  serverMessage: '',
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],
@@ -42,8 +43,6 @@ const initialState: playerState = {
   receivedResult: false,
   currentPage: 1,
   timeLimit: 0,
-  playerMessages: [],
-  serverMessage: '',
   boardDictionary: [[]],
   gameClosed: false,
 }
@@ -68,14 +67,11 @@ const playerSlice = createSlice({
       const messageSender = state.playerList.find((p) => {
         return p.userId === id
       })
-      messageSender
-        ? (state.playerMessages = [
-            { player: messageSender, message: message },
-            ...state.playerMessages,
-          ])
-        : (state.messages = [message, ...state.messages])
 
-      return state
+      state.messages = [
+        { color: messageSender?.color, name: messageSender?.name, message: message },
+        ...state.messages,
+      ]
     },
     newServerMessage: (state, action: { payload: { message: string } }) => {
       const { message } = action.payload

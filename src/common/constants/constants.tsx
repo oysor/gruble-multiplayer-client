@@ -37,6 +37,12 @@ export type Message = {
   message: string
 }
 
+export type MessageItem = {
+  color: string | undefined
+  name: string | undefined
+  message: string
+}
+
 export type IncomingMessage = {
   id: string
   message: string

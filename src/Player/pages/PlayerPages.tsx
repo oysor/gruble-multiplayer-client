@@ -3,7 +3,6 @@ import { PlayerState } from '../store'
 import {
   ChatBox,
   ConnectionStatus,
-  MessageBox,
   PlayerList,
   PlayerListBox,
 } from '../../common/components'
@@ -18,15 +17,8 @@ import { SendMessage } from '../components/SendMessage'
 import { GameClosed } from '../../common/components/connection'
 
 export const PlayerPages: FunctionComponent = () => {
-  const {
-    commonStates,
-    messages,
-    currentPage,
-    playerMessages,
-    roomId,
-    playerList,
-    gameClosed,
-  } = useAppSelector((state: PlayerState) => state.player)
+  const { commonStates, messages, currentPage, roomId, playerList, gameClosed } =
+    useAppSelector((state: PlayerState) => state.player)
   const connected = commonStates.status === ConnectionMode.Connected
 
   const displayPage = (currentPage: number) => {
@@ -49,9 +41,8 @@ export const PlayerPages: FunctionComponent = () => {
         <Center_l>{displayPage(currentPage)}</Center_l>
         {currentPage >= 2 ? (
           <Stack_l space="1rem" className="mt-[1rem]">
-            <MessageBox messages={messages} />
             {/* <PlayerListBox playerList={playerList} /> */}
-            <ChatBox messages={playerMessages} />
+            <ChatBox messages={messages} />
             {roomId && <SendMessage roomId={roomId} />}
           </Stack_l>
         ) : null}

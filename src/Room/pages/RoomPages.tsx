@@ -1,11 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { RoomState } from '../store'
-import {
-  ChatBox,
-  ConnectionStatus,
-  MessageBox,
-  PlayerListBox,
-} from '../../common/components'
+import { ChatBox, ConnectionStatus, PlayerListBox } from '../../common/components'
 import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from '.'
 import { useAppSelector } from '../hooks'
 import { PrepareRoom } from './1.PrepareRoom'
@@ -14,8 +9,9 @@ import { ConnectionMode } from '../../common/constants'
 import { DisconnectedCover } from '../../common/components/connection/Disconnected'
 
 export const RoomPages: FunctionComponent = () => {
-  const { commonStates, messages, currentPage, playerMessages, playerList } =
-    useAppSelector((state: RoomState) => state.room)
+  const { commonStates, messages, currentPage, playerList } = useAppSelector(
+    (state: RoomState) => state.room
+  )
   const connected = commonStates.status === ConnectionMode.Connected
 
   const displayPage = (currentPage: number) => {
@@ -41,9 +37,8 @@ export const RoomPages: FunctionComponent = () => {
         <Center_l>{displayPage(currentPage)}</Center_l>
         {currentPage >= 3 ? (
           <Stack_l space="1rem" className="mt-[1rem]">
-            <MessageBox messages={messages} />
             {/* <PlayerListBox playerList={playerList} /> */}
-            <ChatBox messages={playerMessages} />
+            <ChatBox messages={messages} />
           </Stack_l>
         ) : null}
       </Center_l>
