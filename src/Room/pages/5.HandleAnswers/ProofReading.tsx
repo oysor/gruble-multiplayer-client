@@ -54,7 +54,7 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) 
           </S.Cluster_l>
         </S.Center_l>
         <S.Center_l>
-          <Board>
+          <Board className="text-[60%]">
             <Row>
               <Square firstInRow>
                 <InfoSquare>

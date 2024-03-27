@@ -14,7 +14,7 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
   const { categories, letters } = boardSettings
 
   return (
-    <Board className="text-[0.9em]">
+    <Board className="text-[60%]">
       <Row>
         <Square firstInRow>
           <InfoSquare>

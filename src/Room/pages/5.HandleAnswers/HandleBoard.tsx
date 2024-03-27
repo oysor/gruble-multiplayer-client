@@ -30,7 +30,7 @@ export const HandleBoard: FunctionComponent<HandleBoardProps> = ({
   const { categories, letters } = boardSettings
 
   return (
-    <Board>
+    <Board className="text-[60%]">
       <Row>
         <Square firstInRow>
           <InfoSquare>

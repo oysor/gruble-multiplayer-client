@@ -27,7 +27,7 @@ export const JoinGame: FunctionComponent = () => {
   return (
     <div className="join-room">
       <div className="header-logo">
-        <div>Name yourself and input the roomId</div>
+        {/* <div>Name yourself and input the roomId</div> */}
       </div>
       <Box_l padding="1rem">
         <Center_l intrinsic className="mt-[1rem]">

@@ -40,7 +40,7 @@ export const CreateBoard: FunctionComponent<InputCategoriesProps> = ({
 
   return (
     <Box_l className="overflow-x-scroll">
-      <Board className="text-[0.8rem]">
+      <Board className="text-[60%]">
         <Row>
           <Square firstInRow>
             <InfoSquare>

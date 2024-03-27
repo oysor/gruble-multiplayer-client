@@ -25,7 +25,7 @@ export const ResultBoard: FunctionComponent<ResultBoardProps> = ({
   const { categories, letters } = boardSettings
 
   return (
-    <Board>
+    <Board className="text-[60%]">
       <Row>
         <Square firstInRow>
           <InfoSquare>

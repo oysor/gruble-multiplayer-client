@@ -12,8 +12,10 @@ export const ShowRoomInput: FunctionComponent = () => {
   return (
     <Box_l padding="1rem">
       <Stack_l space="0.2rem">
-        <h2 className="text-center">{heading}</h2>
-        <span className="text-xl">{copied ? 'Copied!' : 'Click to copy..'}</span>
+        {/* <h2 className="text-center">{heading}</h2> */}
+        <span className="text-xl text-center">
+          {copied ? 'Copied!' : 'Click to copy..'}
+        </span>
         <Box_l
           borderColor={copied ? 'black' : '#ff99bb'}
           borderWidth="0.1rem"
