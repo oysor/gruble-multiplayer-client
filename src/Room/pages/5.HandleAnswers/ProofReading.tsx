@@ -93,10 +93,7 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) 
                           setplayerRow({ ...playerRow, letter: l, player: p })
                         }}
                       >
-                        <SquareInput
-                          color={flagColor(card.flag)}
-                          defaultValue={player.board[p][l]}
-                        >
+                        <SquareInput color={flagColor(card.flag)}>
                           {card.word}
                         </SquareInput>
                       </Square>
