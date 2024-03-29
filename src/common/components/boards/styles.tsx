@@ -64,7 +64,7 @@ export const Square = styled.div<SquareProps>`
     css`
       color: black;
       background: #efefef;
-      border-radius: 16px;
+      border-radius: 0.2rem;
     `}
 `
 interface InputProps {
