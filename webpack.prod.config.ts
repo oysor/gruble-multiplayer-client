@@ -17,7 +17,7 @@ const config: webpack.Configuration = merge(common, {
   },
   plugins: [
     new EnvironmentPlugin({
-      API_URL: 'https://multiplayer-api.azurewebsites.net/chathub',
+      API_URL: 'https://multiplayer-api.azurewebsites.net/gameHub',
       DEBUG: false,
     }),
     new HtmlWebpackPlugin({

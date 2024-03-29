@@ -41,7 +41,7 @@ enum fromServer {
   ON_RECEIVE_BOARDS = 'onReceiveBoards',
 }
 
-// Builds the SignalR connection, mapping it to /chathub
+// Builds the SignalR connection, mapping it to /gameHub
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
   .withAutomaticReconnect()

@@ -25,7 +25,7 @@ Go to branch *development*
 > yarn start
 ```
 
-Connects to https://localhost:5001/chathub
+Connects to https://localhost:5001/gameHub
 
 Check out **wepack.dev.config.ts** for development settings.
 

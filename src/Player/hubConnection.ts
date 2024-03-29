@@ -43,7 +43,7 @@ enum fromServer {
   ON_ERROR = 'onError',
 }
 
-// Builds the SignalR connection, mapping it to /chathub
+// Builds the SignalR connection, mapping it to /gameHub
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
   .withAutomaticReconnect()
