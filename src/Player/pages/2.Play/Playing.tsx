@@ -18,17 +18,31 @@ export const Playing: FunctionComponent = () => {
   const { x, y } = coords
   const { categories, letters } = boardSettings
 
-  const showNextLetter = () => {
+  const nextLetter = () => {
     const nextLetter = y < letters.length - 1 ? y + 1 : 0
     setCoords({ y: nextLetter, x: x })
   }
 
-  const showNextCategory = (next?: number) => {
+  const previousLetter = () => {
+    const prevLetter = y > 0 ? y - 1 : letters.length - 1
+    setCoords({ y: prevLetter, x: x })
+  }
+
+  const nextCategory = (next?: number) => {
     if (Number.isFinite(next) && next !== undefined) {
       setCoords({ x: next, y: y })
     } else {
       const nextCategory = x < categories.length - 1 ? x + 1 : 0
       setCoords({ x: nextCategory, y: y })
+    }
+  }
+
+  const previousCategory = (next?: number) => {
+    if (Number.isFinite(next) && next !== undefined) {
+      setCoords({ x: next, y: y })
+    } else {
+      const prevCategory = x > 0 ? x - 1 : categories.length - 1
+      setCoords({ x: prevCategory, y: y })
     }
   }
 
@@ -59,8 +73,12 @@ export const Playing: FunctionComponent = () => {
                 categories[x].toUpperCase() + ' på ' + letters[y].toUpperCase()
               }
             />
-            <Button onClick={showNextCategory}>Category &rarr;</Button>
-            <Button onClick={showNextLetter}>Letter &darr;</Button>
+            <Box_l className="text-[0.7rem]">
+              <Button onClick={previousCategory}>&larr; Previous</Button>
+              <Button onClick={nextCategory}>Next &rarr;</Button>
+              <Button onClick={nextLetter}>Down &darr;</Button>
+              <Button onClick={previousLetter}>Up &uarr;</Button>
+            </Box_l>
           </Box_l>
         </Center_l>
         <Box_l className="overflow-x-scroll">
