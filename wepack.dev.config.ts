@@ -23,7 +23,7 @@ const config: Configuration = merge(common, {
   devtool: 'inline-source-map',
   plugins: [
     new EnvironmentPlugin({
-      API_URL: 'https://localhost:5001/chathub',
+      API_URL: 'https://localhost:5001/gameHub',
       DEBUG: true,
     }),
     new HtmlWebpackPlugin({
