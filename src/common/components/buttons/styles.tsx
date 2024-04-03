@@ -49,97 +49,30 @@ export const StyledButton = styled.button<ButtonStyleProps>`
     `}
 `
 
-export const Button3D = styled.button`
+export const StyledSubmit = styled.input`
   position: relative;
-  background: transparent;
-
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline-offset: 4px;
-
-  transition: filter 600ms;
-
-  & :hover {
-    transition: filter 250ms;
-    filter: brightness(110%);
-  }
-
-  :focus:not(:focus-visible) {
-    outline: none;
-  }
-`
-export const Front = styled.span`
-  display: block;
-  padding: 0.2em 0.8em;
-  /* border-radius: 12px; */
-  font-size: 1rem;
-
-  background: hsl(0, 0%, 97%);
+  display: inline-block;
+  padding: 1em 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid black;
+  border-radius: 0.2rem;
   color: black;
-  transform: translateY(-4px);
-
-  will-change: transform;
-  transition: transform 600ms cubic-bezier(0.3, 0.7, 0.4, 1);
-
-  ${Button3D}:hover & {
-    transform: translateY(-6px);
-    transition: transform 250ms cubic-bezier(0.3, 0.7, 0.4, 1.5);
+  background: #f9b;
+  /* box-shadow: 2px 2px #ed6b97,6px 6px black; */
+  line-height: 1.2em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1rem;
+  &:hover {
+    background-color: #f7adc6;
   }
 
-  ${Button3D}:active & {
-    transform: translateY(-2px);
-    transition: transform 34ms;
-  }
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  & > svg {
-    margin-right: 0.5em;
-  }
-`
-
-export const Egde = styled.span`
-  ${Button3D} & {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-
-    background: linear-gradient(
-      to left,
-      hsl(0, 0%, 60%) 0%,
-      hsl(0, 0%, 80%) 8%,
-      hsl(0, 0%, 80%) 92%,
-      hsl(0, 0%, 60%) 100%
-    );
-  }
-`
-
-export const Shadow = styled.span`
-  ${Button3D} & {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    background: hsl(0deg 0% 0% / 0.25);
-    filter: blur(4px);
-    transform: translateY(2px);
-  }
-
-  ${Button3D}:hover & {
-    transform: translateY(4px);
-  }
-  ${Button3D}:active & {
-    transform: translateY(1px);
-    transition: transform 34ms;
+  &:active {
+    transform: translate(6px, 6px);
+    transition: all 10ms linear;
+    box-shadow:
+      0px 0px lightpink,
+      0px 0px black;
   }
 `
 
@@ -181,29 +114,36 @@ export const GameButton = styled.button<GameButtonProps>`
     `}
 `
 
-export const StyledSubmit = styled.input`
+interface PondrButtonProps {
+  valid?: boolean
+  color?: string
+  background?: string
+}
+
+export const PondrButton = styled.button<PondrButtonProps>`
   position: relative;
   display: inline-block;
-  padding: 1em 0.75rem;
+  padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid black;
-  border-radius: 0.2rem;
-  color: black;
-  background: #f9b;
-  /* box-shadow: 2px 2px #ed6b97,6px 6px black; */
-  line-height: 1.2em;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1rem;
-  &:hover {
-    background-color: #f7adc6;
-  }
+  border-radius: var(--main-radius, 0rem);
 
-  &:active {
-    transform: translate(6px, 6px);
-    transition: all 10ms linear;
-    box-shadow:
-      0px 0px lightpink,
-      0px 0px black;
-  }
+  color: var(--main-color, '#035151');
+  color: ${(props) => props.color && props.color};
+  background: var(--btnColor, '#FFFFFF');
+  background: ${(props) => props.background && props.background};
+
+  font-family: var(--font-bold);
+  text-align: center;
+  /* font-weight: bold; */
+  font-size: 1em;
+  line-height: 1.2em;
+
+  ${(props) =>
+    !props.valid &&
+    css`
+      &:hover {
+        background-color: #f7adc6;
+      }
+    `}
 `
