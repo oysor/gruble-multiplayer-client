@@ -122,7 +122,7 @@ export const Box_l = styled.div<BoxProps>`
       border: solid;
       border-color: ${props.borderColor};
       border-width: ${props.borderWidth};
-  `}
+    `}
 
   & * {
     color: ${(props) => props.color};
@@ -134,13 +134,16 @@ export const Box_l = styled.div<BoxProps>`
  * A custom element for injecting white space (margin) between flow
  * (block) elements along a vertical axis.
  * @property {string} space=var(--s1) A CSS `margin` value
+ * @property {string} justfiy=flex-start A CSS `justify-content` value
+ * @property {string} align=flex-start A CSS `align-items` value
  * @property {boolean} recursive=false Whether the spaces apply recursively (i.e. regardless of nesting level)
  * @property {number} splitAfter=null The element after which to _split_ the stack with an auto margin
  */
 export const Stack_l = styled.div<StackProps>`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: ${(props) => props.justify || 'flex-start'};
+  align-items: ${(props) => props.align ?? props.align};
 
   & ${(props) => (props.recursive ? '' : '>')} * + * {
     margin-top: ${(props) => props.space};
@@ -152,6 +155,9 @@ export const Stack_l = styled.div<StackProps>`
       & :only-child {
         height: 100%;
       }
+
+      // maybe this is actually correct
+      height: 100%;
 
       & > :nth-child(${props.splitAfter}) {
         margin-top: auto;
