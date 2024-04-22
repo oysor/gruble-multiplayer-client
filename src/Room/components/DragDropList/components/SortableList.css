@@ -1,0 +1,8 @@
+.SortableList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    padding: 0rem;
+    list-style: none;
+  }
+  
