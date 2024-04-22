@@ -116,28 +116,47 @@ export const GameButton = styled.button<GameButtonProps>`
 
 interface PondrButtonProps {
   valid?: boolean
+  invert?: boolean
   color?: string
   background?: string
+  width?: string
+  transparent?: boolean
+  fontSize?: string
 }
 
 export const PondrButton = styled.button<PondrButtonProps>`
   position: relative;
   display: inline-block;
-  padding: 0.5rem 0.75rem;
-  margin-bottom: 1rem;
-  border: 1px solid black;
-  border-radius: var(--main-radius, 0rem);
+  padding: 0.5em 0.75em;
+
+  border: 0.1em solid white;
+
+  border-radius: var(--main-radius, 2em);
+
+  font-family: var(--font-bold);
+  font-size: ${(props) => props.fontSize || '1em'};
+  line-height: 1.2em;
+  width: ${(props) => props.width && props.width};
 
   color: var(--main-color, '#035151');
   color: ${(props) => props.color && props.color};
   background: var(--btnColor, '#FFFFFF');
   background: ${(props) => props.background && props.background};
 
-  font-family: var(--font-bold);
-  text-align: center;
-  /* font-weight: bold; */
-  font-size: 1em;
-  line-height: 1.2em;
+  ${(props) =>
+    props.invert &&
+    css`
+      background: var(--main-color);
+      color: #ffffff;
+    `}
+
+  ${(props) =>
+    props.transparent &&
+    css`
+      border: none;
+      background: transparent;
+    `}
+
 
   ${(props) =>
     !props.valid &&
