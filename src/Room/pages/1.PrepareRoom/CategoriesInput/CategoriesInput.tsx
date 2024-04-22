@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Stack_l } from '../../../../common/everyLayout'
-import { Headline, UnderHeadline } from '../PrepareRoom'
+import { Headline, UnderHeadline } from '../styles'
 
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { RoomState } from '../../../store'

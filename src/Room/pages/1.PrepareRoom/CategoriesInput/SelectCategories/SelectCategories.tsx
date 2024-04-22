@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import { Stack_l } from '../../../../../common/everyLayout'
 import {
   ConfirmBox,
   OverLayButton,
@@ -7,10 +6,11 @@ import {
   BulletIcon,
   OverLayTop,
 } from './styles'
-import { PondrButton } from '../../../../../common/components/buttons'
 import AddIcon from '../../../../../assets/svg/add_category.svg'
 import AddedIcon from '../../../../../assets/svg/added_category.svg'
 import GrayRectangle from '../../../../../assets/svg/gray_rectangle.svg'
+import { Stack_l } from '../../../../../common/everyLayout'
+import { PondrButton } from '../../../../../common/components/buttons'
 
 type SelectCategoriesProps = {
   categories: string[]

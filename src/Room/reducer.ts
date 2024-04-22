@@ -34,7 +34,7 @@ const initialState: RoomState = {
   messages: [],
   timeLimit: 0,
   commonStates: initialCommonStates,
-  boardSettings: { categories: [''], letters: [''] },
+  boardSettings: { categories: [], letters: [] },
   playerList: [],
   receivedBoards: 0,
   allBoardsReceived: false,
@@ -55,6 +55,9 @@ const roomSlice = createSlice({
     },
     setTimeLimit: (state, action) => {
       state.timeLimit = action.payload
+    },
+    setCategories: (state, action: { payload: { categories: string[] } }) => {
+      state.boardSettings.categories = action.payload.categories
     },
     addGameRoom: (state, action) => {
       const { signalRGroupName, roomName, timeLimit, boardSettings } = action.payload
@@ -145,6 +148,7 @@ export const {
   setStatus,
   setRoomName,
   setTimeLimit,
+  setCategories,
   addGameRoom,
   setTimeElapsed,
   newMessage,

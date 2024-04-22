@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Box_l } from '../../../common/everyLayout'
+import { Box_l } from '../../../../common/everyLayout'
 import {
   Board,
   InfoSquare,
@@ -7,7 +7,7 @@ import {
   InputLetter,
   Row,
   Square,
-} from '../../../common/components/boards/styles'
+} from '../../../../common/components/boards/styles'
 
 type InputCategoriesProps = {
   setCategoryList: (inputList: string[]) => void

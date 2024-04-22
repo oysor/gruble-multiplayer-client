@@ -11,7 +11,7 @@ import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
 import { JoinGame } from './1.JoinGame'
 import { Play } from './2.Play'
 import { Results } from './3.Results'
-import { DisconnectedCover } from '../../common/components/connection/Disconnected'
+import { DisconnectOverlay } from '../../common/components/connection/Disconnected'
 import { ConnectionMode } from '../../common/constants'
 import { SendMessage } from '../components/SendMessage'
 import { GameClosed } from '../../common/components/connection'
@@ -34,7 +34,7 @@ export const PlayerPages: FunctionComponent = () => {
 
   return (
     <Cover_l centered="div">
-      {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
+      {!connected ? <DisconnectOverlay status={commonStates.status} /> : null}
       {gameClosed ? <GameClosed /> : null}
       <Center_l intrinsic>
         <ConnectionStatus status={commonStates.status} />

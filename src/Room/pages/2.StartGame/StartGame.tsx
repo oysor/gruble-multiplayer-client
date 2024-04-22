@@ -8,12 +8,9 @@ import { NavLink } from 'react-router-dom'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 import { GameButton } from '../../../common/components/buttons'
 // import { BoardTemplate } from '../../../common/components/boards/BoardTemplate'
-import { ConnectionMode } from '../../../common/constants'
 
 export const StartGame: FunctionComponent = () => {
-  const { roomId, playerList, commonStates } = useAppSelector(
-    (state: RoomState) => state.room
-  )
+  const { roomId, playerList } = useAppSelector((state: RoomState) => state.room)
   const dispatch = useAppDispatch()
 
   // Missing input warning
@@ -27,7 +24,7 @@ export const StartGame: FunctionComponent = () => {
   }
 
   return (
-    <Box_l id="start-game">
+    <Box_l id="start-game" className="w-[100%]">
       <Stack_l className="min-h-[23rem]">
         <Center_l intrinsic>
           <ShowRoomInput />

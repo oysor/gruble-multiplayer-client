@@ -13,6 +13,7 @@ module.exports = {
       sofiaRegularItalic: ['SofiaProRegularItalic', 'sans-serif'],
       sofiaMedium: ['SofiaProMedium', 'sans-serif'],
       sofiaMediumItalic: ['SofiaProMediumItalic', 'sans-serif'],
+      sofiaSemiBold: ['SofiaProSemiBold', 'sans-serif'],
     },
   },
   variants: {

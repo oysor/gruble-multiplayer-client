@@ -42,15 +42,7 @@
   src: url('../fonts/SofiaProMediumItalicAz.otf') format('opentype');
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  font-size: calc(1rem + 0.5vw);
-
+html {
   --main-radius: 0.2rem;
 
   --input-color: #c4c4c4;
@@ -59,6 +51,7 @@ body,
   --btnColor: #fff;
 
   --main-color: #035151;
+  --pondr-pink: #f7adc6;
   --font-color: white;
 
   --main-bg-color: #035151;
@@ -67,12 +60,33 @@ body,
   --font-regular: 'SofiaProRegular';
   --font-bold: 'SofiaProSemiBold';
 
+  --scale: 1;
+
+  font-size: calc(1rem + 0.5vw);
   background: var(--main-bg-color);
-  color: var(--font-color)
+  color: var(--font-color);
+}
+
+body,
+#root,
+.App {
+  min-height: 100vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .App {
-  background-image: url('../assets/svg/BackgroundVector.svg');
+  background: var(--main-bg-color);
+  background-image: url('data:image/svg+xml,<svg width="100%" height="100%" viewBox="0 0 375 590" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M120.198 55.8202C198.874 143.053 361.187 199.435 432.51 216.722C448.679 200.986 504.408 181.084 597.969 227.36C714.919 285.205 671.727 422.835 615.245 517.914C558.763 612.992 574.711 555.812 352.771 647.566C130.83 739.32 285.657 638.257 239.807 632.938C193.957 627.619 -27.9843 672.831 -207.397 735.33C-386.811 797.829 -384.817 702.751 -334.98 571.769C-285.143 440.787 -210.055 395.575 -106.394 351.028C-2.73352 306.481 -117.026 204.089 -126.329 109.676C-135.632 15.2623 21.8528 -53.2206 120.198 55.8202Z" fill="url(%23paint0_linear_571_62)" fill-opacity="0.2" /><defs><linearGradient id="paint0_linear_571_62" x1="154" y1="0" x2="154" y2="755" gradientUnits="userSpaceOnUse"><stop stop-color="%2393DA7B" stop-opacity="0.74" /><stop offset="1" stop-color="%2308F9EA" stop-opacity="0.26" /></linearGradient></defs></svg>');
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+  background-position:
+    bottom center,
+    50%,
+    50%;
 }
