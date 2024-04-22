@@ -21,7 +21,7 @@ export const CategoriesInput: FunctionComponent = () => {
   const { categories } = boardSettings
   const [showOvelay, setShowOvelay] = useState(false)
   const [items, setItems] = useState<values>(
-    categories.map((cat, i) => ({ id: i, value: cat }))
+    categories.map((cat, i) => ({ id: i + 1, value: cat }))
   )
 
   const itemsCheckRef = React.useRef(items)
