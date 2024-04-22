@@ -33,7 +33,7 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({
     }
   }
   return (
-    <Box_l padding="2rem" className="text-center z-10">
+    <Box_l padding="0.5rem" className="text-center z-10">
       {connectionStatus()}
     </Box_l>
   )
