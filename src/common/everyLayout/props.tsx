@@ -48,6 +48,8 @@ export interface BoxProps {
 }
 
 export interface StackProps {
+  justify?: string
+  align?: string
   splitAfter?: string
   recursive?: boolean
   space?: string

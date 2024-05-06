@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import { RoomState } from '../store'
 import { ChatBox, ConnectionStatus, PlayerListBox } from '../../common/components'
-import { PrepareBoard, StartGame, HandleAnswers, ShowResults } from '.'
+import { StartGame, HandleAnswers, ShowResults, PrepareRoom } from '.'
 import { useAppSelector } from '../hooks'
-import { PrepareRoom } from './1.PrepareRoom'
-import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
+import { Box_l, Stack_l } from '../../common/everyLayout'
 import { ConnectionMode } from '../../common/constants'
-import { DisconnectedCover } from '../../common/components/connection/Disconnected'
+import { DisconnectOverlay } from '../../common/components/connection/Disconnected'
+
+import headline from '../../assets/images/pondr.png'
 
 export const RoomPages: FunctionComponent = () => {
   const { commonStates, messages, currentPage, playerList } = useAppSelector(
@@ -19,29 +20,33 @@ export const RoomPages: FunctionComponent = () => {
       case 1:
         return <PrepareRoom />
       case 2:
-        return <PrepareBoard />
-      case 3:
         return <StartGame />
-      case 4:
+      case 3:
         return <HandleAnswers />
-      case 5:
+      case 4:
         return <ShowResults />
     }
   }
 
   return (
-    <Cover_l centered="div">
-      {!connected ? <DisconnectedCover status={commonStates.status} /> : null}
-      <Center_l intrinsic>
-        <ConnectionStatus status={commonStates.status} />
-        <Center_l>{displayPage(currentPage)}</Center_l>
-        {currentPage >= 3 ? (
-          <Stack_l space="1rem" className="mt-[1rem]">
-            {/* <PlayerListBox playerList={playerList} /> */}
-            <ChatBox messages={messages} />
-          </Stack_l>
-        ) : null}
-      </Center_l>
-    </Cover_l>
+    <div className="flex flex-col justify-center items-center min-h-[100vh]">
+      <div className="">
+        {!connected ? <DisconnectOverlay status={commonStates.status} /> : null}
+        <Stack_l>
+          <ConnectionStatus status={commonStates.status} />
+
+          <Box_l padding="1rem" className="self-center">
+            <img src={headline} alt="Logo" height="20px" />
+          </Box_l>
+        </Stack_l>
+      </div>
+      <div className="flex-1 flex w-[100%]">{displayPage(currentPage)}</div>
+      {currentPage >= 3 ? (
+        <Stack_l space="1rem" className="mt-[1rem]">
+          <PlayerListBox playerList={playerList} />
+          <ChatBox messages={messages} />
+        </Stack_l>
+      ) : null}
+    </div>
   )
 }

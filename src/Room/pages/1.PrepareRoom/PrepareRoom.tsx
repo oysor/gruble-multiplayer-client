@@ -1,56 +1,89 @@
 import React, { FunctionComponent, useState } from 'react'
-import { Button, MissingInput, SmartInput } from '../../../common/components'
-import { setNextPage, setRoomName } from '../../reducer'
-import { useAppDispatch } from '../../hooks'
-import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
+
+import { useAppSelector } from '../../hooks'
+import { Cluster_l } from '../../../common/everyLayout'
+import { PondrButton } from '../../../common/components/buttons'
+
+import { NameInput } from './NameInput'
+import { TimeInput } from './TimeInput'
+import { RoomState } from '../../store'
+import { CategoriesInput } from './CategoriesInput/CategoriesInput'
+import { CreateRoom } from './CreateGame'
 
 export const PrepareRoom: FunctionComponent = () => {
-  const dispatch = useAppDispatch()
-  const [name, setName] = useState('')
-  const [reminder, setReminder] = useState(false)
+  const { roomName, timeLimit } = useAppSelector((state: RoomState) => state.room)
+  const [nextInput, setNextInput] = useState(0)
 
-  const validTextInput = name.length !== 0
+  const handleNextInput = (i: number) => {
+    const next = nextInput + i
 
-  const dispatchOnClick = () => {
-    dispatch(setRoomName(name))
-    dispatch(setNextPage())
-  }
+    console.log(next)
 
-  const handleKeyPress = (e: React.KeyboardEvent): void => {
-    if (e.key === 'Enter') {
-      dispatchOnClick()
-      e.preventDefault()
+    if (next <= 0) {
+      setNextInput(0)
+    }
+
+    if (next === 1 && roomName.length > 1) {
+      setNextInput(next)
+    }
+
+    if (next === 2 && timeLimit > 1) {
+      setNextInput(next)
+    }
+
+    if (next === 3) {
+      setNextInput(next)
     }
   }
 
+  function SetComponent(nextInput: number) {
+    switch (nextInput) {
+      case 0:
+        return <NameInput />
+      case 1:
+        return <TimeInput />
+      case 2:
+        return <CategoriesInput />
+      case 3:
+        return <CreateRoom />
+      default:
+        return <div>Error: Invalid User Role</div>
+    }
+  }
+
+  const isCreateRoom = nextInput === 3
+
   return (
-    <div>
-      <Box_l padding="1rem" className="h-[18rem]">
-        <Center_l intrinsic className="mt-[2rem]">
-          <Stack_l space="0.2rem">
-            {/* <div>Set room name</div> */}
-            <div>
-              <SmartInput
-                value={name}
-                onChange={setName}
-                placeholder={'room name...'}
-                onKeyPress={handleKeyPress}
-                className="w-[13em]"
-              />
-            </div>
-          </Stack_l>
-        </Center_l>
-        <Center_l intrinsic className="mt-[2rem]">
-          <Button
-            onClick={() => {
-              validTextInput ? dispatchOnClick() : setReminder(true)
-            }}
-          >
-            Submit
-          </Button>
-        </Center_l>
-        {reminder ? <MissingInput roomId={name} /> : null}
-      </Box_l>
+    <div className="flex flex-col justify-center items-center w-[100%]">
+      <div className="flex-1 ">{SetComponent(nextInput)}</div>
+      <div className="flex flex-col">
+        <div className="flex-1 flex flex-col">
+          <Cluster_l justify="center" align="end" className="mb-[1rem]">
+            <PondrButton
+              invert
+              transparent={isCreateRoom}
+              onClick={() => {
+                if (nextInput === 0) {
+                  history.back()
+                } else {
+                  handleNextInput(-1)
+                }
+              }}
+            >
+              Back
+            </PondrButton>
+            {!isCreateRoom && (
+              <PondrButton
+                onClick={() => {
+                  handleNextInput(1)
+                }}
+              >
+                Next
+              </PondrButton>
+            )}
+          </Cluster_l>
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import App from './App'
 import './css/main.css'
-import './scss/App.scss'
 import { StyleSheetManager } from 'styled-components'
 import isPropValid from '@emotion/is-prop-valid'
 import { createRoot } from 'react-dom/client'
