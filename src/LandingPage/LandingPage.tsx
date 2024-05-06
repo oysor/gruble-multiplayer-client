@@ -18,10 +18,10 @@ export const LandingPage: FunctionComponent = () => {
         <Box_l className=" max-w-[32rem]">
           <Cluster_l align="center" justify="center" className="text-[1.5rem]">
             <Link to="/room">
-              <PondrButton width="8em">Create game</PondrButton>
+              <PondrButton width="8.5em">Create game</PondrButton>
             </Link>
             <Link to="/player">
-              <PondrButton width="8em">Join game</PondrButton>
+              <PondrButton width="8.5em">Join game</PondrButton>
             </Link>
           </Cluster_l>
         </Box_l>

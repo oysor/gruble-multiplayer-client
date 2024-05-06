@@ -25,7 +25,7 @@ export const StartGame: FunctionComponent = () => {
 
   return (
     <Box_l id="start-game" className="w-[100%]">
-      <Stack_l className="min-h-[23rem]">
+      <Stack_l>
         <Center_l intrinsic>
           <ShowRoomInput />
           <Button

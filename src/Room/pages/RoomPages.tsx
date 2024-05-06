@@ -40,12 +40,14 @@ export const RoomPages: FunctionComponent = () => {
           </Box_l>
         </Stack_l>
       </div>
-      <div className="flex-1 flex w-[100%]">{displayPage(currentPage)}</div>
-      {currentPage >= 3 ? (
-        <Stack_l space="1rem" className="mt-[1rem]">
-          <PlayerListBox playerList={playerList} />
-          <ChatBox messages={messages} />
-        </Stack_l>
+      <div className="flex-1 flex ">{displayPage(currentPage)}</div>
+      {currentPage >= 2 ? (
+        <div className="flex-1 flex">
+          <Stack_l space="1rem" className="mt-[1rem]">
+            <PlayerListBox playerList={playerList} />
+            <ChatBox messages={messages} />
+          </Stack_l>
+        </div>
       ) : null}
     </div>
   )
