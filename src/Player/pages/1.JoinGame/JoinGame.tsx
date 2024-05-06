@@ -20,7 +20,8 @@ export const JoinGame: FunctionComponent = () => {
   const validInput = playerName.length > 0 && inputRoomId.length > 0
   const dispatch = useAppDispatch()
   const dispatchOnClick = () => {
-    dispatch(joinRoom({ roomId: inputRoomId, playerName: playerName }))
+    const roomId = inputRoomId.toUpperCase()
+    dispatch(joinRoom({ roomId: roomId, playerName: playerName }))
     dispatch(setPlayerName({ playerName: playerName }))
   }
 
@@ -37,6 +38,7 @@ export const JoinGame: FunctionComponent = () => {
               value={playerName}
               onChange={setplayerName}
               placeholder={'player name..'}
+              onBlur={() => {}}
             />
           </Stack_l>
         </Center_l>
@@ -44,7 +46,7 @@ export const JoinGame: FunctionComponent = () => {
         <Center_l intrinsic className="mt-[1rem]">
           <Stack_l space="0.2rem">
             {/* <div>Input room ID </div> */}
-            <SmartInput onChange={setId} placeholder={'RoomId..'} />
+            <SmartInput onChange={setId} placeholder={'RoomId..'} onBlur={() => {}} />
           </Stack_l>
         </Center_l>
 
