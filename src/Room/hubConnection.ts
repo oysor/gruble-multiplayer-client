@@ -45,6 +45,7 @@ enum fromServer {
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
   .withStatefulReconnect({ bufferSize: 1000 }) // Optional, defaults to 100,000
+  .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Debug)
   .build()
 
