@@ -6,25 +6,37 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { PondrNumericInput } from '../../../common/components/inputs/SmartNumericInput'
 import { RoomState } from '../../store'
 import Maskot2 from '../../../assets/svg/maskot_2.svg'
+import { TimerSettings } from '../../../common/constants'
 
 export const TimeInput = () => {
   const dispatch = useAppDispatch()
+  // in seconds
   const { timeLimit } = useAppSelector((state: RoomState) => state.room)
-  const [time, setTime] = useState(timeLimit)
+  // in minutes
+  const [time, setTime] = useState(timeLimit / 60)
 
-  let message = 'Set time! Usually anywhere between 5 and 10 minutes is a good start.'
+  const littleTime = TimerSettings.LitteTime
+  const plentyTime = TimerSettings.PlentyTime
 
-  if (timeLimit > 5 && timeLimit <= 10) {
+  let message =
+    'Set time! Usually anywhere between ' +
+    littleTime +
+    ' and ' +
+    plentyTime +
+    ' minutes is a good start.'
+
+  if (time >= littleTime && time <= plentyTime) {
     message = 'Great! ' + time + ' minutes is perfect! Move on to the next step.'
-  } else if (timeLimit < 5 && timeLimit > 0) {
+  } else if (time > 0 && time < littleTime) {
     message = ' You must be in a hurry! Move on to the next step.'
-  } else if (timeLimit > 10) {
+  } else if (time > plentyTime) {
     message = time + ' is plenty of time! Move on to the next step.'
   }
 
   const handleTimeBlur = (): void => {
     if (time !== timeLimit) {
-      dispatch(setTimeLimit(time))
+      const timeInSeconds = time * 60
+      dispatch(setTimeLimit(timeInSeconds))
     }
   }
 

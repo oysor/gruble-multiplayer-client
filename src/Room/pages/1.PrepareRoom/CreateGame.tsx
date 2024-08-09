@@ -18,6 +18,8 @@ export const CreateRoom: FunctionComponent = () => {
 
   const missingCategories = categories.length < 1
 
+  const timeLimitInMinutes = timeLimit / 60
+
   const dispatchOnClick = () => {
     if (!missingCategories) {
       dispatch(
@@ -48,7 +50,7 @@ export const CreateRoom: FunctionComponent = () => {
         <Stack_l space="1em" className="max-w-[13em]">
           <Maskot2 maxwidth="100%" height="10rem" />
           <UnderHeadline className="self-center text-center">
-            {timeLimit + ' minutes'}
+            {timeLimitInMinutes + ' minutes'}
           </UnderHeadline>
           <UnderHeadline className="self-center text-center">
             {categories.join(', ')}

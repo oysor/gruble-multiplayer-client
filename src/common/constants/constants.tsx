@@ -140,3 +140,8 @@ export const initPlayerResult: PlayerResult = {
 }
 
 export const API_URL = process.env.API_URL ? process.env.API_URL : 'API URL MISSING?'
+
+export enum TimerSettings {
+  LitteTime = 5,
+  PlentyTime = 10,
+}

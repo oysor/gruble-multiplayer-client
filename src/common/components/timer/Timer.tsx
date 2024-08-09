@@ -22,9 +22,9 @@ export const Timer: FunctionComponent<TimeProps> = ({ elapsedTime }) => {
 
 const FULL_DASH_ARRAY = 283
 // Warning occurs at 10s
-const WARNING_THRESHOLD = 5
+const WARNING_THRESHOLD = 30
 // Alert occurs at 5s
-const ALERT_THRESHOLD = 2
+const ALERT_THRESHOLD = 10
 
 const COLOR_CODES = {
   info: {
