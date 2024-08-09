@@ -30,3 +30,15 @@ export const getFlag = (freq: number): Flag => {
     return Flag.Unknown
   }
 }
+
+// not in use
+export const AppendConnectionStateMessageList = (message: string) => {
+  const messageInput = document.getElementById('messageInput')
+  if (messageInput) (messageInput as HTMLFormElement).disabled = true
+
+  const li = document.createElement('li')
+  li.textContent = message
+
+  const messageList = document.getElementById('messageList')
+  if (messageInput) (messageList as HTMLFormElement).appendChild(li)
+}

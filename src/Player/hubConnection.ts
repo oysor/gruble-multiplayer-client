@@ -46,7 +46,7 @@ enum fromServer {
 // Builds the SignalR connection, mapping it to /gameHub
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
-  .withAutomaticReconnect()
+  .withStatefulReconnect({ bufferSize: 1000 })
   .configureLogging(signalR.LogLevel.Debug)
   .build()
 
@@ -55,12 +55,15 @@ const hubConnection = new signalR.HubConnectionBuilder()
  */
 export async function startPlayerConnection(): Promise<void> {
   try {
-    if (hubConnection.state === HubConnectionState.Disconnected) {
-      await hubConnection.start()
-    } else {
-      return
-    }
+    await hubConnection.start()
+    console.assert(
+      hubConnection.state === signalR.HubConnectionState.Connected,
+      'Not connected.'
+    )
+    console.log('SignalR Connected.')
+
     store.dispatch(setStatus(hubConnection.state))
+
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
     hubConnection.on(fromServer.ON_ERROR, (msg) => {
@@ -106,23 +109,40 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(receiveResults(results))
     })
   } catch (err) {
-    console.log(err)
+    console.assert(
+      hubConnection.state === signalR.HubConnectionState.Disconnected,
+      'Not connected.'
+    )
     console.log('***** Connection FAILED ******')
+    console.log(err)
     store.dispatch(setStatus(ConnectionMode.Failed))
-    setTimeout(startPlayerConnection, 5000)
+    setTimeout(() => startPlayerConnection(), 5000)
   }
 }
 
-// hubConnection.onclose(startPlayerConnection);
 
 hubConnection.onreconnecting((error) => {
-  console.log('Connection lost due to error ' + { error } + '. Reconnecting')
+  console.assert(hubConnection.state === signalR.HubConnectionState.Reconnecting)
+  const reconnectingMessage = `Connection lost due to error "${error}". Reconnecting.`
+
+  console.log(reconnectingMessage)
   store.dispatch(setStatus(ConnectionMode.Reconnecting))
 })
 
-hubConnection.onreconnected((error) => {
-  console.log('Reconnected! ' + error)
+hubConnection.onreconnected((connectionId) => {
+  console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
+  const reconnectedMessage = `Connection reestablished. Connected with connectionId "${connectionId}".`
+
+  console.log(reconnectedMessage)
   store.dispatch(setStatus(ConnectionMode.Connected))
+})
+
+hubConnection.onclose((error) => {
+  console.assert(hubConnection.state === signalR.HubConnectionState.Disconnected)
+  const onClosedMessage = `Connection closed due to error "${error}". Try refreshing this page to restart the connection.`
+
+  console.log(onClosedMessage)
+  store.dispatch(setStatus(ConnectionMode.Disconnected))
 })
 
 export async function stopPlayerConnection(): Promise<void> {

@@ -44,7 +44,7 @@ enum fromServer {
 // Builds the SignalR connection, mapping it to /gameHub
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
-  .withAutomaticReconnect()
+  .withStatefulReconnect({ bufferSize: 1000 }) // Optional, defaults to 100,000
   .configureLogging(signalR.LogLevel.Debug)
   .build()
 
@@ -53,13 +53,15 @@ const hubConnection = new signalR.HubConnectionBuilder()
  */
 export async function startRoomConnection(): Promise<void> {
   try {
-    if (hubConnection.state === HubConnectionState.Disconnected) {
-      await hubConnection.start()
-    } else {
-      return
-    }
+    await hubConnection.start()
+    console.assert(
+      hubConnection.state === signalR.HubConnectionState.Connected,
+      'Not connected.'
+    )
+    console.log('SignalR Connected.')
 
     store.dispatch(setStatus(hubConnection.state))
+
     console.log('***** ROOM ' + hubConnection.state + ' *****')
 
     // Receive newly created room object here.
@@ -95,23 +97,39 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(receiveBoards({ userId: userId, board: board }))
     })
   } catch (err) {
-    console.log(err)
+    console.assert(
+      hubConnection.state === signalR.HubConnectionState.Disconnected,
+      'Not connected.'
+    )
     console.log('***** Connection FAILED ******')
+    console.log(err)
     store.dispatch(setStatus(ConnectionMode.Failed))
-    setTimeout(startRoomConnection, 5000)
+    setTimeout(() => startRoomConnection(), 5000)
   }
 }
 
-// hubConnection.onclose(startRoomConnection);
-
 hubConnection.onreconnecting((error) => {
-  console.log('Connection lost due to error ' + { error } + '. Reconnecting')
+  console.assert(hubConnection.state === signalR.HubConnectionState.Reconnecting)
+  const reconnectingMessage = `Connection lost due to error "${error}". Reconnecting.`
+
+  console.log(reconnectingMessage)
   store.dispatch(setStatus(ConnectionMode.Reconnecting))
 })
 
-hubConnection.onreconnected((error) => {
-  console.log('Reconnected! ' + error)
+hubConnection.onreconnected((connectionId) => {
+  console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
+  const reconnectedMessage = `Connection reestablished. Connected with connectionId "${connectionId}".`
+
+  console.log(reconnectedMessage)
   store.dispatch(setStatus(ConnectionMode.Connected))
+})
+
+hubConnection.onclose((error) => {
+  console.assert(hubConnection.state === signalR.HubConnectionState.Disconnected)
+  const onClosedMessage = `Connection closed due to error "${error}". Try refreshing this page to restart the connection.`
+
+  console.log(onClosedMessage)
+  store.dispatch(setStatus(ConnectionMode.Disconnected))
 })
 
 export async function stopRoomConnection(): Promise<void> {
