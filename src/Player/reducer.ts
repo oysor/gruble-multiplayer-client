@@ -122,8 +122,6 @@ const playerSlice = createSlice({
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     joinRoom: (state, action) => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    updateConnection: (state) => {},
     receiveResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
       state.playerList = newPlayerList.map(
@@ -148,6 +146,8 @@ const playerSlice = createSlice({
         return player.userId !== userId
       })
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateConnection: (state) => {},
     resetState: () => initialState,
   },
 })

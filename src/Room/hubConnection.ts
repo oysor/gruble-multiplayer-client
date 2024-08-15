@@ -14,6 +14,8 @@ import {
   resetState,
   addGameRoom,
   setRoundIsOn,
+  setUserId,
+  updateConnection,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -26,6 +28,7 @@ enum toServer {
   CREATE_ROOM = 'CreateRoom',
   START_GAME = 'StartGame',
   SEND_RESULTS = 'SendResults',
+  UPDATECONNECTION = "UPDATECONNECTION"
 }
 
 // receive from server
@@ -70,6 +73,7 @@ export async function startRoomConnection(): Promise<void> {
     // Receive newly created room object here.
     hubConnection.on(fromServer.ON_GAME_CREATED, (gameRoom) => {
       store.dispatch(addGameRoom(gameRoom))
+      store.dispatch(setUserId(gameRoom.id))
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -121,9 +125,10 @@ hubConnection.onreconnecting((error) => {
 
 hubConnection.onreconnected((connectionId) => {
   console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
-  const reconnectedMessage = `Connection reestablished. Connected with connectionId "${connectionId}".`
+  const reconnectedMessage = `*** Connection REESTABLISHED. Connected with connectionId "${connectionId}". ***`
   console.log(reconnectedMessage)
   store.dispatch(setStatus(ConnectionMode.Connected))
+  store.dispatch(updateConnection())
 })
 
 hubConnection.onclose((error) => {
@@ -183,6 +188,23 @@ startAppListening({
   effect: async (action) => {
     // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.SEND_RESULTS, action.payload)
+  },
+})
+
+startAppListening({
+  actionCreator: updateConnection,
+  effect: async (action, listenerApi) => {
+    console.log(listenerApi.getOriginalState())
+
+    const state = listenerApi.getOriginalState().room
+    const userId = state.userId
+    const roomId = state.roomId
+
+    console.log("user: "+ userId + " room: "+roomId)
+
+    if (userId !== '') {
+      hubConnection.invoke(toServer.UPDATECONNECTION, userId, roomId)
+    }
   },
 })
 

@@ -200,12 +200,12 @@ startAppListening({
 
     const state = listenerApi.getOriginalState().player
     const userId = state.userId
-    const groupId = state.roomId
+    const roomId = state.roomId
 
-    console.log("user: "+ userId + " room: "+groupId)
+    console.log("user: "+ userId + " room: "+roomId)
 
     if (userId !== '') {
-      hubConnection.invoke(toServer.UPDATECONNECTION, userId, groupId)
+      hubConnection.invoke(toServer.UPDATECONNECTION, userId, roomId)
     }
   },
 })

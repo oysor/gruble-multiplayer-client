@@ -26,6 +26,7 @@ export interface RoomState {
   allBoardsReceived: boolean
   currentPage: number
   boardDictionary: WordInfoDict[][]
+  userId: string
 }
 
 const initialState: RoomState = {
@@ -40,6 +41,7 @@ const initialState: RoomState = {
   allBoardsReceived: false,
   currentPage: 1,
   boardDictionary: [[]],
+  userId: '',
 }
 
 const roomSlice = createSlice({
@@ -52,6 +54,10 @@ const roomSlice = createSlice({
     },
     setRoomName: (state, action) => {
       state.roomName = action.payload
+    },
+    setUserId: (state, action) => {
+      console.log('userId: ' + action.payload)
+      state.userId = action.payload
     },
     setTimeLimit: (state, action) => {
       state.timeLimit = action.payload
@@ -139,6 +145,8 @@ const roomSlice = createSlice({
     createRoom: (state, action) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     startGame: (state, action) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateConnection: (state) => {},
     resetState: () => initialState,
   },
 })
@@ -147,6 +155,7 @@ const roomSlice = createSlice({
 export const {
   setStatus,
   setRoomName,
+  setUserId,
   setTimeLimit,
   setCategories,
   addGameRoom,
@@ -163,6 +172,7 @@ export const {
   startGame,
   updateBoardDictionary,
   setRoundIsOn,
+  updateConnection
 } = roomSlice.actions
 
 export default roomSlice.reducer
