@@ -11,7 +11,6 @@ export type CommonStates = {
 
 export type Player = {
   name: string
-  id: string
   userId: string
   color: string
   board: Board

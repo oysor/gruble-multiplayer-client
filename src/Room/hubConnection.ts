@@ -59,7 +59,9 @@ export async function startRoomConnection(): Promise<void> {
       hubConnection.state === signalR.HubConnectionState.Connected,
       'Not connected.'
     )
-    console.log('SignalR Connected.')
+    console.log(
+      `*** Connection established. Connected with connectionId "${hubConnection.connectionId}". ***`
+    )
 
     store.dispatch(setStatus(hubConnection.state))
 
@@ -120,7 +122,6 @@ hubConnection.onreconnecting((error) => {
 hubConnection.onreconnected((connectionId) => {
   console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
   const reconnectedMessage = `Connection reestablished. Connected with connectionId "${connectionId}".`
-
   console.log(reconnectedMessage)
   store.dispatch(setStatus(ConnectionMode.Connected))
 })

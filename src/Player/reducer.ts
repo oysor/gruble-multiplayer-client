@@ -28,6 +28,7 @@ export interface playerState {
   timeLimit: number
   boardDictionary: WordInfoDict[][]
   gameClosed: boolean
+  userId: string
 }
 
 const initialState: playerState = {
@@ -45,6 +46,7 @@ const initialState: playerState = {
   timeLimit: 0,
   boardDictionary: [[]],
   gameClosed: false,
+  userId: '',
 }
 
 const playerSlice = createSlice({
@@ -58,6 +60,9 @@ const playerSlice = createSlice({
     setPlayerName: (state, action) => {
       const { playerName } = action.payload
       state.playerName = playerName
+    },
+    setUserId: (state, action) => {
+      state.userId = action.payload
     },
     setNextPage: (state) => {
       state.currentPage += 1
@@ -117,6 +122,8 @@ const playerSlice = createSlice({
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     joinRoom: (state, action) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    updateConnection: (state) => {},
     receiveResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
       state.playerList = newPlayerList.map(
@@ -129,7 +136,8 @@ const playerSlice = createSlice({
       const { payload } = action
 
       const newPlayer: Player = mapPlayerFromAPI(payload)
-
+      
+      // add only if player does not exist.
       if (!state.playerList.some((player) => player.name === newPlayer.name)) {
         return { ...state, playerList: [...state.playerList, newPlayer] }
       }
@@ -147,6 +155,7 @@ const playerSlice = createSlice({
 // import the actions where you want to dispatch them.
 export const {
   setPlayerName,
+  setUserId,
   setStatus,
   setTimeElapsed,
   newMessage,
@@ -164,6 +173,7 @@ export const {
   removePlayer,
   newServerMessage,
   gameClosed,
+  updateConnection
 } = playerSlice.actions
 
 export default playerSlice.reducer

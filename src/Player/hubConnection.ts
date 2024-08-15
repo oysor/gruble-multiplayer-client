@@ -15,6 +15,8 @@ import {
   resetState,
   gameClosed,
   setRoundIsOn,
+  setUserId,
+  updateConnection,
 } from './reducer'
 import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -27,6 +29,7 @@ enum toServer {
   SEND_MESSAGE = 'SendMessage',
   JOINROOM = 'JoinRoom',
   SENDBOARD = 'SendBoard',
+  UPDATECONNECTION = 'UpdateConnection',
 }
 // receive from server
 enum fromServer {
@@ -61,7 +64,10 @@ export async function startPlayerConnection(): Promise<void> {
       hubConnection.state === signalR.HubConnectionState.Connected,
       'Not connected.'
     )
-    console.log('SignalR Connected.')
+
+    console.log(
+      `*** Connection established. Connected with connectionId "${hubConnection.connectionId}". ***`
+    )
 
     store.dispatch(setStatus(hubConnection.state))
 
@@ -79,9 +85,11 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(newMessage({ id: connectionID, message: msg }))
     })
 
-    hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, msg) => {
+    hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, userId) => {
       store.dispatch(addGameRoom(gameRoom))
+      store.dispatch(setUserId(userId))
     })
+
     hubConnection.on(fromServer.ON_GAME_ROOM_DISCONNECT, () => {
       store.dispatch(gameClosed())
     })
@@ -132,10 +140,10 @@ hubConnection.onreconnecting((error) => {
 
 hubConnection.onreconnected((connectionId) => {
   console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
-  const reconnectedMessage = `Connection reestablished. Connected with connectionId "${connectionId}".`
-
+  const reconnectedMessage = `*** Connection REESTABLISHED. Connected with connectionId "${connectionId}". ***`
   console.log(reconnectedMessage)
   store.dispatch(setStatus(ConnectionMode.Connected))
+  store.dispatch(updateConnection())
 })
 
 hubConnection.onclose((error) => {
@@ -182,6 +190,23 @@ startAppListening({
       action.payload.roomId,
       action.payload.playerName
     )
+  },
+})
+
+startAppListening({
+  actionCreator: updateConnection,
+  effect: async (action, listenerApi) => {
+    console.log(listenerApi.getOriginalState())
+
+    const state = listenerApi.getOriginalState().player
+    const userId = state.userId
+    const groupId = state.roomId
+
+    console.log("user: "+ userId + " room: "+groupId)
+
+    if (userId !== '') {
+      hubConnection.invoke(toServer.UPDATECONNECTION, userId, groupId)
+    }
   },
 })
 
