@@ -28,7 +28,7 @@ enum toServer {
   CREATE_ROOM = 'CreateRoom',
   START_GAME = 'StartGame',
   SEND_RESULTS = 'SendResults',
-  UPDATECONNECTION = "UPDATECONNECTION"
+  UPDATE_CONNECTION = "UpdateConnection"
 }
 
 // receive from server
@@ -47,7 +47,7 @@ enum fromServer {
 // Builds the SignalR connection, mapping it to /gameHub
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
-  .withStatefulReconnect({ bufferSize: 1000 }) // Optional, defaults to 100,000
+  // .withStatefulReconnect({ bufferSize: 1000 }) // Optional, defaults to 100,000
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Debug)
   .build()
@@ -203,7 +203,7 @@ startAppListening({
     console.log("user: "+ userId + " room: "+roomId)
 
     if (userId !== '') {
-      hubConnection.invoke(toServer.UPDATECONNECTION, userId, roomId)
+      hubConnection.invoke(toServer.UPDATE_CONNECTION, userId, roomId)
     }
   },
 })
