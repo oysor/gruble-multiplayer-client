@@ -66,7 +66,9 @@ const roomSlice = createSlice({
       state.boardSettings.categories = action.payload.categories
     },
     addGameRoom: (state, action) => {
-      const { signalRGroupName, roomName, timeLimit, boardSettings } = action.payload
+      const { roomMasterId, signalRGroupName, roomName, timeLimit, boardSettings } =
+        action.payload
+      state.userId = roomMasterId
       state.roomId = signalRGroupName
       state.roomName = roomName
       state.timeLimit = timeLimit
@@ -172,7 +174,7 @@ export const {
   startGame,
   updateBoardDictionary,
   setRoundIsOn,
-  updateConnection
+  updateConnection,
 } = roomSlice.actions
 
 export default roomSlice.reducer

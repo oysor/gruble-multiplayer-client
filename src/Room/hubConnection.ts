@@ -28,7 +28,7 @@ enum toServer {
   CREATE_ROOM = 'CreateRoom',
   START_GAME = 'StartGame',
   SEND_RESULTS = 'SendResults',
-  UPDATE_CONNECTION = "UpdateConnection"
+  UPDATE_CONNECTION = 'UpdateConnection',
 }
 
 // receive from server
@@ -71,9 +71,8 @@ export async function startRoomConnection(): Promise<void> {
     console.log('***** ROOM ' + hubConnection.state + ' *****')
 
     // Receive newly created room object here.
-    hubConnection.on(fromServer.ON_GAME_CREATED, (gameRoom) => {
-      store.dispatch(addGameRoom(gameRoom))
-      store.dispatch(setUserId(gameRoom.id))
+    hubConnection.on(fromServer.ON_GAME_CREATED, (room) => {
+      store.dispatch(addGameRoom(room))
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -200,7 +199,7 @@ startAppListening({
     const userId = state.userId
     const roomId = state.roomId
 
-    console.log("user: "+ userId + " room: "+roomId)
+    console.log('user: ' + userId + ' room: ' + roomId)
 
     if (userId !== '') {
       hubConnection.invoke(toServer.UPDATE_CONNECTION, userId, roomId)
