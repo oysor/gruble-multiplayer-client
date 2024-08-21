@@ -19,18 +19,6 @@ export type Player = {
   playerResult: PlayerResult
 }
 
-export type IncomingPlayer = {
-  name: string
-  id: string
-  signalRUserId: string
-  hasSubmittedBoard: boolean
-  color: string
-  board: Board
-  score: 0
-  // scoreBoard: ScoreBoard
-  playerResult: PlayerResult
-}
-
 export type Message = {
   player: Player
   message: string
@@ -39,11 +27,6 @@ export type Message = {
 export type MessageItem = {
   color: string | undefined
   name: string | undefined
-  message: string
-}
-
-export type IncomingMessage = {
-  id: string
   message: string
 }
 
@@ -68,13 +51,6 @@ export type ScoreCard = {
 
 export type GameRoom = {
   roomId: string
-  roomName: string
-  timeLimit: number
-  boardSettings: BoardSettings
-}
-
-export type IncomingGameRoom = {
-  signalRGroupName: string
   roomName: string
   timeLimit: number
   boardSettings: BoardSettings
@@ -143,4 +119,29 @@ export const API_URL = process.env.API_URL ? process.env.API_URL : 'API URL MISS
 export enum TimerSettings {
   LitteTime = 5,
   PlentyTime = 10,
+}
+
+// object from API
+
+export type IncomingGameRoom = {
+  roomMasterId: String
+  signalRGroupName: string
+  roomName: string
+  timeLimit: number
+  boardSettings: BoardSettings
+}
+
+export type IncomingPlayer = {
+  name: string
+  signalRUserId: string
+  hasSubmittedBoard: boolean
+  color: string
+  board: Board
+  score: number
+  playerResult: PlayerResult
+}
+
+export type IncomingMessage = {
+  id: string
+  message: string
 }

@@ -42,3 +42,13 @@ export const AppendConnectionStateMessageList = (message: string) => {
   const messageList = document.getElementById('messageList')
   if (messageInput) (messageList as HTMLFormElement).appendChild(li)
 }
+
+export const checkForMissingAttributes = (attributes: object) => {
+  const attributesMap = Object.entries(attributes)
+  attributesMap.forEach(([attribute, value]) => {
+    console.log(attribute)
+    if (value === undefined) {
+      throw new Error('Missing ' + attribute)
+    }
+  })
+}

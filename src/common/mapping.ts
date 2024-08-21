@@ -1,15 +1,29 @@
 import { IncomingPlayer, Player } from './constants'
+import { checkForMissingAttributes } from './utilities'
 
-export const mapPlayerFromAPI = (APIplayer: IncomingPlayer): Player => {
-  const { board, color, name, signalRUserId, playerResult, hasSubmittedBoard } = APIplayer
+export const mapPlayerFromAPI = (player: IncomingPlayer): Player => {
+  const { board, color, name, signalRUserId, hasSubmittedBoard } = player
 
-  const appPlayer: Player = {
+  // Mapping players before the game has started.
+  const emptyResult = {
+    score: 0,
+    correct: 0,
+    unique: 0,
+    common: 0,
+    wrong: 0,
+    missing: 0,
+    unknown: 0,
+  }
+
+  const newObject: Player = {
     board: board,
     color: color,
     name: name,
     userId: signalRUserId,
-    playerResult: playerResult,
-    hasSubmitted: hasSubmittedBoard
+    playerResult: emptyResult,
+    hasSubmitted: hasSubmittedBoard,
   }
-  return appPlayer
+  checkForMissingAttributes(newObject)
+
+  return newObject
 }

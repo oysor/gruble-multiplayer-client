@@ -3,6 +3,7 @@ import {
   Board,
   BoardSettings,
   CommonStates,
+  IncomingGameRoom,
   IncomingMessage,
   IncomingPlayer,
   initialCommonStates,
@@ -13,6 +14,7 @@ import {
 } from '../common/constants'
 import { createBoardDictionary } from './utilities/utilities'
 import { mapPlayerFromAPI } from '../common/mapping'
+import { assertIsRoom } from '../common/assert'
 
 export interface RoomState {
   roomName: string
@@ -26,7 +28,7 @@ export interface RoomState {
   allBoardsReceived: boolean
   currentPage: number
   boardDictionary: WordInfoDict[][]
-  userId: string
+  userId: String
 }
 
 const initialState: RoomState = {
@@ -65,7 +67,8 @@ const roomSlice = createSlice({
     setCategories: (state, action: { payload: { categories: string[] } }) => {
       state.boardSettings.categories = action.payload.categories
     },
-    addGameRoom: (state, action) => {
+    addGameRoom: (state, action: { payload: IncomingGameRoom }) => {
+      assertIsRoom(action.payload)
       const { roomMasterId, signalRGroupName, roomName, timeLimit, boardSettings } =
         action.payload
       state.userId = roomMasterId
@@ -119,6 +122,7 @@ const roomSlice = createSlice({
       const { payload } = action
       const newPlayer: Player = mapPlayerFromAPI(payload)
 
+      // add only if player does not exist.
       if (!state.playerList.some((player) => player.name === newPlayer.name)) {
         return { ...state, playerList: [...state.playerList, newPlayer] }
       }
@@ -136,9 +140,7 @@ const roomSlice = createSlice({
     },
     setPlayerResults: (state, action) => {
       const { newPlayerList } = action.payload
-      state.playerList = newPlayerList.map(
-        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
-      )
+      state.playerList = newPlayerList
     },
     setNextPage: (state) => {
       state.currentPage += 1

@@ -124,15 +124,13 @@ const playerSlice = createSlice({
     joinRoom: (state, action) => {},
     receiveResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
-      state.playerList = newPlayerList.map(
-        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
-      )
+
+      state.playerList = newPlayerList
       state.boardDictionary = boardDictionary
       state.receivedResult = true
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
-
       const newPlayer: Player = mapPlayerFromAPI(payload)
       
       // add only if player does not exist.
