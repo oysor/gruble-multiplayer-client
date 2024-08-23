@@ -9,9 +9,10 @@ import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout
 import { SetWrongAnswerButton } from './SetWrongAnswerButton'
 import { ProofReading } from './ProofReading'
 import { RoomCountDown } from '../../components/RoomCountDown'
+import { RoomStatus } from '../../../common/constants'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { playerList, boardSettings, allBoardsReceived, boardDictionary } =
+  const { roomStatus, playerList, boardSettings, boardDictionary } =
     useAppSelector((state: RoomState) => state.room)
 
   const dispatch = useAppDispatch()
@@ -49,7 +50,7 @@ export const HandleAnswers: FunctionComponent = () => {
     dispatch(setNextPage())
   }
 
-  if (allBoardsReceived) {
+  if (roomStatus === RoomStatus.boardsReceived) {
     return (
       <Box_l id="handle-answers">
         <Center_l max-width="50rem">

@@ -85,10 +85,10 @@ const playerSlice = createSlice({
       const { message } = action.payload
       state.serverMessage = message
     },
-    setRoom: (state, action: { payload: { signalRGroupName: string } }) => {
-      state.roomId = action.payload.signalRGroupName;
-      state.playerStatus = PlayerStatus.joinedGame;
-    },
+    // setRoom: (state, action: { payload: { signalRGroupName: string } }) => {
+    //   state.roomId = action.payload.signalRGroupName;
+    //   state.playerStatus = PlayerStatus.joinedGame;
+    // },
     setRoomSettings: (state, action) => {
       const { signalRGroupName, timeLimit, boardSettings, players } = action.payload
       state.boardSettings = boardSettings

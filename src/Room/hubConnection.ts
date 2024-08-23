@@ -2,22 +2,21 @@ import { isAnyOf } from '@reduxjs/toolkit'
 
 import {
   setStatus,
-  newMessage,
+  setMessage,
   setTimeElapsed,
   removePlayer,
   addPlayer,
-  timesUp,
-  receiveBoards,
+  setPlayerBoards,
   createRoom,
   startGame,
   setPlayerResults,
   resetState,
-  addGameRoom,
-  setRoundIsOn,
+  setRoomSettings,
   setUserId,
   updateConnection,
+  setRoomStatus,
 } from './reducer'
-import { API_URL, ConnectionMode } from '../common/constants'
+import { API_URL, ConnectionMode, RoomStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
@@ -72,7 +71,7 @@ export async function startRoomConnection(): Promise<void> {
 
     // Receive newly created room object here.
     hubConnection.on(fromServer.ON_GAME_CREATED, (room) => {
-      store.dispatch(addGameRoom(room))
+      store.dispatch(setRoomSettings(room))
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -84,11 +83,11 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
-      store.dispatch(newMessage({ id: connectionID, message: msg }))
+      store.dispatch(setMessage({ id: connectionID, message: msg }))
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
-      store.dispatch(setRoundIsOn())
+      store.dispatch(setRoomStatus(RoomStatus.roundStarted))
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
@@ -96,11 +95,11 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
-      store.dispatch(timesUp())
+      store.dispatch(setRoomStatus(RoomStatus.roundEnded))
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (userId, board) => {
-      store.dispatch(receiveBoards({ userId: userId, board: board }))
+      store.dispatch(setPlayerBoards({ userId: userId, board: board }))
     })
   } catch (err) {
     console.assert(

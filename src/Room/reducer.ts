@@ -10,6 +10,7 @@ import {
   Message,
   MessageItem,
   Player,
+  RoomStatus,
   WordInfoDict,
 } from '../common/constants'
 import { createBoardDictionary } from './utilities/utilities'
@@ -17,6 +18,7 @@ import { mapPlayerFromAPI } from '../common/mapping'
 import { assertIsRoom } from '../common/assert'
 
 export interface RoomState {
+  roomStatus: number
   roomName: string
   roomId: string
   messages: MessageItem[]
@@ -25,13 +27,13 @@ export interface RoomState {
   boardSettings: BoardSettings
   playerList: Player[]
   receivedBoards: number
-  allBoardsReceived: boolean
   currentPage: number
   boardDictionary: WordInfoDict[][]
   userId: String
 }
 
 const initialState: RoomState = {
+  roomStatus: 0,
   roomName: '',
   roomId: '',
   messages: [],
@@ -40,7 +42,6 @@ const initialState: RoomState = {
   boardSettings: { categories: [], letters: [] },
   playerList: [],
   receivedBoards: 0,
-  allBoardsReceived: false,
   currentPage: 1,
   boardDictionary: [[]],
   userId: '',
@@ -53,6 +54,9 @@ const roomSlice = createSlice({
   reducers: {
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
+    },
+    setRoomStatus: (state, action) => {
+      state.roomStatus = action.payload
     },
     setRoomName: (state, action) => {
       state.roomName = action.payload
@@ -67,7 +71,12 @@ const roomSlice = createSlice({
     setCategories: (state, action: { payload: { categories: string[] } }) => {
       state.boardSettings.categories = action.payload.categories
     },
-    addGameRoom: (state, action: { payload: IncomingGameRoom }) => {
+    // setRoom: (state, action ) => {
+    //   state.roomId = action.payload.roomMasterId;
+    //   state.roomId = action.payload.roomId;
+    //   state.roomStatus = RoomStatus.gameCreated;
+    // },
+    setRoomSettings: (state, action: { payload: IncomingGameRoom }) => {
       assertIsRoom(action.payload)
       const { roomMasterId, signalRGroupName, roomName, timeLimit, boardSettings } =
         action.payload
@@ -76,17 +85,12 @@ const roomSlice = createSlice({
       state.roomName = roomName
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
-    },
-    setRoundIsOn: (state) => {
-      state.commonStates.roundIsOn = true
+      state.roomStatus = RoomStatus.boardCreated;
     },
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
-    timesUp: (state) => {
-      state.commonStates.roundIsOn = false
-    },
-    receiveBoards: (state, action: { payload: { userId: string; board: Board } }) => {
+    setPlayerBoards: (state, action: { payload: { userId: string; board: Board } }) => {
       const { userId, board } = action.payload
       let updatedPlayerList = state.playerList
       updatedPlayerList = updatedPlayerList.map((player) => {
@@ -100,14 +104,15 @@ const roomSlice = createSlice({
       state.receivedBoards += 1
       state.playerList = updatedPlayerList
       if (state.receivedBoards === state.playerList.length) {
-        state.allBoardsReceived = true
+        state.roomStatus = RoomStatus.boardsReceived;
         state.boardDictionary = createBoardDictionary(
           updatedPlayerList,
           state.boardSettings
         )
       }
+      // state.roomStatus = RoomStatus.boardsReceived;
     },
-    newMessage: (state, action: { payload: IncomingMessage }) => {
+    setMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload
       const messageSender = state.playerList.find((p) => {
         return p.userId === id
@@ -158,24 +163,23 @@ const roomSlice = createSlice({
 // import the actions where you want to dispatch them.
 export const {
   setStatus,
+  setRoomStatus,
   setRoomName,
   setUserId,
   setTimeLimit,
   setCategories,
-  addGameRoom,
+  setRoomSettings,
   setTimeElapsed,
-  newMessage,
+  setMessage,
   removePlayer,
   addPlayer,
   resetState,
-  timesUp,
-  receiveBoards,
+  setPlayerBoards,
   setNextPage,
   setPlayerResults,
   createRoom,
   startGame,
   updateBoardDictionary,
-  setRoundIsOn,
   updateConnection,
 } = roomSlice.actions
 
