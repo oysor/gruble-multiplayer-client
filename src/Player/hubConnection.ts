@@ -1,22 +1,22 @@
 import { isAnyOf } from '@reduxjs/toolkit'
 import {
-  setStatus,
+  updateConnectionStatus,
   addMessage,
-  setTimeElapsed,
-  setRoomSettings,
+  updateTimer,
+  roomSettings,
   sendBoard,
-  setResults,
+  playerResults,
   addPlayer,
   removePlayer,
-  setServerMessage,
+  serverMessage,
   sendMessage,
   joinRoom,
   resetState,
-  setGameClosed,
-  setUserId,
+  gameClosed,
+  playerUserId,
   updateConnection,
   setNextPage,
-  setPlayerStatus,
+  updatePlayerStatus,
 } from './reducer'
 import { API_URL, ConnectionMode, PlayerStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -69,16 +69,16 @@ export async function startPlayerConnection(): Promise<void> {
       `*** Connection established. Connected with connectionId "${hubConnection.connectionId}". ***`
     )
 
-    store.dispatch(setStatus(hubConnection.state))
+    store.dispatch(updateConnectionStatus(hubConnection.state))
 
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
     hubConnection.on(fromServer.ON_ERROR, (msg) => {
-      store.dispatch(setServerMessage({ message: msg }))
+      store.dispatch(serverMessage({ message: msg }))
     })
 
     hubConnection.on(fromServer.ON_SERVER_REPLY, (msg) => {
-      store.dispatch(setServerMessage({ message: msg }))
+      store.dispatch(serverMessage({ message: msg }))
     })
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
@@ -86,12 +86,12 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, userId) => {
-      store.dispatch(setRoomSettings(gameRoom))
-      store.dispatch(setUserId(userId))
+      store.dispatch(roomSettings(gameRoom))
+      store.dispatch(playerUserId(userId))
     })
 
     hubConnection.on(fromServer.ON_ROOM_DISCONNECT, () => {
-      store.dispatch(setGameClosed())
+      store.dispatch(gameClosed())
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -103,11 +103,11 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
-      store.dispatch(setPlayerStatus(PlayerStatus.roundStarted))
+      store.dispatch(updatePlayerStatus(PlayerStatus.roundStarted))
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
-      store.dispatch(setTimeElapsed(timeElapsed))
+      store.dispatch(updateTimer(timeElapsed))
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
@@ -116,7 +116,7 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results) => {
-      store.dispatch(setResults(results))
+      store.dispatch(playerResults(results))
     })
   } catch (err) {
     console.assert(
@@ -125,7 +125,7 @@ export async function startPlayerConnection(): Promise<void> {
     )
     console.log('***** Connection FAILED ******')
     console.log(err)
-    store.dispatch(setStatus(ConnectionMode.Failed))
+    store.dispatch(updateConnectionStatus(ConnectionMode.Failed))
     setTimeout(() => startPlayerConnection(), 5000)
   }
 }
@@ -136,14 +136,14 @@ hubConnection.onreconnecting((error) => {
   const reconnectingMessage = `Connection lost due to error "${error}". Reconnecting.`
 
   console.log(reconnectingMessage)
-  store.dispatch(setStatus(ConnectionMode.Reconnecting))
+  store.dispatch(updateConnectionStatus(ConnectionMode.Reconnecting))
 })
 
 hubConnection.onreconnected((connectionId) => {
   console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
   const reconnectedMessage = `*** Connection REESTABLISHED. Connected with connectionId "${connectionId}". ***`
   console.log(reconnectedMessage)
-  store.dispatch(setStatus(ConnectionMode.Connected))
+  store.dispatch(updateConnectionStatus(ConnectionMode.Connected))
   store.dispatch(updateConnection())
 })
 
@@ -152,7 +152,7 @@ hubConnection.onclose((error) => {
   const onClosedMessage = `Connection closed due to error "${error}". Try refreshing this page to restart the connection.`
 
   console.log(onClosedMessage)
-  store.dispatch(setStatus(ConnectionMode.Disconnected))
+  store.dispatch(updateConnectionStatus(ConnectionMode.Disconnected))
 })
 
 export async function stopPlayerConnection(): Promise<void> {

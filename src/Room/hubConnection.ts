@@ -1,20 +1,20 @@
 import { isAnyOf } from '@reduxjs/toolkit'
 
 import {
-  setStatus,
-  setMessage,
-  setTimeElapsed,
+  updateConnectionStatus,
+  addMessage,
+  updateTimeElapsed,
   removePlayer,
   addPlayer,
-  setPlayerBoards,
+  playerBoards,
   createRoom,
   startGame,
-  setPlayerResults,
+  playerResults,
   resetState,
-  setRoomSettings,
-  setUserId,
+  roomSettings,
+  // userId,
   updateConnection,
-  setRoomStatus,
+  updateRoomStatus,
 } from './reducer'
 import { API_URL, ConnectionMode, RoomStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -65,13 +65,13 @@ export async function startRoomConnection(): Promise<void> {
       `*** Connection established. Connected with connectionId "${hubConnection.connectionId}". ***`
     )
 
-    store.dispatch(setStatus(hubConnection.state))
+    store.dispatch(updateConnectionStatus(hubConnection.state))
 
     console.log('***** ROOM ' + hubConnection.state + ' *****')
 
     // Receive newly created room object here.
     hubConnection.on(fromServer.ON_GAME_CREATED, (room) => {
-      store.dispatch(setRoomSettings(room))
+      store.dispatch(roomSettings(room))
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -83,23 +83,23 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
-      store.dispatch(setMessage({ id: connectionID, message: msg }))
+      store.dispatch(addMessage({ id: connectionID, message: msg }))
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
-      store.dispatch(setRoomStatus(RoomStatus.roundStarted))
+      store.dispatch(updateRoomStatus(RoomStatus.roundStarted))
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
-      store.dispatch(setTimeElapsed(timeElapsed))
+      store.dispatch(updateTimeElapsed(timeElapsed))
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
-      store.dispatch(setRoomStatus(RoomStatus.roundEnded))
+      store.dispatch(updateRoomStatus(RoomStatus.roundEnded))
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (userId, board) => {
-      store.dispatch(setPlayerBoards({ userId: userId, board: board }))
+      store.dispatch(playerBoards({ userId: userId, board: board }))
     })
   } catch (err) {
     console.assert(
@@ -108,7 +108,7 @@ export async function startRoomConnection(): Promise<void> {
     )
     console.log('***** Connection FAILED ******')
     console.log(err)
-    store.dispatch(setStatus(ConnectionMode.Failed))
+    store.dispatch(updateConnectionStatus(ConnectionMode.Failed))
     setTimeout(() => startRoomConnection(), 5000)
   }
 }
@@ -118,14 +118,14 @@ hubConnection.onreconnecting((error) => {
   const reconnectingMessage = `Connection lost due to error "${error}". Reconnecting.`
 
   console.log(reconnectingMessage)
-  store.dispatch(setStatus(ConnectionMode.Reconnecting))
+  store.dispatch(updateConnectionStatus(ConnectionMode.Reconnecting))
 })
 
 hubConnection.onreconnected((connectionId) => {
   console.assert(hubConnection.state === signalR.HubConnectionState.Connected)
   const reconnectedMessage = `*** Connection REESTABLISHED. Connected with connectionId "${connectionId}". ***`
   console.log(reconnectedMessage)
-  store.dispatch(setStatus(ConnectionMode.Connected))
+  store.dispatch(updateConnectionStatus(ConnectionMode.Connected))
   store.dispatch(updateConnection())
 })
 
@@ -134,7 +134,7 @@ hubConnection.onclose((error) => {
   const onClosedMessage = `Connection closed due to error "${error}". Try refreshing this page to restart the connection.`
 
   console.log(onClosedMessage)
-  store.dispatch(setStatus(ConnectionMode.Disconnected))
+  store.dispatch(updateConnectionStatus(ConnectionMode.Disconnected))
 })
 
 export async function stopRoomConnection(): Promise<void> {
@@ -156,7 +156,7 @@ export async function stopRoomConnection(): Promise<void> {
  */
 
 startAppListening({
-  matcher: isAnyOf(createRoom, startGame, setPlayerResults),
+  matcher: isAnyOf(createRoom, startGame, playerResults),
   effect: async (action, listenerApi) => {
     if (process.env.NODE_ENV !== 'production') {
       console.log('getOriginalState')
@@ -182,7 +182,7 @@ startAppListening({
 })
 
 startAppListening({
-  actionCreator: setPlayerResults,
+  actionCreator: playerResults,
   effect: async (action) => {
     // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.SEND_RESULTS, action.payload)

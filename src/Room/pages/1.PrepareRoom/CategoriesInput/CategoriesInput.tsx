@@ -8,7 +8,7 @@ import { RoomState } from '../../../store'
 import { SelectCategories } from './SelectCategories/SelectCategories'
 import { DragDropList } from '../../../components/DragDropList/DragDropList'
 import { OverLayList, ShowOverlayButton } from './styles'
-import { setCategories } from '../../../reducer'
+import { boardCategories } from '../../../reducer'
 
 export type values = {
   id: number
@@ -33,7 +33,7 @@ export const CategoriesInput: FunctionComponent = () => {
   useEffect(() => {
     return () => {
       const update = itemsCheckRef.current
-      dispatch(setCategories({ categories: update.map((cat) => cat.value) }))
+      dispatch(boardCategories({ categories: update.map((cat) => cat.value) }))
     }
   }, [])
 

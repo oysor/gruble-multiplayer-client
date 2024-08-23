@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react'
 import { Button } from '../../../common/components'
-import { setNextPage, setPlayerResults } from '../../reducer'
+import { setNextPage, playerResults } from '../../reducer'
 import { RoomState } from '../../store'
 import { updatePlayerListResults } from '../../utilities'
 import { useAppDispatch, useAppSelector } from '../../hooks'
@@ -46,7 +46,7 @@ export const HandleAnswers: FunctionComponent = () => {
       boardDictionary
     )
     const sendThisToAllPlayers = { newPlayerList, boardDictionary }
-    dispatch(setPlayerResults(sendThisToAllPlayers))
+    dispatch(playerResults(sendThisToAllPlayers))
     dispatch(setNextPage())
   }
 

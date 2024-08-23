@@ -54,17 +54,17 @@ const playerSlice = createSlice({
   initialState,
   // Create methods here to update the store.
   reducers: {
-    setStatus: (state, action) => {
+    updateConnectionStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
-    setPlayerStatus: (state, action) => {
+    updatePlayerStatus: (state, action) => {
       state.playerStatus = action.payload
     },
-    setPlayerName: (state, action) => {
+    updatePlayerName: (state, action) => {
       const { playerName } = action.payload
       state.playerName = playerName
     },
-    setUserId: (state, action) => {
+    playerUserId: (state, action) => {
       state.userId = action.payload
     },
     setNextPage: (state) => {
@@ -81,15 +81,11 @@ const playerSlice = createSlice({
         ...state.messages,
       ]
     },
-    setServerMessage: (state, action: { payload: { message: string } }) => {
+    serverMessage: (state, action: { payload: { message: string } }) => {
       const { message } = action.payload
       state.serverMessage = message
     },
-    // setRoom: (state, action: { payload: { signalRGroupName: string } }) => {
-    //   state.roomId = action.payload.signalRGroupName;
-    //   state.playerStatus = PlayerStatus.joinedGame;
-    // },
-    setRoomSettings: (state, action) => {
+    roomSettings: (state, action) => {
       const { signalRGroupName, timeLimit, boardSettings, players } = action.payload
       state.boardSettings = boardSettings
       state.roomId = signalRGroupName
@@ -102,32 +98,29 @@ const playerSlice = createSlice({
       const y = boardSettings.categories.length
       state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
 
-      state.playerStatus = PlayerStatus.receivedRoom;
-    },
-    setGameClosed: (state) => {
-      state.gameClosed = true
+      state.playerStatus = PlayerStatus.receivedRoom
     },
     updatePlayerBoard: (state, action) => {
       state.playerBoard = action.payload
     },
-    setTimeElapsed: (state, action) => {
+    updateTimer: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     sendBoard: (state) => {
-      state.playerStatus = PlayerStatus.boardSent;
+      state.playerStatus = PlayerStatus.boardSent
     },
-    setResults: (state, action) => {
+    playerResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
 
       state.playerList = newPlayerList
       state.boardDictionary = boardDictionary
-      state.playerStatus = PlayerStatus.receivedResult;
+      state.playerStatus = PlayerStatus.receivedResult
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
       const newPlayer: Player = mapPlayerFromAPI(payload)
-      
+
       // add only if player does not exist.
       if (!state.playerList.some((player) => player.name === newPlayer.name)) {
         return { ...state, playerList: [...state.playerList, newPlayer] }
@@ -139,6 +132,9 @@ const playerSlice = createSlice({
         return player.userId !== userId
       })
     },
+    gameClosed: (state) => {
+      state.gameClosed = true
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     sendMessage: (state, action) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -148,28 +144,27 @@ const playerSlice = createSlice({
     resetState: () => initialState,
   },
 })
-
 // import the actions where you want to dispatch them.
 export const {
-  setPlayerName,
-  setUserId,
-  setStatus,
-  setTimeElapsed,
+  updatePlayerName,
+  playerUserId,
+  updateConnectionStatus,
+  updateTimer,
   addMessage,
   joinRoom,
   sendMessage,
-  setRoomSettings,
+  roomSettings,
   updatePlayerBoard,
   resetState,
   sendBoard,
   setNextPage,
-  setResults,
+  playerResults,
   addPlayer,
   removePlayer,
-  setServerMessage,
-  setGameClosed,
+  serverMessage,
+  gameClosed,
   updateConnection,
-  setPlayerStatus
+  updatePlayerStatus,
 } = playerSlice.actions
 
 export default playerSlice.reducer

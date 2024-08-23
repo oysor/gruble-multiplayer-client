@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { Stack_l } from '../../../common/everyLayout'
 import { Headline, UnderHeadline } from './styles'
 import { PondrInput } from '../../../common/components/inputs/SmartInput'
-import { setRoomName } from '../../reducer'
+import { updateRoomName } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { RoomState } from '../../store'
 import Maskot2 from '../../../assets/svg/maskot_2.svg'
@@ -15,7 +15,7 @@ export const NameInput: FunctionComponent = () => {
 
   const handleNameBlur = (): void => {
     if (name.length > 0 && name != roomName) {
-      dispatch(setRoomName(name))
+      dispatch(updateRoomName(name))
     }
   }
 

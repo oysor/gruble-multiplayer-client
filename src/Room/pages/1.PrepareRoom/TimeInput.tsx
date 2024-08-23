@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Cluster_l, Stack_l } from '../../../common/everyLayout'
 import { Headline, UnderHeadline } from './styles'
-import { setTimeLimit } from '../../reducer'
+import { updateTimeLimit } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { PondrNumericInput } from '../../../common/components/inputs/SmartNumericInput'
 import { RoomState } from '../../store'
@@ -36,7 +36,7 @@ export const TimeInput = () => {
   const handleTimeBlur = (): void => {
     if (time !== timeLimit) {
       const timeInSeconds = time * 60
-      dispatch(setTimeLimit(timeInSeconds))
+      dispatch(updateTimeLimit(timeInSeconds))
     }
   }
 
