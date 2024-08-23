@@ -1,24 +1,24 @@
 import { isAnyOf } from '@reduxjs/toolkit'
 import {
   setStatus,
-  newMessage,
+  addMessage,
   setTimeElapsed,
-  addGameRoom,
-  timesUp,
+  setRoomSettings,
   sendBoard,
-  receiveResults,
+  setResults,
   addPlayer,
   removePlayer,
-  newServerMessage,
+  setServerMessage,
   sendMessage,
   joinRoom,
   resetState,
-  gameClosed,
-  setRoundIsOn,
+  setGameClosed,
   setUserId,
   updateConnection,
+  setNextPage,
+  setPlayerStatus,
 } from './reducer'
-import { API_URL, ConnectionMode } from '../common/constants'
+import { API_URL, ConnectionMode, PlayerStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
@@ -42,7 +42,7 @@ enum fromServer {
   ON_TIMER_ELAPSED = 'onTimerElapsed',
   ON_TIMER_FINISHED = 'onTimerFinished',
   ON_RECEIVE_RESULTS = 'onReceiveResults',
-  ON_GAME_ROOM_DISCONNECT = 'onGameRoomDisconnect',
+  ON_ROOM_DISCONNECT = 'onGameRoomDisconnect',
   ON_ERROR = 'onError',
 }
 
@@ -74,24 +74,24 @@ export async function startPlayerConnection(): Promise<void> {
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
     hubConnection.on(fromServer.ON_ERROR, (msg) => {
-      store.dispatch(newServerMessage({ message: msg }))
+      store.dispatch(setServerMessage({ message: msg }))
     })
 
     hubConnection.on(fromServer.ON_SERVER_REPLY, (msg) => {
-      store.dispatch(newServerMessage({ message: msg }))
+      store.dispatch(setServerMessage({ message: msg }))
     })
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
-      store.dispatch(newMessage({ id: connectionID, message: msg }))
+      store.dispatch(addMessage({ id: connectionID, message: msg }))
     })
 
     hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, userId) => {
-      store.dispatch(addGameRoom(gameRoom))
+      store.dispatch(setRoomSettings(gameRoom))
       store.dispatch(setUserId(userId))
     })
 
-    hubConnection.on(fromServer.ON_GAME_ROOM_DISCONNECT, () => {
-      store.dispatch(gameClosed())
+    hubConnection.on(fromServer.ON_ROOM_DISCONNECT, () => {
+      store.dispatch(setGameClosed())
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -103,7 +103,7 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
-      store.dispatch(setRoundIsOn())
+      store.dispatch(setPlayerStatus(PlayerStatus.roundStarted))
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
@@ -111,11 +111,12 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
-      store.dispatch(timesUp())
+      store.dispatch(sendBoard())
+      store.dispatch(setNextPage())
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results) => {
-      store.dispatch(receiveResults(results))
+      store.dispatch(setResults(results))
     })
   } catch (err) {
     console.assert(
@@ -223,9 +224,10 @@ startAppListening({
 
 startAppListening({
   actionCreator: sendBoard,
-  effect: async (action) => {
-    const signalRGroupName = action.payload.roomId
-    hubConnection.invoke(toServer.SENDBOARD, signalRGroupName, action.payload.board)
+  effect: async (action, listenerApi) => {
+    // const signalRGroupName = action.payload.roomId
+    const player = listenerApi.getOriginalState().player
+    hubConnection.invoke(toServer.SENDBOARD, player.roomId, player.playerBoard)
   },
 })
 /* * * * * * * * * * **/

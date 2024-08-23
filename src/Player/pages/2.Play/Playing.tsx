@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 import { PlayerState } from '../../store'
 import { InputBoard } from './playerInput/InputBoard'
-import { updateBoard } from '../../reducer'
+import { updatePlayerBoard } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
 
@@ -52,7 +52,7 @@ export const Playing: FunctionComponent = () => {
     // deep copy array for every input
     const arr = [...Array(playerBoard.length)].map((a, i) => [...playerBoard[i]])
     arr[y][x] = value
-    dispatch(updateBoard(arr))
+    dispatch(updatePlayerBoard(arr))
   }
 
   return (

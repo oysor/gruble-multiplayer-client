@@ -6,14 +6,15 @@ import {
   IncomingMessage,
   IncomingPlayer,
   initialCommonStates,
-  Message,
   MessageItem,
   Player,
+  PlayerStatus,
   WordInfoDict,
 } from '../common/constants'
 import { mapPlayerFromAPI } from '../common/mapping'
 
 export interface playerState {
+  playerStatus: number
   playerName: string
   roomId: string
   messages: MessageItem[]
@@ -23,7 +24,6 @@ export interface playerState {
   playerBoard: Board
   timesUp: boolean
   playerList: Player[]
-  receivedResult: boolean
   currentPage: number
   timeLimit: number
   boardDictionary: WordInfoDict[][]
@@ -32,6 +32,7 @@ export interface playerState {
 }
 
 const initialState: playerState = {
+  playerStatus: 0,
   playerName: '',
   roomId: '',
   messages: [],
@@ -41,7 +42,6 @@ const initialState: playerState = {
   playerBoard: [['']],
   timesUp: false,
   playerList: [],
-  receivedResult: false,
   currentPage: 1,
   timeLimit: 0,
   boardDictionary: [[]],
@@ -57,6 +57,9 @@ const playerSlice = createSlice({
     setStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
+    setPlayerStatus: (state, action) => {
+      state.playerStatus = action.payload
+    },
     setPlayerName: (state, action) => {
       const { playerName } = action.payload
       state.playerName = playerName
@@ -67,7 +70,7 @@ const playerSlice = createSlice({
     setNextPage: (state) => {
       state.currentPage += 1
     },
-    newMessage: (state, action: { payload: IncomingMessage }) => {
+    addMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload
       const messageSender = state.playerList.find((p) => {
         return p.userId === id
@@ -78,11 +81,15 @@ const playerSlice = createSlice({
         ...state.messages,
       ]
     },
-    newServerMessage: (state, action: { payload: { message: string } }) => {
+    setServerMessage: (state, action: { payload: { message: string } }) => {
       const { message } = action.payload
       state.serverMessage = message
     },
-    addGameRoom: (state, action) => {
+    setRoom: (state, action: { payload: { signalRGroupName: string } }) => {
+      state.roomId = action.payload.signalRGroupName;
+      state.playerStatus = PlayerStatus.joinedGame;
+    },
+    setRoomSettings: (state, action) => {
       const { signalRGroupName, timeLimit, boardSettings, players } = action.payload
       state.boardSettings = boardSettings
       state.roomId = signalRGroupName
@@ -93,41 +100,29 @@ const playerSlice = createSlice({
 
       const x = boardSettings.letters.length
       const y = boardSettings.categories.length
-
       state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
+
+      state.playerStatus = PlayerStatus.receivedRoom;
     },
-    gameClosed: (state) => {
+    setGameClosed: (state) => {
       state.gameClosed = true
     },
-    updateBoard: (state, action) => {
+    updatePlayerBoard: (state, action) => {
       state.playerBoard = action.payload
-    },
-    setRoundIsOn: (state) => {
-      state.commonStates.roundIsOn = true
     },
     setTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
-    timesUp: (state) => {
-      state.timesUp = true
-      state.commonStates.roundIsOn = false
-    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendBoard: (state, action) => {
-      state.timesUp = false
+    sendBoard: (state) => {
+      state.playerStatus = PlayerStatus.boardSent;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendMessage: (state, action) => {
-      return state
-    },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    joinRoom: (state, action) => {},
-    receiveResults: (state, action) => {
+    setResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
 
       state.playerList = newPlayerList
       state.boardDictionary = boardDictionary
-      state.receivedResult = true
+      state.playerStatus = PlayerStatus.receivedResult;
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
@@ -145,6 +140,10 @@ const playerSlice = createSlice({
       })
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    sendMessage: (state, action) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    joinRoom: (state, action) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateConnection: (state) => {},
     resetState: () => initialState,
   },
@@ -156,22 +155,21 @@ export const {
   setUserId,
   setStatus,
   setTimeElapsed,
-  newMessage,
+  addMessage,
   joinRoom,
   sendMessage,
-  addGameRoom,
-  updateBoard,
+  setRoomSettings,
+  updatePlayerBoard,
   resetState,
-  setRoundIsOn,
-  timesUp,
   sendBoard,
   setNextPage,
-  receiveResults,
+  setResults,
   addPlayer,
   removePlayer,
-  newServerMessage,
-  gameClosed,
-  updateConnection
+  setServerMessage,
+  setGameClosed,
+  updateConnection,
+  setPlayerStatus
 } = playerSlice.actions
 
 export default playerSlice.reducer

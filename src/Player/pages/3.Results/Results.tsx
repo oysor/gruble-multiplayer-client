@@ -4,9 +4,10 @@ import { useAppSelector } from '../../hooks'
 import { Box_l, Stack_l } from '../../../common/everyLayout'
 import { Table } from '../../../common/components/tables'
 import { PlayerResultBoards } from '../../../common/components/boards'
+import { PlayerStatus } from '../../../common/constants'
 
 export const Results: FunctionComponent = () => {
-  const { playerName, receivedResult, playerList, boardDictionary, boardSettings } =
+  const { playerName, playerStatus, playerList, boardDictionary, boardSettings } =
     useAppSelector((state: PlayerState) => state.player)
 
   const playerStats = playerList.map((p) => {
@@ -20,7 +21,7 @@ export const Results: FunctionComponent = () => {
   const nameOfWinner = playerName === winner.player ? 'You' : winner.player
   return (
     <div id="show-results">
-      {receivedResult ? (
+      {playerStatus === PlayerStatus.receivedResult ? (
         <Box_l>
           <Stack_l space="2.5rem">
             <Table playerStats={playerStats} />

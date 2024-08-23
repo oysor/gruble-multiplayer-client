@@ -9,6 +9,24 @@ export type CommonStates = {
   roundIsOn: boolean
 }
 
+export enum PlayerStatus {
+  joinedGame = 1,
+  receivedRoom = 2,
+  roundStarted = 3,
+  boardSent = 4,
+  receivedResult = 5,
+}
+
+export enum RoomStatus {
+  gameCreated = 1,
+  boardCreated = 2,
+  playerJoined = 3,
+  roundStarted = 4,
+  roundEnded = 5,
+  boardsReceived = 6,
+  resultsSent = 7,
+}
+
 export type Player = {
   name: string
   userId: string
