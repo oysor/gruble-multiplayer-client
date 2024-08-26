@@ -26,7 +26,6 @@ export interface RoomState {
   commonStates: CommonStates
   boardSettings: BoardSettings
   playerList: Player[]
-  receivedBoards: number
   currentPage: number
   boardDictionary: WordInfoDict[][]
   userId: String
@@ -41,7 +40,6 @@ const initialState: RoomState = {
   commonStates: initialCommonStates,
   boardSettings: { categories: [], letters: [] },
   playerList: [],
-  receivedBoards: 0,
   currentPage: 1,
   boardDictionary: [[]],
   userId: '',
