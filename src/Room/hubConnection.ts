@@ -6,7 +6,7 @@ import {
   updateTimeElapsed,
   removePlayer,
   addPlayer,
-  playerBoards,
+  playerBoard,
   createRoom,
   startGame,
   playerResults,
@@ -99,7 +99,7 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (userId, board) => {
-      store.dispatch(playerBoards({ userId: userId, board: board }))
+      store.dispatch(playerBoard({ userId: userId, board: board }))
     })
   } catch (err) {
     console.assert(

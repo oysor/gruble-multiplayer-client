@@ -93,10 +93,9 @@ const roomSlice = createSlice({
         return player.userId !== userId
       })
     },
-    playerBoards: (state, action: { payload: { userId: string; board: Board } }) => {
+    playerBoard: (state, action: { payload: { userId: string; board: Board } }) => {
       const { userId, board } = action.payload
-      let updatedPlayerList = state.playerList
-      updatedPlayerList = updatedPlayerList.map((player) => {
+      const playerList = state.playerList.map((player) => {
         if (player.userId === userId) {
           player.board = board
           player.hasSubmitted = true
@@ -104,14 +103,13 @@ const roomSlice = createSlice({
         return player
       })
 
-      state.receivedBoards += 1
-      state.playerList = updatedPlayerList
-      if (state.receivedBoards === state.playerList.length) {
+      state.playerList = playerList
+
+      const numberOfBoards = playerList.length
+      const receivedBoards = playerList.filter((p) => p.hasSubmitted === true).length
+      if (numberOfBoards === receivedBoards) {
         state.roomStatus = RoomStatus.boardsReceived
-        state.boardDictionary = createBoardDictionary(
-          updatedPlayerList,
-          state.boardSettings
-        )
+        state.boardDictionary = createBoardDictionary(playerList, state.boardSettings)
       }
     },
     updateBoardDictionary: (state, action) => {
@@ -164,7 +162,7 @@ export const {
   removePlayer,
   addPlayer,
   resetState,
-  playerBoards,
+  playerBoard,
   setNextPage,
   playerResults,
   createRoom,
