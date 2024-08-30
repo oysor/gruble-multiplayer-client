@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 
 interface SmartInputProps {
   onChange: (stringValue: string) => void
-  onBlur: (stringValue: string) => void
+  onBlur?: (stringValue: string) => void
   onKeyPress?: (e: React.KeyboardEvent) => void
   placeholder?: string
   value?: string
@@ -84,7 +84,9 @@ export const PondrInput: FunctionComponent<SmartInputProps> = ({
       value={value}
       placeholder={placeholder}
       onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onChange(ev.target.value)}
-      onBlur={(ev: React.ChangeEvent<HTMLInputElement>) => onBlur(ev.target.value)} 
+      onBlur={(ev: React.ChangeEvent<HTMLInputElement>) =>
+        onBlur && onBlur(ev.target.value)
+      }
     />
   )
 }

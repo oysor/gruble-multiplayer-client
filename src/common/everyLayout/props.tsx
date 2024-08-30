@@ -44,6 +44,7 @@ export interface BoxProps {
   padding?: string
   borderWidth?: string
   borderColor?: string
+  borderStyle?: string
   backgroundColor?: string
 }
 

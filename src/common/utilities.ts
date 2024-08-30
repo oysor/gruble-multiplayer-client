@@ -1,4 +1,4 @@
-import { Flag } from './constants'
+import { BoardSettings, Flag } from './constants'
 
 /**
  *  Returns a string color code
@@ -46,9 +46,16 @@ export const AppendConnectionStateMessageList = (message: string) => {
 export const checkForMissingAttributes = (attributes: object) => {
   const attributesMap = Object.entries(attributes)
   attributesMap.forEach(([attribute, value]) => {
-    console.log(attribute)
     if (value === undefined) {
       throw new Error('Missing ' + attribute)
     }
   })
+}
+
+export const createEmptyBoard = (boardSettings: BoardSettings) => {
+  const x = boardSettings.letters.length
+  const y = boardSettings.categories.length
+  const gameBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
+
+  return gameBoard
 }

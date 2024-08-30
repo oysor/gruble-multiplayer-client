@@ -9,7 +9,7 @@ import { PlayerCountDown } from '../../components/PlayerCountDown'
 import { InputWord } from './playerInput/InputWord'
 import { Button } from '../../../common/components'
 
-export const Playing: FunctionComponent = () => {
+export const FillPlayerBoard: FunctionComponent = () => {
   const { boardSettings, playerBoard } = useAppSelector(
     (state: PlayerState) => state.player
   )

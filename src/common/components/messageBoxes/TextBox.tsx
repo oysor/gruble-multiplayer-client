@@ -9,14 +9,19 @@ const MessageBox = styled.div`
   display: block;
   outline: 0.125rem solid transparent;
   outline-offset: -0.125rem;
-  background-color: #c4c4c4;
+  background-color: white;
+  color: #035151;
+
   border-radius: 0.2rem;
 
   max-width: 25rem;
-  /* min-width: 10em; */
+  min-width: 10rem;
 
   padding-left: 0.5em;
   padding-right: 0.5em;
+
+  padding-bottom: 0.5em;
+  padding-top: 0.5em;
 `
 
 const Messages = styled.div`

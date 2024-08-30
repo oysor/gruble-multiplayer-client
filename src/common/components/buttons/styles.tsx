@@ -122,6 +122,7 @@ interface PondrButtonProps {
   width?: string
   transparent?: boolean
   fontSize?: string
+  blurred?: boolean
 }
 
 export const PondrButton = styled.button<PondrButtonProps>`
@@ -142,6 +143,12 @@ export const PondrButton = styled.button<PondrButtonProps>`
   color: ${(props) => props.color && props.color};
   background: var(--btnColor, '#FFFFFF');
   background: ${(props) => props.background && props.background};
+
+  ${(props) =>
+    props.blurred &&
+    css`
+      opacity: 0.5;
+    `}
 
   ${(props) =>
     props.invert &&

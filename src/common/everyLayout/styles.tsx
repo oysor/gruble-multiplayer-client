@@ -104,6 +104,7 @@ export const Cover_l = styled.div<CoverProps>`
  * @property {string} padding=var(--s1) A CSS `padding` value
  * @property {string} borderWidth=var(--border-thin) A CSS `border-width` value
  * @property {string} borderColor= A CSS `border-color` value
+ * @property {string} borderStyle= A CSS `border-style` value
  * @property {boolean} invert=false Whether to apply an inverted theme. Only recommended for greyscale designs.
  */
 export const Box_l = styled.div<BoxProps>`
@@ -123,6 +124,12 @@ export const Box_l = styled.div<BoxProps>`
       border-color: ${props.borderColor};
       border-width: ${props.borderWidth};
     `}
+
+  ${(props) =>
+    props.borderStyle &&
+    css`
+      border-style: ${props.borderStyle};
+   `}
 
   & * {
     color: ${(props) => props.color};

@@ -14,12 +14,13 @@ interface InfoProps {
 
 export const PlayerInfo = styled.span<InfoProps>`
   color: ${(props) => props.color};
+  text-align: center;
 `
 
 export const PlayerListBox: FunctionComponent<PlayerListBoxProps> = ({ playerList }) => {
   return (
     <Stack_l space="0.3rem">
-      <span>Players</span>
+      <span className="text-sm text-center opacity-50">Players</span>
       <TextBox>
         {playerList.length > 0 ? (
           playerList.map(function (player, idx) {

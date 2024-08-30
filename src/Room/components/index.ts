@@ -1,3 +1,3 @@
-export { ShowRoomInput } from './ShowRoomInput'
+export { RoomIdCopyBox } from './RoomIdCopyBox'
 export * from './DisplayList'
 export { PlayerAnswerBoard } from './PlayerAnswerBoard'

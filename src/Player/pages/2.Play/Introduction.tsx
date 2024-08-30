@@ -1,15 +1,18 @@
 import React, { FunctionComponent } from 'react'
 import { Box_l, Stack_l } from '../../../common/everyLayout'
 import Maskot from '../../../assets/svg/maskot.svg'
+import { PlayerList } from '../../../common/components'
+import { useAppSelector } from '../../hooks'
+import { PlayerState } from '../../store'
 
 export const Introduction: FunctionComponent = ({}) => {
+  const { playerList } = useAppSelector((state: PlayerState) => state.player)
   return (
     <div id="play">
       <Box_l>
         <Stack_l space="0.3rem" className="mb-[2rem]">
-          <Maskot width="4rem" height="100%" />
-          <Stack_l space="0.5rem" className="text-sm">
-            <div>Ok, stupid! </div>
+          {/* <Maskot width="4rem" height="100%" /> */}
+          {/* <Stack_l space="0.5rem" className="text-sm">
             <div>You will receive a board to fill out with words.</div>
             <div>
               Each word must be within their category and start with the correct letter.
@@ -18,7 +21,8 @@ export const Introduction: FunctionComponent = ({}) => {
               One extra point if you write down a word that no one else wrote down.
             </div>
             <div>You will have limited time to figure it out.</div>
-          </Stack_l>
+          </Stack_l> */}
+          <PlayerList playerList={playerList}/>
         </Stack_l>
       </Box_l>
     </div>

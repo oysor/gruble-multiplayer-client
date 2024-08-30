@@ -12,6 +12,7 @@ import {
   WordInfoDict,
 } from '../common/constants'
 import { mapPlayerFromAPI } from '../common/mapping'
+import { createEmptyBoard } from '../common/utilities'
 
 export interface playerState {
   playerStatus: number
@@ -60,13 +61,6 @@ const playerSlice = createSlice({
     updatePlayerStatus: (state, action) => {
       state.playerStatus = action.payload
     },
-    updatePlayerName: (state, action) => {
-      const { playerName } = action.payload
-      state.playerName = playerName
-    },
-    playerUserId: (state, action) => {
-      state.userId = action.payload
-    },
     setNextPage: (state) => {
       state.currentPage += 1
     },
@@ -85,20 +79,36 @@ const playerSlice = createSlice({
       const { message } = action.payload
       state.serverMessage = message
     },
-    roomSettings: (state, action) => {
-      const { signalRGroupName, timeLimit, boardSettings, players } = action.payload
-      state.boardSettings = boardSettings
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    joinRoom: (state, action) => {
+      const { playerName } = action.payload
+      state.playerName = playerName
+    },
+    joinedRoom: (state, action) => {
+      const { room, userId } = action.payload
+      const { signalRGroupName, timeLimit, boardSettings, players } = room
+      state.userId = userId;
       state.roomId = signalRGroupName
       state.timeLimit = timeLimit
+      state.boardSettings = boardSettings
       state.playerList = players.map(
         (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
       )
 
-      const x = boardSettings.letters.length
-      const y = boardSettings.categories.length
-      state.playerBoard = [...Array(x)].map(() => [...Array(y)].map(() => ''))
+      if (boardSettings?.categories !== undefined) {
+        state.playerBoard = createEmptyBoard(boardSettings)
+      }
 
       state.playerStatus = PlayerStatus.receivedRoom
+    },
+    roomUpdated: (state, action) => {
+      const { timeLimit, boardSettings } = action.payload
+      state.timeLimit = timeLimit
+      state.boardSettings = boardSettings
+
+      if (boardSettings?.categories !== undefined) {
+        state.playerBoard = createEmptyBoard(boardSettings)
+      }
     },
     updatePlayerBoard: (state, action) => {
       state.playerBoard = action.payload
@@ -110,7 +120,7 @@ const playerSlice = createSlice({
     sendBoard: (state) => {
       state.playerStatus = PlayerStatus.boardSent
     },
-    playerResults: (state, action) => {
+    receivedResults: (state, action) => {
       const { newPlayerList, boardDictionary } = action.payload
 
       state.playerList = newPlayerList
@@ -138,27 +148,25 @@ const playerSlice = createSlice({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     sendMessage: (state, action) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    joinRoom: (state, action) => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateConnection: (state) => {},
     resetState: () => initialState,
   },
 })
 // import the actions where you want to dispatch them.
 export const {
-  updatePlayerName,
-  playerUserId,
+  // updatePlayerName,
   updateConnectionStatus,
   updateTimer,
   addMessage,
   joinRoom,
+  roomUpdated,
   sendMessage,
-  roomSettings,
+  joinedRoom,
   updatePlayerBoard,
   resetState,
   sendBoard,
   setNextPage,
-  playerResults,
+  receivedResults,
   addPlayer,
   removePlayer,
   serverMessage,

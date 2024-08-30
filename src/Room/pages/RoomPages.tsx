@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { RoomState } from '../store'
 import { ChatBox, ConnectionStatus, PlayerListBox } from '../../common/components'
-import { StartGame, HandleAnswers, ShowResults, PrepareRoom } from '.'
+import { HandleAnswers, ShowResults, Playing, GameSettings, CreateRoom } from '.'
 import { useAppSelector } from '../hooks'
 import { Box_l, Stack_l } from '../../common/everyLayout'
 import { ConnectionMode } from '../../common/constants'
@@ -15,15 +15,18 @@ export const RoomPages: FunctionComponent = () => {
   )
   const connected = commonStates.status === ConnectionMode.Connected
 
+
   const displayPage = (currentPage: number) => {
     switch (currentPage) {
       case 1:
-        return <PrepareRoom />
+        return <CreateRoom />
       case 2:
-        return <StartGame />
+        return <GameSettings />
       case 3:
-        return <HandleAnswers />
+        return <Playing />
       case 4:
+        return <HandleAnswers />
+      case 5:
         return <ShowResults />
     }
   }
@@ -41,7 +44,7 @@ export const RoomPages: FunctionComponent = () => {
         </Stack_l>
       </div>
       <div className="flex-1 flex ">{displayPage(currentPage)}</div>
-      {currentPage >= 2 ? (
+      {currentPage >= 3 ? (
         <div className="flex-1 flex">
           <Stack_l space="1rem" className="mt-[1rem]">
             <PlayerListBox playerList={playerList} />

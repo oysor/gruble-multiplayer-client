@@ -59,22 +59,31 @@ const roomSlice = createSlice({
     updateRoomName: (state, action) => {
       state.roomName = action.payload
     },
-    updateTimeLimit: (state, action) => {
-      state.timeLimit = action.payload
+    updateTimeLimit: (state, action: { payload: { timeLimit: number } }) => {
+      const { timeLimit } = action.payload
+      state.timeLimit = timeLimit
     },
-    boardCategories: (state, action: { payload: { categories: string[] } }) => {
-      state.boardSettings.categories = action.payload.categories
+    updateBoardSettings: (state, action: { payload: { categories: string[], letters: string[] } }) => {
+      const { categories, letters } = action.payload
+      state.boardSettings.categories = categories
+      state.boardSettings.letters = letters
     },
-    roomSettings: (state, action: { payload: IncomingGameRoom }) => {
-      assertIsRoom(action.payload)
-      const { roomMasterId, signalRGroupName, roomName, timeLimit, boardSettings } =
-        action.payload
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    createRoom: (state, action) => {},
+    roomCreated: (state, action: { payload: IncomingGameRoom }) => {
+      const { roomMasterId, signalRGroupName, roomName } = action.payload
       state.userId = roomMasterId
       state.roomId = signalRGroupName
       state.roomName = roomName
+      state.roomStatus = RoomStatus.roomCreated
+    },
+    roomUpdated: (state, action: { payload: IncomingGameRoom }) => {
+      assertIsRoom(action.payload)
+      const { timeLimit, boardSettings } = action.payload
+
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
-      state.roomStatus = RoomStatus.boardCreated
+      state.roomStatus = RoomStatus.gameCreated
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
@@ -91,7 +100,7 @@ const roomSlice = createSlice({
         return player.userId !== userId
       })
     },
-    playerBoard: (state, action: { payload: { userId: string; board: Board } }) => {
+    receivePlayerBoard: (state, action: { payload: { userId: string; board: Board } }) => {
       const { userId, board } = action.payload
       const playerList = state.playerList.map((player) => {
         if (player.userId === userId) {
@@ -108,6 +117,7 @@ const roomSlice = createSlice({
       if (numberOfBoards === receivedBoards) {
         state.roomStatus = RoomStatus.boardsReceived
         state.boardDictionary = createBoardDictionary(playerList, state.boardSettings)
+        state.currentPage += 1
       }
     },
     updateBoardDictionary: (state, action) => {
@@ -115,7 +125,7 @@ const roomSlice = createSlice({
       const { letter, category } = square
       state.boardDictionary[letter][category][word].flag = flag
     },
-    playerResults: (state, action) => {
+    showResults: (state, action) => {
       const { newPlayerList } = action.payload
       state.playerList = newPlayerList
     },
@@ -136,10 +146,9 @@ const roomSlice = createSlice({
     setNextPage: (state) => {
       state.currentPage += 1
     },
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    createRoom: (state, action) => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    startGame: (state, action) => {},
+    startGame: () => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateConnection: (state) => {},
     resetState: () => initialState,
@@ -151,18 +160,18 @@ export const {
   updateConnectionStatus,
   updateRoomStatus,
   updateRoomName,
-  // userId,
   updateTimeLimit,
-  boardCategories,
-  roomSettings,
+  updateBoardSettings,
+  roomUpdated,
+  roomCreated,
   updateTimeElapsed,
   addMessage,
   removePlayer,
   addPlayer,
   resetState,
-  playerBoard,
+  receivePlayerBoard,
   setNextPage,
-  playerResults,
+  showResults,
   createRoom,
   startGame,
   updateBoardDictionary,

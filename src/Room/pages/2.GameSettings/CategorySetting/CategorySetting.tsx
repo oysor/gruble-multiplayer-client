@@ -8,14 +8,14 @@ import { RoomState } from '../../../store'
 import { SelectCategories } from './SelectCategories/SelectCategories'
 import { DragDropList } from '../../../components/DragDropList/DragDropList'
 import { OverLayList, ShowOverlayButton } from './styles'
-import { boardCategories } from '../../../reducer'
+import { updateBoardSettings } from '../../../reducer'
 
 export type values = {
   id: number
   value: string
 }[]
 
-export const CategoriesInput: FunctionComponent = () => {
+export const CategorySetting: FunctionComponent = () => {
   const dispatch = useAppDispatch()
   const { boardSettings } = useAppSelector((state: RoomState) => state.room)
   const { categories } = boardSettings
@@ -33,7 +33,13 @@ export const CategoriesInput: FunctionComponent = () => {
   useEffect(() => {
     return () => {
       const update = itemsCheckRef.current
-      dispatch(boardCategories({ categories: update.map((cat) => cat.value) }))
+      const newCategories = update.map((cat) => cat.value)
+
+      if (JSON.stringify(newCategories) !== JSON.stringify(categories)) {
+        const norskeAlfabetet = 'abcdefghijklmnopqrstuvwxyzøæå'.split('')
+        const newLetters = norskeAlfabetet.slice(0, newCategories.length)
+        dispatch(updateBoardSettings({ categories: newCategories, letters: newLetters }))
+      }
     }
   }, [])
 

@@ -3,9 +3,9 @@ import {
   updateConnectionStatus,
   addMessage,
   updateTimer,
-  roomSettings,
+  joinedRoom,
   sendBoard,
-  playerResults,
+  receivedResults,
   addPlayer,
   removePlayer,
   serverMessage,
@@ -13,10 +13,10 @@ import {
   joinRoom,
   resetState,
   gameClosed,
-  playerUserId,
   updateConnection,
   setNextPage,
   updatePlayerStatus,
+  roomUpdated,
 } from './reducer'
 import { API_URL, ConnectionMode, PlayerStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -36,6 +36,7 @@ enum fromServer {
   ON_MESSAGE_RECEIVED = 'onMessageReceived',
   ON_SERVER_REPLY = 'onServerReply',
   ON_ROOM_JOINED = 'onRoomJoined',
+  ON_RECEIVED_SETTINGS = 'onReceivedSettings',
   ON_PLAYER_JOINED = 'onPlayerJoined',
   ON_PLAYER_DISCONNECTED = 'onPlayerLeft',
   ON_TIMER_STARTED = 'onTimerStarted',
@@ -86,8 +87,11 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, userId) => {
-      store.dispatch(roomSettings(gameRoom))
-      store.dispatch(playerUserId(userId))
+      store.dispatch(joinedRoom({ room: gameRoom, userId: userId }))
+    })
+
+    hubConnection.on(fromServer.ON_RECEIVED_SETTINGS, (room) => {
+      store.dispatch(roomUpdated(room))
     })
 
     hubConnection.on(fromServer.ON_ROOM_DISCONNECT, () => {
@@ -116,7 +120,7 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results) => {
-      store.dispatch(playerResults(results))
+      store.dispatch(receivedResults(results))
     })
   } catch (err) {
     console.assert(
@@ -129,7 +133,6 @@ export async function startPlayerConnection(): Promise<void> {
     setTimeout(() => startPlayerConnection(), 5000)
   }
 }
-
 
 hubConnection.onreconnecting((error) => {
   console.assert(hubConnection.state === signalR.HubConnectionState.Reconnecting)
@@ -202,8 +205,6 @@ startAppListening({
     const state = listenerApi.getOriginalState().player
     const userId = state.userId
     const roomId = state.roomId
-
-    console.log("user: "+ userId + " room: "+roomId)
 
     if (userId !== '') {
       hubConnection.invoke(toServer.UPDATE_CONNECTION, userId, roomId)

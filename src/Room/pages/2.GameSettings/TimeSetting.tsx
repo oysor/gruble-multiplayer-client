@@ -8,10 +8,10 @@ import { RoomState } from '../../store'
 import Maskot2 from '../../../assets/svg/maskot_2.svg'
 import { TimerSettings } from '../../../common/constants'
 
-export const TimeInput = () => {
+export const TimeSetting = () => {
   const dispatch = useAppDispatch()
   // in seconds
-  const { timeLimit } = useAppSelector((state: RoomState) => state.room)
+  const { timeLimit, boardSettings } = useAppSelector((state: RoomState) => state.room)
   // in minutes
   const [time, setTime] = useState(timeLimit / 60)
 
@@ -34,14 +34,17 @@ export const TimeInput = () => {
   }
 
   const handleTimeBlur = (): void => {
-    if (time !== timeLimit) {
-      const timeInSeconds = time * 60
-      dispatch(updateTimeLimit(timeInSeconds))
+    // const timeInSeconds = time * 60
+    const timeInSeconds = time * 2
+
+    if (timeInSeconds !== timeLimit) {
+      dispatch(updateTimeLimit({timeLimit: timeInSeconds}))
+      // dispatch(sendSettings())
     }
   }
 
   return (
-    <div className="flex flex-col h-[100%] justify-around">
+    <div className="flex flex-col h-[100%] ">
       <Stack_l className="text-center h-[1rem]">
         <Headline>Time</Headline>
         <UnderHeadline className="self-center text-center max-w-[13em]">
@@ -58,8 +61,6 @@ export const TimeInput = () => {
         />
         <span className="pb-[0.3em]">minutes</span>
       </Cluster_l>
-
-      {<Maskot2 maxwidth="100%" height="10rem" />}
     </div>
   )
 }

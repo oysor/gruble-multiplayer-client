@@ -6,15 +6,17 @@ import {
   updateTimeElapsed,
   removePlayer,
   addPlayer,
-  playerBoard,
+  receivePlayerBoard,
   createRoom,
   startGame,
-  playerResults,
+  showResults,
   resetState,
-  roomSettings,
-  // userId,
+  roomUpdated,
   updateConnection,
   updateRoomStatus,
+  roomCreated,
+  updateTimeLimit,
+  updateBoardSettings,
 } from './reducer'
 import { API_URL, ConnectionMode, RoomStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -28,19 +30,21 @@ enum toServer {
   START_GAME = 'StartGame',
   SEND_RESULTS = 'SendResults',
   UPDATE_CONNECTION = 'UpdateConnection',
+  UPDATE_SETTINGS = 'UpdateSettings',
 }
 
 // receive from server
 enum fromServer {
   ON_MESSAGE_RECEIVED = 'onMessageReceived',
-  ON_GAME_CREATED = 'onGameCreated',
+  ON_ROOM_CREATED = 'onRoomCreated',
+  ON_RECEIVED_SETTINGS = 'onReceivedSettings',
   ON_GAME_CREATION_ERROR = 'onRoomCreationError',
   ON_PLAYER_JOINED = 'onPlayerJoined',
   ON_PLAYER_DISCONNECTED = 'onPlayerLeft',
   ON_TIMER_STARTED = 'onTimerStarted',
   ON_TIMER_ELAPSED = 'onTimerElapsed',
   ON_TIMER_FINISHED = 'onTimerFinished',
-  ON_RECEIVE_BOARDS = 'onReceiveBoards',
+  ON_RECEIVED_BOARD = 'onReceivedBoard',
 }
 
 // Builds the SignalR connection, mapping it to /gameHub
@@ -70,8 +74,12 @@ export async function startRoomConnection(): Promise<void> {
     console.log('***** ROOM ' + hubConnection.state + ' *****')
 
     // Receive newly created room object here.
-    hubConnection.on(fromServer.ON_GAME_CREATED, (room) => {
-      store.dispatch(roomSettings(room))
+    hubConnection.on(fromServer.ON_ROOM_CREATED, (room) => {
+      store.dispatch(roomCreated(room))
+    })
+
+    hubConnection.on(fromServer.ON_RECEIVED_SETTINGS, (room) => {
+      store.dispatch(roomUpdated(room))
     })
 
     hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
@@ -98,8 +106,8 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(updateRoomStatus(RoomStatus.roundEnded))
     })
 
-    hubConnection.on(fromServer.ON_RECEIVE_BOARDS, (userId, board) => {
-      store.dispatch(playerBoard({ userId: userId, board: board }))
+    hubConnection.on(fromServer.ON_RECEIVED_BOARD, (userId, board) => {
+      store.dispatch(receivePlayerBoard({ userId: userId, board: board }))
     })
   } catch (err) {
     console.assert(
@@ -156,7 +164,7 @@ export async function stopRoomConnection(): Promise<void> {
  */
 
 startAppListening({
-  matcher: isAnyOf(createRoom, startGame, playerResults),
+  matcher: isAnyOf(createRoom, startGame, showResults),
   effect: async (action, listenerApi) => {
     if (process.env.NODE_ENV !== 'production') {
       console.log('getOriginalState')
@@ -167,22 +175,70 @@ startAppListening({
 
 startAppListening({
   actionCreator: createRoom,
-  effect: async (action) => {
-    hubConnection.invoke(toServer.CREATE_ROOM, action.payload)
+  effect: async (action, listenerApi) => {
+    const requestObject = { RoomName: action.payload }
+    hubConnection.invoke(toServer.CREATE_ROOM, requestObject)
+  },
+})
+
+startAppListening({
+  matcher: isAnyOf(updateTimeLimit, updateBoardSettings),
+  effect: async (action: any, listenerApi) => {
+    const room = listenerApi.getOriginalState().room
+    const { roomId, timeLimit, boardSettings } = room
+    const categories = boardSettings?.categories
+
+    var gameSettings = {
+      TimeLimit: timeLimit,
+      BoardSettings: {
+        Categories: boardSettings?.categories,
+        Letters: boardSettings?.letters,
+      },
+    }
+
+    let updateSettings = false
+
+    if (action.type == updateTimeLimit.toString()) {
+      gameSettings.TimeLimit = action.payload.timeLimit
+      updateSettings = true
+    }
+
+    if (action.type == updateBoardSettings.toString()) {
+      gameSettings.BoardSettings.Categories = action.payload.categories
+      gameSettings.BoardSettings.Letters = action.payload.letters
+      updateSettings = true
+    }
+
+    if (updateSettings) {
+      hubConnection.invoke(toServer.UPDATE_SETTINGS, roomId, gameSettings)
+    }
   },
 })
 
 startAppListening({
   actionCreator: startGame,
-  effect: async (action) => {
+  effect: async (action, listenerApi) => {
     console.log('Ask server to Start Game')
-    await hubConnection.invoke(toServer.START_GAME, action.payload.roomId)
-    console.log('Game ended')
+
+    const room = listenerApi.getOriginalState().room
+
+    const { roomId, roomName, timeLimit, boardSettings } = room
+
+    const gameSettings = {
+      RoomName: roomName,
+      TimeLimit: timeLimit,
+      BoardSettings: {
+        Categories: boardSettings.categories,
+        Letters: boardSettings.letters,
+      },
+    }
+
+    await hubConnection.invoke(toServer.START_GAME, roomId, gameSettings)
   },
 })
 
 startAppListening({
-  actionCreator: playerResults,
+  actionCreator: showResults,
   effect: async (action) => {
     // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.SEND_RESULTS, action.payload)

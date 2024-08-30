@@ -1,1 +1,0 @@
-export { CategoriesInput } from './CategoriesInput'

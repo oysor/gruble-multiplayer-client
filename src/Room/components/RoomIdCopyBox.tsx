@@ -3,7 +3,7 @@ import { RoomState } from '../store'
 import { useAppSelector } from '../hooks'
 import { Box_l, Stack_l } from '../../common/everyLayout'
 
-export const ShowRoomInput: FunctionComponent = () => {
+export const RoomIdCopyBox: FunctionComponent = () => {
   const { roomId, roomName } = useAppSelector((state: RoomState) => state.room)
 
   const [copied, setCopied] = useState(false)
@@ -13,12 +13,13 @@ export const ShowRoomInput: FunctionComponent = () => {
     <Box_l padding="1rem">
       <Stack_l space="0.2rem">
         {/* <h2 className="text-center">{heading}</h2> */}
-        <span className="text-xl text-center">
-          {copied ? 'Copied!' : 'Click to copy..'}
+        <span className="text-sm text-center">
+          {copied ? 'Copied!' : 'Code to join the game:'}
         </span>
         <Box_l
           borderColor={copied ? 'black' : '#ff99bb'}
           borderWidth="0.1rem"
+          borderStyle='dotted'
           padding="1rem"
           className="w-[10rem] text-center cursor-pointer"
           onClick={() => {

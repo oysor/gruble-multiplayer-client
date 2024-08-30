@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import { joinRoom, setNextPage, updatePlayerName } from '../../reducer'
+import { joinRoom, setNextPage } from '../../reducer'
 import { Button, MissingInput, SmartInput } from '../../../common/components/'
 import { PlayerState } from '../../store'
 import { useAppDispatch, useAppSelector } from '../../hooks'
@@ -19,10 +19,10 @@ export const JoinGame: FunctionComponent = () => {
   const [remind, setRemind] = useState(false)
   const validInput = playerName.length > 0 && inputRoomId.length > 0
   const dispatch = useAppDispatch()
+  
   const dispatchOnClick = () => {
     const roomId = inputRoomId.toUpperCase()
     dispatch(joinRoom({ roomId: roomId, playerName: playerName }))
-    dispatch(updatePlayerName({ playerName: playerName }))
   }
 
   return (

@@ -18,6 +18,7 @@ export enum PlayerStatus {
 }
 
 export enum RoomStatus {
+  roomCreated = 0,
   gameCreated = 1,
   boardCreated = 2,
   playerJoined = 3,
