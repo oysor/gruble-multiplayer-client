@@ -18,6 +18,7 @@ export interface playerState {
   playerStatus: number
   playerName: string
   roomId: string
+  roomName: string
   messages: MessageItem[]
   serverMessage: string
   commonStates: CommonStates
@@ -36,6 +37,7 @@ const initialState: playerState = {
   playerStatus: 0,
   playerName: '',
   roomId: '',
+  roomName: 'unknown',
   messages: [],
   serverMessage: '',
   commonStates: initialCommonStates,
@@ -86,7 +88,8 @@ const playerSlice = createSlice({
     },
     joinedRoom: (state, action) => {
       const { room, userId } = action.payload
-      const { signalRGroupName, timeLimit, boardSettings, players } = room
+      const { roomName, signalRGroupName, timeLimit, boardSettings, players } = room
+      state.roomName = roomName;
       state.userId = userId;
       state.roomId = signalRGroupName
       state.timeLimit = timeLimit

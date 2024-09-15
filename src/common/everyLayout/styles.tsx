@@ -152,6 +152,7 @@ export const Stack_l = styled.div<StackProps>`
   justify-content: ${(props) => props.justify || 'flex-start'};
   align-items: ${(props) => props.align ?? props.align};
 
+
   & ${(props) => (props.recursive ? '' : '>')} * + * {
     margin-top: ${(props) => props.space};
   }

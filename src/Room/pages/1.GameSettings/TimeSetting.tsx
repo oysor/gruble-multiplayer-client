@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Cluster_l, Stack_l } from '../../../common/everyLayout'
-import { Headline, UnderHeadline } from './styles'
+import { Headline, InfoText1 } from './styles'
 import { updateTimeLimit } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { PondrNumericInput } from '../../../common/components/inputs/SmartNumericInput'
@@ -34,8 +34,7 @@ export const TimeSetting = () => {
   }
 
   const handleTimeBlur = (): void => {
-    // const timeInSeconds = time * 60
-    const timeInSeconds = time * 2
+    const timeInSeconds = time * 60
 
     if (timeInSeconds !== timeLimit) {
       dispatch(updateTimeLimit({timeLimit: timeInSeconds}))
@@ -47,9 +46,9 @@ export const TimeSetting = () => {
     <div className="flex flex-col h-[100%] ">
       <Stack_l className="text-center h-[1rem]">
         <Headline>Time</Headline>
-        <UnderHeadline className="self-center text-center max-w-[13em]">
+        <InfoText1 className="self-center text-center">
           {message}
-        </UnderHeadline>
+        </InfoText1>
       </Stack_l>
       <Cluster_l space="0.3em" justify="center" className="mt-[6rem]">
         <PondrNumericInput

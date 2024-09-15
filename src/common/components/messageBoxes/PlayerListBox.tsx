@@ -19,9 +19,9 @@ export const PlayerInfo = styled.span<InfoProps>`
 
 export const PlayerListBox: FunctionComponent<PlayerListBoxProps> = ({ playerList }) => {
   return (
-    <Stack_l space="0.3rem">
+    <Stack_l space="0.3rem" className='text-center w-[100%] max-w-[22rem]'>
       <span className="text-sm text-center opacity-50">Players</span>
-      <TextBox>
+      <TextBox >
         {playerList.length > 0 ? (
           playerList.map(function (player, idx) {
             return (

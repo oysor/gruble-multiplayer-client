@@ -14,8 +14,13 @@ const MessageBox = styled.div`
 
   border-radius: 0.2rem;
 
-  max-width: 25rem;
-  min-width: 10rem;
+
+  /* max-height: 10rem; */
+  min-height: 7rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -28,9 +33,6 @@ const Messages = styled.div`
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
-
-  /* max-height: 10rem;
-  min-height: 2rem; */
 
   padding-top: 0.5em;
   padding-bottom: 0.5em;

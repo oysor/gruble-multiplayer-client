@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Stack_l } from '../../../../common/everyLayout'
-import { Headline, UnderHeadline } from '../styles'
+import { Headline, InfoText1 } from '../styles'
 
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { RoomState } from '../../../store'
@@ -68,13 +68,13 @@ export const CategorySetting: FunctionComponent = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center w-[100%]">
+      <div className="flex flex-col h-[100%]  items-center w-[100%]">
         <Stack_l className="p-[0.5em]">
           <Stack_l className="text-center h-[6rem] ">
             <Headline>Categories</Headline>
-            <UnderHeadline className="self-center text-center mt-[0.5em]">
+            <InfoText1 className="self-center text-center mt-[0.5em]">
               {'Select up to 10 categories.'}
-            </UnderHeadline>
+            </InfoText1>
           </Stack_l>
           <Stack_l
             space="0.4em"

@@ -39,13 +39,12 @@ export const PlayerPages: FunctionComponent = () => {
       <Center_l intrinsic>
         <ConnectionStatus status={commonStates.status} />
         <Center_l>{displayPage(currentPage)}</Center_l>
-        {currentPage >= 2 ? (
+        {/* {currentPage >= 2 ? (
           <Stack_l space="1rem" className="mt-[1rem]">
-            {/* <PlayerListBox playerList={playerList} /> */}
             <ChatBox messages={messages} />
             {roomId && <SendMessage roomId={roomId} />}
           </Stack_l>
-        ) : null}
+        ) : null} */}
       </Center_l>
     </Cover_l>
   )

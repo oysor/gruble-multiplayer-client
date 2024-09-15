@@ -10,16 +10,16 @@ export const RoomIdCopyBox: FunctionComponent = () => {
   const heading = roomName.charAt(0).toUpperCase() + roomName.slice(1)
 
   return (
-    <Box_l padding="1rem">
-      <Stack_l space="0.2rem">
+    <Box_l>
+      <Stack_l space="0.2rem" align="center">
         {/* <h2 className="text-center">{heading}</h2> */}
-        <span className="text-sm text-center">
+        <span className="text-xs text-center">
           {copied ? 'Copied!' : 'Code to join the game:'}
         </span>
         <Box_l
           borderColor={copied ? 'black' : '#ff99bb'}
           borderWidth="0.1rem"
-          borderStyle='dotted'
+          borderStyle="dotted"
           padding="1rem"
           className="w-[10rem] text-center cursor-pointer"
           onClick={() => {
