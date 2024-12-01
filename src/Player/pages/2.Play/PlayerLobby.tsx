@@ -7,6 +7,7 @@ import { PlayerState } from '../../store'
 
 import { styled } from 'styled-components'
 import { SettingsInfo } from '../../../common/components/SettingsInfo'
+import { CopyIdBox } from '../../components/CopyIdBox'
 
 export const Headline = styled.div`
   font-family: var(--font-medium);
@@ -23,27 +24,25 @@ export const UnderHeadline = styled.div`
 `
 
 export const PlayerLobby: FunctionComponent = () => {
-  const { roomName, timeLimit, boardSettings, playerList } = useAppSelector(
+  const { roomName, roomId, timeLimit, boardSettings, playerList } = useAppSelector(
     (state: PlayerState) => state.player
   )
-  const { categories } = boardSettings
-
-  const missingCategories = categories.length < 1
 
   return (
-    <div className="flex flex-col h-[100%]">
+    <div className="flex flex-col h-[100%] min-w-[10rem]">
       <Stack_l className="text-center h-[6rem]">
         <Headline2>{roomName}</Headline2>
         <UnderHeadline className="self-center text-center">
-          {missingCategories
-            ? 'Go back and choose some categores!'
-            : 'Let the games begin!'}
+        Waiting for players, start game when all are ready.
         </UnderHeadline>
       </Stack_l>
+      <div>
       <Stack_l space="1em" justify="center" align="center" className="h-[100%]">
         <PlayerListBox playerList={playerList} />
         <SettingsInfo timeLimit={timeLimit} boardSettings={boardSettings} />
+        <CopyIdBox roomId={roomId}/>
       </Stack_l>
+      </div>
     </div>
   )
 }

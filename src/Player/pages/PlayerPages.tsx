@@ -7,7 +7,7 @@ import {
   PlayerListBox,
 } from '../../common/components'
 import { useAppSelector } from '../hooks'
-import { Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
+import { Box_l, Center_l, Cover_l, Stack_l } from '../../common/everyLayout'
 import { JoinGame } from './1.JoinGame'
 import { Play } from './2.Play'
 import { Results } from './3.Results'
@@ -36,16 +36,17 @@ export const PlayerPages: FunctionComponent = () => {
     <Cover_l centered="div">
       {!connected ? <DisconnectOverlay status={commonStates.status} /> : null}
       {gameClosed ? <GameClosed /> : null}
-      <Center_l intrinsic>
+      <Box_l padding='1rem'>
         <ConnectionStatus status={commonStates.status} />
         <Center_l>{displayPage(currentPage)}</Center_l>
+        {/* <div>{displayPage(currentPage)}</div> */}
         {/* {currentPage >= 2 ? (
           <Stack_l space="1rem" className="mt-[1rem]">
             <ChatBox messages={messages} />
             {roomId && <SendMessage roomId={roomId} />}
           </Stack_l>
         ) : null} */}
-      </Center_l>
+      </Box_l>
     </Cover_l>
   )
 }

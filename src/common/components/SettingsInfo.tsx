@@ -19,7 +19,7 @@ export const SettingsInfo: FunctionComponent<SettingsInfoProps> = ({
 }) => {
   const { categories } = boardSettings
   const timeIsSet = timeLimit > 0
-  const categoriesIsSet = categories.length > 0
+  const categoriesIsSet = categories.length > 0 && categories[0] != "";
   const timeLimitInMinutes = timeLimit / 60
 
   return (
@@ -35,8 +35,8 @@ export const SettingsInfo: FunctionComponent<SettingsInfoProps> = ({
           <img src={timer_logo} alt="Timer Logo" height="20px" className="mr-[0.5rem]" />
           <InfoText1>
             <ul className="list-none">
-              {categories.map((category) => {
-                return <li className="mb-[0.2rem]">{category}</li>
+              {categories.map((category, key) => {
+                return <li className="mb-[0.2rem]" key={key}>{category}</li>
               })}
             </ul>
           </InfoText1>
