@@ -19,29 +19,45 @@ export const SettingsInfo: FunctionComponent<SettingsInfoProps> = ({
 }) => {
   const { categories } = boardSettings
   const timeIsSet = timeLimit > 0
-  const categoriesIsSet = categories.length > 0 && categories[0] != "";
+  const categoriesIsSet = categories.length > 0 && categories[0] != ''
   const timeLimitInMinutes = timeLimit / 60
 
   return (
-    <Cluster_l space="1rem" justify="space-evenly" align="flex-start">
-      {timeIsSet && (
-        <InfoText1>
-          <img src={timer_logo} alt="Timer Logo" height="20px" className="mr-[0.5rem]" />
-          {timeLimitInMinutes + ' minutes'}
-        </InfoText1>
-      )}
-      {categoriesIsSet && (
-        <div className="flex flex-row">
-          <img src={timer_logo} alt="Timer Logo" height="20px" className="mr-[0.5rem]" />
+    <div className="flex justify-center">
+      <Cluster_l space="1rem" align="flex-start">
+        {timeIsSet && (
           <InfoText1>
-            <ul className="list-none">
-              {categories.map((category, key) => {
-                return <li className="mb-[0.2rem]" key={key}>{category}</li>
-              })}
-            </ul>
+            <img
+              src={timer_logo}
+              alt="Timer Logo"
+              height="20px"
+              className="mr-[0.5rem]"
+            />
+            {timeLimitInMinutes + ' minutes'}
           </InfoText1>
-        </div>
-      )}
-    </Cluster_l>
+        )}
+        {categoriesIsSet && (
+          <div className="flex flex-row">
+            <img
+              src={timer_logo}
+              alt="Timer Logo"
+              height="20px"
+              className="mr-[0.5rem]"
+            />
+            <InfoText1>
+              <ul className="list-none">
+                {categories.map((category, key) => {
+                  return (
+                    <li className="mb-[0.2rem]" key={key}>
+                      {category}
+                    </li>
+                  )
+                })}
+              </ul>
+            </InfoText1>
+          </div>
+        )}
+      </Cluster_l>
+    </div>
   )
 }

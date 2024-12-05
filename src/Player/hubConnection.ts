@@ -17,6 +17,7 @@ import {
   setNextPage,
   updatePlayerStatus,
   roomUpdated,
+  checkRoom,
 } from './reducer'
 import { API_URL, ConnectionMode, PlayerStatus } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -28,6 +29,7 @@ import store from './store'
 enum toServer {
   SEND_MESSAGE = 'SendMessage',
   JOINROOM = 'JoinRoom',
+  CHECK_ROOMSTATUS = 'CheckRoomStatus',
   SENDBOARD = 'SendBoard',
   UPDATE_CONNECTION = 'UpdateConnection',
 }
@@ -194,6 +196,13 @@ startAppListening({
       action.payload.roomId,
       action.payload.playerName
     )
+  },
+})
+
+startAppListening({
+  actionCreator: checkRoom,
+  effect: async (action) => {
+    await hubConnection.invoke(toServer.CHECK_ROOMSTATUS, action.payload.roomId)
   },
 })
 

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Stack_l } from '../../../common/everyLayout'
-import { Headline2, InfoText1 } from './styles'
+import { Headline, Headline2, InfoText1 } from './styles'
 import { useAppSelector } from '../../hooks'
 import { RoomState } from '../../store'
 
@@ -20,7 +20,7 @@ export const Lobby: FunctionComponent = () => {
   return (
     <div id="lobby" className="flex flex-col h-[100%] w-[100%]">
       <Stack_l className="text-center h-[6rem]">
-        <Headline2>{roomName}</Headline2>
+        <Headline>{roomName}</Headline>
         <InfoText1 className="self-center text-center">
           {missingCategories
             ? 'Go back and choose some categores!'

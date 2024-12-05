@@ -5,9 +5,7 @@ interface CopyIdBoxProps {
   roomId: string
 }
 
-
-export const CopyIdBox: FunctionComponent<CopyIdBoxProps> = ({roomId}) => {
-
+export const CopyIdBox: FunctionComponent<CopyIdBoxProps> = ({ roomId }) => {
   const [copied, setCopied] = useState(false)
 
   return (
@@ -23,7 +21,9 @@ export const CopyIdBox: FunctionComponent<CopyIdBoxProps> = ({roomId}) => {
             setCopied(true)
           }}
         >
-          <span className='underline-offset-0 text-[0.5rem]'>{roomId ? roomId : '....'}</span>
+          <span className="underline-offset-0 text-[0.5rem]">
+            {roomId ? roomId : '....'}
+          </span>
         </Box_l>
       </Stack_l>
     </Box_l>

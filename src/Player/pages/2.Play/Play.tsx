@@ -1,19 +1,33 @@
 import React, { FunctionComponent } from 'react'
-import { PlayerState } from '../../store'
+import {
+  Grid,
+  Leftbar,
+  Logo,
+  Main,
+  Navigation,
+  Rightbar,
+} from '../../../Room/pages/1.GameSettings/styles'
 
-import { useAppSelector } from '../../hooks'
-
+import { TopLogo } from '../../../common/components/Logo'
 import { FillPlayerBoard } from './FillPlayerBoard'
-import { Introduction } from './Introduction'
-import { PlayerStatus } from '../../../common/constants'
-import { PlayerLobby } from './PlayerLobby'
+import { PlayerCountDown } from '../../components/PlayerCountDown'
 
 export const Play: FunctionComponent = () => {
-  const { playerStatus } = useAppSelector((state: PlayerState) => state.player)
-
-  if (playerStatus === PlayerStatus.roundStarted) {
-    return <FillPlayerBoard />
-  }
-
-  return <PlayerLobby />
+  return (
+    <Grid>
+      <Logo className="flex justify-center">
+        <TopLogo />
+      </Logo>
+      <Main>
+        <div className="flex justify-center">
+          <FillPlayerBoard />
+        </div>
+      </Main>
+      <Leftbar>
+        <PlayerCountDown />
+      </Leftbar>
+      <Rightbar></Rightbar>
+      <Navigation></Navigation>
+    </Grid>
+  )
 }

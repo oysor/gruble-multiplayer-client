@@ -10,6 +10,7 @@ export type CommonStates = {
 }
 
 export enum PlayerStatus {
+  connected = 0,
   joinedGame = 1,
   receivedRoom = 2,
   roundStarted = 3,

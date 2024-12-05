@@ -1,11 +1,18 @@
 import React, { FunctionComponent } from 'react'
-import { styled } from 'styled-components'
+import {
+  BaseTimer,
+  BaseTimer_circle,
+  BaseTimer_label,
+  BaseTimer_pathElapsed,
+  BaseTimer_pathRemaining,
+  BaseTimer_svg,
+} from './styles'
 
 interface TimeProps {
   elapsedTime: number
 }
 
-export const Timer: FunctionComponent<TimeProps> = ({ elapsedTime }) => {
+export const Timer_loop: FunctionComponent<TimeProps> = ({ elapsedTime }) => {
   return elapsedTime !== -99 ? (
     <div className="timer">
       <h2>Time left: {elapsedTime} </h2>
@@ -21,7 +28,7 @@ const ALERT_THRESHOLD = 10
 
 const COLOR_CODES = {
   info: {
-    color: 'white',
+    color: 'green',
   },
   warning: {
     color: 'orange',
@@ -59,7 +66,6 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
     // Seconds are the remainder of the time divided by 60 (modulus operator)
     const seconds = time % 60
     let outputSeconds = seconds.toString()
-    let outputMinutes = seconds.toString()
 
     if (minutes === 0) {
       return outputSeconds
@@ -70,12 +76,8 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
       outputSeconds = '0' + seconds.toString()
     }
 
-    if (minutes < 10) {
-      outputMinutes = '0' + minutes.toString()
-    }
-
     // The output in MM:SS format
-    return `${outputMinutes}:${outputSeconds}`
+    return `${minutes}:${outputSeconds}`
   }
 
   const calculateTimeFraction = () => {
@@ -93,46 +95,31 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
     remainingPathColor = warning.color
   }
 
-  const CenterBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  `
-
-  const TimerBox = styled.div`
-    height: 7rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  `
-  const AboveTimerText = styled.div`
-    color: #069e9e;
-    font-size: 1rem;
-  `
-
-  interface TimeColorProps {
-    color: string
-  }
-
-  const TimerCount = styled.div<TimeColorProps>`
-    font-size: 4rem;
-    letter-spacing: 2px;
-    color: ${(props) => props.color};
-    font-family: 'Inter', sans-serif;
-    font-optical-sizing: auto;
-    /* font-weight: 500; */
-    font-style: normal;
-  `
-
   return (
-    <CenterBox>
-      <TimerBox>
-        <AboveTimerText>Time left</AboveTimerText>
-        <TimerCount color={remainingPathColor}>{formatTimeLeft(timeLeft)}</TimerCount>
-      </TimerBox>
-    </CenterBox>
+    <BaseTimer>
+      <BaseTimer_svg
+        className="base-timer__svg"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <BaseTimer_circle className="base-timer__circle">
+          <BaseTimer_pathElapsed cx="50" cy="50" r="45" />
+
+          <BaseTimer_pathRemaining
+            color={remainingPathColor}
+            id="base-timer-path-remaining"
+            strokeDasharray={circleDasharray}
+            // className="base-timer__path-remaining ${remainingPathColor}"
+            d=" 
+                M 50, 50
+                m -45, 0
+                a 45,45 0 1,0 90,0
+                a 45,45 0 1,0 -90,0
+              "
+          />
+        </BaseTimer_circle>
+      </BaseTimer_svg>
+      <BaseTimer_label>{formatTimeLeft(timeLeft)}</BaseTimer_label>
+    </BaseTimer>
   )
 }

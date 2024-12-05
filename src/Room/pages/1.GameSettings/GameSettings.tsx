@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState } from 'react'
 
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { Box_l, Cluster_l } from '../../../common/everyLayout'
+import { Cluster_l } from '../../../common/everyLayout'
 import { PondrButton } from '../../../common/components/buttons'
 import { TimeSetting } from './TimeSetting'
 import { RoomState } from '../../store'
@@ -10,9 +10,9 @@ import { createRoom, setNextPage, startGame } from '../../reducer'
 import { Lobby } from './Lobby'
 import { RoomIdCopyBox } from '../../components'
 import { Grid, Leftbar, Logo, Main, Navigation, Rightbar } from './styles'
-import headline from '../../../assets/images/pondr.png'
 import { CreateRoom } from './CreateRoom'
 import { SettingsInfo } from '../../../common/components/SettingsInfo'
+import { TopLogo } from '../../../common/components/Logo'
 
 export const GameSettings: FunctionComponent = () => {
   const { roomName, timeLimit, boardSettings, playerList } = useAppSelector(
@@ -35,7 +35,6 @@ export const GameSettings: FunctionComponent = () => {
   const playerJoined = playerList.length > 0
   const validName = name.length > 2
   const validButton = (settingsValid && playerJoined) || (current < 3 && validName)
-
 
   const createRoomOnClick = () => {
     dispatch(createRoom(name))
@@ -64,9 +63,7 @@ export const GameSettings: FunctionComponent = () => {
   return (
     <Grid>
       <Logo className="flex justify-center">
-        <Box_l padding="1rem">
-          <img src={headline} alt="Logo" height="20px" />
-        </Box_l>
+        <TopLogo />
       </Logo>
       <Main>
         <div className="flex justify-center">{ShowComponent(current)}</div>

@@ -183,12 +183,12 @@ startAppListening({
 
 startAppListening({
   matcher: isAnyOf(updateTimeLimit, updateBoardSettings),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   effect: async (action: any, listenerApi) => {
     const room = listenerApi.getOriginalState().room
     const { roomId, timeLimit, boardSettings } = room
-    const categories = boardSettings?.categories
 
-    var gameSettings = {
+    const gameSettings = {
       TimeLimit: timeLimit,
       BoardSettings: {
         Categories: boardSettings?.categories,

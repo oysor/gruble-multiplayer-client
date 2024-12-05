@@ -1,69 +1,106 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
-import { joinRoom, setNextPage } from '../../reducer'
-import { Button, MissingInput, SmartInput } from '../../../common/components/'
+import React, { FunctionComponent, useMemo, useState } from 'react'
+import { checkRoom, joinRoom } from '../../reducer'
 import { PlayerState } from '../../store'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
+import { Cluster_l } from '../../../common/everyLayout'
+import { TopLogo } from '../../../common/components/Logo'
+import { Grid, Leftbar, Logo, Main, Navigation, Rightbar } from './styles'
+import { PondrButton } from '../../../common/components/buttons'
+import { EnterCode } from './EnterCode'
+import { EnterName } from './EnterName'
+import { Lobby } from './Lobby'
+import { SettingsInfo } from '../../../common/components/SettingsInfo'
+import { PlayerIdCopyBox } from '../../components/PlayerCopyIdBox'
 
 export const JoinGame: FunctionComponent = () => {
-  // Room id received from server
-  const { roomId, serverMessage } = useAppSelector((state: PlayerState) => state.player)
-  // Go to next page if room is received from server
-  useEffect(() => {
-    roomId !== '' && dispatch(setNextPage())
-  })
-  // Set playerName and roomId (to be sent to server)
-  const [playerName, setplayerName] = useState('')
-  const [inputRoomId, setId] = useState('')
-  // remind about missing input
-  const [remind, setRemind] = useState(false)
-  const validInput = playerName.length > 0 && inputRoomId.length > 0
+  const { roomId, timeLimit, boardSettings, serverMessage } = useAppSelector(
+    (state: PlayerState) => state.player
+  )
   const dispatch = useAppDispatch()
-  
-  const dispatchOnClick = () => {
-    const roomId = inputRoomId.toUpperCase()
-    dispatch(joinRoom({ roomId: roomId, playerName: playerName }))
+
+  const [roomCode, setCode] = useState('')
+  const [username, setName] = useState('')
+  const [current, setCurrent] = useState(0)
+
+  useMemo(() => {
+    roomId !== '' && setCurrent(2)
+  }, [roomId])
+
+  useMemo(() => {
+    serverMessage[serverMessage.length - 1] === '1' && setCurrent(1)
+  }, [serverMessage])
+
+  const lastMessage = serverMessage[serverMessage.length - 1]
+  const userReply = lastMessage === '1' ? '' : lastMessage
+  const validName = username.length > 0
+  const validCode = roomCode.length > 0
+  const enterCode = current == 0
+  const enterName = current == 1
+  const inLobby = current == 2
+  const exitRoom = enterCode
+  const validButton = (enterCode && validCode) || (enterName && validName)
+
+  const dispatchOnClick = async () => {
+    if (enterCode) {
+      dispatch(checkRoom({ roomId: roomCode }))
+    } else if (enterName && validName) {
+      dispatch(joinRoom({ roomId: roomCode.toUpperCase(), playerName: username }))
+    }
+  }
+
+  function ShowComponent(component: number) {
+    switch (component) {
+      case 0:
+        return <EnterCode setCode={setCode} roomCode={roomCode} msg={userReply} />
+      case 1:
+        return <EnterName setName={setName} username={username} />
+      case 2:
+        return <Lobby />
+      default:
+        return <div>Error: Invalid User Role</div>
+    }
   }
 
   return (
-    <div className="join-room">
-      <div className="header-logo">
-        {/* <div>Name yourself and input the roomId</div> */}
-      </div>
-      <Box_l padding="1rem">
-        <Center_l intrinsic className="mt-[1rem]">
-          <Stack_l space="0.2rem">
-            {/* <div>Set player name</div> */}
-            <SmartInput
-              value={playerName}
-              onChange={setplayerName}
-              placeholder={'player name..'}
-              onBlur={() => {}}
-            />
-          </Stack_l>
-        </Center_l>
-
-        <Center_l intrinsic className="mt-[1rem]">
-          <Stack_l space="0.2rem">
-            {/* <div>Input room ID </div> */}
-            <SmartInput onChange={setId} placeholder={'RoomId..'} onBlur={() => {}} />
-          </Stack_l>
-        </Center_l>
-
-        <Center_l intrinsic className="mt-[2rem]">
-          <Button
-            onClick={() => {
-              validInput ? dispatchOnClick() : setRemind(!remind)
-            }}
-          >
-            Join room
-          </Button>
-          <div className="h-[2rem] text-center">
-            {serverMessage !== '' ? <span>{serverMessage}</span> : null}
-            {remind ? <MissingInput name={playerName} roomId={inputRoomId} /> : null}
+    <Grid>
+      <Logo className="flex justify-center">
+        <TopLogo />
+      </Logo>
+      <Main>
+        <div className="flex justify-center">{ShowComponent(current)}</div>
+      </Main>
+      <Leftbar>{inLobby && <PlayerIdCopyBox />}</Leftbar>
+      <Rightbar>
+        <SettingsInfo timeLimit={timeLimit} boardSettings={boardSettings} />
+      </Rightbar>
+      <Navigation>
+        {!inLobby && (
+          <div className="flex justify-center h-[100%]">
+            <Cluster_l justify="center" align="end" className="mb-[1rem]">
+              <PondrButton
+                invert
+                onClick={() => {
+                  if (exitRoom) {
+                    history.back()
+                  } else {
+                    setCurrent(0)
+                  }
+                }}
+              >
+                {enterCode ? 'Exit' : 'Back'}
+              </PondrButton>
+              <PondrButton
+                blurred={!validButton}
+                disabled={!validButton}
+                valid={!validButton}
+                onClick={dispatchOnClick}
+              >
+                {'Next'}
+              </PondrButton>
+            </Cluster_l>
           </div>
-        </Center_l>
-      </Box_l>
-    </div>
+        )}
+      </Navigation>
+    </Grid>
   )
 }

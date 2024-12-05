@@ -20,7 +20,7 @@ export interface playerState {
   roomId: string
   roomName: string
   messages: MessageItem[]
-  serverMessage: string
+  serverMessage: string[]
   commonStates: CommonStates
   boardSettings: BoardSettings
   playerBoard: Board
@@ -39,7 +39,7 @@ const initialState: playerState = {
   roomId: '',
   roomName: 'unknown',
   messages: [],
-  serverMessage: '',
+  serverMessage: [],
   commonStates: initialCommonStates,
   boardSettings: { categories: [''], letters: [''] },
   playerBoard: [['']],
@@ -61,7 +61,11 @@ const playerSlice = createSlice({
       state.commonStates.status = action.payload
     },
     updatePlayerStatus: (state, action) => {
-      state.playerStatus = action.payload
+      const playerStatus = action.payload
+      if (playerStatus === PlayerStatus.roundStarted) {
+        state.currentPage += 1
+      }
+      state.playerStatus = playerStatus
     },
     setNextPage: (state) => {
       state.currentPage += 1
@@ -79,7 +83,7 @@ const playerSlice = createSlice({
     },
     serverMessage: (state, action: { payload: { message: string } }) => {
       const { message } = action.payload
-      state.serverMessage = message
+      state.serverMessage = [...state.serverMessage, message]
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     joinRoom: (state, action) => {
@@ -89,8 +93,8 @@ const playerSlice = createSlice({
     joinedRoom: (state, action) => {
       const { room, userId } = action.payload
       const { roomName, signalRGroupName, timeLimit, boardSettings, players } = room
-      state.roomName = roomName;
-      state.userId = userId;
+      state.roomName = roomName
+      state.userId = userId
       state.roomId = signalRGroupName
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
@@ -152,6 +156,8 @@ const playerSlice = createSlice({
     sendMessage: (state, action) => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     updateConnection: (state) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    checkRoom: (state, action) => {},
     resetState: () => initialState,
   },
 })
@@ -173,6 +179,7 @@ export const {
   addPlayer,
   removePlayer,
   serverMessage,
+  checkRoom,
   gameClosed,
   updateConnection,
   updatePlayerStatus,

@@ -4,8 +4,6 @@ import { InputBoard } from './playerInput/InputBoard'
 import { updatePlayerBoard } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Box_l, Center_l, Stack_l } from '../../../common/everyLayout'
-
-import { PlayerCountDown } from '../../components/PlayerCountDown'
 import { InputWord } from './playerInput/InputWord'
 import { Button } from '../../../common/components'
 
@@ -58,9 +56,6 @@ export const FillPlayerBoard: FunctionComponent = () => {
   return (
     <div id="playing">
       <Stack_l space="3rem">
-        <Center_l className="mb-2rem">
-          <PlayerCountDown />
-        </Center_l>
         <Center_l>
           <Box_l>
             {/* <div className="self-center">
