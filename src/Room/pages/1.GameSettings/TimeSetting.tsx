@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import { Cluster_l, Stack_l } from '../../../common/everyLayout'
-import { Headline, InfoText1 } from './styles'
 import { updateTimeLimit } from '../../reducer'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { PondrNumericInput } from '../../../common/components/inputs/SmartNumericInput'
 import { RoomState } from '../../store'
-import Maskot2 from '../../../assets/svg/maskot_2.svg'
 import { TimerSettings } from '../../../common/constants'
+import { Headline, InfoText1 } from '../../../common/components'
 
 export const TimeSetting = () => {
   const dispatch = useAppDispatch()
   // in seconds
-  const { timeLimit, boardSettings } = useAppSelector((state: RoomState) => state.room)
+  const { timeLimit } = useAppSelector((state: RoomState) => state.room)
   // in minutes
   const [time, setTime] = useState(timeLimit / 60)
 
@@ -37,7 +36,7 @@ export const TimeSetting = () => {
     const timeInSeconds = time * 60
 
     if (timeInSeconds !== timeLimit) {
-      dispatch(updateTimeLimit({timeLimit: timeInSeconds}))
+      dispatch(updateTimeLimit({ timeLimit: timeInSeconds }))
       // dispatch(sendSettings())
     }
   }
@@ -46,9 +45,7 @@ export const TimeSetting = () => {
     <div className="flex flex-col h-[100%] ">
       <Stack_l className="text-center h-[1rem]">
         <Headline>Time</Headline>
-        <InfoText1 className="self-center text-center">
-          {message}
-        </InfoText1>
+        <InfoText1 className="self-center text-center">{message}</InfoText1>
       </Stack_l>
       <Cluster_l space="0.3em" justify="center" className="mt-[6rem]">
         <PondrNumericInput

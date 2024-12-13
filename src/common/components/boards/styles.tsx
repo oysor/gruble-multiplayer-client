@@ -5,50 +5,61 @@ export interface SquareProps {
   empty?: boolean
   highlight?: boolean
   topRow?: boolean
-  highlightSquare?: boolean
+  highlightOnInput?: boolean
+  highlightOnClick?: boolean
+  gotInput?: boolean
 }
 interface BoardProps {
   backgroundColor?: string
 }
 
+export const BoardContainer = styled.div<BoardProps>`
+  display: flex;
+`
+
 export const Board = styled.div<BoardProps>`
+  margin-left: auto;
+  margin-right: auto;
+
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
-  /* margin: 1em; */
-  /* margin-top: 0.3em; */
   padding: 0.5em;
-  background-color: ${(props) => props.backgroundColor || 'white'};
+  padding-bottom: 2em;
+  background-color: ${(props) => props.backgroundColor || ''};
   color: black;
-  width: fit-content;
   border-radius: 0.2em;
+  gap: 0.5em;
 `
 export const Row = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 0.5em;
 `
 
 export const Square = styled.div<SquareProps>`
-  min-height: 4em;
-  min-width: 5em;
-  flex-basis: 10em;
-  max-width: 10em;
-
-  word-break: break-all;
+  min-height: 7em;
+  min-width: 8em;
+  flex-basis: 9em;
+  max-width: 9em;
+  background-color: #efefef;
+  opacity: 0.5;
+  outline: none;
+  border-radius: 6px;
 
   ${(props) =>
     props.firstInRow &&
     css`
-      max-width: 7em;
+      background: none;
+      flex-basis: 0em;
+      min-width: 1rem;
+      min-height: 1rem;
     `}
 
   ${(props) =>
     props.highlight &&
     css`
-      min-width: 5em;
       font-weight: bolder;
-      /* font-size: 1.1em; */
     `}
 
   ${(props) =>
@@ -57,15 +68,36 @@ export const Square = styled.div<SquareProps>`
       display: flex;
       justify-content: center;
       align-items: center;
+      background: none;
+      min-height: 1rem;
+      color: #0ae4e4;
+      opacity: 1;
+      font-family: Inter;
+      font-weight: 700;
+      font-size: 1em;
     `}
 
   ${(props) =>
-    props.highlightSquare &&
+    props.highlightOnClick &&
     css`
       color: black;
-      background: #efefef;
-      border-radius: 0.2rem;
+      opacity: 1;
     `}
+
+
+  ${(props) =>
+    props.highlightOnInput &&
+    css`
+      color: black;
+      opacity: 1;
+    `}
+`
+
+export const HeadingColumn = styled.span`
+  font-size: 1.5em;
+`
+export const HeadingRow = styled.span`
+  font-size: 1.5em;
 `
 interface InputProps {
   noStyle?: boolean
@@ -139,7 +171,6 @@ export const SquareInput = styled.span<SquareInputProps>`
   ${(props) =>
     props.highlight &&
     css`
-      /* font-size: 1.3em; */
       font-weight: bolder;
     `}
 

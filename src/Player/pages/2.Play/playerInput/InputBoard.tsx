@@ -1,5 +1,12 @@
 import React, { FunctionComponent } from 'react'
-import { Board, InfoSquare, Row, Square } from '../../../../common/components/boards'
+import {
+  Board,
+  HeadingColumn,
+  HeadingRow,
+  InfoSquare,
+  Row,
+  Square,
+} from '../../../../common/components/boards'
 import { useAppSelector } from '../../../hooks'
 import { PlayerState } from '../../../store'
 import { InputAnswer } from './styles'
@@ -9,6 +16,7 @@ interface InputBoardProps {
   coords: { x: number; y: number }
   onInput: (ev: React.ChangeEvent<HTMLInputElement>) => void
   setCoords: (coords: { x: number; y: number }) => void
+  showInputField: (value: boolean) => void
 }
 
 export const InputBoard: FunctionComponent<InputBoardProps> = ({
@@ -16,24 +24,28 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
   onInput,
   coords,
   setCoords,
+  showInputField,
 }) => {
   const { boardSettings, playerBoard } = useAppSelector(
     (state: PlayerState) => state.player
   )
   const { categories, letters } = boardSettings
+  const uniformCasing = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLocaleLowerCase()
+  }
   return (
     <Board className="text-[60%]">
       <Row>
         <Square firstInRow>
           <InfoSquare>
-            <span>{'Categories '}&rarr;</span>
-            <span>{'Letters '}&darr;</span>
+            {/* <span>{'Categories '}&rarr;</span>
+            <span>{'Letters '}&darr;</span> */}
           </InfoSquare>
         </Square>
         {categories.map((category, i) => {
           return (
             <Square empty key={i}>
-              {category}
+              <HeadingColumn>{category}</HeadingColumn>
             </Square>
           )
         })}
@@ -42,24 +54,36 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
         return (
           <Row key={rowNr}>
             <Square empty firstInRow>
-              {letters[rowNr].toLocaleUpperCase()}
+              <HeadingRow>{letters[rowNr].toLocaleUpperCase()}</HeadingRow>
             </Square>
             {row.map((word, colNr) => {
-              const highLightSquare = colNr == coords.x && rowNr === coords.y
+              const currentSquare = colNr == coords.x && rowNr === coords.y
+              const emptyInput = word.length > 0
 
               return (
                 <Square
                   key={colNr}
-                  highlightSquare={highLightSquare}
-                  onClick={() => setCoords({ x: colNr, y: rowNr })}
+                  highlightOnClick={currentSquare}
+                  highlightOnInput={emptyInput}
+                  onClick={() => {
+                    setCoords({ x: colNr, y: rowNr })
+                    showInputField(true)
+                  }}
+                  onFocus={() => setCoords({ x: colNr, y: rowNr })}
                 >
                   <InputAnswer
-                    value={word}
-                    type="text"
-                    placeholder={'...'}
-                    highlightSquare={highLightSquare}
+                    // value={uniformCasing(word)}
+                    // type="text"
+                    contentEditable={true}
+                    // autoCorrect="off"
+                    spellCheck="false"
+                    // placeholder={''}
+                    // highlightSquare={highLightSquare}
                     onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onInput(ev)}
-                  />
+                    // onClick={showInputField(true)}
+                  >
+                    {uniformCasing(word)}
+                  </InputAnswer>
                 </Square>
               )
             })}

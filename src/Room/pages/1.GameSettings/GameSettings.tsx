@@ -9,10 +9,17 @@ import { CategorySetting } from './CategorySetting/CategorySetting'
 import { createRoom, setNextPage, startGame } from '../../reducer'
 import { Lobby } from './Lobby'
 import { RoomIdCopyBox } from '../../components'
-import { Grid, Leftbar, Logo, Main, Navigation, Rightbar } from './styles'
 import { CreateRoom } from './CreateRoom'
 import { SettingsInfo } from '../../../common/components/SettingsInfo'
 import { TopLogo } from '../../../common/components/Logo'
+import {
+  Grid,
+  Leftbar,
+  Logo,
+  Main,
+  Navigation,
+  Rightbar,
+} from '../../../common/components'
 
 export const GameSettings: FunctionComponent = () => {
   const { roomName, timeLimit, boardSettings, playerList } = useAppSelector(
@@ -70,7 +77,7 @@ export const GameSettings: FunctionComponent = () => {
       </Main>
       <Leftbar>{roomCreated && <RoomIdCopyBox />}</Leftbar>
       <Rightbar>
-        {isLobby && <SettingsInfo timeLimit={timeLimit} boardSettings={boardSettings} />}
+        {<SettingsInfo timeLimit={timeLimit} boardSettings={boardSettings} />}
       </Rightbar>
       <Navigation>
         <div className="flex justify-center h-[100%]">

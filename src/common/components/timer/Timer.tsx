@@ -43,7 +43,9 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
 
   const formatTimeLeft = (time: number) => {
     if (timeLeft === 0) {
-      return 'Times up!'
+      // return 'Times up!'
+      return ''
+
     }
 
     if (time === -99) {
@@ -111,6 +113,7 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
   const AboveTimerText = styled.div`
     color: #069e9e;
     font-size: 1rem;
+    font-family: Inter;
   `
 
   interface TimeColorProps {

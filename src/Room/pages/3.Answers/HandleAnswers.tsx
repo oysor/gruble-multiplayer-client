@@ -8,12 +8,11 @@ import { HandleBoard } from './HandleBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
 import { SetWrongAnswerButton } from './SetWrongAnswerButton'
 import { ProofReading } from './ProofReading'
-import { RoomCountDown } from '../../components/RoomCountDown'
-import { RoomStatus } from '../../../common/constants'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { roomStatus, playerList, boardSettings, boardDictionary } =
-    useAppSelector((state: RoomState) => state.room)
+  const { playerList, boardSettings, boardDictionary } = useAppSelector(
+    (state: RoomState) => state.room
+  )
 
   const dispatch = useAppDispatch()
   const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -50,38 +49,33 @@ export const HandleAnswers: FunctionComponent = () => {
     dispatch(setNextPage())
   }
 
-  if (roomStatus === RoomStatus.boardsReceived) {
-    return (
-      <Box_l id="handle-answers">
-        <Center_l max-width="50rem">
-          <Stack_l space="2rem">
-            <Center_l intrinsic>
-              <Stack_l space="0.5rem">
-                <h2 className="text-center">{playerList[currentPlayer].name}</h2>
-                <HandleBoard
+  return (
+    <Box_l id="handle-answers">
+      <Center_l max-width="50rem">
+        <Stack_l space="2rem">
+          <Center_l intrinsic>
+            <Stack_l space="0.5rem">
+              <h2 className="text-center">{playerList[currentPlayer].name}</h2>
+              <HandleBoard
+                player={playerList[currentPlayer]}
+                coords={coords}
+                setCoords={setCoords}
+              />
+              <Cluster_l justify="center">
+                <SetWrongAnswerButton
                   player={playerList[currentPlayer]}
-                  coords={coords}
-                  setCoords={setCoords}
+                  square={{ letter: coords.y, category: coords.x }}
                 />
-                <Cluster_l justify="center">
-                  <SetWrongAnswerButton
-                    player={playerList[currentPlayer]}
-                    square={{ letter: coords.y, category: coords.x }}
-                  />
-                  <Button onClick={showNextPlayer}>Next player board</Button>
-                </Cluster_l>
-              </Stack_l>
-            </Center_l>
-
-            <ProofReading players={playerList} />
-            <Center_l>
-              <Button onClick={dispatchOnClick}>Show results!</Button>
-            </Center_l>
-          </Stack_l>
-        </Center_l>
-      </Box_l>
-    )
-  }
-
-  return <div>Waiting on boards..</div>
+                <Button onClick={showNextPlayer}>Next player board</Button>
+              </Cluster_l>
+            </Stack_l>
+          </Center_l>
+          <ProofReading players={playerList} />
+          <Center_l>
+            <Button onClick={dispatchOnClick}>Show results!</Button>
+          </Center_l>
+        </Stack_l>
+      </Center_l>
+    </Box_l>
+  )
 }

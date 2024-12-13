@@ -26,7 +26,7 @@ export const DragDropList: FunctionComponent<DragDropListProps> = ({
       onChange={setItems}
       renderItem={(item) => (
         <SortableList.Item id={item.id}>
-          <div className="flex w-[100%] items-center">
+          <div className="flex w-[100%] items-center gap-[0.3rem]">
             <SortableList.DragHandle />
 
             <div className="flex-[1] flex items-center">

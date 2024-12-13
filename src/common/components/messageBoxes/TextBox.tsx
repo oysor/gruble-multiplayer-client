@@ -9,11 +9,10 @@ const MessageBox = styled.div`
   display: block;
   outline: 0.125rem solid transparent;
   outline-offset: -0.125rem;
-  background-color: rgba(225,225,225,0.2);
-  color: #035151;
+  background-color: rgba(225, 225, 225, 0.2);
+  /* color: #035151; */
 
   border-radius: 0.2rem;
-
 
   /* max-height: 10rem; */
   min-height: 7rem;

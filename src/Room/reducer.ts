@@ -28,7 +28,7 @@ export interface RoomState {
   playerList: Player[]
   currentPage: number
   boardDictionary: WordInfoDict[][]
-  userId: String
+  userId: string
 }
 
 const initialState: RoomState = {
@@ -63,7 +63,10 @@ const roomSlice = createSlice({
       const { timeLimit } = action.payload
       state.timeLimit = timeLimit
     },
-    updateBoardSettings: (state, action: { payload: { categories: string[], letters: string[] } }) => {
+    updateBoardSettings: (
+      state,
+      action: { payload: { categories: string[]; letters: string[] } }
+    ) => {
       const { categories, letters } = action.payload
       state.boardSettings.categories = categories
       state.boardSettings.letters = letters
@@ -100,10 +103,20 @@ const roomSlice = createSlice({
         return player.userId !== userId
       })
     },
-    receivePlayerBoard: (state, action: { payload: { userId: string; board: Board } }) => {
+    receivePlayerBoard: (
+      state,
+      action: { payload: { userId: string; board: Board } }
+    ) => {
       const { userId, board } = action.payload
+
+      const valid = state.playerList.some((p) => p.userId == userId && !p.hasSubmitted)
+
+      if (!valid) {
+        return
+      }
+
       const playerList = state.playerList.map((player) => {
-        if (player.userId === userId) {
+        if (player.userId === userId && player.hasSubmitted == false) {
           player.board = board
           player.hasSubmitted = true
         }

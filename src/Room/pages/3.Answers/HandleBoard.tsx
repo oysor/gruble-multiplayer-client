@@ -4,7 +4,6 @@ import { useAppSelector } from '../../hooks'
 import { RoomState } from '../../store'
 import {
   Board,
-  InfoSquare,
   InputCategory,
   InputLetter,
   Row,
@@ -30,13 +29,13 @@ export const HandleBoard: FunctionComponent<HandleBoardProps> = ({
   const { categories, letters } = boardSettings
 
   return (
-    <Board className="text-[60%]">
+    <Board className="text-[60%]" backgroundColor="white">
       <Row>
         <Square firstInRow>
-          <InfoSquare>
+          {/* <InfoSquare>
             <span>{'Categories '}&rarr;</span>
             <span>{'Letters '}&darr;</span>
-          </InfoSquare>
+          </InfoSquare> */}
         </Square>
         {categories.map((x, i) => {
           const currentCategory = i === coords.x
@@ -62,7 +61,7 @@ export const HandleBoard: FunctionComponent<HandleBoardProps> = ({
                 <Square
                   empty
                   key={colNr}
-                  highlightSquare={highLightSquare}
+                  highlight={highLightSquare}
                   onClick={() => setCoords({ x: colNr, y: rowNr })}
                 >
                   <SquareInput color={flagColor(card.flag)} defaultValue={word}>

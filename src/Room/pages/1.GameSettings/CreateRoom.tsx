@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { Stack_l } from '../../../common/everyLayout'
 import { PondrInput } from '../../../common/components/inputs/SmartInput'
-
-import { Headline, InfoText1 } from './styles'
+import { Headline, InfoText1 } from '../../../common/components'
 
 interface CreateRoom {
   name: string

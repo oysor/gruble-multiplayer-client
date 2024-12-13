@@ -1,5 +1,5 @@
 export { RoomPages } from './RoomPages'
 export { GameSettings } from './1.GameSettings'
 export { Playing } from './2.Playing'
-export { HandleAnswers } from './3.HandleAnswers'
-export { ShowResults } from './4.ShowResults'
+export { Answers } from './3.Answers'
+export { Results } from './4.Results'

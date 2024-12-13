@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { RoomState } from '../store'
 import { ConnectionStatus } from '../../common/components'
-import { HandleAnswers, ShowResults, Playing, GameSettings } from '.'
+import { Answers, Results, Playing, GameSettings } from '.'
 import { useAppSelector } from '../hooks'
 import { Stack_l } from '../../common/everyLayout'
 import { ConnectionMode } from '../../common/constants'
@@ -18,9 +18,9 @@ export const RoomPages: FunctionComponent = () => {
       case 2:
         return <Playing />
       case 3:
-        return <HandleAnswers />
+        return <Answers />
       case 4:
-        return <ShowResults />
+        return <Results />
     }
   }
 

@@ -5,13 +5,7 @@ import { RoomState } from '../../store'
 import * as S from '../../../common/everyLayout'
 import { DisplayList } from '../../components/DisplayList'
 import { SetWrongAnswerButton } from './SetWrongAnswerButton'
-import {
-  Board,
-  InfoSquare,
-  Row,
-  Square,
-  SquareInput,
-} from '../../../common/components/boards'
+import { Board, Row, Square, SquareInput } from '../../../common/components/boards'
 import { Button } from '../../../common/components'
 import { flagColor } from '../../../common/utilities'
 
@@ -54,13 +48,13 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) 
           </S.Cluster_l>
         </S.Center_l>
         <S.Center_l>
-          <Board className="text-[60%]">
+          <Board className="text-[60%]" backgroundColor="white">
             <Row>
               <Square firstInRow>
-                <InfoSquare>
+                {/* <InfoSquare>
                   <span>{'Letters '}&rarr;</span>
                   <span>{'Players '}&darr;</span>
-                </InfoSquare>
+                </InfoSquare> */}
               </Square>
 
               {letters.map((letter, i) => {
@@ -88,7 +82,7 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) 
                       <Square
                         empty
                         key={l}
-                        highlightSquare={highLightSquare}
+                        highlight={highLightSquare}
                         onClick={() => {
                           setplayerRow({ ...playerRow, letter: l, player: p })
                         }}
@@ -113,10 +107,10 @@ export const ProofReading: FunctionComponent<ProofReadingProps> = ({ players }) 
           <Button onClick={showNextCategory}>Next category</Button>
 
           {/* <SetFlagButton
-          player={players[playerRow.player]}
-          square={{ letter: playerRow.letter, category: playerRow.category }}
-          text={'Correct'}
-        /> */}
+            player={players[playerRow.player]}
+            square={{ letter: playerRow.letter, category: playerRow.category }}
+            text={'Correct'}
+          /> */}
         </S.Cluster_l>
       </S.Stack_l>
     </S.Box_l>

@@ -25,13 +25,13 @@ export const ResultBoard: FunctionComponent<ResultBoardProps> = ({
   const { categories, letters } = boardSettings
 
   return (
-    <Board className="text-[60%]">
+    <Board className="text-[60%]" backgroundColor="white">
       <Row>
         <Square firstInRow>
-          <InfoSquare>
+          {/* <InfoSquare>
             <span>{'Categories '}&rarr;</span>
             <span>{'Letters '}&darr;</span>
-          </InfoSquare>
+          </InfoSquare> */}
         </Square>
         {categories.map((x, i) => {
           return (

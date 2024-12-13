@@ -4,13 +4,20 @@ import { PlayerState } from '../../store'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { Cluster_l } from '../../../common/everyLayout'
 import { TopLogo } from '../../../common/components/Logo'
-import { Grid, Leftbar, Logo, Main, Navigation, Rightbar } from './styles'
 import { PondrButton } from '../../../common/components/buttons'
 import { EnterCode } from './EnterCode'
 import { EnterName } from './EnterName'
 import { Lobby } from './Lobby'
 import { SettingsInfo } from '../../../common/components/SettingsInfo'
 import { PlayerIdCopyBox } from '../../components/PlayerCopyIdBox'
+import {
+  Grid,
+  Leftbar,
+  Logo,
+  Main,
+  Navigation,
+  Rightbar,
+} from '../../../common/components/Grid'
 
 export const JoinGame: FunctionComponent = () => {
   const { roomId, timeLimit, boardSettings, serverMessage } = useAppSelector(

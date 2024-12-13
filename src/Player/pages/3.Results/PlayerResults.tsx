@@ -1,14 +1,20 @@
 import React, { FunctionComponent } from 'react'
-import { RoomState } from '../../store'
-import { useAppSelector } from '../../hooks'
 import { Box_l, Stack_l } from '../../../common/everyLayout'
 import { Table } from '../../../common/components/tables'
 import { PlayerResultBoards } from '../../../common/components/boards'
+import { useAppSelector } from '../../hooks'
+import { PlayerState } from '../../store'
 
-export const ShowResults: FunctionComponent = () => {
-  const { playerList, boardDictionary, boardSettings } = useAppSelector(
-    (state: RoomState) => state.room
+interface PlayerResults {
+  //   setName: (code: string) => void
+  //   username: string
+}
+
+export const PlayerResults: FunctionComponent<PlayerResults> = () => {
+  const { playerName, playerList, boardDictionary, boardSettings } = useAppSelector(
+    (state: PlayerState) => state.player
   )
+
   const playerStats = playerList.map((p) => {
     return { player: p.name, ...p.playerResult }
   })
@@ -17,13 +23,15 @@ export const ShowResults: FunctionComponent = () => {
     return prev && prev.score > current.score ? prev : current
   })
 
+  const nameOfWinner = playerName === winner.player ? 'You' : winner.player
+
   return (
-    <div id="show-results">
+    <div className="flex flex-col h-[100%]">
       <Box_l>
         <Stack_l space="2.5rem">
           <Table playerStats={playerStats} />
           <div>
-            {winner.player} won with {winner.score} points
+            {nameOfWinner} won with {winner.score} points
           </div>
           <PlayerResultBoards
             playerList={playerList}

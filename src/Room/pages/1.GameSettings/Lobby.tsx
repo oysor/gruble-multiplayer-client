@@ -1,11 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import { Stack_l } from '../../../common/everyLayout'
-import { Headline, Headline2, InfoText1 } from './styles'
 import { useAppSelector } from '../../hooks'
 import { RoomState } from '../../store'
 
-import { PlayerListBox } from '../../../common/components'
-import { RoomIdCopyBox } from '../../components'
+import { Headline, InfoText1, PlayerListBox } from '../../../common/components'
 
 export const Lobby: FunctionComponent = () => {
   const { roomName, timeLimit, boardSettings, playerList } = useAppSelector(
@@ -17,14 +15,16 @@ export const Lobby: FunctionComponent = () => {
 
   const timeLimitInMinutes = timeLimit / 60
 
+  const gameReady = !missingCategories && timeLimitInMinutes > 0
+
   return (
     <div id="lobby" className="flex flex-col h-[100%] w-[100%]">
       <Stack_l className="text-center h-[6rem]">
-        <Headline>{roomName}</Headline>
+        <Headline>Lobby</Headline>
         <InfoText1 className="self-center text-center">
-          {missingCategories
-            ? 'Go back and choose some categores!'
-            : 'Let the games begin!'}
+          {gameReady && 'Let the games begin!'}
+          {missingCategories && 'Missing categories!'}
+          {timeLimitInMinutes < 1 && 'Missing time limit!'}
         </InfoText1>
       </Stack_l>
       <Stack_l space="1em" justify="end" align="center" className="h-[100%]">

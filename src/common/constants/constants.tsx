@@ -144,7 +144,7 @@ export enum TimerSettings {
 // object from API
 
 export type IncomingGameRoom = {
-  roomMasterId: String
+  roomMasterId: string
   signalRGroupName: string
   roomName: string
   timeLimit: number

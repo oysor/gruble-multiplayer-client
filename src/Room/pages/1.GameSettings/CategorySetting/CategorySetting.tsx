@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Stack_l } from '../../../../common/everyLayout'
-import { Headline, InfoText1 } from '../styles'
 
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { RoomState } from '../../../store'
@@ -9,6 +8,7 @@ import { SelectCategories } from './SelectCategories/SelectCategories'
 import { DragDropList } from '../../../components/DragDropList/DragDropList'
 import { OverLayList, ShowOverlayButton } from './styles'
 import { updateBoardSettings } from '../../../reducer'
+import { Headline, InfoText1 } from '../../../../common/components'
 
 export type values = {
   id: number

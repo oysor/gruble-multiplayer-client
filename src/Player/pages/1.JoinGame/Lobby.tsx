@@ -1,9 +1,7 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { Stack_l } from '../../../common/everyLayout'
-import { PondrInput } from '../../../common/components/inputs/SmartInput'
 
-import { Headline, InfoText1 } from './styles'
-import { PlayerListBox } from '../../../common/components'
+import { Headline, InfoText1, PlayerListBox } from '../../../common/components'
 import { useAppSelector } from '../../hooks'
 import { PlayerState } from '../../store'
 

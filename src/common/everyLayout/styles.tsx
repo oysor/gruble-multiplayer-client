@@ -129,7 +129,7 @@ export const Box_l = styled.div<BoxProps>`
     props.borderStyle &&
     css`
       border-style: ${props.borderStyle};
-   `}
+    `}
 
   & * {
     color: ${(props) => props.color};
@@ -151,7 +151,6 @@ export const Stack_l = styled.div<StackProps>`
   flex-direction: column;
   justify-content: ${(props) => props.justify || 'flex-start'};
   align-items: ${(props) => props.align ?? props.align};
-
 
   & ${(props) => (props.recursive ? '' : '>')} * + * {
     margin-top: ${(props) => props.space};
