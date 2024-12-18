@@ -32,7 +32,6 @@ export const Play: FunctionComponent = () => {
   const nFilledOut = playerBoard.reduce((acc, row) => acc + row.filter(Boolean).length, 0)
   const nSquares = playerBoard.length * playerBoard[0].length
   const stats = nFilledOut + '/' + nSquares
-  console.log(nFilledOut + '/' + nSquares)
 
   return (
     <Grid2>

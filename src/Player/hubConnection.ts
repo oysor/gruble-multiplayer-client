@@ -4,7 +4,7 @@ import {
   addMessage,
   updateTimer,
   joinedRoom,
-  sendBoard,
+  dispatchBoard,
   receivedResults,
   addPlayer,
   removePlayer,
@@ -14,12 +14,11 @@ import {
   resetState,
   gameClosed,
   updateConnection,
-  setNextPage,
-  updatePlayerStatus,
   roomUpdated,
   checkRoom,
+  startRound,
 } from './reducer'
-import { API_URL, ConnectionMode, PlayerStatus } from '../common/constants'
+import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
@@ -109,7 +108,7 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
-      store.dispatch(updatePlayerStatus(PlayerStatus.roundStarted))
+      store.dispatch(startRound())
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
@@ -117,8 +116,7 @@ export async function startPlayerConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
-      store.dispatch(sendBoard())
-      store.dispatch(setNextPage())
+      store.dispatch(dispatchBoard())
     })
 
     hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results) => {
@@ -179,7 +177,7 @@ export async function stopPlayerConnection(): Promise<void> {
  */
 
 startAppListening({
-  matcher: isAnyOf(sendMessage, sendBoard, joinRoom),
+  matcher: isAnyOf(sendMessage, dispatchBoard, joinRoom),
   effect: async (action, listenerApi) => {
     if (process.env.NODE_ENV !== 'production') {
       console.log('getOriginalState')
@@ -233,7 +231,7 @@ startAppListening({
 })
 
 startAppListening({
-  actionCreator: sendBoard,
+  actionCreator: dispatchBoard,
   effect: async (action, listenerApi) => {
     // const signalRGroupName = action.payload.roomId
     const player = listenerApi.getOriginalState().player

@@ -72,15 +72,10 @@ export const InputBoard: FunctionComponent<InputBoardProps> = ({
                   onFocus={() => setCoords({ x: colNr, y: rowNr })}
                 >
                   <InputAnswer
-                    // value={uniformCasing(word)}
-                    // type="text"
                     contentEditable={true}
-                    // autoCorrect="off"
                     spellCheck="false"
-                    // placeholder={''}
-                    // highlightSquare={highLightSquare}
+                    suppressContentEditableWarning={true}
                     onChange={(ev: React.ChangeEvent<HTMLInputElement>) => onInput(ev)}
-                    // onClick={showInputField(true)}
                   >
                     {uniformCasing(word)}
                   </InputAnswer>

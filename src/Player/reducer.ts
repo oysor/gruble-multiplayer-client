@@ -8,14 +8,15 @@ import {
   initialCommonStates,
   MessageItem,
   Player,
-  PlayerStatus,
+  PlayerPage,
+  RoundStatus,
   WordInfoDict,
 } from '../common/constants'
 import { mapPlayerFromAPI } from '../common/mapping'
 import { createEmptyBoard } from '../common/utilities'
 
 export interface playerState {
-  playerStatus: number
+  roundStatus: number
   playerName: string
   roomId: string
   roomName: string
@@ -34,7 +35,7 @@ export interface playerState {
 }
 
 const initialState: playerState = {
-  playerStatus: 0,
+  roundStatus: 0,
   playerName: '',
   roomId: '',
   roomName: 'unknown',
@@ -59,16 +60,6 @@ const playerSlice = createSlice({
   reducers: {
     updateConnectionStatus: (state, action) => {
       state.commonStates.status = action.payload
-    },
-    updatePlayerStatus: (state, action) => {
-      const playerStatus = action.payload
-      if (playerStatus === PlayerStatus.roundStarted) {
-        state.currentPage += 1
-      }
-      state.playerStatus = playerStatus
-    },
-    setNextPage: (state) => {
-      state.currentPage += 1
     },
     addMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload
@@ -106,7 +97,7 @@ const playerSlice = createSlice({
         state.playerBoard = createEmptyBoard(boardSettings)
       }
 
-      state.playerStatus = PlayerStatus.receivedRoom
+      state.roundStatus = RoundStatus.receiveBoard
     },
     roomUpdated: (state, action) => {
       const { timeLimit, boardSettings } = action.payload
@@ -116,23 +107,6 @@ const playerSlice = createSlice({
       if (boardSettings?.categories !== undefined) {
         state.playerBoard = createEmptyBoard(boardSettings)
       }
-    },
-    updatePlayerBoard: (state, action) => {
-      state.playerBoard = action.payload
-    },
-    updateTimer: (state, action) => {
-      state.commonStates.elapsedTime = action.payload
-    },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    sendBoard: (state) => {
-      state.playerStatus = PlayerStatus.boardSent
-    },
-    receivedResults: (state, action) => {
-      const { newPlayerList, boardDictionary } = action.payload
-
-      state.playerList = newPlayerList
-      state.boardDictionary = boardDictionary
-      state.playerStatus = PlayerStatus.receivedResult
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
@@ -148,6 +122,27 @@ const playerSlice = createSlice({
       state.playerList = [...state.playerList].filter((player) => {
         return player.userId !== userId
       })
+    },
+    startRound: (state) => {
+      state.currentPage = PlayerPage.play
+    },
+    updateTimer: (state, action) => {
+      state.commonStates.elapsedTime = action.payload
+    },
+    updatePlayerBoard: (state, action) => {
+      state.playerBoard = action.payload
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    dispatchBoard: (state) => {
+      state.roundStatus = RoundStatus.dispatchedBoard
+      state.currentPage = PlayerPage.results
+    },
+    receivedResults: (state, action) => {
+      const { newPlayerList, boardDictionary } = action.payload
+
+      state.playerList = newPlayerList
+      state.boardDictionary = boardDictionary
+      state.roundStatus = RoundStatus.receivedResults
     },
     gameClosed: (state) => {
       state.gameClosed = true
@@ -173,8 +168,7 @@ export const {
   joinedRoom,
   updatePlayerBoard,
   resetState,
-  sendBoard,
-  setNextPage,
+  dispatchBoard,
   receivedResults,
   addPlayer,
   removePlayer,
@@ -182,7 +176,7 @@ export const {
   checkRoom,
   gameClosed,
   updateConnection,
-  updatePlayerStatus,
+  startRound,
 } = playerSlice.actions
 
 export default playerSlice.reducer

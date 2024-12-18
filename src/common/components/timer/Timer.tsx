@@ -38,6 +38,41 @@ interface CountDownProps {
   timeLimit: number
 }
 
+const CenterBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`
+
+const TimerBox = styled.div`
+  height: 7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`
+const AboveTimerText = styled.div`
+  color: #069e9e;
+  font-size: 1rem;
+  font-family: Inter;
+`
+
+interface TimeColorProps {
+  color: string
+}
+
+const TimerCount = styled.div<TimeColorProps>`
+  font-size: 4rem;
+  letter-spacing: 2px;
+  color: ${(props) => props.color};
+  font-family: 'Inter', sans-serif;
+  font-optical-sizing: auto;
+  /* font-weight: 500; */
+  font-style: normal;
+`
+
 export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLimit }) => {
   const { alert, warning, info } = COLOR_CODES
 
@@ -45,7 +80,6 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
     if (timeLeft === 0) {
       // return 'Times up!'
       return ''
-
     }
 
     if (time === -99) {
@@ -94,41 +128,6 @@ export const CountDown: FunctionComponent<CountDownProps> = ({ timeLeft, timeLim
   } else if (timeLeft <= warning.threshold) {
     remainingPathColor = warning.color
   }
-
-  const CenterBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  `
-
-  const TimerBox = styled.div`
-    height: 7rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  `
-  const AboveTimerText = styled.div`
-    color: #069e9e;
-    font-size: 1rem;
-    font-family: Inter;
-  `
-
-  interface TimeColorProps {
-    color: string
-  }
-
-  const TimerCount = styled.div<TimeColorProps>`
-    font-size: 4rem;
-    letter-spacing: 2px;
-    color: ${(props) => props.color};
-    font-family: 'Inter', sans-serif;
-    font-optical-sizing: auto;
-    /* font-weight: 500; */
-    font-style: normal;
-  `
 
   return (
     <CenterBox>
