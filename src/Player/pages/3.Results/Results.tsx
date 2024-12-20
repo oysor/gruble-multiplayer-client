@@ -24,7 +24,11 @@ export const Results: FunctionComponent = () => {
       </Logo>
       <Main>
         <div className="flex justify-center">
-          {roundStatus === RoundStatus.receivedResults ? <PlayerResults /> : <Waiting />}
+          {roundStatus === RoundStatus.receivedResults ? (
+            <PlayerResults />
+          ) : (
+            <Waiting msg={'Waiting on results..'} />
+          )}
         </div>
       </Main>
       <Rightbar></Rightbar>

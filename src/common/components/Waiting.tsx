@@ -8,15 +8,17 @@ export const Headline = styled.div`
   font-size: 2em;
 `
 
-interface Waiting {}
+interface Waiting {
+  msg?: string
+}
 
-export const Waiting: FunctionComponent<Waiting> = () => {
+export const Waiting: FunctionComponent<Waiting> = ({ msg }) => {
   return (
     <div className="flex flex-col h-[100%]">
       <Stack_l className="text-center h-[6rem] mt-[4rem]">
-        <Headline>Time is up!</Headline>
+        <Headline>{msg}</Headline>
       </Stack_l>
-      <div className="flex-1 flex items-center">
+      <div className="flex-1 flex items-center justify-center">
         <Maskot2 maxwidth="100%" height="10rem" />
       </div>
     </div>

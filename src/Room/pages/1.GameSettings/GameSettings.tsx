@@ -6,7 +6,7 @@ import { PondrButton } from '../../../common/components/buttons'
 import { TimeSetting } from './TimeSetting'
 import { RoomState } from '../../store'
 import { CategorySetting } from './CategorySetting/CategorySetting'
-import { createRoom, setNextPage, startGame } from '../../reducer'
+import { createRoom, startGame } from '../../reducer'
 import { Lobby } from './Lobby'
 import { RoomIdCopyBox } from '../../components'
 import { CreateRoom } from './CreateRoom'
@@ -49,7 +49,6 @@ export const GameSettings: FunctionComponent = () => {
 
   const startGameOnClick = () => {
     dispatch(startGame())
-    dispatch(setNextPage())
   }
 
   function ShowComponent(component: number) {

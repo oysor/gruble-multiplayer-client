@@ -9,16 +9,17 @@ import {
   receivePlayerBoard,
   createRoom,
   startGame,
-  showResults,
+  dispatchResults,
   resetState,
   roomUpdated,
   updateConnection,
-  updateRoomStatus,
   roomCreated,
   updateTimeLimit,
   updateBoardSettings,
+  roundStarted,
+  roundEnded,
 } from './reducer'
-import { API_URL, ConnectionMode, RoomStatus } from '../common/constants'
+import { API_URL, ConnectionMode } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
@@ -95,7 +96,7 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
-      store.dispatch(updateRoomStatus(RoomStatus.roundStarted))
+      store.dispatch(roundStarted())
     })
 
     hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
@@ -103,7 +104,7 @@ export async function startRoomConnection(): Promise<void> {
     })
 
     hubConnection.on(fromServer.ON_TIMER_FINISHED, () => {
-      store.dispatch(updateRoomStatus(RoomStatus.roundEnded))
+      store.dispatch(roundEnded())
     })
 
     hubConnection.on(fromServer.ON_RECEIVED_BOARD, (userId, board) => {
@@ -164,7 +165,7 @@ export async function stopRoomConnection(): Promise<void> {
  */
 
 startAppListening({
-  matcher: isAnyOf(createRoom, startGame, showResults),
+  matcher: isAnyOf(createRoom, startGame, dispatchResults),
   effect: async (action, listenerApi) => {
     if (process.env.NODE_ENV !== 'production') {
       console.log('getOriginalState')
@@ -238,7 +239,7 @@ startAppListening({
 })
 
 startAppListening({
-  actionCreator: showResults,
+  actionCreator: dispatchResults,
   effect: async (action) => {
     // Run whatever additional side-effect-y logic you want here
     hubConnection.invoke(toServer.SEND_RESULTS, action.payload)
@@ -261,5 +262,3 @@ startAppListening({
     }
   },
 })
-
-/* * * * * * * * * * **/

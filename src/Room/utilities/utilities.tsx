@@ -5,6 +5,7 @@ import {
   PlayerResult,
   WordInfoDict,
   WordInfo,
+  Board,
 } from '../../common/constants'
 /**
  *  This function goes through every players board
@@ -127,4 +128,25 @@ export const updatePlayerListResults = (
     updatedPlayer.playerResult = calculatePlayerScore(player, boardSettings, dictionary)
     return updatedPlayer
   })
+}
+
+export const addPlayerSubmitToList = (
+  players: Player[],
+  userId: string,
+  board: Board
+) => {
+  return players.map((p) => {
+    if (p.userId === userId && p.hasSubmitted == false) {
+      p.board = board
+      p.hasSubmitted = true
+    }
+    return p
+  })
+}
+
+export const allBoardsReceived = (playerList: Player[]) => {
+  const numberOfPlayers = playerList.length
+  const receivedBoards = playerList.filter((p) => p.hasSubmitted === true).length
+
+  return numberOfPlayers === receivedBoards
 }

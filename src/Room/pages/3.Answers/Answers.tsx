@@ -1,8 +1,4 @@
 import React, { FunctionComponent } from 'react'
-import { RoomState } from '../../store'
-import { useAppSelector } from '../../hooks'
-import { RoomStatus } from '../../../common/constants'
-import { Waiting } from '../../../common/components/Waiting'
 import { HandleAnswers } from './HandleAnswers'
 import { TopLogo } from '../../../common/components/Logo'
 import {
@@ -13,11 +9,8 @@ import {
   Navigation,
   Rightbar,
 } from '../../../common/components'
-import { PlayerResults } from '../../components/PlayerResult'
 
 export const Answers: FunctionComponent = () => {
-  const { roomStatus } = useAppSelector((state: RoomState) => state.room)
-
   return (
     <Grid>
       <Logo className="flex justify-center">
@@ -25,7 +18,7 @@ export const Answers: FunctionComponent = () => {
       </Logo>
       <Main>
         <div className="flex justify-center">
-          {roomStatus === RoomStatus.boardsReceived ? <HandleAnswers /> : <Waiting />}
+          <HandleAnswers />
         </div>
       </Main>
       <Leftbar></Leftbar>

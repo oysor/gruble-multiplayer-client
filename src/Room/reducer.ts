@@ -10,10 +10,15 @@ import {
   Message,
   MessageItem,
   Player,
+  RoomPage,
   RoomStatus,
   WordInfoDict,
 } from '../common/constants'
-import { createBoardDictionary } from './utilities/utilities'
+import {
+  addPlayerSubmitToList,
+  allBoardsReceived,
+  createBoardDictionary,
+} from './utilities/utilities'
 import { mapPlayerFromAPI } from '../common/mapping'
 import { assertIsRoom } from '../common/assert'
 
@@ -53,9 +58,6 @@ const roomSlice = createSlice({
     updateConnectionStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
-    updateRoomStatus: (state, action) => {
-      state.roomStatus = action.payload
-    },
     updateRoomName: (state, action) => {
       state.roomName = action.payload
     },
@@ -78,7 +80,6 @@ const roomSlice = createSlice({
       state.userId = roomMasterId
       state.roomId = signalRGroupName
       state.roomName = roomName
-      state.roomStatus = RoomStatus.roomCreated
     },
     roomUpdated: (state, action: { payload: IncomingGameRoom }) => {
       assertIsRoom(action.payload)
@@ -86,7 +87,6 @@ const roomSlice = createSlice({
 
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
-      state.roomStatus = RoomStatus.gameCreated
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
@@ -112,35 +112,28 @@ const roomSlice = createSlice({
       const valid = state.playerList.some((p) => p.userId == userId && !p.hasSubmitted)
 
       if (!valid) {
-        return
+        console.log('??? Received board though all players submitted ???')
       }
 
-      const playerList = state.playerList.map((player) => {
-        if (player.userId === userId && player.hasSubmitted == false) {
-          player.board = board
-          player.hasSubmitted = true
-        }
-        return player
-      })
+      const playerList = addPlayerSubmitToList(state.playerList, userId, board)
 
-      state.playerList = playerList
-
-      const numberOfBoards = playerList.length
-      const receivedBoards = playerList.filter((p) => p.hasSubmitted === true).length
-      if (numberOfBoards === receivedBoards) {
+      if (allBoardsReceived(playerList)) {
         state.roomStatus = RoomStatus.boardsReceived
         state.boardDictionary = createBoardDictionary(playerList, state.boardSettings)
-        state.currentPage += 1
+        state.currentPage = RoomPage.answers
       }
+      state.playerList = playerList
     },
     updateBoardDictionary: (state, action) => {
       const { square, word, flag } = action.payload
       const { letter, category } = square
       state.boardDictionary[letter][category][word].flag = flag
     },
-    showResults: (state, action) => {
+    dispatchResults: (state, action) => {
       const { newPlayerList } = action.payload
       state.playerList = newPlayerList
+      state.currentPage = RoomPage.results
+      state.roomStatus = RoomStatus.dispatchedResults
     },
     addMessage: (state, action: { payload: IncomingMessage }) => {
       const { id, message } = action.payload
@@ -156,10 +149,13 @@ const roomSlice = createSlice({
     updateTimeElapsed: (state, action) => {
       state.commonStates.elapsedTime = action.payload
     },
-    setNextPage: (state) => {
-      state.currentPage += 1
+    roundStarted: (state) => {
+      state.roomStatus = RoomStatus.roundStarted
+      state.currentPage = RoomPage.play
     },
-
+    roundEnded: (state) => {
+      state.roomStatus = RoomStatus.roundEnded
+    },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     startGame: () => {},
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -171,7 +167,6 @@ const roomSlice = createSlice({
 // import the actions where you want to dispatch them.
 export const {
   updateConnectionStatus,
-  updateRoomStatus,
   updateRoomName,
   updateTimeLimit,
   updateBoardSettings,
@@ -183,10 +178,11 @@ export const {
   addPlayer,
   resetState,
   receivePlayerBoard,
-  setNextPage,
-  showResults,
+  dispatchResults,
   createRoom,
   startGame,
+  roundStarted,
+  roundEnded,
   updateBoardDictionary,
   updateConnection,
 } = roomSlice.actions

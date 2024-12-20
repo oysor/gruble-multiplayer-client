@@ -23,14 +23,19 @@ export enum PlayerPage {
 }
 
 export enum RoomStatus {
-  roomCreated = 0,
-  gameCreated = 1,
-  boardCreated = 2,
-  playerJoined = 3,
-  roundStarted = 4,
-  roundEnded = 5,
-  boardsReceived = 6,
-  resultsSent = 7,
+  roundCreated = 0,
+  roundReady = 1,
+  roundStarted = 2,
+  roundEnded = 3,
+  boardsReceived = 4,
+  dispatchedResults = 5,
+}
+
+export enum RoomPage {
+  lobby = 1,
+  play = 2,
+  answers = 3,
+  results = 4,
 }
 
 export type Player = {
