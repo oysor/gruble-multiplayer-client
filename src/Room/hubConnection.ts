@@ -51,7 +51,7 @@ enum fromServer {
 // Builds the SignalR connection, mapping it to /gameHub
 const hubConnection = new signalR.HubConnectionBuilder()
   .withUrl(API_URL, { withCredentials: false })
-  // .withStatefulReconnect({ bufferSize: 1000 }) // Optional, defaults to 100,000
+  .withStatefulReconnect({ bufferSize: 1000 }) // Optional, defaults to 100,000
   .withAutomaticReconnect()
   .configureLogging(signalR.LogLevel.Debug)
   .build()
