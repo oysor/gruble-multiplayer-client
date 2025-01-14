@@ -258,8 +258,6 @@ startAppListening({
       BoardDictionary: boardDictionary,
     }
 
-    console.log(JSON.stringify(resultsDto))
-
     hubConnection.invoke(toServer.SEND_RESULTS, resultsDto)
   },
 })
