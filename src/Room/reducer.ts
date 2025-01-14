@@ -1,28 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
-  Board,
   BoardSettings,
   CommonStates,
+  DispatchResults,
   IncomingGameRoom,
   IncomingMessage,
   IncomingPlayer,
+  IncomingPlayerBoard,
+  IncomingUserId,
   initialCommonStates,
-  Message,
   MessageItem,
   Player,
   RoomPage,
   RoomStatus,
+  UpdateBoardSettings,
+  UpdateDictionary,
   WordInfoDict,
 } from '../common/constants'
 import {
   addPlayerSubmitToList,
   allBoardsReceived,
   createBoardDictionary,
-} from './utilities/utilities'
+} from './utilities'
 import { mapPlayerFromAPI } from '../common/mapping'
 import { assertIsRoom } from '../common/assert'
 
 export interface RoomState {
+  gameState: number
   roomStatus: number
   roomName: string
   roomId: string
@@ -37,6 +41,7 @@ export interface RoomState {
 }
 
 const initialState: RoomState = {
+  gameState: 0,
   roomStatus: 0,
   roomName: '',
   roomId: '',
@@ -58,17 +63,14 @@ const roomSlice = createSlice({
     updateConnectionStatus: (state, action) => {
       state.commonStates.status = action.payload
     },
-    updateRoomName: (state, action) => {
+    updateRoomName: (state, action: { payload: string }) => {
       state.roomName = action.payload
     },
-    updateTimeLimit: (state, action: { payload: { timeLimit: number } }) => {
+    updateTimeLimit: (state, action: { payload: UpdateBoardSettings }) => {
       const { timeLimit } = action.payload
       state.timeLimit = timeLimit
     },
-    updateBoardSettings: (
-      state,
-      action: { payload: { categories: string[]; letters: string[] } }
-    ) => {
+    updateBoardSettings: (state, action: { payload: UpdateBoardSettings }) => {
       const { categories, letters } = action.payload
       state.boardSettings.categories = categories
       state.boardSettings.letters = letters
@@ -97,16 +99,13 @@ const roomSlice = createSlice({
         return { ...state, playerList: [...state.playerList, newPlayer] }
       }
     },
-    removePlayer: (state, action) => {
+    removePlayer: (state, action: { payload: IncomingUserId }) => {
       const { userId } = action.payload
       state.playerList = [...state.playerList].filter((player) => {
         return player.userId !== userId
       })
     },
-    receivePlayerBoard: (
-      state,
-      action: { payload: { userId: string; board: Board } }
-    ) => {
+    receivePlayerBoard: (state, action: { payload: IncomingPlayerBoard }) => {
       const { userId, board } = action.payload
 
       const valid = state.playerList.some((p) => p.userId == userId && !p.hasSubmitted)
@@ -124,14 +123,14 @@ const roomSlice = createSlice({
       }
       state.playerList = playerList
     },
-    updateBoardDictionary: (state, action) => {
+    updateBoardDictionary: (state, action: { payload: UpdateDictionary }) => {
       const { square, word, flag } = action.payload
       const { letter, category } = square
       state.boardDictionary[letter][category][word].flag = flag
     },
-    dispatchResults: (state, action) => {
-      const { newPlayerList } = action.payload
-      state.playerList = newPlayerList
+    dispatchResults: (state, action: { payload: DispatchResults }) => {
+      const { playerList } = action.payload
+      state.playerList = playerList
       state.currentPage = RoomPage.results
       state.roomStatus = RoomStatus.dispatchedResults
     },
@@ -146,7 +145,7 @@ const roomSlice = createSlice({
         ...state.messages,
       ]
     },
-    updateTimeElapsed: (state, action) => {
+    updateTimeElapsed: (state, action: { payload: number }) => {
       state.commonStates.elapsedTime = action.payload
     },
     roundStarted: (state) => {

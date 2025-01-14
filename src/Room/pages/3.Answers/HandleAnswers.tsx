@@ -2,7 +2,6 @@ import React, { FunctionComponent, useState } from 'react'
 import { Button } from '../../../common/components'
 import { dispatchResults } from '../../reducer'
 import { RoomState } from '../../store'
-import { updatePlayerListResults } from '../../utilities'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { HandleBoard } from './HandleBoard'
 import { Box_l, Center_l, Cluster_l, Stack_l } from '../../../common/everyLayout'
@@ -10,9 +9,7 @@ import { SetWrongAnswerButton } from './SetWrongAnswerButton'
 import { ProofReading } from './ProofReading'
 
 export const HandleAnswers: FunctionComponent = () => {
-  const { playerList, boardSettings, boardDictionary } = useAppSelector(
-    (state: RoomState) => state.room
-  )
+  const { playerList, boardDictionary } = useAppSelector((state: RoomState) => state.room)
 
   const dispatch = useAppDispatch()
   const [coords, setCoords] = useState({ x: 0, y: 0 })
@@ -39,13 +36,7 @@ export const HandleAnswers: FunctionComponent = () => {
   }
 
   const dispatchOnClick = () => {
-    const newPlayerList = updatePlayerListResults(
-      playerList,
-      boardSettings,
-      boardDictionary
-    )
-    const sendThisToAllPlayers = { newPlayerList, boardDictionary }
-    dispatch(dispatchResults(sendThisToAllPlayers))
+    dispatch(dispatchResults({ playerList, boardDictionary }))
   }
 
   return (

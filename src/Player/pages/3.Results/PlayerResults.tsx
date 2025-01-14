@@ -4,6 +4,7 @@ import { Table } from '../../../common/components/tables'
 import { PlayerResultBoards } from '../../../common/components/boards'
 import { useAppSelector } from '../../hooks'
 import { PlayerState } from '../../store'
+import { calculatePlayerStats } from '../../../common/utilities'
 
 interface PlayerResults {
   //   setName: (code: string) => void
@@ -16,7 +17,8 @@ export const PlayerResults: FunctionComponent<PlayerResults> = () => {
   )
 
   const playerStats = playerList.map((p) => {
-    return { player: p.name, ...p.playerResult }
+    const playerResult = calculatePlayerStats(p, boardSettings, boardDictionary)
+    return { player: p.name, ...playerResult }
   })
 
   const winner = playerStats.reduce(function (prev, current) {

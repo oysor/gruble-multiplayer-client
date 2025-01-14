@@ -18,7 +18,17 @@ import {
   checkRoom,
   startRound,
 } from './reducer'
-import { API_URL, ConnectionMode } from '../common/constants'
+import {
+  API_URL,
+  ConnectionMode,
+  IncomingGameRoom,
+  IncomingMessage,
+  IncomingPlayer,
+  IncomingPlayerRoom,
+  IncomingResults,
+  JoinRoom,
+  SendMessage,
+} from '../common/constants'
 import * as signalR from '@microsoft/signalr'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
@@ -75,23 +85,23 @@ export async function startPlayerConnection(): Promise<void> {
 
     console.log('***** PLAYER ' + hubConnection.state + ' *****')
 
-    hubConnection.on(fromServer.ON_ERROR, (msg) => {
-      store.dispatch(serverMessage({ message: msg }))
+    hubConnection.on(fromServer.ON_ERROR, (message: string) => {
+      store.dispatch(serverMessage(message))
     })
 
-    hubConnection.on(fromServer.ON_SERVER_REPLY, (msg) => {
-      store.dispatch(serverMessage({ message: msg }))
+    hubConnection.on(fromServer.ON_SERVER_REPLY, (message: string) => {
+      store.dispatch(serverMessage(message))
     })
 
-    hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (msg, connectionID) => {
-      store.dispatch(addMessage({ id: connectionID, message: msg }))
+    hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (message: IncomingMessage) => {
+      store.dispatch(addMessage(message))
     })
 
-    hubConnection.on(fromServer.ON_ROOM_JOINED, (gameRoom, userId) => {
-      store.dispatch(joinedRoom({ room: gameRoom, userId: userId }))
+    hubConnection.on(fromServer.ON_ROOM_JOINED, (room: IncomingPlayerRoom) => {
+      store.dispatch(joinedRoom(room))
     })
 
-    hubConnection.on(fromServer.ON_RECEIVED_SETTINGS, (room) => {
+    hubConnection.on(fromServer.ON_RECEIVED_SETTINGS, (room: IncomingGameRoom) => {
       store.dispatch(roomUpdated(room))
     })
 
@@ -99,19 +109,19 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(gameClosed())
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player) => {
+    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player: IncomingPlayer) => {
       store.dispatch(addPlayer(player))
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (usedId) => {
-      store.dispatch(removePlayer({ userId: usedId }))
+    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (userdId: string) => {
+      store.dispatch(removePlayer(userdId))
     })
 
     hubConnection.on(fromServer.ON_TIMER_STARTED, () => {
       store.dispatch(startRound())
     })
 
-    hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed) => {
+    hubConnection.on(fromServer.ON_TIMER_ELAPSED, (timeElapsed: number) => {
       store.dispatch(updateTimer(timeElapsed))
     })
 
@@ -119,7 +129,7 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(dispatchBoard())
     })
 
-    hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results) => {
+    hubConnection.on(fromServer.ON_RECEIVE_RESULTS, (results: IncomingResults) => {
       store.dispatch(receivedResults(results))
     })
   } catch (err) {
@@ -188,18 +198,18 @@ startAppListening({
 
 startAppListening({
   actionCreator: joinRoom,
-  effect: async (action) => {
-    hubConnection.invoke(
-      toServer.JOINROOM,
-      action.payload.roomId,
-      action.payload.playerName
-    )
+  effect: async (action: { payload: JoinRoom }) => {
+    const joinRoomDto = {
+      PlayerName: action.payload.playerName,
+    }
+
+    hubConnection.invoke(toServer.JOINROOM, action.payload.roomId, joinRoomDto)
   },
 })
 
 startAppListening({
   actionCreator: checkRoom,
-  effect: async (action) => {
+  effect: async (action: { payload: { roomId: string } }) => {
     await hubConnection.invoke(toServer.CHECK_ROOMSTATUS, action.payload.roomId)
   },
 })
@@ -212,21 +222,23 @@ startAppListening({
     const state = listenerApi.getOriginalState().player
     const userId = state.userId
     const roomId = state.roomId
-
+    // const gameState = state.roundStatus
+    const gameStatus = state.gameStatus
+    const updateDto = { userId, roomId, gameStatus }
     if (userId !== '') {
-      hubConnection.invoke(toServer.UPDATE_CONNECTION, userId, roomId)
+      hubConnection.invoke(toServer.UPDATE_CONNECTION, updateDto)
     }
   },
 })
 
 startAppListening({
   actionCreator: sendMessage,
-  effect: async (action) => {
-    hubConnection.invoke(
-      toServer.SEND_MESSAGE,
-      action.payload.roomId,
-      action.payload.message
-    )
+  effect: async (action: { payload: SendMessage }) => {
+    const sendMessageDto = {
+      Message: action.payload.message,
+    }
+
+    hubConnection.invoke(toServer.SEND_MESSAGE, action.payload.roomId, sendMessageDto)
   },
 })
 
@@ -234,8 +246,14 @@ startAppListening({
   actionCreator: dispatchBoard,
   effect: async (action, listenerApi) => {
     // const signalRGroupName = action.payload.roomId
+
     const player = listenerApi.getOriginalState().player
-    hubConnection.invoke(toServer.SENDBOARD, player.roomId, player.playerBoard)
+
+    const sendBoardDto = {
+      Board: player.playerBoard,
+    }
+
+    hubConnection.invoke(toServer.SENDBOARD, player.roomId, sendBoardDto)
   },
 })
 /* * * * * * * * * * **/

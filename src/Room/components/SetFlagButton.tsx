@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Flag, Player } from '../../common/constants'
+import { Flag, Player, SquareCoords } from '../../common/constants'
 import { updateBoardDictionary } from '../reducer'
 import { RoomState } from '../store'
 import { useAppDispatch, useAppSelector } from '../hooks'
@@ -8,7 +8,7 @@ import { getFlag } from '../../common/utilities'
 
 type SetFlagButtonProps = {
   player: Player
-  square: { letter: number; category: number }
+  square: SquareCoords
   invert?: boolean
   text: string
 }

@@ -9,35 +9,6 @@ export type CommonStates = {
   roundIsOn: boolean
 }
 
-export enum RoundStatus {
-  receiveBoard = 0,
-  startRound = 1,
-  dispatchedBoard = 2,
-  receivedResults = 3,
-}
-
-export enum PlayerPage {
-  lobby = 1,
-  play = 2,
-  results = 3,
-}
-
-export enum RoomStatus {
-  roundCreated = 0,
-  roundReady = 1,
-  roundStarted = 2,
-  roundEnded = 3,
-  boardsReceived = 4,
-  dispatchedResults = 5,
-}
-
-export enum RoomPage {
-  lobby = 1,
-  play = 2,
-  answers = 3,
-  results = 4,
-}
-
 export type Player = {
   name: string
   userId: string
@@ -45,7 +16,7 @@ export type Player = {
   board: Board
   hasSubmitted: boolean
   // scoreBoard: ScoreBoard
-  playerResult: PlayerResult
+  playerResult: PlayerStats
 }
 
 export type Message = {
@@ -59,7 +30,7 @@ export type MessageItem = {
   message: string
 }
 
-export type PlayerResult = {
+export type PlayerStats = {
   score: number
   correct: number
   unique: number
@@ -111,6 +82,35 @@ export enum Flag {
   Unique = 'UNIQUE',
 }
 
+export enum GameStatus {
+  GameCreated = 0,
+  RoundStarted = 1,
+  RoundEnded = 2,
+  ResultsReceived = 3,
+}
+
+export enum PlayerPage {
+  lobby = 1,
+  play = 2,
+  results = 3,
+}
+
+export enum RoomStatus {
+  roundCreated = 0,
+  roundReady = 1,
+  roundStarted = 2,
+  roundEnded = 3,
+  boardsReceived = 4,
+  dispatchedResults = 5,
+}
+
+export enum RoomPage {
+  lobby = 1,
+  play = 2,
+  answers = 3,
+  results = 4,
+}
+
 /**
  * Enum containing all possible connection status types.
  */
@@ -133,7 +133,7 @@ export const initialCommonStates: CommonStates = {
   roundIsOn: false,
 }
 
-export const initPlayerResult: PlayerResult = {
+export const initPlayerResult: PlayerStats = {
   score: 0,
   correct: 0,
   unique: 0,
@@ -158,6 +158,7 @@ export type IncomingGameRoom = {
   roomName: string
   timeLimit: number
   boardSettings: BoardSettings
+  players: IncomingPlayer[]
 }
 
 export type IncomingPlayer = {
@@ -167,10 +168,66 @@ export type IncomingPlayer = {
   color: string
   board: Board
   score: number
-  playerResult: PlayerResult
+  playerResult: PlayerStats
+}
+
+export type IncomingUserId = {
+  userId: string
 }
 
 export type IncomingMessage = {
   id: string
+  message: string
+}
+
+export type IncomingElapsedTime = {
+  elapsedTime: number
+}
+
+export type IncomingPlayerBoard = {
+  userId: string
+  board: Board
+}
+
+export type SquareCoords = {
+  letter: number
+  category: number
+}
+
+export type DispatchResults = {
+  playerList: Player[]
+  boardDictionary: WordInfoDict[][]
+}
+
+export type IncomingResults = {
+  players: Player[]
+  boardDictionary: WordInfoDict[][]
+}
+
+export type UpdateDictionary = {
+  square: SquareCoords
+  word: string
+  flag: Flag
+}
+
+export type TimeLimit = { timeLimit: number }
+
+export type UpdateBoardSettings = {
+  letters: string[]
+  categories: string[]
+  timeLimit: number
+}
+
+export type IncomingPlayerRoom = {
+  room: IncomingGameRoom
+  userId: string
+}
+
+export type JoinRoom = {
+  roomId: string
+  playerName: string
+}
+export type SendMessage = {
+  roomId: string
   message: string
 }

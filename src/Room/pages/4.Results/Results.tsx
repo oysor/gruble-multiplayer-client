@@ -13,13 +13,15 @@ import {
   Rightbar,
 } from '../../../common/components/Grid'
 import { TopLogo } from '../../../common/components/Logo'
+import { calculatePlayerStats } from '../../../common/utilities'
 
 export const Results: FunctionComponent = () => {
   const { playerList, boardDictionary, boardSettings } = useAppSelector(
     (state: RoomState) => state.room
   )
   const playerStats = playerList.map((p) => {
-    return { player: p.name, ...p.playerResult }
+    const playerResult = calculatePlayerStats(p, boardSettings, boardDictionary)
+    return { player: p.name, ...playerResult }
   })
 
   const winner = playerStats.reduce(function (prev, current) {

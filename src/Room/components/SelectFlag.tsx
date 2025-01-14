@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react'
-import { Flag, Player } from '../../common/constants'
+import { Flag, Player, SquareCoords } from '../../common/constants'
 import { updateBoardDictionary } from '../reducer'
 import { useAppDispatch, useAppSelector } from '../hooks'
 import { RoomState } from '../store'
 
 type SelectFlagProps = {
   player: Player
-  square: { letter: number; category: number }
+  square: SquareCoords
 }
 
 export const SelectFlag: FunctionComponent<SelectFlagProps> = ({ player, square }) => {

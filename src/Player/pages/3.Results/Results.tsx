@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { PlayerState } from '../../store'
 import { useAppSelector } from '../../hooks'
-import { RoundStatus } from '../../../common/constants'
+import { GameStatus } from '../../../common/constants'
 import { TopLogo } from '../../../common/components/Logo'
 import { PlayerResults } from './PlayerResults'
 import { Waiting } from '../../../common/components/Waiting'
@@ -15,7 +15,7 @@ import {
 } from '../../../common/components'
 
 export const Results: FunctionComponent = () => {
-  const { roundStatus } = useAppSelector((state: PlayerState) => state.player)
+  const { gameStatus } = useAppSelector((state: PlayerState) => state.player)
 
   return (
     <Grid2>
@@ -24,7 +24,7 @@ export const Results: FunctionComponent = () => {
       </Logo>
       <Main>
         <div className="flex justify-center">
-          {roundStatus === RoundStatus.receivedResults ? (
+          {gameStatus === GameStatus.ResultsReceived ? (
             <PlayerResults />
           ) : (
             <Waiting msg={'Waiting on results..'} />
