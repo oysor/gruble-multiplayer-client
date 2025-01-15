@@ -98,20 +98,12 @@ const playerSlice = createSlice({
         (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
       )
 
-      if (boardSettings?.categories !== undefined) {
-        state.playerBoard = createEmptyBoard(boardSettings)
-      }
-
       state.gameStatus = GameStatus.GameCreated
     },
     roomUpdated: (state, action: { payload: IncomingGameRoom }) => {
       const { timeLimit, boardSettings } = action.payload
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
-
-      if (boardSettings?.categories !== undefined) {
-        state.playerBoard = createEmptyBoard(boardSettings)
-      }
     },
     addPlayer: (state, action: { payload: IncomingPlayer }) => {
       const { payload } = action
@@ -129,6 +121,7 @@ const playerSlice = createSlice({
       })
     },
     startRound: (state) => {
+      state.playerBoard = createEmptyBoard(state.boardSettings)
       state.gameStatus = GameStatus.RoundStarted
       state.currentPage = PlayerPage.play
     },
