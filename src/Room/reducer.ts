@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  APIPlayer,
   BoardSettings,
   CommonStates,
   DispatchResults,
   IncomingGameRoom,
   IncomingMessage,
-  IncomingPlayer,
   IncomingPlayerBoard,
   IncomingUserId,
   initialCommonStates,
@@ -90,7 +90,7 @@ const roomSlice = createSlice({
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
     },
-    addPlayer: (state, action: { payload: IncomingPlayer }) => {
+    addPlayer: (state, action: { payload: APIPlayer }) => {
       const { payload } = action
       const newPlayer: Player = mapPlayerFromAPI(payload)
 

@@ -21,11 +21,11 @@ import {
 } from './reducer'
 import {
   API_URL,
+  APIPlayer,
   ConnectionMode,
   DispatchResults,
   IncomingGameRoom,
   IncomingMessage,
-  IncomingPlayer,
   IncomingPlayerBoard,
   IncomingUserId,
   UpdateBoardSettings,
@@ -34,6 +34,7 @@ import * as signalR from '@microsoft/signalr'
 import { HubConnectionState } from '@microsoft/signalr'
 import { startAppListening } from './listenerMiddleware'
 import store from './store'
+import { mapPlayerToAPI } from '../common/mapping'
 
 // send to server
 enum toServer {
@@ -93,7 +94,7 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(roomUpdated(room))
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player: IncomingPlayer) => {
+    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player: APIPlayer) => {
       store.dispatch(addPlayer(player))
     })
 
@@ -253,8 +254,11 @@ startAppListening({
   effect: async (action: { payload: DispatchResults }) => {
     // Run whatever additional side-effect-y logic you want here
     const { playerList, boardDictionary } = action.payload
+
+    const players = playerList.map((p) => mapPlayerToAPI(p))
+
     const resultsDto = {
-      Players: playerList,
+      Players: players,
       BoardDictionary: boardDictionary,
     }
 

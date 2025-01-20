@@ -20,10 +20,10 @@ import {
 } from './reducer'
 import {
   API_URL,
+  APIPlayer,
   ConnectionMode,
   IncomingGameRoom,
   IncomingMessage,
-  IncomingPlayer,
   IncomingPlayerRoom,
   IncomingResults,
   JoinRoom,
@@ -109,7 +109,7 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(gameClosed())
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player: IncomingPlayer) => {
+    hubConnection.on(fromServer.ON_PLAYER_JOINED, (player: APIPlayer) => {
       store.dispatch(addPlayer(player))
     })
 
@@ -245,14 +245,11 @@ startAppListening({
 startAppListening({
   actionCreator: dispatchBoard,
   effect: async (action, listenerApi) => {
-    // const signalRGroupName = action.payload.roomId
 
     const player = listenerApi.getOriginalState().player
-
     const sendBoardDto = {
-      Board: player.playerBoard,
+      board: player.playerBoard,
     }
-
     hubConnection.invoke(toServer.SENDBOARD, player.roomId, sendBoardDto)
   },
 })

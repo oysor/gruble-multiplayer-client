@@ -15,7 +15,6 @@ export type Player = {
   color: string
   board: Board
   hasSubmitted: boolean
-  // scoreBoard: ScoreBoard
   playerResult: PlayerStats
 }
 
@@ -158,17 +157,16 @@ export type IncomingGameRoom = {
   roomName: string
   timeLimit: number
   boardSettings: BoardSettings
-  players: IncomingPlayer[]
+  players: APIPlayer[]
+  gameStatus: GameStatus
 }
 
-export type IncomingPlayer = {
+export type APIPlayer = {
   name: string
   signalRUserId: string
   hasSubmittedBoard: boolean
   color: string
   board: Board
-  score: number
-  playerResult: PlayerStats
 }
 
 export type IncomingUserId = {
@@ -200,7 +198,7 @@ export type DispatchResults = {
 }
 
 export type IncomingResults = {
-  players: Player[]
+  players: APIPlayer[]
   boardDictionary: WordInfoDict[][]
 }
 

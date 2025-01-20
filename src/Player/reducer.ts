@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
+  APIPlayer,
   Board,
   BoardSettings,
   CommonStates,
   GameStatus,
   IncomingGameRoom,
   IncomingMessage,
-  IncomingPlayer,
   IncomingPlayerRoom,
   IncomingResults,
   initialCommonStates,
@@ -95,7 +95,7 @@ const playerSlice = createSlice({
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
       state.playerList = players.map(
-        (player: IncomingPlayer): Player => mapPlayerFromAPI(player)
+        (player: APIPlayer): Player => mapPlayerFromAPI(player)
       )
 
       state.gameStatus = GameStatus.GameCreated
@@ -105,7 +105,7 @@ const playerSlice = createSlice({
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
     },
-    addPlayer: (state, action: { payload: IncomingPlayer }) => {
+    addPlayer: (state, action: { payload: APIPlayer }) => {
       const { payload } = action
       const newPlayer: Player = mapPlayerFromAPI(payload)
 
@@ -139,7 +139,7 @@ const playerSlice = createSlice({
     receivedResults: (state, action: { payload: IncomingResults }) => {
       const { players, boardDictionary } = action.payload
 
-      state.playerList = players
+      state.playerList = players.map((p) => mapPlayerFromAPI(p))
       state.boardDictionary = boardDictionary
       state.gameStatus = GameStatus.ResultsReceived
     },
