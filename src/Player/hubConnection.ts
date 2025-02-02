@@ -41,6 +41,7 @@ enum toServer {
   CHECK_ROOMSTATUS = 'CheckRoomStatus',
   SENDBOARD = 'SendBoard',
   UPDATE_CONNECTION = 'UpdateConnection',
+  REMOVE_PLAYER = 'RemovePlayer',
 }
 // receive from server
 enum fromServer {
@@ -49,6 +50,7 @@ enum fromServer {
   ON_ROOM_JOINED = 'onRoomJoined',
   ON_RECEIVED_SETTINGS = 'onReceivedSettings',
   ON_PLAYER_JOINED = 'onPlayerJoined',
+  ON_PLAYER_REMOVED = 'onPlayerRemoved',
   ON_PLAYER_DISCONNECTED = 'onPlayerLeft',
   ON_TIMER_STARTED = 'onTimerStarted',
   ON_TIMER_ELAPSED = 'onTimerElapsed',
@@ -113,7 +115,11 @@ export async function startPlayerConnection(): Promise<void> {
       store.dispatch(addPlayer(player))
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (userdId: string) => {
+    // hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (userdId: string) => {
+    //   store.dispatch(removePlayer(userdId))
+    // })
+
+    hubConnection.on(fromServer.ON_PLAYER_REMOVED, (userdId: string) => {
       store.dispatch(removePlayer(userdId))
     })
 
@@ -245,7 +251,6 @@ startAppListening({
 startAppListening({
   actionCreator: dispatchBoard,
   effect: async (action, listenerApi) => {
-
     const player = listenerApi.getOriginalState().player
     const sendBoardDto = {
       board: player.playerBoard,

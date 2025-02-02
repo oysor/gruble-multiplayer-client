@@ -2,8 +2,9 @@ import React, { FunctionComponent } from 'react'
 import { Stack_l } from '../../../common/everyLayout'
 import { useAppSelector } from '../../hooks'
 import { RoomState } from '../../store'
+import { Headline, InfoText1 } from '../../../common/components'
+import { PlayerListBox } from '../../components/PlayerList/PlayerListBox'
 
-import { Headline, InfoText1, PlayerListBox } from '../../../common/components'
 
 export const Lobby: FunctionComponent = () => {
   const { roomName, timeLimit, boardSettings, playerList } = useAppSelector(

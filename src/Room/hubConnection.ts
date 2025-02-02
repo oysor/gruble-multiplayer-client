@@ -18,16 +18,18 @@ import {
   updateBoardSettings,
   roundStarted,
   roundEnded,
+  playerDisconnected,
 } from './reducer'
 import {
   API_URL,
   APIPlayer,
   ConnectionMode,
   DispatchResults,
+  IncomingDisconnctedPlayer,
   IncomingGameRoom,
   IncomingMessage,
   IncomingPlayerBoard,
-  IncomingUserId,
+  RemovePlayer,
   UpdateBoardSettings,
 } from '../common/constants'
 import * as signalR from '@microsoft/signalr'
@@ -43,6 +45,7 @@ enum toServer {
   SEND_RESULTS = 'SendResults',
   UPDATE_CONNECTION = 'UpdateConnection',
   UPDATE_SETTINGS = 'UpdateSettings',
+  REMOVE_PLAYER = 'RemovePlayer',
 }
 
 // receive from server
@@ -52,7 +55,8 @@ enum fromServer {
   ON_RECEIVED_SETTINGS = 'onReceivedSettings',
   ON_GAME_CREATION_ERROR = 'onRoomCreationError',
   ON_PLAYER_JOINED = 'onPlayerJoined',
-  ON_PLAYER_DISCONNECTED = 'onPlayerLeft',
+  ON_PLAYER_DISCONNECTED = 'onPlayerDisconnected',
+
   ON_TIMER_STARTED = 'onTimerStarted',
   ON_TIMER_ELAPSED = 'onTimerElapsed',
   ON_TIMER_FINISHED = 'onTimerFinished',
@@ -98,9 +102,12 @@ export async function startRoomConnection(): Promise<void> {
       store.dispatch(addPlayer(player))
     })
 
-    hubConnection.on(fromServer.ON_PLAYER_DISCONNECTED, (userId: IncomingUserId) => {
-      store.dispatch(removePlayer(userId))
-    })
+    hubConnection.on(
+      fromServer.ON_PLAYER_DISCONNECTED,
+      (player: IncomingDisconnctedPlayer) => {
+        store.dispatch(playerDisconnected(player))
+      }
+    )
 
     hubConnection.on(fromServer.ON_MESSAGE_RECEIVED, (message: IncomingMessage) => {
       store.dispatch(addMessage(message))
@@ -279,6 +286,21 @@ startAppListening({
 
     if (userId !== '') {
       hubConnection.invoke(toServer.UPDATE_CONNECTION, updateDto)
+    }
+  },
+})
+
+startAppListening({
+  actionCreator: removePlayer,
+  effect: async (action: { payload: RemovePlayer }, listenerApi) => {
+    const { userId } = action.payload
+    const state = listenerApi.getOriginalState().room
+    const roomId = state.roomId
+
+    const removePlayerRequest = { userId, roomId }
+
+    if (userId !== '') {
+      hubConnection.invoke(toServer.REMOVE_PLAYER, removePlayerRequest)
     }
   },
 })

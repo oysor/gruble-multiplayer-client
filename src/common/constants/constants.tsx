@@ -16,6 +16,8 @@ export type Player = {
   board: Board
   hasSubmitted: boolean
   playerResult: PlayerStats
+  isDisconnected: boolean
+  dropOut: boolean
 }
 
 export type Message = {
@@ -169,8 +171,17 @@ export type APIPlayer = {
   board: Board
 }
 
+export type RemovePlayer = {
+  userId: string
+}
+
 export type IncomingUserId = {
   userId: string
+}
+
+export type IncomingDisconnctedPlayer = {
+  userId: string
+  disconnected: boolean
 }
 
 export type IncomingMessage = {

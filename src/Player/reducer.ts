@@ -116,6 +116,12 @@ const playerSlice = createSlice({
     },
     removePlayer: (state, action: { payload: string }) => {
       const userId = action.payload
+
+      // this client was removed from room.
+      if (userId === state.userId) {
+        state.gameClosed = true
+      }
+
       state.playerList = [...state.playerList].filter((player) => {
         return player.userId !== userId
       })

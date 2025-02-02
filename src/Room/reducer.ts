@@ -4,13 +4,14 @@ import {
   BoardSettings,
   CommonStates,
   DispatchResults,
+  IncomingDisconnctedPlayer,
   IncomingGameRoom,
   IncomingMessage,
   IncomingPlayerBoard,
-  IncomingUserId,
   initialCommonStates,
   MessageItem,
   Player,
+  RemovePlayer,
   RoomPage,
   RoomStatus,
   UpdateBoardSettings,
@@ -90,6 +91,26 @@ const roomSlice = createSlice({
       state.timeLimit = timeLimit
       state.boardSettings = boardSettings
     },
+    playerDisconnected: (state, action: { payload: IncomingDisconnctedPlayer }) => {
+      const { userId, disconnected } = action.payload
+
+      state.playerList = [...state.playerList].map((player) => {
+        if (player.userId === userId) {
+          player.isDisconnected = disconnected
+        }
+        return player
+      })
+    },
+    playerDropout: (state, action: { payload: { userId: string } }) => {
+      const { userId } = action.payload
+
+      state.playerList = [...state.playerList].map((player) => {
+        if (player.userId === userId) {
+          player.dropOut = true
+        }
+        return player
+      })
+    },
     addPlayer: (state, action: { payload: APIPlayer }) => {
       const { payload } = action
       const newPlayer: Player = mapPlayerFromAPI(payload)
@@ -99,7 +120,7 @@ const roomSlice = createSlice({
         return { ...state, playerList: [...state.playerList, newPlayer] }
       }
     },
-    removePlayer: (state, action: { payload: IncomingUserId }) => {
+    removePlayer: (state, action: { payload: RemovePlayer }) => {
       const { userId } = action.payload
       state.playerList = [...state.playerList].filter((player) => {
         return player.userId !== userId
@@ -184,6 +205,8 @@ export const {
   roundEnded,
   updateBoardDictionary,
   updateConnection,
+  playerDisconnected,
+  playerDropout,
 } = roomSlice.actions
 
 export default roomSlice.reducer

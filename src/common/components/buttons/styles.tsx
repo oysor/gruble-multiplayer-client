@@ -130,7 +130,7 @@ export const PondrButton = styled.button<PondrButtonProps>`
   display: inline-block;
   padding: 0.5em 0.75em;
 
-  border: 0.0em solid white;
+  border: 0em solid white;
 
   border-radius: var(--main-radius, 2em);
 
