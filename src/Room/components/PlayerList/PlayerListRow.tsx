@@ -31,8 +31,8 @@ export const PlayerInfo = styled.span<InfoProps>`
 export const PlayerListRow: FunctionComponent<PlayerRowProps> = ({ player }) => {
   const time = new Date()
   time.setSeconds(time.getSeconds() + 10) // 10 minutes timer
-  const isDisconnected = true
-  // const { isDisconnected } = player
+
+  const { isDisconnected } = player
 
   return (
     <StyledPlayerRow>
