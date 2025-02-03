@@ -141,6 +141,7 @@ const roomSlice = createSlice({
 
       if (stillWatingOnBoards && allBoardsReceived(newPlayerList)) {
         state.roomStatus = RoomStatus.boardsReceived
+        state.boardDictionary = createBoardDictionary(newPlayerList, state.boardSettings)
         state.currentPage = RoomPage.answers
       }
       state.playerList = newPlayerList
