@@ -6,9 +6,12 @@ import { useAppSelector } from '../hooks'
 import { Stack_l } from '../../common/everyLayout'
 import { ConnectionMode } from '../../common/constants'
 import { DisconnectOverlay } from '../../common/components/connection/Disconnected'
+import { GameClosed } from '../../common/components/connection'
 
 export const RoomPages: FunctionComponent = () => {
-  const { commonStates, currentPage } = useAppSelector((state: RoomState) => state.room)
+  const { commonStates, currentPage, gameClosed, gameClosedMessage } = useAppSelector(
+    (state: RoomState) => state.room
+  )
   const connected = commonStates.status === ConnectionMode.Connected
 
   const displayPage = (currentPage: number) => {
@@ -31,6 +34,7 @@ export const RoomPages: FunctionComponent = () => {
     >
       <div>
         {!connected ? <DisconnectOverlay status={commonStates.status} /> : null}
+        {gameClosed ? <GameClosed message={gameClosedMessage} /> : null}
         <Stack_l>
           <ConnectionStatus status={commonStates.status} />
         </Stack_l>

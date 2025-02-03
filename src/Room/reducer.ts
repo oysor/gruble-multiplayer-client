@@ -39,6 +39,8 @@ export interface RoomState {
   currentPage: number
   boardDictionary: WordInfoDict[][]
   userId: string
+  gameClosed: boolean
+  gameClosedMessage: string
 }
 
 const initialState: RoomState = {
@@ -54,6 +56,8 @@ const initialState: RoomState = {
   currentPage: 1,
   boardDictionary: [[]],
   userId: '',
+  gameClosed: false,
+  gameClosedMessage: '',
 }
 
 const roomSlice = createSlice({
@@ -122,9 +126,24 @@ const roomSlice = createSlice({
     },
     removePlayer: (state, action: { payload: RemovePlayer }) => {
       const { userId } = action.payload
-      state.playerList = [...state.playerList].filter((player) => {
+
+      const newPlayerList = [...state.playerList].filter((player) => {
         return player.userId !== userId
       })
+
+      const stillWatingOnBoards = state.roomStatus === RoomStatus.roundEnded
+
+      if (stillWatingOnBoards && newPlayerList.length === 0) {
+        state.gameClosedMessage = 'All payers gone..'
+        state.gameClosed = true
+        return
+      }
+
+      if (stillWatingOnBoards && allBoardsReceived(newPlayerList)) {
+        state.roomStatus = RoomStatus.boardsReceived
+        state.currentPage = RoomPage.answers
+      }
+      state.playerList = newPlayerList
     },
     receivePlayerBoard: (state, action: { payload: IncomingPlayerBoard }) => {
       const { userId, board } = action.payload

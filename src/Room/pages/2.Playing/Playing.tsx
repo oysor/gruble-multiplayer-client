@@ -12,7 +12,7 @@ import {
 import { RoomStatus } from '../../../common/constants'
 import { useAppSelector } from '../../hooks'
 import { RoomState } from '../../store'
-import { Waiting } from '../../../common/components/Waiting'
+import { CollectBoardLobby } from './CollectBoardLobby'
 
 export const Playing: FunctionComponent = () => {
   const { roomStatus } = useAppSelector((state: RoomState) => state.room)
@@ -25,7 +25,7 @@ export const Playing: FunctionComponent = () => {
       <Main>
         <div className="flex justify-center">
           {roomStatus === RoomStatus.roundEnded ? (
-            <Waiting msg={'Times up!'} />
+            <CollectBoardLobby />
           ) : (
             <RoomCountDown />
           )}

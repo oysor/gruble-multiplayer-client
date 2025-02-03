@@ -1,20 +1,22 @@
 import React, { FunctionComponent } from 'react'
-import { styled } from 'styled-components'
+import { css, styled } from 'styled-components'
 
 interface TextBoxProps {
   children: JSX.Element | JSX.Element[]
 }
 
-const MessageBox = styled.div`
+type MessagesProps = {
+  fullWidth?: boolean
+}
+
+export const MessageBox = styled.div`
   display: block;
   outline: 0.125rem solid transparent;
   outline-offset: -0.125rem;
   background-color: rgba(225, 225, 225, 0.2);
-  /* color: #035151; */
 
   border-radius: 0.2rem;
 
-  /* max-height: 10rem; */
   min-height: 7rem;
 
   display: flex;
@@ -28,7 +30,7 @@ const MessageBox = styled.div`
   padding-top: 0.5em;
 `
 
-const Messages = styled.div`
+export const Messages = styled.div<MessagesProps>`
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
@@ -37,9 +39,14 @@ const Messages = styled.div`
   padding-bottom: 0.5em;
 
   overflow-y: scroll;
-  /* word-wrap: break-word; */
 
   word-break: break-all;
+
+  ${(props) =>
+    props.fullWidth &&
+    css`
+      width: 100%;
+    `}
 
   & > * + * {
     margin-bottom: 0.4em;
