@@ -37,7 +37,6 @@ export const TimeSetting = () => {
 
     if (timeInSeconds !== timeLimit) {
       dispatch(updateTimeLimit({ timeLimit: timeInSeconds }))
-      // dispatch(sendSettings())
     }
   }
 

@@ -227,6 +227,10 @@ export type UpdateBoardSettings = {
   timeLimit: number
 }
 
+export type UpdateTimeLimit = {
+  timeLimit: number
+}
+
 export type IncomingPlayerRoom = {
   room: IncomingGameRoom
   userId: string

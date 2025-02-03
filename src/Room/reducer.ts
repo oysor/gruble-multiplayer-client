@@ -16,6 +16,7 @@ import {
   RoomStatus,
   UpdateBoardSettings,
   UpdateDictionary,
+  UpdateTimeLimit,
   WordInfoDict,
 } from '../common/constants'
 import {
@@ -71,7 +72,7 @@ const roomSlice = createSlice({
     updateRoomName: (state, action: { payload: string }) => {
       state.roomName = action.payload
     },
-    updateTimeLimit: (state, action: { payload: UpdateBoardSettings }) => {
+    updateTimeLimit: (state, action: { payload: UpdateTimeLimit }) => {
       const { timeLimit } = action.payload
       state.timeLimit = timeLimit
     },

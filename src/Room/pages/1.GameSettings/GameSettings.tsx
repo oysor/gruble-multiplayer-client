@@ -26,6 +26,8 @@ export const GameSettings: FunctionComponent = () => {
     (state: RoomState) => state.room
   )
 
+  const anyPlayerDisconnected = playerList.some((p) => p.isDisconnected)
+
   const [current, setNext] = useState(0)
   const dispatch = useAppDispatch()
 
@@ -41,7 +43,9 @@ export const GameSettings: FunctionComponent = () => {
   const settingsValid = timeLimit > 0 && categories.length > 0
   const playerJoined = playerList.length > 0
   const validName = name.length > 2
-  const validButton = (settingsValid && playerJoined) || (current < 3 && validName)
+  const validButton =
+    (settingsValid && playerJoined && !anyPlayerDisconnected) ||
+    (current < 3 && validName)
 
   const createRoomOnClick = () => {
     dispatch(createRoom(name))
