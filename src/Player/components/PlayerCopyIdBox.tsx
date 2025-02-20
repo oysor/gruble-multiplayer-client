@@ -3,12 +3,13 @@ import { useAppSelector } from '../hooks'
 import { PlayerState } from '../store'
 import { Box_l, Stack_l } from '../../common/everyLayout'
 import React from 'react'
+import { CopyBox } from '../../common/components/CopyBox'
 
 export const PlayerIdCopyBox: FunctionComponent = () => {
   const { roomId } = useAppSelector((state: PlayerState) => state.player)
   const [copied, setCopied] = useState(false)
   return (
-    <Box_l>
+    <CopyBox>
       <Stack_l space="0.2rem" align="center">
         {/* <h2 className="text-center">{heading}</h2> */}
         <span className="text-xs text-center">
@@ -28,6 +29,6 @@ export const PlayerIdCopyBox: FunctionComponent = () => {
           <b>{roomId ? roomId : '....'}</b>
         </Box_l>
       </Stack_l>
-    </Box_l>
+    </CopyBox>
   )
 }

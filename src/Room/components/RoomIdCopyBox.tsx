@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState } from 'react'
 import { RoomState } from '../store'
 import { useAppSelector } from '../hooks'
 import { Box_l, Stack_l } from '../../common/everyLayout'
+import { CopyBox } from '../../common/components/CopyBox'
 
 export const RoomIdCopyBox: FunctionComponent = () => {
   const { roomId, roomName } = useAppSelector((state: RoomState) => state.room)
@@ -10,7 +11,7 @@ export const RoomIdCopyBox: FunctionComponent = () => {
   const heading = roomName.charAt(0).toUpperCase() + roomName.slice(1)
 
   return (
-    <Box_l>
+    <CopyBox>
       <Stack_l space="0.2rem" align="center">
         {/* <h2 className="text-center">{heading}</h2> */}
         <span className="text-xs text-center">
@@ -30,6 +31,6 @@ export const RoomIdCopyBox: FunctionComponent = () => {
           <b>{roomId ? roomId : '....'}</b>
         </Box_l>
       </Stack_l>
-    </Box_l>
+    </CopyBox>
   )
 }

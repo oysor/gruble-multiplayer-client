@@ -9,6 +9,7 @@ type ButtonStyleProps = {
 
 const StyledStatus = styled.span<ButtonStyleProps>`
   color: ${(props) => props.color};
+  font-size: 0.5rem;
 `
 
 interface ConnectionStatusProps {
@@ -21,15 +22,20 @@ export const ConnectionStatus: FunctionComponent<ConnectionStatusProps> = ({
   const connectionStatus = () => {
     switch (status) {
       case ConnectionMode.Connecting:
-        return <StyledStatus color="grey">Connecting...</StyledStatus>
+        return <StyledStatus color="grey">●</StyledStatus>
+      // return <StyledStatus color="grey">Connecting...</StyledStatus>
       case ConnectionMode.Disconnected:
-        return <StyledStatus color="black">Disconnected</StyledStatus>
+        return <StyledStatus color="black">●</StyledStatus>
+      // return <StyledStatus color="black">Disconnected</StyledStatus>
       case ConnectionMode.Reconnecting:
-        return <StyledStatus color="grey">Reconnecting...</StyledStatus>
+        return <StyledStatus color="grey">●</StyledStatus>
+      // return <StyledStatus color="grey">Reconnecting...</StyledStatus>
       case ConnectionMode.Connected:
-        return <StyledStatus color="green">Connected</StyledStatus>
+        return <StyledStatus color="green">●</StyledStatus>
+      // return <StyledStatus color="green">Connected</StyledStatus>
       case ConnectionMode.Failed:
-        return <StyledStatus color="red">Connection Failed</StyledStatus>
+        return <StyledStatus color="red">●</StyledStatus>
+      // return <StyledStatus color="red">Connection Failed</StyledStatus>
     }
   }
   return (

@@ -14,7 +14,7 @@ export const EnterCode: FunctionComponent<EnterCode> = ({ setCode, roomCode, msg
     <div className="flex flex-col h-[100%]">
       <Stack_l className="text-center h-[6rem]">
         <Headline>Enter code</Headline>
-        <InfoText1 className="self-center text-center">Enter code to join</InfoText1>
+        {/* <InfoText1 className="self-center text-center">Enter code to join</InfoText1> */}
       </Stack_l>
       <div className="mt-[1rem] text-center">
         <PondrInput

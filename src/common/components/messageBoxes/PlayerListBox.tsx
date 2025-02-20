@@ -12,6 +12,10 @@ interface InfoProps {
   color?: string
 }
 
+export const PlayerList = styled.div`
+  font-family: var(--font-regular);
+`
+
 export const PlayerInfo = styled.span<InfoProps>`
   color: ${(props) => props.color};
   text-align: center;
@@ -19,23 +23,25 @@ export const PlayerInfo = styled.span<InfoProps>`
 
 export const PlayerListBox: FunctionComponent<PlayerListBoxProps> = ({ playerList }) => {
   return (
-    <Stack_l space="0.3rem" className="text-center w-[100%] max-w-[15rem]">
-      <span className="text-sm text-center opacity-50">Players</span>
-      <TextBox>
-        {playerList.length > 0 ? (
-          playerList.map(function (player, idx) {
-            return (
-              <PlayerInfo key={idx} color={'#FFFFFF'}>
-                {player.name}
-              </PlayerInfo>
-            )
-          })
-        ) : (
-          <span className="text-slate-800 text-xs">
-            {'Waiting for someone to join...'}
-          </span>
-        )}
-      </TextBox>
-    </Stack_l>
+    <PlayerList className="text-center w-[100%] max-w-[15rem]">
+      <Stack_l space="0.3rem">
+        <span className="text-sm text-center opacity-50">Players</span>
+        <TextBox>
+          {playerList.length > 0 ? (
+            playerList.map(function (player, idx) {
+              return (
+                <PlayerInfo key={idx} color={'#FFFFFF'}>
+                  {player.name}
+                </PlayerInfo>
+              )
+            })
+          ) : (
+            <span className="text-slate-800 text-xs">
+              {'Waiting for someone to join...'}
+            </span>
+          )}
+        </TextBox>
+      </Stack_l>
+    </PlayerList>
   )
 }
