@@ -17,6 +17,12 @@ export const TransparentButton = styled.button`
   cursor: var(--cursor, pointer);
 `
 
+export const CategoryOptionRow = styled.div`
+  display: flex;
+  align-items: center;
+  font-family: var(--font-regular);
+`
+
 export const BulletIcon = styled.div`
   display: flex;
   background-color: white;

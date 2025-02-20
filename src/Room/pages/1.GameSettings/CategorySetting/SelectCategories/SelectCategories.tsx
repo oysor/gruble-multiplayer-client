@@ -5,6 +5,7 @@ import {
   OverLayContainer,
   BulletIcon,
   OverLayTop,
+  CategoryOptionRow,
 } from './styles'
 import AddIcon from '../../../../../assets/svg/add_category.svg'
 import AddedIcon from '../../../../../assets/svg/added_category.svg'
@@ -222,7 +223,7 @@ export const SelectCategories: FunctionComponent<SelectCategoriesProps> = ({
             {optionList.map((cat, i) => {
               const exist = categories.some((category) => category === cat)
               return (
-                <div key={cat} className="flex items-center">
+                <CategoryOptionRow key={cat}>
                   <BulletIcon
                     key={cat}
                     onClick={exist ? () => removeCategory(cat) : () => addCategory(cat)}
@@ -231,7 +232,7 @@ export const SelectCategories: FunctionComponent<SelectCategoriesProps> = ({
                     {exist ? <AddedIcon /> : <AddIcon />}
                   </BulletIcon>
                   <div className="text-[black]">{cat}</div>
-                </div>
+                </CategoryOptionRow>
               )
             })}
           </Stack_l>

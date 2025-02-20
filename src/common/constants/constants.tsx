@@ -224,7 +224,7 @@ export type TimeLimit = { timeLimit: number }
 export type UpdateBoardSettings = {
   letters: string[]
   categories: string[]
-  timeLimit: number
+  timeLimi?: number
 }
 
 export type UpdateTimeLimit = {
