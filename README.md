@@ -3,6 +3,10 @@
 
 ...made with React, Redux Toolkit, Webpack, styled-components and SignalR.
 
+See also: [Multiplayer-api](https://github.com/grublings/Multiplayer-api)
+
+> This project was handcrafted before AI coding tools became commonplace — every line written by hand.
+
 
 ## Get started with local development
 
