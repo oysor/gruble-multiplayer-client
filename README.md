@@ -1,11 +1,17 @@
 
 # ![maskot](/src/assets/icons/favicon.png) Multiplayer-client 
 
-...made with React, Redux Toolkit, Webpack, styled-components and SignalR.
 
-See also: [Multiplayer-api](https://github.com/grublings/Multiplayer-api)
+Pondr is a multiplayer word game played in the browser. One screen acts as the
+game room and shows the round to everyone, while players join from their own
+phones and submit their answers. The server keeps track of rounds, timers and
+results in real time over SignalR.
 
-> This project was handcrafted before AI coding tools became commonplace — every line written by hand.
+The client is therefore split into two applications — Room and Player — loaded
+separately through code splitting. The backend lives in
+[gruble-multiplayer-api](https://github.com/oysor/gruble-multiplayer-api).
+
+Built with React, Redux Toolkit, TypeScript, Webpack and styled-components.
 
 
 ## Get started with local development
