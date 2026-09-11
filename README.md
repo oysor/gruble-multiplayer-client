@@ -1,95 +1,50 @@
 
 # ![maskot](/src/assets/icons/favicon.png) Multiplayer-client 
 
-
 Pondr is a multiplayer word game played in the browser. One screen acts as the
 game room and shows the round to everyone, while players join from their own
 phones and submit their answers. The server keeps track of rounds, timers and
 results in real time over SignalR.
 
-The client is therefore split into two applications — Room and Player — loaded
-separately through code splitting. The backend lives in
+The client is split into two applications — Room and Player — loaded separately
+through code splitting. The backend lives in
 [gruble-multiplayer-api](https://github.com/oysor/gruble-multiplayer-api).
 
-Built with React, Redux Toolkit, TypeScript, Webpack and styled-components.
+Built with React 18, Redux Toolkit, TypeScript, Webpack and styled-components,
+with react-router for navigation and dnd-kit for drag-and-drop category setup.
+Deployed to Azure Static Web Apps.
 
 
-## Get started with local development
-
-Go to branch *development*
-
-```sh
-~/Gruble/pondr/Multiplayer-client$ git branch
-*  development
-   production
-```
-
+## Local development
 
 ```sh
-# Install dependencies
-~/Multiplayer-client/
-> yarn
-
-# Run in development mode
-~/Multiplayer-client/
-> yarn start
+yarn
+yarn start
 ```
 
-Connects to https://localhost:5001/gameHub
+Connects to the API at `https://localhost:5001/gameHub`. See
+`wepack.dev.config.ts` for development settings.
 
-Check out **wepack.dev.config.ts** for development settings.
+## Deployment
 
+Pushes to `development` build and deploy automatically to Azure Static Web Apps
+via GitHub Actions. Pull requests get their own preview environment. See
+`webpack.prod.config.ts` for production build settings.
 
-## Push code to production
+## Repository structure
 
-Check out **webpack.prod.config.ts** for production settings.
+The app is code split in `src/App.tsx` into two separate applications:
 
-Make a pull request to merge development into *production* branch.
+- `src/Room` — the shared screen. Sets up the game, runs the round, collects
+  and scores the boards.
+- `src/Player` — the phone client. Joins a room, plays, submits answers.
+- `src/LandingPage` — lets the user pick which of the two to open.
+- `src/common` — components, styles and constants shared between them.
 
+Each application owns its SignalR connection and its Redux state:
 
-## Deploy to github pages
+- `src/Room/hubConnection.ts`, `src/Player/hubConnection.ts`
+- `src/Room/reducer.ts`, `src/Player/reducer.ts`
 
-```sh
-> npm run deploy
-```
-Go to: https://grublings.github.io/Multiplayer-client/
-
-
-
-## Repo explaination
-
-The repository consists mainly of two parts which are split into thunks by code splitting.
-
-```
-// code split here
-~/Multiplayer-client/App.tsx
-```
-
-
-These are run as two separate applications.
-```
-~/Multiplayer-client/src/Player
-~/Multiplayer-client/src/Room
-```
-
-The connection with API is found in:
-```
-~/Multiplayer-client/src/Player/hubConnecton.ts
-~/Multiplayer-client/src/Room/hubConnecton.ts
-```
-
-The state handling is found in:
-```
-~/Multiplayer-client/src/Player/reducer.ts
-~/Multiplayer-client/src/Room/reducer.ts
-```
-
-React components shared between them are put in
-```
-~/Multiplayer-client/src/common/
-```
-
-We also have a landing page where the user can choose wich 'application' to run:
-```
-~/Multiplayer-client/LandingPage
-```
+See the [sequence diagram](https://github.com/oysor/gruble-multiplayer-api#readme)
+in the API repo for the full flow of a round.
