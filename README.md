@@ -1,5 +1,5 @@
 
-# ![maskot](/src/assets/icons/favicon.png) Multiplayer-client 
+# ![maskot](/src/assets/icons/favicon.png) Pondr — multiplayer client 
 
 Pondr is a multiplayer word game played in the browser. One screen acts as the
 game room and shows the round to everyone, while players join from their own
